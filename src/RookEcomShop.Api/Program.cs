@@ -1,12 +1,15 @@
 using Application;
 using Infrastructure;
-using Microsoft.OpenApi.Models;
 using RookEcomShop.Api;
 using RookEcomShop.Api.Extensions.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Configuration
+            .AddJsonFile("appsettings.json", true, true)
+            .AddUserSecrets<Program>()
+            .AddEnvironmentVariables();
 
 builder.Services
     .AddPresentation()

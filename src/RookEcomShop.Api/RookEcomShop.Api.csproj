@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>2972c7a7-30ab-4890-9c2e-3178455edbff</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RookEcomShop.Application\RookEcomShop.Application.csproj" />
     <ProjectReference Include="..\RookEcomShop.Infrastructure\RookEcomShop.Infrastructure.csproj" />
     <ProjectReference Include="..\RookEcomShop.ViewModels\RookEcomShop.ViewModels.csproj" />
   </ItemGroup>
