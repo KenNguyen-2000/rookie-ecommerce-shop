@@ -1,0 +1,6 @@
+@RookEcomShop.Api_HostAddress = http://localhost:5230
+
+GET {{RookEcomShop.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
