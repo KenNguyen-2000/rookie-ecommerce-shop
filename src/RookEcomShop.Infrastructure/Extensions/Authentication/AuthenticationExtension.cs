@@ -19,6 +19,7 @@ namespace RookEcomShop.Infrastructure.Extensions.Authentication
 
             services
                 .AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
+                 
                 .AddJwtBearer("Bearer", jwtBearerOptions =>
                 {
                     jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
