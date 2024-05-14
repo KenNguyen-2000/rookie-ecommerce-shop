@@ -40,10 +40,11 @@ namespace RookEcomShop.IndentityServer
                 })
                 .AddInMemoryIdentityResources(IdentityServerConfig.IdentityResources)
                 .AddInMemoryApiScopes(IdentityServerConfig.ApiScopes)
-                            .AddInMemoryClients(IdentityServerConfig.Clients(clientUrls))
-                            .AddAspNetIdentity<User>();
+                .AddInMemoryApiResources(IdentityServerConfig.ApiResources)
+                .AddInMemoryClients(IdentityServerConfig.Clients(clientUrls))
+                .AddAspNetIdentity<User>();
 
-
+            services.AddAuthentication();
         }
     }
 }
