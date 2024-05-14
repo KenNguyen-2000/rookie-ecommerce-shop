@@ -1,9 +1,12 @@
 using Application;
+using FluentValidation;
 using Infrastructure;
 using RookEcomShop.Api;
 using RookEcomShop.Api.Extensions.Configurations;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
 
 // Add services to the container.
 builder.Configuration
@@ -12,15 +15,17 @@ builder.Configuration
             .AddEnvironmentVariables();
 
 builder.Services
+    .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+builder.Services
     .AddPresentation()
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
 
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerConfiguration();
-
-var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -32,8 +37,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
+
+app.UseIdentityServer();
 app.UseAuthorization();
+
 
 app.MapControllers();
 app.Run();
