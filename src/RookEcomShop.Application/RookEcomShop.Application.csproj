@@ -5,13 +5,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RookEcomShop.Domain\RookEcomShop.Domain.csproj"/>
-    <ProjectReference Include="..\RookEcomShop.ViewModels\RookEcomShop.ViewModels.csproj"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\ProductService\"/>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.1"/>
+    <ProjectReference Include="..\RookEcomShop.Domain\RookEcomShop.Domain.csproj" />
+    <ProjectReference Include="..\RookEcomShop.ViewModels\RookEcomShop.ViewModels.csproj" />
   </ItemGroup>
 </Project>
