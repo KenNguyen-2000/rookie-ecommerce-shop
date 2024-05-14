@@ -12,7 +12,7 @@ namespace RookEcomShop.Infrastructure.Persistence.Configurations
 
             builder.HasOne(e => e.Cart)
                 .WithMany(e => e.CartDetails)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             builder.HasOne(e => e.Product)
                .WithMany(e => e.CartDetails)

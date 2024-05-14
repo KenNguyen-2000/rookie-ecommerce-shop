@@ -1,10 +1,12 @@
 ﻿
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RookEcomShop.Domain.Entities;
 
 namespace RookEcomShop.Infrastructure.Persistence
 {
-    public partial class RookEcomShopDbContext : DbContext
+    public partial class RookEcomShopDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         public RookEcomShopDbContext()
         {
@@ -33,8 +35,6 @@ namespace RookEcomShop.Infrastructure.Persistence
 
         public virtual DbSet<PaymentTransaction> PaymentTransactions { get; set; }
 
-        public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<UserRole> UserRoles { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
