@@ -1,4 +1,5 @@
-﻿using RookEcomShop.Application.Common.Repositories;
+﻿using RookEcomShop.Application.Common.Exceptions;
+using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.ViewModels.Product;
 
@@ -29,13 +30,13 @@ namespace RookEcomShop.Application.Services.ProductService
 
             if (category == null)
             {
-                throw new Exception("Category not found");
+                throw new NotFoundException("Category not found");
             }
 
             var user =  await _userRepository.GetUserByIdAsync(product.UserId);
             if (user == null)
             {
-                throw new Exception("User not found");
+                throw new NotFoundException("User not found");
             }
 
             var newProduct = new Product()
@@ -52,12 +53,26 @@ namespace RookEcomShop.Application.Services.ProductService
 
         }
 
+        public async Task<IEnumerable<ProductVM>> GetProductByCategoryIdAsync(int categoryId)
+        {
+            var products = await _productRepository.GetListAsync(x => x.Category.Id == categoryId);
+
+            return products.Select(p => new ProductVM
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                Price = p.Price,
+                StockQuantity = p.StockQuantity
+            });
+        }
+
         public async Task<ProductVM> GetProductByIdAsync(int id)
         {
             var product = await _productRepository.GetByIdAsync(id);
             if(product == null)
             {
-                throw new Exception("Product not found");
+                throw new NotFoundException("Product not found");
             }
             return new ProductVM
             {
@@ -71,7 +86,8 @@ namespace RookEcomShop.Application.Services.ProductService
 
         public async Task<IEnumerable<ProductVM>> GetProductsAsync(string? searchTerm)
         {
-            var products = await _productRepository.GetListAsync(x => x.Name.Contains(searchTerm ?? "") || x.Description.Contains(searchTerm ?? ""));
+            var products = await _productRepository.GetListAsync(x => x.Name.Contains(searchTerm ?? "")
+                                                                      || x.Description.Contains(searchTerm ?? ""));
 
             return products.Select(p => new ProductVM
             {
@@ -83,7 +99,5 @@ namespace RookEcomShop.Application.Services.ProductService
                 
             });
         }
-
-
     }
 }

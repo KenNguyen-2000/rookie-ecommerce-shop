@@ -12,5 +12,6 @@ namespace RookEcomShop.Application.Services.ProductService
         Task<IEnumerable<ProductVM>> GetProductsAsync(string? searchTerm);
         Task CreateProductAsync(CreateProductRequest product);
         Task<ProductVM> GetProductByIdAsync(int id);
+        Task<IEnumerable<ProductVM>> GetProductByCategoryIdAsync(int categoryId);
     }
 }

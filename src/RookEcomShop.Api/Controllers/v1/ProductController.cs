@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.Application.Services.ProductService;
+using RookEcomShop.Domain.Entities;
+using RookEcomShop.ViewModels.Api;
+using RookEcomShop.ViewModels.Category;
 using RookEcomShop.ViewModels.Product;
+using System.Net;
 
 namespace RookEcomShop.Api.Controllers.v1
 {
@@ -19,82 +23,51 @@ namespace RookEcomShop.Api.Controllers.v1
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductRequest product)
         {
-            try
-            {
                 await _productService.CreateProductAsync(product);
                 return Created();
-            }
-            catch(Exception e)
-            {
-                return BadRequest(e.Message);
-            }
         }
 
         [HttpGet]
         public async Task<IActionResult> GetProducts([FromQuery] string? searchTerm)
         {
-            var products = await _productService.GetProductsAsync(searchTerm);
-            return Ok(products);
+            IEnumerable<ProductVM> products = await _productService.GetProductsAsync(searchTerm);
+            return Ok(new Response<ProductVM>(datas: products, "Get products successfully", products.Count()));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetProductsByCategory([FromQuery] string? searchTerm)
+        [HttpGet("collections/{categoryId}")]
+        public async Task<IActionResult> GetProductsByCategoryId(int categoryId)
         {
-            var products = await _productService.GetProductsAsync(searchTerm);
-            return Ok(products);
+            var products = await _productService.GetProductByCategoryIdAsync(categoryId);
+            return Ok(new Response<ProductVM>(datas: products, $"Get products by categoryId {categoryId} successfully", products.Count()));
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductById(int id)
         {
-            try
-            {
                 var product = await _productService.GetProductByIdAsync(id);
-                return Ok(product);
-            }
-            catch(Exception e)
-            {
-                return NotFound(e.Message);
-            }
+                return Ok(new Response<ProductVM>(data: product, $"Get products by categoryId {id} successfully"));
         }
 
         [HttpPatch("{id}/delete")]
         public async Task<IActionResult> SoftDeleteProduct(int id)
         {
-            try
-            {
+            await Task.CompletedTask;
                 return Ok();
-            }
-            catch (Exception e)
-            {
-                return NotFound(e.Message);
-            }
+            
         }
 
         [HttpPatch("{id}/status")]
         public async Task<IActionResult> UpdateProductStatus(int id, [FromQuery] string status)
         {
-            try
-            {
+            await Task.CompletedTask;
                 return Ok();
-            }
-            catch (Exception e)
-            {
-                return NotFound(e.Message);
-            }
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProductById(int id, [FromQuery] string action)
         {
-            try
-            {
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return NotFound(e.Message);
-            }
+            await Task.CompletedTask;
+            return Ok();
         }
     }
 }
