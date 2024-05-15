@@ -2,6 +2,10 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RookEcomShop.Application.Common.Exceptions;
+using RookEcomShop.ViewModels.Api;
+using System.Net;
+using System.Text.Json;
 
 namespace RookEcomShop.Infrastructure.Extensions.GlobalExceptonHandler
 {
@@ -14,9 +18,18 @@ namespace RookEcomShop.Infrastructure.Extensions.GlobalExceptonHandler
                 appError.Run(async context =>
                 {
                     var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
-                    context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
                     if (contextFeature is null) return;
+
+                    //context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                    context.Response.ContentType = "application/json";
+
+                    context.Response.StatusCode = contextFeature.Error switch
+                    {
+                        BadRequestException => (int)HttpStatusCode.BadRequest,
+                        NotFoundException => (int)HttpStatusCode.NotFound,
+                        _ => (int)HttpStatusCode.InternalServerError
+                    };
 
                     var errorResponse = new ProblemDetails
                     {
@@ -29,8 +42,7 @@ namespace RookEcomShop.Infrastructure.Extensions.GlobalExceptonHandler
                         },
                         Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1"
                     };
-
-                    await context.Response.WriteAsJsonAsync(errorResponse);
+                    await context.Response.WriteAsync(JsonSerializer.Serialize(errorResponse));
                 });
             });
         }

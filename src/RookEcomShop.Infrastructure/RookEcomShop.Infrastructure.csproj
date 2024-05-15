@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\RookEcomShop.Application\RookEcomShop.Application.csproj" />
     <ProjectReference Include="..\RookEcomShop.Domain\RookEcomShop.Domain.csproj" />
+    <ProjectReference Include="..\RookEcomShop.ViewModels\RookEcomShop.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>
