@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RookEcomShop.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using RookEcomShop.Infrastructure.Persistence;
 namespace RookEcomShop.Infrastructure.Migrations
 {
     [DbContext(typeof(RookEcomShopDbContext))]
-    partial class RookEcomShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240515091253_AddConstraint_CategoryNameNoDupplicate")]
+    partial class AddConstraint_CategoryNameNoDupplicate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -217,8 +220,7 @@ namespace RookEcomShop.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
+                    b.HasIndex("Name");
 
                     b.ToTable("Categories");
                 });
