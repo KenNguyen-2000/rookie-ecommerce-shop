@@ -1,4 +1,6 @@
 
+using RookEcomShop.CustomerFrontend.Services.Products;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -23,6 +25,8 @@ builder.Services.AddAuthentication(options =>
         options.Scope.Add("rookEcomShop.api");
         options.Scope.Add("offline_access");
     });
+
+builder.Services.AddHttpClient<IProductsApiClient, ProductsApiClient>();
 
 var app = builder.Build();
 

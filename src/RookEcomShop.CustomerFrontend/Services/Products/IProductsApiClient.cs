@@ -2,8 +2,8 @@
 
 namespace RookEcomShop.CustomerFrontend.Services.Products
 {
-    public interface IProductsHttpClient
+    public interface IProductsApiClient
     {
-        Task<IEnumerable<ProductVM>> GetProductsAsync();
+        Task<IList<ProductVM>> GetProductsAsync();
     }
 }

@@ -1,0 +1,6 @@
+﻿@using RookEcomShop.ViewModels.Product
+@model List<ProductVM>
+@{
+    ViewData["Title"] = "Products Page";
+    var productList = (ViewData["Products"] as List<ProductVM>)!;
+}
