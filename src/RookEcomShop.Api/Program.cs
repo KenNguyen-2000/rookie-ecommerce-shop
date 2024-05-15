@@ -3,6 +3,7 @@ using FluentValidation;
 using Infrastructure;
 using RookEcomShop.Api;
 using RookEcomShop.Api.Extensions.Configurations;
+using RookEcomShop.Infrastructure.Extensions.GlobalExceptonHandler;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,10 +40,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
 //app.UseIdentityServer();
 app.UseAuthorization();
 
+app.UseGlobalExceptionHandler();
 
 app.MapControllers();
 app.Run();
