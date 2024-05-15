@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace RookEcomShop.Application.Common.Repositories
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork
     {
-        void Commit();
-        void Rollback();
-        IBaseRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseEntity;
+        //void Commit();
+        //void Rollback();
+        //IBaseRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseEntity;
         Task SaveAsync(CancellationToken cancellationToken = default);
     }
 }

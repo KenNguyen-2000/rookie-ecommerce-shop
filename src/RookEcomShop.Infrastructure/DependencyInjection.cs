@@ -5,10 +5,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using RookEcomShop.Application.Common.Interfaces.Authentication;
 using RookEcomShop.Application.Common.Interfaces.Services;
+using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.Infrastructure.Extensions.Authentication;
 using RookEcomShop.Infrastructure.Extensions.Cors;
 using RookEcomShop.Infrastructure.Persistence;
+using RookEcomShop.Infrastructure.Persistence.Repositories;
 using RookEcomShop.Infrastructure.Services;
 
 namespace Infrastructure
@@ -51,6 +53,10 @@ namespace Infrastructure
                 .AddIdentity<User, IdentityRole<int>>()
                 .AddEntityFrameworkStores<RookEcomShopDbContext>();
          
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
 
             //SeedData.EnsureSeedData(connectionString);
 

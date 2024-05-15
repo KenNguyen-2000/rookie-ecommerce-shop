@@ -6,7 +6,6 @@ using RookEcomShop.Api.Extensions.Configurations;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
 
 // Add services to the container.
 builder.Configuration
@@ -27,6 +26,9 @@ builder.Services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerConfiguration();
 
+var app = builder.Build();
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -38,7 +40,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 
-app.UseIdentityServer();
+//app.UseIdentityServer();
 app.UseAuthorization();
 
 
