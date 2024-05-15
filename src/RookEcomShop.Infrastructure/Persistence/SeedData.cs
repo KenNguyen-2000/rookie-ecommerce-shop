@@ -62,11 +62,11 @@ namespace RookEcomShop.Infrastructure.Persistence
                         {
                             throw new Exception(result.Errors.First().Description);
                         }
-                        Log.Debug("alice created");
+                        //Log.Debug("alice created");
                     }
                     else
                     {
-                        Log.Debug("alice already exists");
+                        //Log.Debug("alice already exists");
                     }
 
                     var bob = userMgr.FindByNameAsync("bob").Result;
