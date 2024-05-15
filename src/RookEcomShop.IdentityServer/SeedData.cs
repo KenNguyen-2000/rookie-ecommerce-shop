@@ -1,18 +1,16 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
-
-
-using System;
-using System.Linq;
-using System.Security.Claims;
-using IdentityModel;
+﻿using IdentityModel;
+using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Mappers;
+using IdentityServer4.EntityFramework.Storage;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using RookEcomShop.Domain.Entities;
+using RookEcomShop.IndentityServer;
 using RookEcomShop.Infrastructure.Persistence;
+using Serilog;
+using System.Security.Claims;
 
-namespace RookEcomShop.Infrastructure.Persistence
+namespace RookEcomShop.IdentityServer
 {
     public class SeedData
     {
@@ -32,7 +30,7 @@ namespace RookEcomShop.Infrastructure.Persistence
                 using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
                     var context = scope.ServiceProvider.GetService<RookEcomShopDbContext>();
-                    context!.Database.Migrate();
+                    context.Database.Migrate();
 
                     var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
                     var alice = userMgr.FindByNameAsync("alice").Result;
@@ -40,8 +38,6 @@ namespace RookEcomShop.Infrastructure.Persistence
                     {
                         alice = new User
                         {
-                            FirstName = "Alice",
-                            LastName = "Smith",
                             UserName = "alice",
                             Email = "AliceSmith@email.com",
                             EmailConfirmed = true,
@@ -74,8 +70,6 @@ namespace RookEcomShop.Infrastructure.Persistence
                     {
                         bob = new User
                         {
-                            FirstName = "Bob",
-                            LastName = "Smith",
                             UserName = "bob",
                             Email = "BobSmith@email.com",
                             EmailConfirmed = true
@@ -97,11 +91,11 @@ namespace RookEcomShop.Infrastructure.Persistence
                         {
                             throw new Exception(result.Errors.First().Description);
                         }
-                        //Log.Debug("bob created");
+                        Log.Debug("bob created");
                     }
                     else
                     {
-                        //Log.Debug("bob already exists");
+                        Log.Debug("bob already exists");
                     }
                 }
             }

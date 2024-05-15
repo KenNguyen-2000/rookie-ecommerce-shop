@@ -15,13 +15,14 @@ namespace RookEcomShop.IndentityServer
                 ["Swagger"] = configuration["ClientUrl:Swagger"]!,
                 ["React"] = configuration["ClientUrl:React"]!
             };
+            string connectionString = configuration.GetConnectionString("DefaultConnection")!;
 
             services.AddControllersWithViews();
 
             services.AddDbContext<RookEcomShopDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(connectionString));
 
-
+            SeedData.EnsureSeedData(connectionString);
             services
                 .AddIdentity<User, IdentityRole<int>>()
                 .AddEntityFrameworkStores<RookEcomShopDbContext>()
