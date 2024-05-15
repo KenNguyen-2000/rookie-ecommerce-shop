@@ -26,16 +26,10 @@ namespace RookEcomShop.Api.Controllers.v1
         [HttpPost]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryRequest createCategoryRequest)
         {
-            try
-            {
                 await Task.CompletedTask;
                 await _categoryService.CreateCategory(createCategoryRequest);
                 return Created();
-            }
-            catch(Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+        
         }
     }
 }
