@@ -1,4 +1,5 @@
-﻿using RookEcomShop.Application.Common.Repositories;
+﻿using RookEcomShop.Application.Common.Exceptions;
+using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.ViewModels.Category;
 using System;
@@ -25,7 +26,7 @@ namespace RookEcomShop.Application.Services.CategoryService
             var existingCategory = await _categoryRepository.GetCategoryByName(createCategoryRequest.Name);
             if (existingCategory != null)
             {
-                throw new Exception("Category already exists");
+                throw new BadRequestException("Category already exists");
             }
 
             Category newCategory = new()
