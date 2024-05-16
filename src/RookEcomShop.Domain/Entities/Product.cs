@@ -17,7 +17,7 @@ namespace RookEcomShop.Domain.Entities
 
         public virtual User User { get; set; } = null!;
         public virtual Category Category { get; set; } = null!;
-        public virtual ICollection<ProductImage> ImageUrls { get; set; } = new List<ProductImage>();
+        public virtual ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
         public virtual ICollection<CartDetail> CartDetails { get; set; } = new List<CartDetail>();
         public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
         public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();

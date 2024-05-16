@@ -1,4 +1,6 @@
-﻿namespace RookEcomShop.ViewModels.Product
+﻿using Microsoft.AspNetCore.Http;
+
+namespace RookEcomShop.ViewModels.Product
 {
     public class CreateProductRequest
     {
@@ -8,5 +10,6 @@
         public int Stock { get; set; }
         public int CategoryId { get; set; }
         public int UserId { get; set; }
+        public IFormFileCollection? Images { get; set; }
     }
 }

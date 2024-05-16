@@ -1,15 +1,12 @@
-﻿using RookEcomShop.ViewModels.Category;
-
+﻿using RookEcomShop.Domain.Common.Enums;
 namespace RookEcomShop.ViewModels.Product
 {
-    public class ProductVM
+    public class UpdateProductRequest
     {
-        public int Id { get; set; }
         public string Name { get; set; } = null!;
         public string Description { get; set; } = null!;
         public decimal Price { get; set; }
         public int StockQuantity { get; set; }
-        public CategoryVM Category { get; set; } = null!;
-        public List<string> ImgUrls { get; set; } = new List<string>();
+        public ProductStatus Status { get; set; }
     }
 }
