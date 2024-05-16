@@ -1,9 +1,13 @@
 ﻿using FluentValidation;
 using MediatR;
+using RookEcomShop.Application.Common.Exceptions;
 
 namespace RookEcomShop.Application.Common.Behaviors
 {
-    public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse> where TResponse : class
+    public class ValidationBehavior<TRequest, TResponse> : 
+        IPipelineBehavior<TRequest, TResponse> 
+        where TRequest : IRequest<TResponse>
+        where TResponse : notnull
     {
         private readonly IValidator<TRequest>? _validator;
 
@@ -28,7 +32,8 @@ namespace RookEcomShop.Application.Common.Behaviors
 
             var errors = validationResult.Errors;
 
-            return (dynamic)errors;
+            throw new BadRequestException(errors[0].ErrorMessage);
+
         }
     }
 }

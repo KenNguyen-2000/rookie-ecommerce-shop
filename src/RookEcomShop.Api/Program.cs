@@ -1,4 +1,6 @@
 using Infrastructure;
+using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.FileProviders;
 using RookEcomShop.Api;
 using RookEcomShop.Api.Extensions.Configurations;
 using RookEcomShop.Application;
@@ -17,6 +19,9 @@ builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
 
+builder.Services
+    .AddDirectoryBrowser();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -32,12 +37,28 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
 app.UseHttpsRedirection();
+
+// Set up custom content types - associating file extension to MIME type
+var provider = new FileExtensionContentTypeProvider();
+// Add new mappings
+provider.Mappings[".myapp"] = "application/x-msdownload";
+provider.Mappings[".htm3"] = "text/html";
+provider.Mappings[".image"] = "image/png";
+// Replace an existing mapping
+provider.Mappings[".rtf"] = "application/x-msdownload";
+// Remove MP4 videos.
+provider.Mappings.Remove(".mp4");
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads")),
+    RequestPath = "/wwwroot",
+    ContentTypeProvider = provider
+});
 
 //app.UseIdentityServer();
 app.UseAuthorization();
-
 app.UseGlobalExceptionHandler();
 
 app.MapControllers();

@@ -2,7 +2,6 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using RookEcomShop.Application.Common.Behaviors;
-using RookEcomShop.Application.Handlers.Categories;
 using System.Reflection;
 
 namespace RookEcomShop.Application
@@ -16,15 +15,17 @@ namespace RookEcomShop.Application
             services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssembly(assembly);
+
             });
+            services.AddScoped(
+                typeof(IPipelineBehavior<,>), 
+                typeof(ValidationBehavior<,>));
+
             services
                 .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-            services.AddScoped(
-                typeof(IPipelineBehavior<,>),
-                               typeof(ValidationBehavior<,>));
+            
 
-            services.AddScoped<ICategoryService, CategoryService>();
             return services;
         }
 

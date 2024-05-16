@@ -8,7 +8,7 @@ namespace RookEcomShop.Infrastructure.Extensions.Cors
         {
             services.AddCors(options =>
             {
-                options.AddPolicy(name: "ZeroWaste", builder =>
+                options.AddPolicy(name: "RookEcomShop", builder =>
                 {
                     builder
                         .WithOrigins("https://rook-ecom-shop.vercel.app", "http://localhost:3000")
