@@ -4,7 +4,7 @@ namespace RookEcomShop.Application.Common.Exceptions
 {
     public class BadRequestException : Exception
     {
-        public List<IError> Errors { get; set; }
+        public List<IError> Errors { get; set; } = new();
         public BadRequestException(string message) : base(message)
         {
 

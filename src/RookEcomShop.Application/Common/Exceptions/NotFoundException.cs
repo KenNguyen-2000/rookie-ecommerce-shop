@@ -4,7 +4,7 @@ namespace RookEcomShop.Application.Common.Exceptions
 {
     public class NotFoundException : Exception
     {
-        public List<IError> Errors { get; set; }
+        public List<IError> Errors { get; set; } = new();
         public NotFoundException(string message) : base(message)
         {
 
