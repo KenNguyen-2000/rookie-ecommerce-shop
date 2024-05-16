@@ -41,7 +41,8 @@ namespace RookEcomShop.Application.Handlers.Carts.GetProducts
         {
             return cart.CartDetails.Select(x => new CartDetailVM
             {
-                Id = x.Product.Id,
+                Id = x.Id,
+                ProductId = x.Product.Id,
                 Description = x.Product.Description,
                 Name = x.Product.Name,
                 Price = x.Product.Price,

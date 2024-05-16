@@ -35,7 +35,7 @@ namespace RookEcomShop.Application.Handlers.Products.GetById
                     Id = product.Category.Id,
                     Name = product.Category.Name
                 },
-                ImgUrls = new()
+                ImgUrls = product.ProductImages.Select(e => e.Url)
             });
         }
     }
