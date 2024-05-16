@@ -57,7 +57,7 @@ namespace Infrastructure
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
-
+            services.AddScoped<ICartRepository, CartRepository>();
             //SeedData.EnsureSeedData(connectionString);
 
             return services;
