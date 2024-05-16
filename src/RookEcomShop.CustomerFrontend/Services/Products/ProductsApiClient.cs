@@ -1,7 +1,5 @@
-﻿using RookEcomShop.ViewModels.Product;
-using Microsoft.AspNetCore.Authentication;
-using System.Text.Json;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using RookEcomShop.ViewModels.Product;
 
 namespace RookEcomShop.CustomerFrontend.Services.Products
 {

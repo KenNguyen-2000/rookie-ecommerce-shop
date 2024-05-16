@@ -1,6 +1,6 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.CustomerFrontend.Models;
+using System.Diagnostics;
 
 namespace RookEcomShop.CustomerFrontend.Controllers;
 

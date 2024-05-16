@@ -1,11 +1,7 @@
-﻿using RookEcomShop.Application.Common.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RookEcomShop.Infrastructure.Persistence.Repositories
 {
@@ -21,5 +17,12 @@ namespace RookEcomShop.Infrastructure.Persistence.Repositories
             _dbContext.Entry(entity).Property("IsDeleted").CurrentValue = true;
         }
 
+        public override async Task<IEnumerable<Product>> GetListAsync(Expression<Func<Product, bool>>? filter, CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.Set<Product>()
+                .Include(p => p.Category)
+                .Where(filter ?? (e => true))
+                .ToListAsync(cancellationToken);
+        }
     }
 }

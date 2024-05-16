@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.Application.Common.Exceptions;
-using RookEcomShop.ViewModels.Api;
 using System.Net;
 using System.Text.Json;
 

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using RookEcomShop.Domain.Common;
 using RookEcomShop.Domain.Common.Enums;
 
 namespace RookEcomShop.Domain.Entities

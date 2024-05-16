@@ -1,10 +1,8 @@
-using Application;
-using FluentValidation;
 using Infrastructure;
 using RookEcomShop.Api;
 using RookEcomShop.Api.Extensions.Configurations;
+using RookEcomShop.Application;
 using RookEcomShop.Infrastructure.Extensions.GlobalExceptonHandler;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,9 +11,6 @@ builder.Configuration
             .AddJsonFile("appsettings.json", true, true)
             .AddUserSecrets<Program>()
             .AddEnvironmentVariables();
-
-builder.Services
-    .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 builder.Services
     .AddPresentation()

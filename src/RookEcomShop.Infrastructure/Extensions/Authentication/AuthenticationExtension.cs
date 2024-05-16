@@ -2,11 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace RookEcomShop.Infrastructure.Extensions.Authentication
 {
@@ -19,7 +15,7 @@ namespace RookEcomShop.Infrastructure.Extensions.Authentication
 
             services
                 .AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
-                 
+
                 .AddJwtBearer("Bearer", jwtBearerOptions =>
                 {
                     jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters

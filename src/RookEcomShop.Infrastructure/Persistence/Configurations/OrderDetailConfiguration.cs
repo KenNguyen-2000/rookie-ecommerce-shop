@@ -1,5 +1,5 @@
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RookEcomShop.Domain.Entities;
 
 namespace RookEcomShop.Infrastructure.Persistence.Configurations

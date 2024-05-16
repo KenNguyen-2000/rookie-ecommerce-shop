@@ -1,11 +1,7 @@
 ﻿using IdentityModel;
-using IdentityServer4.EntityFramework.DbContexts;
-using IdentityServer4.EntityFramework.Mappers;
-using IdentityServer4.EntityFramework.Storage;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RookEcomShop.Domain.Entities;
-using RookEcomShop.IndentityServer;
 using RookEcomShop.Infrastructure.Persistence;
 using Serilog;
 using System.Security.Claims;

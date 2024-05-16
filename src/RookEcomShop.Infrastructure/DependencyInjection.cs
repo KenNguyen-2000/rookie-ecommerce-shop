@@ -19,7 +19,7 @@ namespace Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            
+
             services
                 .AddAuth(configuration)
                 .AddPersistence(configuration);
@@ -52,7 +52,7 @@ namespace Infrastructure
             services
                 .AddIdentity<User, IdentityRole<int>>()
                 .AddEntityFrameworkStores<RookEcomShopDbContext>();
-         
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
