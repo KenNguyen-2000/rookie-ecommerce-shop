@@ -19,7 +19,8 @@ namespace RookEcomShop.Infrastructure.Persistence.Repositories
 
         public override async Task<Product?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            return await _dbContext.Products.Include(p => p.Category)
+            return await _dbContext.Products
+                .Include(p => p.Category)
                 .Include(p => p.ProductImages)
                 .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         }

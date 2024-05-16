@@ -10,6 +10,6 @@ namespace RookEcomShop.ViewModels.Product
         public decimal Price { get; set; }
         public int StockQuantity { get; set; }
         public CategoryVM Category { get; set; } = null!;
-        public List<string> ImgUrls { get; set; } = new List<string>();
+        public IEnumerable<string> ImgUrls { get; set; } = new List<string>();
     }
 }

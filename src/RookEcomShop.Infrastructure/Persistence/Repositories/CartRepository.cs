@@ -13,7 +13,14 @@ namespace RookEcomShop.Infrastructure.Persistence.Repositories
 
         public async Task<Cart?> GetCartByUserIdAsync(int userId)
         {
-            return await _dbContext.Carts.FirstOrDefaultAsync(e => e.UserId.Equals(userId));
+            return await _dbContext.Carts
+                    .Include(e => e.CartDetails)
+                        .ThenInclude(cd => cd.Product)
+                            .ThenInclude(p => p.ProductImages)
+                    .Include(e => e.CartDetails)
+                        .ThenInclude(cd => cd.Product)
+                            .ThenInclude(p => p.Category)
+                    .FirstOrDefaultAsync(e => e.UserId.Equals(userId));
         }
     }
 }
