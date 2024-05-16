@@ -2,13 +2,8 @@
 using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.ViewModels.Category;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RookEcomShop.Application.Services.CategoryService
+namespace RookEcomShop.Application.Handlers.Categories
 {
     public class CategoryService : ICategoryService
     {
@@ -32,7 +27,7 @@ namespace RookEcomShop.Application.Services.CategoryService
             Category newCategory = new()
             {
                 Name = createCategoryRequest.Name,
-                Description = createCategoryRequest.Description
+                Description = createCategoryRequest.Description ?? ""
             };
             _categoryRepository.Create(newCategory);
             await _unitOfWork.SaveAsync();

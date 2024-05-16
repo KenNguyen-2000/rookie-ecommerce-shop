@@ -1,7 +1,7 @@
 ﻿using RookEcomShop.ViewModels.Api;
 using RookEcomShop.ViewModels.Identity;
 
-namespace RookEcomShop.Application.Services.Identity
+namespace RookEcomShop.Application.Handlers.Identity
 {
     public interface IIdentityService
     {

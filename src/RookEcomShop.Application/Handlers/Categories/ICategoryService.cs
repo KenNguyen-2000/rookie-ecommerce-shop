@@ -1,11 +1,6 @@
 ﻿using RookEcomShop.ViewModels.Category;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RookEcomShop.Application.Services.CategoryService
+namespace RookEcomShop.Application.Handlers.Categories
 {
     public interface ICategoryService
     {

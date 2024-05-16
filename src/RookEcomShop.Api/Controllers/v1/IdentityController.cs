@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.ViewModels.Identity;
 
 namespace RookEcomShop.Api.Controllers.v1
