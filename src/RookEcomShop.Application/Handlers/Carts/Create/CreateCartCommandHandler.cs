@@ -18,10 +18,9 @@ namespace RookEcomShop.Application.Handlers.Carts.Create
 
         public async Task<Result> Handle(CreateCartCommand command, CancellationToken cancellationToken)
         {
-            var userIdFromContext = 1;
             _cartRepository.Create(new Cart
             {
-                UserId = userIdFromContext
+                UserId = 2
             });
             await _unitOfWork.SaveAsync(cancellationToken);
             return Result.Ok();
