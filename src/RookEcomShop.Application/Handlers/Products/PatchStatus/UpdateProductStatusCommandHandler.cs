@@ -1,6 +1,5 @@
 ﻿using FluentResults;
 using MediatR;
-using Microsoft.Extensions.Logging;
 using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Repositories;
 
@@ -11,7 +10,7 @@ namespace RookEcomShop.Application.Handlers.Products.PatchStatus
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateProductStatusCommandHandler(IProductRepository productRepository,  IUnitOfWork unitOfWork)
+        public UpdateProductStatusCommandHandler(IProductRepository productRepository, IUnitOfWork unitOfWork)
         {
             _productRepository = productRepository;
             _unitOfWork = unitOfWork;

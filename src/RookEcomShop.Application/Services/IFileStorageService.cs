@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace RookEcomShop.Application.Services
 {
@@ -10,7 +6,7 @@ namespace RookEcomShop.Application.Services
     {
         string GetFileUrl(string fileName);
 
-        Task SaveFileAsync(Stream mediaBinaryStream, string fileName);
+        Task<string> SaveFileAsync(IFormFile file);
 
         Task DeleteFileAsync(string fileName);
     }

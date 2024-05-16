@@ -18,13 +18,13 @@ namespace RookEcomShop.Application
 
             });
             services.AddScoped(
-                typeof(IPipelineBehavior<,>), 
+                typeof(IPipelineBehavior<,>),
                 typeof(ValidationBehavior<,>));
 
             services
                 .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-            
+
 
             return services;
         }

@@ -1,9 +1,10 @@
-﻿using MediatR;
+﻿using FluentResults;
+using MediatR;
 using RookEcomShop.ViewModels.Category;
 
 namespace RookEcomShop.Application.Handlers.Categories.Create
 {
-    public class CreateCategoryCommand : CreateCategoryRequest, IRequest
+    public class CreateCategoryCommand : CreateCategoryRequest, IRequest<Result>
     {
     }
 }

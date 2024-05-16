@@ -1,15 +1,11 @@
-﻿using MediatR;
+﻿using FluentResults;
+using MediatR;
 using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.ViewModels.Category;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RookEcomShop.Application.Handlers.Categories.GetList
 {
-    public class GetListCategoriesQueryHandler : IRequestHandler<GetListCategoriesQuery, IEnumerable<CategoryVM>>
+    public class GetListCategoriesQueryHandler : IRequestHandler<GetListCategoriesQuery, Result<IEnumerable<CategoryVM>>>
     {
         private readonly ICategoryRepository _categoryRepository;
 
@@ -18,16 +14,16 @@ namespace RookEcomShop.Application.Handlers.Categories.GetList
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<IEnumerable<CategoryVM>> Handle(GetListCategoriesQuery query, CancellationToken cancellationToken)
+        public async Task<Result<IEnumerable<CategoryVM>>> Handle(GetListCategoriesQuery query, CancellationToken cancellationToken)
         {
             var categories = await _categoryRepository.GetListAsync(cancellationToken: cancellationToken);
 
-            return categories.Select(c => new CategoryVM
+            return Result.Ok(categories.Select(c => new CategoryVM
             {
                 Id = c.Id,
                 Name = c.Name,
                 Description = c.Description
-            });
+            }));
         }
     }
 }

@@ -22,8 +22,9 @@ namespace RookEcomShop.Api.Controllers.v1
         public async Task<IActionResult> GetCategories()
         {
             var query = new GetListCategoriesQuery();
-            var categories = await _sender.Send(query);
-            return Ok(new Response<CategoryVM>(datas: categories, "GEt categories success"));
+            var result = await _sender.Send(query);
+
+            return Ok(new Response<CategoryVM>(datas: result.Value, "Get categories success"));
         }
 
         [HttpPost]
@@ -33,7 +34,7 @@ namespace RookEcomShop.Api.Controllers.v1
             {
                 Name = createCategoryRequest.Name,
                 Description = createCategoryRequest.Description
-                };
+            };
             await _sender.Send(command);
 
             return Created();

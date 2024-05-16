@@ -48,9 +48,9 @@ namespace RookEcomShop.Api.Controllers.v1
         {
             var query = new GetListProductQuery { SearchTerm = searchTerm };
 
-            var products = await _sender.Send(query);
+            var result = await _sender.Send(query);
 
-            return Ok(new Response<ProductVM>(datas: products, "Get products successfully", products.Count()));
+            return Ok(new Response<ProductVM>(datas: result.Value, "Get products successfully", result.Value.Count()));
         }
 
         [HttpGet("collections/{categoryName}")]
@@ -58,18 +58,18 @@ namespace RookEcomShop.Api.Controllers.v1
         {
             var query = new GetProductsByCategoryNameQuery { CategoryName = categoryName };
 
-            var products = await _sender.Send(query);
-            return Ok(new Response<ProductVM>(datas: products, $"Get products by category {categoryName} successfully", products.Count()));
+            var result = await _sender.Send(query);
+            return Ok(new Response<ProductVM>(datas: result.Value, $"Get products by category {categoryName} successfully", result.Value.Count()));
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductById(int id)
         {
-            var query = new GetProductByIdQuery{ Id = id };
+            var query = new GetProductByIdQuery { Id = id };
 
-            var product = await _sender.Send(query);
+            var result = await _sender.Send(query);
 
-            return Ok(new Response<ProductVM>(product, $"Get products by id {id} successfully"));
+            return Ok(new Response<ProductVM>(result.Value, $"Get products by id {id} successfully"));
         }
 
         [HttpDelete("{id:int}")]

@@ -4,8 +4,8 @@ using RookEcomShop.Application.Common.Exceptions;
 
 namespace RookEcomShop.Application.Common.Behaviors
 {
-    public class ValidationBehavior<TRequest, TResponse> : 
-        IPipelineBehavior<TRequest, TResponse> 
+    public class ValidationBehavior<TRequest, TResponse> :
+        IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
         where TResponse : notnull
     {
@@ -32,8 +32,7 @@ namespace RookEcomShop.Application.Common.Behaviors
 
             var errors = validationResult.Errors;
 
-            throw new BadRequestException(errors[0].ErrorMessage);
-
+            throw new BadRequestException("Bad request");
         }
     }
 }

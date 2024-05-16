@@ -1,4 +1,4 @@
-﻿using System.IO;
+﻿using Microsoft.AspNetCore.Http;
 
 
 namespace RookEcomShop.Application.Services
@@ -18,11 +18,25 @@ namespace RookEcomShop.Application.Services
             return $"/{IMAGES_FOLDER_NAME}/{fileName}";
         }
 
-        public async Task SaveFileAsync(Stream mediaBinaryStream, string fileName)
+        public async Task<string> SaveFileAsync(IFormFile image)
         {
-            var filePath = Path.Combine(_fileUploadFolder, fileName);
-            using var output = new FileStream(filePath, FileMode.Create);
-            await mediaBinaryStream.CopyToAsync(output);
+            // Generate a unique filename
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+
+            // Save the image to a storage location (replace with your storage provider)
+            var uploads = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+            if (!Directory.Exists(uploads))
+            {
+                Directory.CreateDirectory(uploads);
+            }
+            var filePath = Path.Combine(uploads, fileName);
+            await using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await image.CopyToAsync(stream);
+            }
+
+            // Return the relative path to the saved image
+            return Path.Combine("/uploads", fileName); // Assuming uploads folder is accessible publicly
         }
 
         public async Task DeleteFileAsync(string fileName)
