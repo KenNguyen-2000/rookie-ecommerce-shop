@@ -1,11 +1,12 @@
-﻿using MediatR;
+﻿using FluentResults;
+using MediatR;
 using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.ViewModels.Category;
 using RookEcomShop.ViewModels.Product;
 
 namespace RookEcomShop.Application.Handlers.Products.GetList
 {
-    public class GetListProductQueryHandler : IRequestHandler<GetListProductQuery, IEnumerable<ProductVM>>
+    public class GetListProductQueryHandler : IRequestHandler<GetListProductQuery, Result<IEnumerable<ProductVM>>>
     {
         private readonly IProductRepository _productRepository;
 
@@ -14,12 +15,12 @@ namespace RookEcomShop.Application.Handlers.Products.GetList
             _productRepository = productRepository;
         }
 
-        public async Task<IEnumerable<ProductVM>> Handle(GetListProductQuery query, CancellationToken cancellationToken)
+        public async Task<Result<IEnumerable<ProductVM>>> Handle(GetListProductQuery query, CancellationToken cancellationToken)
         {
             var products = await _productRepository.GetListAsync(x => x.Name.Contains(query.SearchTerm ?? "")
                                                                      || x.Description.Contains(query.SearchTerm ?? ""));
 
-            return products.Select(p => new ProductVM
+            return Result.Ok(products.Select(p => new ProductVM
             {
                 Id = p.Id,
                 Name = p.Name,
@@ -32,7 +33,7 @@ namespace RookEcomShop.Application.Handlers.Products.GetList
                     Name = p.Category.Name
                 },
                 ImgUrls = p.ProductImages.Select(i => i.Url).ToList()
-            });
+            }));
         }
     }
 }

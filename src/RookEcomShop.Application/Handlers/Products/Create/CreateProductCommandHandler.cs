@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FluentResults;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Repositories;
@@ -6,7 +7,7 @@ using RookEcomShop.Domain.Entities;
 
 namespace RookEcomShop.Application.Handlers.Products.Create
 {
-    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand>
+    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Result>
     {
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
@@ -25,7 +26,7 @@ namespace RookEcomShop.Application.Handlers.Products.Create
             _userRepository = userRepository;
         }
 
-        public async Task Handle(CreateProductCommand command, CancellationToken cancellationToken)
+        public async Task<Result> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
             var category = await _categoryRepository.GetByIdAsync(command.CategoryId);
 
@@ -70,6 +71,8 @@ namespace RookEcomShop.Application.Handlers.Products.Create
             newProduct.ProductImages = productImages;
             _productRepository.Create(newProduct);
             await _unitOfWork.SaveAsync(cancellationToken);
+
+            return Result.Ok();
         }
 
         private async Task<string> SaveImage(IFormFile image)

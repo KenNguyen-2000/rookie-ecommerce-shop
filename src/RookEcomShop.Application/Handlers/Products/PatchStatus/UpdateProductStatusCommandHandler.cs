@@ -1,11 +1,12 @@
-﻿using MediatR;
+﻿using FluentResults;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Repositories;
 
 namespace RookEcomShop.Application.Handlers.Products.PatchStatus
 {
-    internal class UpdateProductStatusCommandHandler : IRequestHandler<UpdateProductStatusCommand>
+    internal class UpdateProductStatusCommandHandler : IRequestHandler<UpdateProductStatusCommand, Result>
     {
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -16,7 +17,7 @@ namespace RookEcomShop.Application.Handlers.Products.PatchStatus
             _unitOfWork = unitOfWork;
         }
 
-        public async Task Handle(UpdateProductStatusCommand command, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UpdateProductStatusCommand command, CancellationToken cancellationToken)
         {
             var existingProduct = await _productRepository.GetByIdAsync(command.Id);
 
@@ -26,6 +27,8 @@ namespace RookEcomShop.Application.Handlers.Products.PatchStatus
             existingProduct.Status = command.Status;
 
             await _unitOfWork.SaveAsync(cancellationToken);
+
+            return Result.Ok();
         }
 
     }

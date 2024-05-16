@@ -1,9 +1,10 @@
-﻿using MediatR;
+﻿using FluentResults;
+using MediatR;
 using RookEcomShop.Domain.Common.Enums;
 
 namespace RookEcomShop.Application.Handlers.Products.PatchStatus
 {
-    public class UpdateProductStatusCommand : IRequest
+    public class UpdateProductStatusCommand : IRequest<Result>
     {
         public int Id { get; set; }
         public ProductStatus Status { get; set; }

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FluentResults;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Repositories;
@@ -6,7 +7,7 @@ using RookEcomShop.Domain.Entities;
 
 namespace RookEcomShop.Application.Handlers.Products.Update
 {
-    public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Unit>
+    public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Result>
     {
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -17,7 +18,7 @@ namespace RookEcomShop.Application.Handlers.Products.Update
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Unit> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
         {
             var existingProduct = await _productRepository.GetByIdAsync(command.Id);
 
@@ -28,7 +29,7 @@ namespace RookEcomShop.Application.Handlers.Products.Update
 
             await _unitOfWork.SaveAsync(cancellationToken);
 
-            return Unit.Value;
+            return Result.Ok();
         }
 
         private static void UpdateProduct(Product existingProduct, UpdateProductCommand command)

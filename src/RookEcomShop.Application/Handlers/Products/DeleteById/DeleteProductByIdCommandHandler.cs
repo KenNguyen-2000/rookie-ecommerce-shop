@@ -1,10 +1,11 @@
-﻿using MediatR;
+﻿using FluentResults;
+using MediatR;
 using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Repositories;
 
 namespace RookEcomShop.Application.Handlers.Products.DeleteById
 {
-    public class DeleteProductByIdCommandHandler : IRequestHandler<DeleteProductByIdCommand>
+    public class DeleteProductByIdCommandHandler : IRequestHandler<DeleteProductByIdCommand, Result>
     {
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -15,7 +16,7 @@ namespace RookEcomShop.Application.Handlers.Products.DeleteById
             _unitOfWork = unitOfWork;
         }
 
-        public async Task Handle(DeleteProductByIdCommand command, CancellationToken cancellationToken)
+        public async Task<Result> Handle(DeleteProductByIdCommand command, CancellationToken cancellationToken)
         {
             var product = await _productRepository.GetByIdAsync(command.Id);
             if (product == null)
@@ -23,6 +24,8 @@ namespace RookEcomShop.Application.Handlers.Products.DeleteById
 
             _productRepository.Delete(product);
             await _unitOfWork.SaveAsync();
+
+            return Result.Ok();
         }
     }
 }
