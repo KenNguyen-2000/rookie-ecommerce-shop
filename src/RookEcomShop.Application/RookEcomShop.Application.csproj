@@ -16,6 +16,7 @@
     <ProjectReference Include="..\RookEcomShop.ViewModels\RookEcomShop.ViewModels.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Handlers\Orders\" />
+    <Folder Include="Handlers\Orders\Cancel\" />
+    <Folder Include="Handlers\Orders\Confirm\" />
   </ItemGroup>
 </Project>
