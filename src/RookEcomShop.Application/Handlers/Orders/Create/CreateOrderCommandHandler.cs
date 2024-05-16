@@ -4,25 +4,23 @@ using RookEcomShop.Application.Common.Interfaces.Services;
 using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.Domain.Common.Enums;
 using RookEcomShop.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+ 
 
 namespace RookEcomShop.Application.Handlers.Orders.Create
 {
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Result>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IProductRepository _productRepository;
         private readonly IOrderRepository _orderRepository;
         private readonly IDateTimeProvider _dateTimeProvider;
 
-        public CreateOrderCommandHandler(IOrderRepository orderRepository, IUnitOfWork unitOfWork, IDateTimeProvider dateTimeProvider)
+        public CreateOrderCommandHandler(IOrderRepository orderRepository, IUnitOfWork unitOfWork, IDateTimeProvider dateTimeProvider, IProductRepository productRepository)
         {
             _orderRepository = orderRepository;
             _unitOfWork = unitOfWork;
             _dateTimeProvider = dateTimeProvider;
+            _productRepository = productRepository;
         }
 
         public async Task<Result> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
@@ -34,20 +32,21 @@ namespace RookEcomShop.Application.Handlers.Orders.Create
             return Result.Ok();
         }
 
-        private void CreateNewOrder(CreateOrderCommand command)
+        private async void CreateNewOrder(CreateOrderCommand command)
         {
+            var producttIds = command.CartDetails.Select(cD => cD.ProductId);
+            var products = await _productRepository.GetListAsync(p => producttIds.Contains(p.Id));
+
             var newOrder = new Order
             {
                 OrderDetails = command.CartDetails.Select(cD => new OrderDetail
                 {
                     UnitPrice = cD.Price,
                     Quantity = cD.Quantity,
-                    Product = new Product
-                    {
-                        Id = cD.ProductId,
-                    }
+                    Product = products.FirstOrDefault(p => p.Id.Equals(cD.ProductId))!,
                 }).ToList(),
                 Status = OrderStatus.Pending,
+                UserId = 2,
                 TotalAmount = command.CartDetails.Sum(cD => cD.Price * cD.Quantity),
                 OrderDate = _dateTimeProvider.UtcNow,
                 UpdatedAt = _dateTimeProvider.UtcNow
