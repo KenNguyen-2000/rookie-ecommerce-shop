@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Repositories;
+using RookEcomShop.Domain.Entities;
+using RookEcomShop.ViewModels.Category;
 using RookEcomShop.ViewModels.Product;
 
 namespace RookEcomShop.Application.Handlers.Products.GetById
@@ -27,7 +29,13 @@ namespace RookEcomShop.Application.Handlers.Products.GetById
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
-                StockQuantity = product.StockQuantity
+                StockQuantity = product.StockQuantity,
+                Category = new CategoryVM
+                {
+                    Id = product.Category.Id,
+                    Name = product.Category.Name
+                },
+                ImgUrls = new()
             };
         }
     }

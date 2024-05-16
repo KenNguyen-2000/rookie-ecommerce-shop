@@ -3,5 +3,9 @@ using RookEcomShop.ViewModels.Product;
 
 namespace RookEcomShop.Application.Handlers.Products.GetById
 {
-    public record GetProductByIdQuery(int Id) : IRequest<ProductVM>;
+    public class GetProductByIdQuery : IRequest<ProductVM>
+
+    {
+        public int Id { get; set; }
+    }
 }

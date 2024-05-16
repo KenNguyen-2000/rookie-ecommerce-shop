@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using RookEcomShop.Application.Common.Repositories;
+using RookEcomShop.ViewModels.Category;
 using RookEcomShop.ViewModels.Product;
 
 namespace RookEcomShop.Application.Handlers.Products.GetByCategoryName
@@ -23,7 +24,13 @@ namespace RookEcomShop.Application.Handlers.Products.GetByCategoryName
                 Name = p.Name,
                 Description = p.Description,
                 Price = p.Price,
-                StockQuantity = p.StockQuantity
+                StockQuantity = p.StockQuantity,
+                Category = new CategoryVM
+                {
+                    Id = p.Category.Id,
+                    Name = p.Category.Name
+                },
+                ImgUrls = p.ProductImages.Select(i => i.Url).ToList()
             });
         }
     }
