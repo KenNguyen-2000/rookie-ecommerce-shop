@@ -9,11 +9,12 @@ using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.Infrastructure.Extensions.Authentication;
 using RookEcomShop.Infrastructure.Extensions.Cors;
+using RookEcomShop.Infrastructure.Extensions.IdentityServer;
 using RookEcomShop.Infrastructure.Persistence;
 using RookEcomShop.Infrastructure.Persistence.Repositories;
 using RookEcomShop.Infrastructure.Services;
 
-namespace Infrastructure
+namespace RookEcomShop.Infrastructure
 {
     public static class DependencyInjection
     {
@@ -25,8 +26,8 @@ namespace Infrastructure
                 .AddPersistence(configuration);
 
 
-            services
-                .ConfigureCors();
+            //services
+            //    .ConfigureCors();
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
             return services;
@@ -49,9 +50,11 @@ namespace Infrastructure
 
             services.AddControllersWithViews();
 
-            services
-                .AddIdentity<User, IdentityRole<int>>()
-                .AddEntityFrameworkStores<RookEcomShopDbContext>();
+            //services
+            //    .AddIdentity<User, IdentityRole<int>>()
+            //    .AddEntityFrameworkStores<RookEcomShopDbContext>();
+
+            //services.AddConfigIdentityServices(configuration);
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserRepository, UserRepository>();

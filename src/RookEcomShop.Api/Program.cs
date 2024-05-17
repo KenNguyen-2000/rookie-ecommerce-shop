@@ -1,10 +1,12 @@
-using Infrastructure;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 using RookEcomShop.Api;
 using RookEcomShop.Api.Extensions.Configurations;
 using RookEcomShop.Application;
+using RookEcomShop.Domain.Entities;
+using RookEcomShop.Infrastructure;
 using RookEcomShop.Infrastructure.Extensions.GlobalExceptonHandler;
+using RookEcomShop.Infrastructure.Extensions.IdentityServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,8 @@ builder.Services
     .AddPresentation()
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
+
+builder.AddConfigIdentityServices();
 
 builder.Services
     .AddDirectoryBrowser();
@@ -57,7 +61,10 @@ app.UseStaticFiles(new StaticFileOptions
     ContentTypeProvider = provider
 });
 
-//app.UseIdentityServer();
+
+app.UseIdentityServer();
+
+app.MapIdentityApi<User>();
 app.UseAuthorization();
 app.UseGlobalExceptionHandler();
 
