@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.CustomerFrontend.Services.Products;
 
 namespace RookEcomShop.CustomerFrontend.Controllers
 {
+    [Authorize]
     public class ProductsController : Controller
     {
         private readonly ILogger<ProductsController> _logger;

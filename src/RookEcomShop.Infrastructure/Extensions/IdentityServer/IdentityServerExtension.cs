@@ -1,34 +1,39 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using IdentityServer4.Configuration;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.Infrastructure.Persistence;
 
-namespace RookEcomShop.IndentityServer
+namespace RookEcomShop.Infrastructure.Extensions.IdentityServer
 {
-    public static class IdenServerExtension
+    public static class IdentityServerExtension
     {
-        public static void AddConfigIdentityServices(this IServiceCollection services, IConfiguration configuration)
+        public static void AddConfigIdentityServices(this WebApplicationBuilder builder)
         {
             var clientUrls = new Dictionary<string, string>
             {
-                ["Mvc"] = configuration["ClientUrl:Mvc"]!,
-                ["Swagger"] = configuration["ClientUrl:Swagger"]!,
-                ["React"] = configuration["ClientUrl:React"]!
+                ["Mvc"] = builder.Configuration["ClientUrl:Mvc"]!,
+                ["Swagger"] = builder.Configuration["ClientUrl:Swagger"]!,
+                ["React"] = builder.Configuration["ClientUrl:React"]!
             };
-            string connectionString = configuration.GetConnectionString("DefaultConnection")!;
+            string connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
 
-            services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews();
 
-            services.AddDbContext<RookEcomShopDbContext>(options =>
-                options.UseSqlServer(connectionString));
+            //services.AddDbContext<RookEcomShopDbContext>(options =>
+            //    options.UseSqlServer(connectionString));
 
             SeedData.EnsureSeedData(connectionString);
-            services
+            builder.Services
                 .AddIdentity<User, IdentityRole<int>>()
                 .AddEntityFrameworkStores<RookEcomShopDbContext>()
                 .AddDefaultTokenProviders();
 
-            services
+            var identityBuilderService = builder.Services
                 .AddIdentityServer(options =>
                 {
                     options.Events.RaiseErrorEvents = true;
@@ -45,7 +50,10 @@ namespace RookEcomShop.IndentityServer
                 .AddInMemoryClients(IdentityServerConfig.Clients(clientUrls))
                 .AddAspNetIdentity<User>();
 
-            services.AddAuthentication();
+            // not recommended for production - you need to store your key material somewhere secure
+            if (builder.Environment.IsDevelopment()) identityBuilderService.AddDeveloperSigningCredential();
+
+            builder.Services.AddAuthentication();
         }
     }
 }

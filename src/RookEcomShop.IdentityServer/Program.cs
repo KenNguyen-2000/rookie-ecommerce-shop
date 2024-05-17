@@ -1,12 +1,15 @@
-
-using RookEcomShop.IndentityServer;
+using RookEcomShop.Infrastructure;
+using RookEcomShop.Infrastructure.Extensions.IdentityServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 
 builder.Services
-    .AddConfigIdentityServices(builder.Configuration);
+    .AddInfrastructure(builder.Configuration);
+
+builder.AddConfigIdentityServices();
+
 
 //builder.Services.AddAuthentication()
 //    .AddGoogle(options =>
@@ -19,6 +22,8 @@ builder.Services
 //        options.ClientId = "copy client ID from Google here";
 //        options.ClientSecret = "copy client secret from Google here";
 //    });
+
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
