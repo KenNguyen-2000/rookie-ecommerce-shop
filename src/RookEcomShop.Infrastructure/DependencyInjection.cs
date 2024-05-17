@@ -76,7 +76,7 @@ namespace RookEcomShop.Infrastructure
             services.AddSingleton(Options.Create(JwtSettings));
             services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
 
-            services.ConfigureAuthentication(configuration);
+            //services.ConfigureAuthentication(configuration);
 
             return services;
         }

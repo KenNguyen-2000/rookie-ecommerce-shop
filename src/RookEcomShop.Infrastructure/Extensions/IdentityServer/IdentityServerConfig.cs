@@ -31,11 +31,13 @@ namespace RookEcomShop.Infrastructure.Extensions.IdentityServer
             {
                 new Client
                 {
-                    ClientId = "rookEcomShop.api",
-                    ClientName = "RookEcomShop Api Client",
-                    AllowedGrantTypes = GrantTypes.Code,
+                    ClientId = "rookEcomShop.client",
+                    ClientSecrets = { new Secret("secret".Sha256()) },
 
+                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowAccessTokensViaBrowser = true,
                     RequireConsent = false,
+                    RequirePkce = true,
 
                     RedirectUris =           { $"{clientUrls["Swagger"]}/swagger/oauth2-redirect.html" },
                     PostLogoutRedirectUris = { $"{clientUrls["Swagger"]}/swagger/oauth2-redirect.html" },

@@ -38,6 +38,14 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+
+        options.OAuthClientId("rookEcomShop.client");
+        options.OAuthClientSecret("secret");
+        options.OAuthUsePkce();
+    });
     app.UseSwaggerUI();
 }
 
@@ -62,9 +70,8 @@ app.UseStaticFiles(new StaticFileOptions
 });
 
 
+app.UseAuthentication();
 app.UseIdentityServer();
-
-app.MapIdentityApi<User>();
 app.UseAuthorization();
 app.UseGlobalExceptionHandler();
 

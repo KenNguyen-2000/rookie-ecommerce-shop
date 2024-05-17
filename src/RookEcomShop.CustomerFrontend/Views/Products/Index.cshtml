@@ -4,3 +4,14 @@
     ViewData["Title"] = "Products Page";
     var productList = (ViewData["Products"] as List<ProductVM>)!;
 }
+
+<ul>
+    @foreach (var product in productList)
+    {
+        <li>
+            <a href="@Url.Action("Details", "Products", new { id = product.Id })">
+                @product.Name
+            </a>
+        </li>
+    }
+</ul>

@@ -8,31 +8,41 @@ namespace RookEcomShop.Api.Extensions.Configurations
         {
             services.AddSwaggerGen(option =>
             {
-                option.SwaggerDoc("v1", new() { Title = "ZeroWaste.Api", Version = "v1" });
+                option.SwaggerDoc("v1", new() { Title = "Rookie Ecommerce Shop Api", Version = "v1" });
 
-                option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                option.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
-                    Description = "JWT Authorization header using the Bearer scheme. Example: \"" + "Bearer {token}\"",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Scheme = "Bearer",
+                    Type = SecuritySchemeType.OAuth2,
+                    Flows = new OpenApiOAuthFlows
+                    {
+                        AuthorizationCode = new OpenApiOAuthFlow
+                        {
+                            AuthorizationUrl = new Uri("https://localhost:7280/connect/authorize"),
+                            TokenUrl = new Uri("https://localhost:7280/connect/token"),
+                            Scopes = new Dictionary<string, string>
+                            {
+                                {"rookEcomShop.api", "RookEcomShop Api"}
+                            }
+                        }
+                    }
                 });
 
                 option.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
                 {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new[] { "rookEcomShop.api" }
+                    }
+                });
+
             });
         }
-    }
+     }
 }

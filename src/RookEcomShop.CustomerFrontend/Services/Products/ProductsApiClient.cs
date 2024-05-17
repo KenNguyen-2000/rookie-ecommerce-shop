@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using RookEcomShop.ViewModels.Api;
 using RookEcomShop.ViewModels.Product;
 
 namespace RookEcomShop.CustomerFrontend.Services.Products
@@ -20,9 +21,8 @@ namespace RookEcomShop.CustomerFrontend.Services.Products
             response.EnsureSuccessStatusCode();
 
             string content = await response.Content.ReadAsStringAsync();
-            var productList = JsonConvert.DeserializeObject<IList<ProductVM>>(content)!;
-
-            return productList;
+            var res = JsonConvert.DeserializeObject<IList<ProductVM>>(content)!;
+            return (dynamic)res;
         }
     }
 }

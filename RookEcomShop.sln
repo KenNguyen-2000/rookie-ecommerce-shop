@@ -29,8 +29,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RookEcomShop.IdentityServer", "src\RookEcomShop.IdentityServer\RookEcomShop.IdentityServer.csproj", "{04F34395-0EEB-4833-88B1-13833FF0DDCF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer", "src\IdentityServer\IdentityServer.csproj", "{AA7E92FE-B621-4A22-80E8-D59D99DCB37D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,10 +75,6 @@ Global
 		{04F34395-0EEB-4833-88B1-13833FF0DDCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04F34395-0EEB-4833-88B1-13833FF0DDCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04F34395-0EEB-4833-88B1-13833FF0DDCF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AA7E92FE-B621-4A22-80E8-D59D99DCB37D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA7E92FE-B621-4A22-80E8-D59D99DCB37D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA7E92FE-B621-4A22-80E8-D59D99DCB37D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA7E92FE-B621-4A22-80E8-D59D99DCB37D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,7 +91,6 @@ Global
 		{8A235142-942A-4477-BBF3-D7E74EDB62FB} = {C0827EEB-33E8-428E-94DF-EDB942162563}
 		{C0827EEB-33E8-428E-94DF-EDB942162563} = {45F82358-BED1-4293-8D2E-9F7515CC034E}
 		{04F34395-0EEB-4833-88B1-13833FF0DDCF} = {8B711B5E-95DD-4B32-8A91-FEF8262F1A08}
-		{AA7E92FE-B621-4A22-80E8-D59D99DCB37D} = {8B711B5E-95DD-4B32-8A91-FEF8262F1A08}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D0FA933D-186B-4F30-AFA0-ACA5452795CB}

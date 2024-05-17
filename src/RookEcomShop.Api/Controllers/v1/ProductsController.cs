@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.Application.Handlers.Products.Create;
 using RookEcomShop.Application.Handlers.Products.DeleteById;
@@ -43,6 +44,7 @@ namespace RookEcomShop.Api.Controllers.v1
             return Created();
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetProducts([FromQuery] string? searchTerm)
         {
@@ -50,7 +52,7 @@ namespace RookEcomShop.Api.Controllers.v1
 
             var result = await _sender.Send(query);
 
-            return Ok(new Response<ProductVM>(datas: result.Value, "Get products successfully", result.Value.Count()));
+            return Ok(result.Value);
         }
 
         [HttpGet("collections/{categoryName}")]

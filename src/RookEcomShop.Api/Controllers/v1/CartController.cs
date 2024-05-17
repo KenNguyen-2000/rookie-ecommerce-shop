@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.Application.Handlers.Carts.AddProduct;
 using RookEcomShop.Application.Handlers.Carts.GetProducts;
