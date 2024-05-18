@@ -23,5 +23,13 @@ namespace RookEcomShop.CustomerFrontend.Controllers
             ViewData["Products"] = products;
             return View(products.ToList());
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Index(int id)
+        {
+            _logger.LogInformation("Get product by id from API");
+            var product = await _productsApiClient.GetProductByIdAsync(id);
+            return View(product);
+        }
     }
 }

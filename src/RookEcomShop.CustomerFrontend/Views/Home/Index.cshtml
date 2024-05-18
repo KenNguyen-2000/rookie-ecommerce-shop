@@ -1,10 +1,17 @@
-﻿@{
+﻿@using RookEcomShop.CustomerFrontend.Models.Home
+@model HomeViewModel;
+@{
     ViewData["Title"] = "Home Page";
-
+    var products = @Model.Products;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="p-6">
+    <h1 class="text-4xl font-semibold mb-6">Product list</h1>
 
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-8 gap-y-6">
+        @foreach (var product in products)
+        {
+            <partial name="~/Views/Shared/Components/_ProductCard.cshtml" model="product"></partial>
+        }
+    </div>
 </div>
