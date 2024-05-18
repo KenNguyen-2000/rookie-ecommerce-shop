@@ -4,7 +4,7 @@
     var productImgUrl = "https://localhost:7181/api/v1/upload-image?imageName=" + (Model.ImgUrls.FirstOrDefault() ?? String.Empty).Replace("/uploads\\", "");
 }
 
-<a asp-controller="Products" asp-action="Index"  asp-route-id="@Model.Id">
+<a asp-controller="Products" asp-action="Details"  asp-route-id="@Model.Id">
     <div class="border border-gray-300 rounded-md">
         <div class="min-h-64 max-w-full overflow-hidden bg-slate-100 relative border-b border-gray-300">
             <div class="absolute top-2 left-2 z-10">
