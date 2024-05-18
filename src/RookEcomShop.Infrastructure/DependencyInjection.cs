@@ -26,8 +26,8 @@ namespace RookEcomShop.Infrastructure
                 .AddPersistence(configuration);
 
 
-            //services
-            //    .ConfigureCors();
+            services
+                .ConfigureCors();
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
             return services;

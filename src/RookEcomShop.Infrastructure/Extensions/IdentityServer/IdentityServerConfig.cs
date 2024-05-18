@@ -14,15 +14,13 @@ namespace RookEcomShop.Infrastructure.Extensions.IdentityServer
         public static IEnumerable<ApiResource> ApiResources =>
             new List<ApiResource>
             {
-                new ApiResource("rookEcomShop.api", "RookEcomShop Api")
+                new ApiResource("rookEcomShop.api", "RookEcomShop Api") {Scopes = {"rookEcomShop.api"}}
             };
 
 
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
-                //new ApiScope("rookEcomShop.read"),
-                //new ApiScope("rookEcomShop.write"),
                 new ApiScope("rookEcomShop.api", "RookEcomShop Api")
             };
 
@@ -32,10 +30,12 @@ namespace RookEcomShop.Infrastructure.Extensions.IdentityServer
                 new Client
                 {
                     ClientId = "rookEcomShop.client",
+                    ClientName = "Swagger UI for RookEcomShop",
                     ClientSecrets = { new Secret("secret".Sha256()) },
 
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowAccessTokensViaBrowser = true,
+
                     RequireConsent = false,
                     RequirePkce = true,
 
@@ -45,8 +45,6 @@ namespace RookEcomShop.Infrastructure.Extensions.IdentityServer
 
                     AllowedScopes = new List<string>
                     {
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
                         "rookEcomShop.api"
                     }
                 },

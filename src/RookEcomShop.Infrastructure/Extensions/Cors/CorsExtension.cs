@@ -11,11 +11,12 @@ namespace RookEcomShop.Infrastructure.Extensions.Cors
                 options.AddPolicy(name: "RookEcomShop", builder =>
                 {
                     builder
-                        .WithOrigins("https://rook-ecom-shop.vercel.app", "http://localhost:3000")
-                        .SetIsOriginAllowedToAllowWildcardSubdomains()
+                        //.WithOrigins("https://rook-ecom-shop.vercel.app", "http://localhost:3000")
+                        //.SetIsOriginAllowedToAllowWildcardSubdomains()
+                        //.AllowCredentials()
+                        .AllowAnyOrigin()
                         .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
+                        .AllowAnyMethod();
                 });
             });
         }
