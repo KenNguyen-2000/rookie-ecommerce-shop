@@ -5,6 +5,7 @@ using RookEcomShop.CustomerFrontend.Services.Products;
 namespace RookEcomShop.CustomerFrontend.Controllers
 {
     [Authorize]
+    [Route("products")]
     public class ProductsController : Controller
     {
         private readonly ILogger<ProductsController> _logger;
@@ -16,6 +17,7 @@ namespace RookEcomShop.CustomerFrontend.Controllers
             _logger = logger;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             _logger.LogInformation("Get products from API");
@@ -24,11 +26,17 @@ namespace RookEcomShop.CustomerFrontend.Controllers
             return View(products.ToList());
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
-        public async Task<IActionResult> Index(int id)
+        public async Task<IActionResult> Details(int id)
         {
             _logger.LogInformation("Get product by id from API");
             var product = await _productsApiClient.GetProductByIdAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
             return View(product);
         }
     }

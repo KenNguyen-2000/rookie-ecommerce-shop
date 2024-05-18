@@ -4,7 +4,8 @@ namespace RookEcomShop.CustomerFrontend.Services.Products
 {
     public interface IProductsApiClient
     {
-        Task<IList<ProductVM>> GetProductsAsync();
-        Task<ProductVM> GetProductByIdAsync(int id);
+        Task<List<ProductVM>> GetProductsAsync();
+        Task<List<ProductVM>> GetProductsByCategoryNameAsync(string categoryName);
+        Task<ProductVM?> GetProductByIdAsync(int id);
     }
 }

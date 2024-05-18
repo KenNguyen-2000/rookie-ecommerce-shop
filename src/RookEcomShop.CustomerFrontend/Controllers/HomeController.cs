@@ -3,6 +3,7 @@ using RookEcomShop.CustomerFrontend.Models;
 using RookEcomShop.CustomerFrontend.Models.Home;
 using RookEcomShop.CustomerFrontend.Services.Categories;
 using RookEcomShop.CustomerFrontend.Services.Products;
+using RookEcomShop.ViewModels.Product;
 using System.Diagnostics;
 
 namespace RookEcomShop.CustomerFrontend.Controllers;
@@ -12,6 +13,8 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly IProductsApiClient _productsApiClient;
     private readonly ICategoriesApiClient _categoriesApiClient;
+    [FromQuery(Name = "categoryName")]
+    public string? CategoryName { get; set; }
 
     public HomeController(
         ILogger<HomeController> logger,
@@ -25,7 +28,12 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var products = await _productsApiClient.GetProductsAsync();
+        _logger.LogInformation(CategoryName);
+        List<ProductVM> products;
+        if (CategoryName != null)
+            products = await _productsApiClient.GetProductsByCategoryNameAsync(CategoryName);
+        else
+            products = await _productsApiClient.GetProductsAsync();
         ViewData["Categories"] = await _categoriesApiClient.GetCategoriesAsync();
         return View(new HomeViewModel
         {

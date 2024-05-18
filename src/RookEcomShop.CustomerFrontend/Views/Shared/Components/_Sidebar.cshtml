@@ -17,7 +17,16 @@
                 <ul class="category-list space-y-4">
                    @foreach (var category in categories)
                     {
-                        <li class="category-item text-gray-500">@category.Name</li>
+                        <li >
+                            <a
+                            class="category-item text-gray-500 font-semibold hover:text-indigo-600"
+                            asp-asp-controller="Home"
+                            asp-action="Index"
+                            asp-route-categoryName="@category.Name"
+                            >
+                            @category.Name
+                            </a>
+                        </li>
                     }
                 </ul>
             </section>

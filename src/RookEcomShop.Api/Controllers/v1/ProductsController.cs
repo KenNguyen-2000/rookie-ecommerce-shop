@@ -56,15 +56,17 @@ namespace RookEcomShop.Api.Controllers.v1
             return Ok(result.Value);
         }
 
+        [AllowAnonymous]
         [HttpGet("collections/{categoryName}")]
         public async Task<IActionResult> GetProductsByCategoryId(string categoryName)
         {
             var query = new GetProductsByCategoryNameQuery { CategoryName = categoryName };
 
             var result = await _sender.Send(query);
-            return Ok(new Response<ProductVM>(datas: result.Value, $"Get products by category {categoryName} successfully", result.Value.Count()));
+            return Ok(result.Value);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductById(int id)
         {
@@ -72,7 +74,7 @@ namespace RookEcomShop.Api.Controllers.v1
 
             var result = await _sender.Send(query);
 
-            return Ok(new Response<ProductVM>(result.Value, $"Get products by id {id} successfully"));
+            return Ok(result.Value);
         }
 
         [HttpDelete("{id:int}")]
