@@ -24,7 +24,7 @@ namespace RookEcomShop.Api.Controllers.v1
             var query = new GetListCategoriesQuery();
             var result = await _sender.Send(query);
 
-            return Ok(new Response<CategoryVM>(datas: result.Value, "Get categories success"));
+            return Ok(result.Value);
         }
 
         [HttpPost]
