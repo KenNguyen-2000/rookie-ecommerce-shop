@@ -1,4 +1,5 @@
 
+using RookEcomShop.CustomerFrontend.Services.Categories;
 using RookEcomShop.CustomerFrontend.Services.Products;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +28,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpClient<IProductsApiClient, ProductsApiClient>();
+builder.Services.AddHttpClient<ICategoriesApiClient, CategoriesApiClient>();
 
 var app = builder.Build();
 
