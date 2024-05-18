@@ -21,7 +21,6 @@ builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
 
-builder.AddConfigIdentityServices();
 
 builder.Services
     .AddDirectoryBrowser();
@@ -33,7 +32,6 @@ builder.Services.AddSwaggerConfiguration();
 
 var app = builder.Build();
 
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -44,9 +42,10 @@ if (app.Environment.IsDevelopment())
 
         options.OAuthClientId("rookEcomShop.client");
         options.OAuthClientSecret("secret");
+        options.OAuthAppName("Swagger UI for RookEcomShop");
         options.OAuthUsePkce();
+
     });
-    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
@@ -69,10 +68,13 @@ app.UseStaticFiles(new StaticFileOptions
     ContentTypeProvider = provider
 });
 
+app.UseRouting();
 
 app.UseAuthentication();
-app.UseIdentityServer();
 app.UseAuthorization();
+
+
+
 app.UseGlobalExceptionHandler();
 
 app.MapControllers();

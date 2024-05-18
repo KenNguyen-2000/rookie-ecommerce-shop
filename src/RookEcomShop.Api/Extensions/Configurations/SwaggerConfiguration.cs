@@ -8,7 +8,7 @@ namespace RookEcomShop.Api.Extensions.Configurations
         {
             services.AddSwaggerGen(option =>
             {
-                option.SwaggerDoc("v1", new() { Title = "Rookie Ecommerce Shop Api", Version = "v1" });
+                option.SwaggerDoc("v1", new OpenApiInfo { Title = "Rookie Ecommerce Shop Api", Version = "v1" });
 
                 option.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
@@ -27,21 +27,7 @@ namespace RookEcomShop.Api.Extensions.Configurations
                     }
                 });
 
-                option.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        new[] { "rookEcomShop.api" }
-                    }
-                });
-
+                option.OperationFilter<AuthorizeCheckOperationFilter>();
             });
         }
      }
