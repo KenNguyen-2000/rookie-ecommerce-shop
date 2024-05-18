@@ -14,6 +14,7 @@ using RookEcomShop.ViewModels.Product;
 
 namespace RookEcomShop.Api.Controllers.v1
 {
+    [Authorize]
     [Route("api/v1/products")]
     [ApiController]
     public class ProductsController : ControllerBase
@@ -44,7 +45,7 @@ namespace RookEcomShop.Api.Controllers.v1
             return Created();
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetProducts([FromQuery] string? searchTerm)
         {
