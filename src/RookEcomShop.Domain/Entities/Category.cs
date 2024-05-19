@@ -6,6 +6,7 @@ namespace RookEcomShop.Domain.Entities
     {
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
+        public int? CategoryId { get; set; }
 
         public virtual ICollection<Product> Products { get; set; } = new List<Product>();
         public virtual ICollection<Category> SubCategories { get; set; } = new List<Category>();

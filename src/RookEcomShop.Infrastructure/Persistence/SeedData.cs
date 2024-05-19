@@ -29,7 +29,6 @@ namespace RookEcomShop.Infrastructure.Persistence
                 using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
                     var context = scope.ServiceProvider.GetService<RookEcomShopDbContext>();
-                    context!.Database.Migrate();
 
                     var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
                     var alice = userMgr.FindByNameAsync("alice").Result;
@@ -100,6 +99,7 @@ namespace RookEcomShop.Infrastructure.Persistence
                     {
                         //Log.Debug("bob already exists");
                     }
+                    context!.Database.Migrate();
 
 
                 }
