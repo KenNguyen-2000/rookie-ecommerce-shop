@@ -54,7 +54,6 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Login
             return Page();
         }
 
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> OnPost(LoginInputModel model, string button)
         {
             // check if we are in the context of an authorization request
