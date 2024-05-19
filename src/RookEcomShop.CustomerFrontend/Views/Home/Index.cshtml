@@ -13,7 +13,7 @@
             <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
             @foreach (var product in products)
                 {
-                    <partial name="~/Views/Shared/Components/_ProductCard.cshtml" model="product"></partial>
+                   <vd:product-card product="@product"></vd:product-card>
                 }
 
             <!-- More products... -->
