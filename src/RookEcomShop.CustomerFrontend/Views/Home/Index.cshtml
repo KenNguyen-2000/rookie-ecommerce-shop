@@ -5,13 +5,25 @@
     var products = @Model.Products;
 }
 
-<div class="p-6">
-    <h1 class="text-4xl font-semibold mb-6">Product list</h1>
+<div class="min-h-screen bg-white">
+    <div class="mx-auto max-w-2xl px-4 lg:max-w-7xl">
+            <h1 class="text-4xl font-semibold mb-6">Product list</h1>
+            @* <h2 class="text-2xl font-bold tracking-tight text-gray-900">Customers also purchased</h2> *@
 
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-8 gap-y-6">
-        @foreach (var product in products)
-        {
-            <partial name="~/Views/Shared/Components/_ProductCard.cshtml" model="product"></partial>
-        }
-    </div>
+            <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+            @foreach (var product in products)
+                {
+                    <partial name="~/Views/Shared/Components/_ProductCard.cshtml" model="product"></partial>
+                }
+
+            <!-- More products... -->
+            </div>
+        </div>
+        
 </div>
+
+@section Scripts {
+    <script type="script" src="./Index.cshtml.js">
+        
+    </script>
+}

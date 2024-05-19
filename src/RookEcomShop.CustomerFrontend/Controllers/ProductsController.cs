@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RookEcomShop.CustomerFrontend.Services.Categories;
 using RookEcomShop.CustomerFrontend.Services.Products;
 
 namespace RookEcomShop.CustomerFrontend.Controllers
@@ -10,11 +11,16 @@ namespace RookEcomShop.CustomerFrontend.Controllers
     {
         private readonly ILogger<ProductsController> _logger;
         private readonly IProductsApiClient _productsApiClient;
+        private readonly ICategoriesApiClient _categoriesApiClient;
 
-        public ProductsController(IProductsApiClient productsApiClient, ILogger<ProductsController> logger)
+        public ProductsController(
+            IProductsApiClient productsApiClient,
+            ILogger<ProductsController> logger,
+            ICategoriesApiClient categoriesApiClient)
         {
             _productsApiClient = productsApiClient;
             _logger = logger;
+            _categoriesApiClient = categoriesApiClient;
         }
 
         [AllowAnonymous]
