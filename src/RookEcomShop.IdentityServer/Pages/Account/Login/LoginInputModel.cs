@@ -9,6 +9,5 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Login
         [Required]
         public string Password { get; set; } = null!;
         public bool RememberLogin { get; set; }
-        public string ReturnUrl { get; set; } = null!;
     }
 }

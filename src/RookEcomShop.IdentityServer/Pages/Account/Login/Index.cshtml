@@ -1,94 +1,111 @@
 ﻿@page
-@model RookEcomShop.IdentityServer.Pages.Account.Login.IndexModel
+@model RookEcomShop.IdentityServer.Pages.Account.Login.IndexModel;
 @{
 }
-<div class="login-page">
-    <div class="lead">
-        <h1>Login</h1>
-        <p>Choose how to login</p>
+
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:pb-24 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+        <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+            alt="Your Company">
+        <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your account
+        </h2>
     </div>
 
-    <partial name="_ValidationSummary" />
-
-    <div class="row">
-
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         @if (Model.EnableLocalLogin)
         {
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Local Account</h2>
-                    </div>
-
-                    <div class="card-body">
-                        <form asp-route="Login">
-                            <input type="hidden" asp-for="ReturnUrl" />
-
-                            <div class="form-group">
-                                <label asp-for="Username"></label>
-                                <input class="form-control" placeholder="Username" asp-for="Username" autofocus>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Password"></label>
-                                <input type="password" class="form-control" placeholder="Password" asp-for="Password" autocomplete="off">
-                            </div>
-                            @if (Model.AllowRememberLogin)
-                            {
-                                <div class="form-group">
-                                    <div class="form-check">
-                                        <input class="form-check-input" asp-for="RememberLogin">
-                                        <label class="form-check-label" asp-for="RememberLogin">
-                                            Remember My Login
-                                        </label>
-                                    </div>
-                                </div>
-                            }
-
-                            <div>
-                                <p>The default users are alice/bob, password: Pass123$</p>
-                            </div>
-
-                            <button class="btn btn-primary" name="button" value="login">Login</button>
-                            <button class="btn btn-secondary" name="button" value="cancel">Cancel</button>
-                        </form>
-                    </div>
+        <form asp-route="Login" class="space-y-6">
+            <input type="hidden" asp-for="ReturnUrl" />
+            
+            <div>
+                <label asp-for="Username" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
+                <div class="mt-2">
+                    <input placeholder="Username" asp-for="Username"
+                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        autofocus />
                 </div>
             </div>
+
+            <div>
+                <div class="flex items-center justify-between">
+                    <label asp-for="Password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+                    <div class="text-sm">
+                        <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <input asp-for="Password" type="password" autocomplete="off"
+                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                </div>
+            </div>
+
+            <div>
+                @if (Model.AllowRememberLogin)
+                {
+                <div class="relative flex gap-x-3">
+                    <div class="flex h-6 items-center">
+                        <input type="checkbox"
+                            class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                    </div>
+                    <div class="text-sm leading-6">
+                        <label tabindex="-1" class="font-medium text-neutral-900 cursor-pointer">Remember my
+                            login</label>
+                    </div>
+                </div>
+                }
+
+                <div>
+                    <p>The default users are alice/bob, password: Pass123$</p>
+                </div>
+            </div>
+
+            <div>
+                <button name="button" value="login"
+                    class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign
+                    in</button>
+                <button class="btn btn-secondary" name="button" value="cancel">Cancel</button>
+            </div>
+        </form>
         }
+
+        <p class="mt-10 text-center text-sm text-gray-500">
+            Not a member?
+            <a href="#" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Start a 14 day free
+                trial</a>
+        </p>
 
         @if (Model.VisibleExternalProviders.Any())
         {
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>External Account</h2>
-                    </div>
-                    <div class="card-body">
-                        <ul class="list-inline">
-                            @foreach (var provider in Model.VisibleExternalProviders)
-                            {
-                                <li class="list-inline-item">
-                                    <a class="btn btn-secondary"
-                                       asp-controller="External"
-                                       asp-action="Challenge"
-                                       asp-route-scheme="@provider.AuthenticationScheme"
-                                       asp-route-returnUrl="@Model.ReturnUrl">
-                                        @provider.DisplayName
-                                    </a>
-                                </li>
-                            }
-                        </ul>
-                    </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2>External Account</h2>
+                </div>
+                <div class="card-body">
+                    <ul class="list-inline">
+                        @foreach (var provider in Model.VisibleExternalProviders)
+                        {
+                        <li class="list-inline-item">
+                            <a class="btn btn-secondary" asp-controller="External" asp-action="Challenge"
+                                asp-route-scheme="@provider.AuthenticationScheme"
+                                asp-route-returnUrl="@Model.ReturnUrl">
+                                @provider.DisplayName
+                            </a>
+                        </li>
+                        }
+                    </ul>
                 </div>
             </div>
+        </div>
         }
 
         @if (!Model.EnableLocalLogin && !Model.VisibleExternalProviders.Any())
         {
-            <div class="alert alert-warning">
-                <strong>Invalid login request</strong>
-                There are no login schemes configured for this request.
-            </div>
+        <div class="alert alert-warning">
+            <strong>Invalid login request</strong>
+            There are no login schemes configured for this request.
+        </div>
         }
+        <partial name="_ValidationSummary" />
     </div>
 </div>

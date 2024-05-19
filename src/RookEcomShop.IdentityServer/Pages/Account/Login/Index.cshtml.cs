@@ -1,13 +1,11 @@
 using IdentityServer4.Events;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
-using IdentityServer4.Stores;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.VisualBasic;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.IdentityServer.Models.Account;
 using System.ComponentModel.DataAnnotations;
@@ -23,7 +21,7 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Login
         public string Password { get; set; } = null!;
         public bool RememberLogin { get; set; }
         [FromQuery(Name = "returnUrl")]
-        public string? ReturnUrl { get; set; }
+        public string? ReturnUrl { get; set; } = "~/"; // Default to home pageReturnUrl
         public bool AllowRememberLogin { get; set; } = true;
         public bool EnableLocalLogin { get; set; } = true;
         public IEnumerable<ExternalProvider> ExternalProviders { get; set; } = Enumerable.Empty<ExternalProvider>();
@@ -49,15 +47,19 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Login
             _events = events;
         }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(string? returnUrl)
         {
+            if (User?.Identity?.IsAuthenticated ?? false)
+            {
+                return Redirect(returnUrl ?? "~/");
+            }
             return Page();
         }
 
         public async Task<IActionResult> OnPost(LoginInputModel model, string button)
         {
             // check if we are in the context of an authorization request
-            var context = await _interaction.GetAuthorizationContextAsync(model.ReturnUrl);
+            var context = await _interaction.GetAuthorizationContextAsync(ReturnUrl);
 
             // the user clicked the "cancel" button
             if (button != "login")
@@ -77,7 +79,7 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Login
                         //return this.LoadingPage("Redirect", model.ReturnUrl);
                     }
 
-                    return Redirect(model.ReturnUrl);
+                    return Redirect(ReturnUrl ?? "~/");
                 }
                 else
                 {
@@ -104,15 +106,15 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Login
                         }
 
                         // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
-                        return Redirect(model.ReturnUrl);
+                        return Redirect(ReturnUrl ?? "~/");
                     }
 
                     // request for a local page
-                    if (Url.IsLocalUrl(model.ReturnUrl))
+                    if (Url.IsLocalUrl(ReturnUrl))
                     {
-                        return Redirect(model.ReturnUrl);
+                        return Redirect(ReturnUrl);
                     }
-                    else if (string.IsNullOrEmpty(model.ReturnUrl))
+                    else if (string.IsNullOrEmpty(ReturnUrl))
                     {
                         return Redirect("~/");
                     }
