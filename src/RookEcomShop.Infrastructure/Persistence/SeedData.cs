@@ -100,6 +100,8 @@ namespace RookEcomShop.Infrastructure.Persistence
                     {
                         //Log.Debug("bob already exists");
                     }
+
+
                 }
             }
         }

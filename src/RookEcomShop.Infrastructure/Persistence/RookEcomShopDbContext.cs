@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RookEcomShop.Domain.Entities;
+using RookEcomShop.Infrastructure.Persistence.DataSeeders;
 
 namespace RookEcomShop.Infrastructure.Persistence
 {
@@ -41,7 +42,7 @@ namespace RookEcomShop.Infrastructure.Persistence
         {
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(RookEcomShopDbContext).Assembly);
-
+            ProductSeeder.Seed(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
 
