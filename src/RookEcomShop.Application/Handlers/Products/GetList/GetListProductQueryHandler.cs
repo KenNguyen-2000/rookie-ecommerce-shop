@@ -12,12 +12,10 @@ namespace RookEcomShop.Application.Handlers.Products.GetList
 {
     public class GetListProductQueryHandler : IRequestHandler<GetListProductQuery, Result<PaginatedList<ProductVM>>>
     {
-        private readonly IProductRepository _productRepository;
         private readonly IRookEcomShopDbContext _context;
 
-        public GetListProductQueryHandler(IProductRepository productRepository, IRookEcomShopDbContext context)
+        public GetListProductQueryHandler(IRookEcomShopDbContext context)
         {
-            _productRepository = productRepository;
             _context = context;
         }
 

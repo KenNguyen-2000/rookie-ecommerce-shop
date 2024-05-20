@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using RookEcomShop.Application.Dto;
 using RookEcomShop.CustomerFrontend.Models;
 using RookEcomShop.CustomerFrontend.Models.Home;
 using RookEcomShop.CustomerFrontend.Services.Categories;
@@ -29,7 +30,7 @@ public class HomeController : Controller
     public async Task<IActionResult> Index()
     {
         _logger.LogInformation(CategoryName);
-        List<ProductVM> products;
+        PaginatedList<ProductVM> products;
         if (CategoryName != null)
             products = await _productsApiClient.GetProductsByCategoryNameAsync(CategoryName);
         else
@@ -37,7 +38,7 @@ public class HomeController : Controller
         ViewData["Categories"] = await _categoriesApiClient.GetCategoriesAsync();
         return View(new HomeViewModel
         {
-            Products = products
+            ProductDatas = products
         });
     }
 

@@ -6,6 +6,6 @@ namespace RookEcomShop.CustomerFrontend.Models.Home
 {
     public class HomeViewModel
     {
-        public PaginatedList<ProductVM>? ProductDatas { get; set; }
+        public PaginatedList<ProductVM> ProductDatas { get; set; } = null!;
     }
 }

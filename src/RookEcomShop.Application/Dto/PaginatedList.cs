@@ -4,6 +4,10 @@ namespace RookEcomShop.Application.Dto
 {
     public class PaginatedList<T>
     {
+        public PaginatedList()
+        {
+        }
+
         private PaginatedList(IEnumerable<T> items, int page, int pageSize, int totalCount)
         {
             Items = items;
@@ -11,10 +15,10 @@ namespace RookEcomShop.Application.Dto
             PageSize = pageSize;
             TotalCount = totalCount;
         }
-        public IEnumerable<T> Items { get; }
-        public int Page { get; }
-        public int PageSize { get; }
-        public int TotalCount { get; }
+        public IEnumerable<T> Items { get; } = new List<T>();
+        public int Page { get; } = 1;
+        public int PageSize { get; } = 10;
+        public int TotalCount { get; } = 0;
         public bool HasNextPage => Page * PageSize < TotalCount;
 
         public bool HasPreviousPage => Page > 1;
