@@ -1,6 +1,7 @@
 ﻿using FluentResults;
 using MediatR;
 using RookEcomShop.Application.Common.Exceptions;
+using RookEcomShop.Application.Common.Helpers;
 using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.Application.Handlers.Carts.Create;
 using RookEcomShop.Domain.Entities;
@@ -12,6 +13,7 @@ namespace RookEcomShop.Application.Handlers.Carts.AddProduct
     {
         private readonly ICartRepository _cartRepository;
         private readonly IProductRepository _productRepository;
+        private readonly UserContext userContext;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISender _sender;
 
@@ -19,12 +21,14 @@ namespace RookEcomShop.Application.Handlers.Carts.AddProduct
             IProductRepository productRepository,
             ICartRepository cartCategory,
             IUnitOfWork unitOfWork,
-            ISender sender)
+            ISender sender,
+            UserContext userContext)
         {
             _productRepository = productRepository;
             _cartRepository = cartCategory;
             _unitOfWork = unitOfWork;
             _sender = sender;
+            this.userContext = userContext;
         }
 
         public async Task<Result> Handle(AddProductToCartCommand command, CancellationToken cancellationToken)
@@ -35,10 +39,10 @@ namespace RookEcomShop.Application.Handlers.Carts.AddProduct
                 throw new NotFoundException($"Product with id {command.ProductId} not found!");
             }
 
-            var userContext = 2; // Assuming userContext is retrieved elsewhere
 
-            var cart = await _cartRepository.GetCartByUserIdAsync(userContext);
-            cart = cart ?? await CreateCartIfNotExists(userContext, cancellationToken);
+            var cart = await _cartRepository.GetCartByUserIdAsync(userContext.UserId);
+            if (cart is null)
+                cart = await CreateCartIfNotExists(userContext.UserId, cancellationToken);
 
             AddProductToCart(cart, product, command.Quantity);
 

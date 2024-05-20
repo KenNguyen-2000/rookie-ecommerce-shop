@@ -9,6 +9,7 @@ using RookEcomShop.ViewModels.Cart;
 
 namespace RookEcomShop.Api.Controllers.v1
 {
+    [Authorize]
     [Route("api/v1/carts")]
     [ApiController]
     public class CartController : ControllerBase
@@ -25,7 +26,7 @@ namespace RookEcomShop.Api.Controllers.v1
         {
             var query = new GetProductsFromCartQuery();
             var result = await _sender.Send(query);
-            return Ok(new Response<CartDetailVM>(datas: result.Value ,"Get products in cart succeeded"));
+            return Ok(new Response<CartDetailVM>(datas: result.Value, "Get products in cart succeeded"));
         }
 
         [HttpPost("products/add")]
