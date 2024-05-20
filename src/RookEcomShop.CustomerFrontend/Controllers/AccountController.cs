@@ -6,20 +6,20 @@ namespace RookEcomShop.CustomerFrontend.Controllers
 {
     public class AccountController : Controller
     {
-            public IActionResult SignIn()
-            {
-                return Challenge(new AuthenticationProperties { RedirectUri = "/" }, "oidc");
-            }
+        public IActionResult SignIn()
+        {
+            return Challenge(new AuthenticationProperties { RedirectUri = "/" }, "oidc");
+        }
 
-            public new IActionResult SignOut()
-            {
-                return SignOut(new AuthenticationProperties { RedirectUri = "/" }, "Cookies", "oidc");
-            }
+        public IActionResult Logout()
+        {
+            return SignOut(new AuthenticationProperties { RedirectUri = "/" }, "Cookies", "oidc");
+        }
 
-            [Authorize]
-            public ActionResult MyProfile()
-            {
-                return View();
-            }
+        [Authorize]
+        public ActionResult MyProfile()
+        {
+            return View();
+        }
     }
 }

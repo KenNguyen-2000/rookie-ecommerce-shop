@@ -26,11 +26,7 @@ builder.Services.AddAuthentication(options =>
         options.Scope.Add("offline_access");
     });
 builder.Services
-    .AddControllersWithViews()
-    .AddRazorOptions(options =>
-    {
-        options.ViewLocationFormats.Add("/{0}.cshtml");
-    }); ;
+    .AddControllersWithViews();
 
 builder.Services.AddHttpClient<IProductsApiClient, ProductsApiClient>();
 builder.Services.AddHttpClient<ICategoriesApiClient, CategoriesApiClient>();

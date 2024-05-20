@@ -3,8 +3,7 @@ using RookEcomShop.ViewModels.Product;
 
 namespace RookEcomShop.CustomerFrontend.ViewComponents
 {
-    [ViewComponent(Name = "ProductCard")]
-    public class ProductCardVC : ViewComponent
+    public class ProductCard : ViewComponent
     {
         public IViewComponentResult Invoke(ProductVM product)
         {
