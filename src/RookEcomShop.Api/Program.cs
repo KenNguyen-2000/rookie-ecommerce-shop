@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 using RookEcomShop.Api;
 using RookEcomShop.Api.Extensions.Configurations;
+using RookEcomShop.Api.Middlewares;
 using RookEcomShop.Application;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.Infrastructure;
@@ -72,9 +73,10 @@ app.UseRouting();
 app.UseCors("RookEcomShop");
 
 app.UseAuthentication();
+
+app.UseMiddleware<UserContextBuilderMiddleware>();
+
 app.UseAuthorization();
-
-
 
 app.UseGlobalExceptionHandler();
 
