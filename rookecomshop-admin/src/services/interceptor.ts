@@ -6,7 +6,7 @@ import axios, {
 import Cookies from "js-cookie";
 
 const interceptor = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_SERVER_API,
+    baseURL: import.meta.env.VITE_API_URL,
     timeout: 10000,
 });
 
