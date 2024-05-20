@@ -1,5 +1,6 @@
 ﻿using FluentResults;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using RookEcomShop.Domain.Common.Enums;
 
 namespace RookEcomShop.Application.Handlers.Products.Update
@@ -12,5 +13,6 @@ namespace RookEcomShop.Application.Handlers.Products.Update
         public decimal Price { get; set; }
         public int StockQuantity { get; set; }
         public ProductStatus Status { get; set; }
+        public IFormFileCollection? Images { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using RookEcomShop.Domain.Common.Enums;
+﻿using Microsoft.AspNetCore.Http;
+using RookEcomShop.Domain.Common.Enums;
 namespace RookEcomShop.ViewModels.Product
 {
     public class UpdateProductRequest
@@ -8,5 +9,6 @@ namespace RookEcomShop.ViewModels.Product
         public decimal Price { get; set; }
         public int StockQuantity { get; set; }
         public ProductStatus Status { get; set; }
+        public IFormFileCollection? Images { get; set; }
     }
 }

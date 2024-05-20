@@ -69,6 +69,7 @@ app.UseStaticFiles(new StaticFileOptions
 });
 
 app.UseRouting();
+app.UseCors("RookEcomShop");
 
 app.UseAuthentication();
 app.UseAuthorization();

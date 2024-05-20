@@ -1,4 +1,5 @@
-﻿using RookEcomShop.Domain.Entities;
+﻿using RookEcomShop.Application.Dto;
+using RookEcomShop.Domain.Entities;
 
 namespace RookEcomShop.Application.Common.Repositories
 {
