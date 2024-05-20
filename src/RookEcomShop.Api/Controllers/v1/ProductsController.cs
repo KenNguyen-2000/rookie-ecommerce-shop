@@ -63,9 +63,23 @@ namespace RookEcomShop.Api.Controllers.v1
 
         [AllowAnonymous]
         [HttpGet("collections/{categoryName}")]
-        public async Task<IActionResult> GetProductsByCategoryId(string categoryName)
+        public async Task<IActionResult> GetProductsByCategoryId(
+            string categoryName,
+            string? searchTerm,
+            string? sortOrder,
+            string? sortColumn,
+            int page = 1,
+            int pageSize = 10)
         {
-            var query = new GetProductsByCategoryNameQuery { CategoryName = categoryName };
+            var query = new GetProductsByCategoryNameQuery
+            {
+                CategoryName = categoryName,
+                SearchTerm = searchTerm,
+                SortOrder = sortOrder,
+                SortColumn = sortColumn,
+                Page = page,
+                PageSize = pageSize
+            };
 
             var result = await _sender.Send(query);
             return Ok(result.Value);
