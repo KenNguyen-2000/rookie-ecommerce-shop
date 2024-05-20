@@ -1,9 +1,10 @@
 ﻿@{
-    
+
 }
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,11 +13,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="~/RookEcomShop.CustomerFrontend.styles.css" asp-append-version="true" />
 </head>
+
 <body class="w-full flex min-h-screen items-stretch">
-    <partial name="./Components/_Sidebar.cshtml"></partial>
+    <partial name="Partials/_Sidebar.cshtml"></partial>
     <div class="flex-1 flex flex-col min-h-screen">
 
-        <partial name="Components/_Header.cshtml"></partial>
+        <partial name="Partials/_Header.cshtml"></partial>
 
         <div class="flex-1">
             <main role="main" class="container mx-auto p-4 md:p-6">
@@ -24,7 +26,7 @@
             </main>
         </div>
 
-        <partial name="Components/_Footer.cshtml"></partial>
+        <partial name="Partials/_Footer.cshtml"></partial>
     </div>
 
 
@@ -32,4 +34,5 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
