@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using RookEcomShop.Application.Common.Data;
 using RookEcomShop.Application.Common.Interfaces.Authentication;
 using RookEcomShop.Application.Common.Interfaces.Services;
 using RookEcomShop.Application.Common.Repositories;
@@ -57,6 +58,8 @@ namespace RookEcomShop.Infrastructure
             //services.AddConfigIdentityServices(configuration);
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IRookEcomShopDbContext>(sp =>
+                    sp.GetRequiredService<RookEcomShopDbContext>());
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();

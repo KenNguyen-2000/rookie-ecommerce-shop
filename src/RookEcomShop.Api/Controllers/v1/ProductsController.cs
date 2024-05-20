@@ -47,9 +47,14 @@ namespace RookEcomShop.Api.Controllers.v1
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetProducts([FromQuery] string? searchTerm)
+        public async Task<IActionResult> GetProducts(
+            string? searchTerm,
+            string? sortOrder,
+            string? sortColumn,
+            int page = 1,
+            int pageSize = 10)
         {
-            var query = new GetListProductQuery { SearchTerm = searchTerm };
+            var query = new GetListProductQuery(searchTerm, sortOrder, sortColumn, page, pageSize);
 
             var result = await _sender.Send(query);
 
@@ -98,7 +103,7 @@ namespace RookEcomShop.Api.Controllers.v1
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProductById(int id, [FromBody] UpdateProductRequest updateProductRequest)
+        public async Task<IActionResult> UpdateProductById(int id, [FromForm] UpdateProductRequest updateProductRequest)
         {
             var command = new UpdateProductCommand
             {
@@ -107,7 +112,8 @@ namespace RookEcomShop.Api.Controllers.v1
                 Description = updateProductRequest.Description,
                 Price = updateProductRequest.Price,
                 Status = updateProductRequest.Status,
-                StockQuantity = updateProductRequest.StockQuantity
+                StockQuantity = updateProductRequest.StockQuantity,
+                Images = updateProductRequest.Images
             };
 
             await _sender.Send(command);

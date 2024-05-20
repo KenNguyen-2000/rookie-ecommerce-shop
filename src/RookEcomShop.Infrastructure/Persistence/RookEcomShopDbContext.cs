@@ -2,12 +2,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using RookEcomShop.Application.Common.Data;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.Infrastructure.Extensions;
 
 namespace RookEcomShop.Infrastructure.Persistence
 {
-    public partial class RookEcomShopDbContext : IdentityDbContext<User, IdentityRole<int>, int>
+    public partial class RookEcomShopDbContext : IdentityDbContext<User, IdentityRole<int>, int>, IRookEcomShopDbContext
     {
         public RookEcomShopDbContext()
         {

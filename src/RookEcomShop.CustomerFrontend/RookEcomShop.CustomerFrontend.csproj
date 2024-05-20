@@ -5,6 +5,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RookEcomShop.ViewModels\RookEcomShop.ViewModels.csproj" />
+    <ProjectReference Include="..\RookEcomShop.Application\RookEcomShop.Application.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\NewFolder\" />

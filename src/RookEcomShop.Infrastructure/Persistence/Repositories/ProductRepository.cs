@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
 using RookEcomShop.Application.Common.Repositories;
+using RookEcomShop.Application.Dto;
 using RookEcomShop.Domain.Entities;
 using System.Linq.Expressions;
 
@@ -27,11 +29,12 @@ namespace RookEcomShop.Infrastructure.Persistence.Repositories
 
         public override async Task<IEnumerable<Product>> GetListAsync(Expression<Func<Product, bool>>? filter, CancellationToken cancellationToken = default)
         {
-            return await _dbContext.Set<Product>()
+            return await _dbContext.Products
                 .Include(p => p.Category)
                 .Include(p => p.ProductImages)
                 .Where(filter ?? (e => true))
                 .ToListAsync(cancellationToken);
         }
+
     }
 }

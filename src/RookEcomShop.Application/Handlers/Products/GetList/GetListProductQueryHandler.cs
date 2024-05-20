@@ -1,26 +1,47 @@
-﻿using FluentResults;
+﻿using System.Linq.Expressions;
+using FluentResults;
 using MediatR;
+using RookEcomShop.Application.Common.Data;
 using RookEcomShop.Application.Common.Repositories;
+using RookEcomShop.Application.Dto;
+using RookEcomShop.Domain.Entities;
 using RookEcomShop.ViewModels.Category;
 using RookEcomShop.ViewModels.Product;
 
 namespace RookEcomShop.Application.Handlers.Products.GetList
 {
-    public class GetListProductQueryHandler : IRequestHandler<GetListProductQuery, Result<IEnumerable<ProductVM>>>
+    public class GetListProductQueryHandler : IRequestHandler<GetListProductQuery, Result<PaginatedList<ProductVM>>>
     {
         private readonly IProductRepository _productRepository;
+        private readonly IRookEcomShopDbContext _context;
 
-        public GetListProductQueryHandler(IProductRepository productRepository)
+        public GetListProductQueryHandler(IProductRepository productRepository, IRookEcomShopDbContext context)
         {
             _productRepository = productRepository;
+            _context = context;
         }
 
-        public async Task<Result<IEnumerable<ProductVM>>> Handle(GetListProductQuery query, CancellationToken cancellationToken)
+        public async Task<Result<PaginatedList<ProductVM>>> Handle(GetListProductQuery query, CancellationToken cancellationToken)
         {
-            var products = await _productRepository.GetListAsync(x => x.Name.Contains(query.SearchTerm ?? "")
-                                                                     || x.Description.Contains(query.SearchTerm ?? ""));
+            IQueryable<Product> productsQuery = _context.Products;
 
-            return Result.Ok(products.Select(p => new ProductVM
+            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+            {
+                productsQuery = productsQuery.Where(p =>
+                    p.Name.Contains(query.SearchTerm) ||
+                    p.Description.Contains(query.SearchTerm));
+            }
+
+            if (query.SortOrder?.ToLower() == "desc")
+            {
+                productsQuery = productsQuery.OrderByDescending(GetSortProperty(query));
+            }
+            else
+            {
+                productsQuery = productsQuery.OrderBy(GetSortProperty(query));
+            }
+
+            var productResponsesQuery = productsQuery.Select(p => new ProductVM
             {
                 Id = p.Id,
                 Name = p.Name,
@@ -33,7 +54,19 @@ namespace RookEcomShop.Application.Handlers.Products.GetList
                     Name = p.Category.Name
                 },
                 ImgUrls = p.ProductImages.Select(i => i.Url).ToList()
-            }));
+            });
+
+            var products = await PaginatedList<ProductVM>.CreateAsync(productResponsesQuery, query.Page, query.PageSize);
+
+            return Result.Ok(products);
         }
+
+        private static Expression<Func<Product, object>> GetSortProperty(GetListProductQuery request) =>
+       request.SortColumn?.ToLower() switch
+       {
+           "name" => product => product.Name,
+           "description" => product => product.Description,
+           _ => product => product.Id
+       };
     }
 }

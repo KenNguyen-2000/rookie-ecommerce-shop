@@ -1,11 +1,12 @@
-﻿using RookEcomShop.ViewModels.Product;
+﻿using RookEcomShop.Application.Dto;
+using RookEcomShop.ViewModels.Product;
 
 namespace RookEcomShop.CustomerFrontend.Services.Products
 {
     public interface IProductsApiClient
     {
-        Task<List<ProductVM>> GetProductsAsync();
-        Task<List<ProductVM>> GetProductsByCategoryNameAsync(string categoryName);
+        Task<PaginatedList<ProductVM>> GetProductsAsync();
+        Task<PaginatedList<ProductVM>> GetProductsByCategoryNameAsync(string categoryName);
         Task<ProductVM?> GetProductByIdAsync(int id);
     }
 }

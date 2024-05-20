@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using RookEcomShop.Application.Dto;
 using RookEcomShop.ViewModels.Api;
 using RookEcomShop.ViewModels.Product;
 
@@ -25,25 +26,25 @@ namespace RookEcomShop.CustomerFrontend.Services.Products
             return product;
         }
 
-        public async Task<List<ProductVM>> GetProductsAsync()
+        public async Task<PaginatedList<ProductVM>> GetProductsAsync()
         {
             var response = await _httpClient.GetAsync("api/v1/products");
 
             response.EnsureSuccessStatusCode();
 
             string content = await response.Content.ReadAsStringAsync();
-            var products = JsonConvert.DeserializeObject<List<ProductVM>>(content)!;
+            var products = JsonConvert.DeserializeObject<PaginatedList<ProductVM>>(content)!;
             return products;
         }
 
-        public async Task<List<ProductVM>> GetProductsByCategoryNameAsync(string categoryName)
+        public async Task<PaginatedList<ProductVM>> GetProductsByCategoryNameAsync(string categoryName)
         {
             var response = await _httpClient.GetAsync($"api/v1/products/collections/{categoryName}");
 
             response.EnsureSuccessStatusCode();
 
             string content = await response.Content.ReadAsStringAsync();
-            var products = JsonConvert.DeserializeObject<List<ProductVM>>(content)!;
+            var products = JsonConvert.DeserializeObject<PaginatedList<ProductVM>>(content)!;
             return products;
         }
     }

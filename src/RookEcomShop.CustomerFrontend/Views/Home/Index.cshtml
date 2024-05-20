@@ -2,7 +2,7 @@
 @model HomeViewModel;
 @{
     ViewData["Title"] = "Home Page";
-    var products = @Model.Products;
+    var products = @Model.ProductDatas;
 }
 
 <div class="min-h-screen bg-white">
@@ -11,10 +11,10 @@
         @* <h2 class="text-2xl font-bold tracking-tight text-gray-900">Customers also purchased</h2> *@
 
         <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-            @if (@Model.Products.Count > 0)
+            @if (products != null && products.Items.Count() > 0)
             {
 
-                @foreach (var product in products)
+                @foreach (var product in products.Items)
                 {
                     <vc:product-card product="product"></vc:product-card>
                 }
@@ -34,5 +34,5 @@
 @section Scripts {
     <script type="script" src="./Index.cshtml.js">
 
-                                    </script>
+                                        </script>
 }
