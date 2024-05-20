@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using RookEcomShop.Application.Common.Behaviors;
+using RookEcomShop.Application.Common.Helpers;
 using RookEcomShop.Application.Services;
 using System.Reflection;
 
@@ -22,6 +23,7 @@ namespace RookEcomShop.Application
                 typeof(IPipelineBehavior<,>),
                 typeof(ValidationBehavior<,>));
 
+            services.AddScoped<UserContext>();
             services.AddScoped<IFileStorageService, FileStorageService>();
 
             services
