@@ -8,8 +8,7 @@ builder.Services.AddRazorPages();
 builder.Services
     .AddInfrastructure(builder.Configuration);
 
-builder.AddConfigIdentityServices();
-
+builder.MapInfrastructure();
 
 //builder.Services.AddAuthentication()
 //    .AddGoogle(options =>
@@ -34,6 +33,7 @@ else
 {
     app.UseExceptionHandler("/Home/Error");
 }
+
 
 app.UseStaticFiles();
 
