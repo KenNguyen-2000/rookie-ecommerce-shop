@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.CustomerFrontend.Services.Categories;
 using RookEcomShop.CustomerFrontend.Services.Products;
@@ -43,7 +44,23 @@ namespace RookEcomShop.CustomerFrontend.Controllers
                 return NotFound();
             }
 
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            ViewBag.AccessToken = accessToken;
+
             return View(product);
+        }
+
+        [HttpPost("{id}")]
+        public async Task<IActionResult> AddToCart(int id)
+        {
+            _logger.LogInformation("Add product to cart");
+            var product = await _productsApiClient.GetProductByIdAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return Redirect("/cart");
         }
     }
 }

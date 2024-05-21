@@ -27,12 +27,12 @@ public class HomeController : Controller
         _categoriesApiClient = categoriesApiClient;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index([FromQuery] QueryDto queryDto)
     {
         _logger.LogInformation(CategoryName);
         PaginatedList<ProductVM> products;
         if (CategoryName != null)
-            products = await _productsApiClient.GetProductsByCategoryNameAsync(CategoryName);
+            products = await _productsApiClient.GetProductsByCategoryNameAsync(CategoryName, queryDto);
         else
             products = await _productsApiClient.GetProductsAsync();
         ViewData["Categories"] = await _categoriesApiClient.GetCategoriesAsync();

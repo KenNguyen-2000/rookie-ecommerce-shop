@@ -33,11 +33,12 @@ namespace RookEcomShop.CustomerFrontend.Controllers
             return View(productsInCart);
         }
 
-        [HttpPost("add-to-cart/{productId}")]
+        [HttpPost("{productId}")]
         public async Task<IActionResult> AddToCart(int productId)
         {
+            Console.WriteLine(productId);
             var product = await _productsApiClient.GetProductByIdAsync(productId);
-            return Redirect("/cart");
+            return Ok(product);
         }
     }
 }
