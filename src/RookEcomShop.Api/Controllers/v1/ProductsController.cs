@@ -49,7 +49,7 @@ namespace RookEcomShop.Api.Controllers.v1
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetProducts([FromQuery] QueryDto queryDto)
+        public async Task<IActionResult> GetProducts([FromQuery] QueryDto? queryDto)
         {
             var query = new GetListProductQuery(queryDto);
 
@@ -62,22 +62,12 @@ namespace RookEcomShop.Api.Controllers.v1
         [HttpGet("collections/{categoryName}")]
         public async Task<IActionResult> GetProductsByCategoryId(
             string categoryName,
-            string? searchTerm,
-            string? sortOrder,
-            string? sortColumn,
-            int page = 1,
-            int pageSize = 10)
+            [FromQuery] QueryDto queryDto)
         {
             var query = new GetProductsByCategoryNameQuery
             {
                 CategoryName = categoryName,
-                QueryObject = {
-                    SearchTerm = searchTerm,
-                    SortOrder = sortOrder,
-                    SortColumn = sortColumn,
-                    Page = page,
-                    PageSize = pageSize
-                }
+                QueryObject = queryDto
             };
 
             var result = await _sender.Send(query);
