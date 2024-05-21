@@ -1,0 +1,108 @@
+@await Html.PartialAsync("~/Views/Shared/Sections/_Variables.cshtml")
+@{
+  TempData.Keep();
+
+
+
+
+
+
+
+  Layout = "~/Views/Shared/Layouts/_CommonLayout.cshtml";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ViewData["contentNavbar"] = true;
+
+  @* Display elements *@
+  ViewData["isNavbar"] = (ViewData["isNavbar"] ??= true);
+
+
+
+
+
+
+
+  ViewData["isMenu"] = (ViewData["isMenu"] ??= true);
+
+
+
+
+
+
+
+  ViewData["isFlex"] = (ViewData["isFlex"] ??= false);
+
+
+
+
+
+
+
+  ViewData["isFooter"] = (ViewData["isFooter"] ??= true);
+
+
+
+
+
+
+
+  ViewData["customizerHidden"] = (ViewData["customizerHidden"] ??= "customizer-hide");
+
+
+  @* HTML Classes *@
+  ViewData["navbarDetached"] = (ViewData["navbarDetached"] ?? "navbar-detached");
+
+  @* Content classes *@
+  ViewData["container"] = (ViewData["container"] ?? "container-xxl");
+
+
+
+
+
+
+
+  ViewData["containerNav"] = (ViewData["containerNav"] ?? "container-xxl");
+}
+
+@section VendorStyles {
+  @RenderSection("VendorStyles", required: false)
+}
+
+@section PageStyles {
+  @RenderSection("PageStyles", required: false)
+}
+
+@section VendorScripts {
+  @RenderSection("VendorScripts", required: false)
+}
+
+@section PageScripts {
+  @RenderSection("PageScripts", required: false)
+}
+
+<partial name="~/Views/Shared/Partials/_Sidebar.cshtml"></partial>
+<div class="flex-1 flex flex-col min-h-screen">
+
+  <partial name="~/Views/Shared/Partials/_Header.cshtml"></partial>
+
+  <div class="flex-1">
+    <main role="main" class="container mx-auto p-4 md:p-6">
+      @RenderBody()
+    </main>
+  </div>
+
+  <partial name="~/Views/Shared/Partials/_Footer.cshtml"></partial>
+</div>

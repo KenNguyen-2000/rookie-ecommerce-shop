@@ -8,19 +8,11 @@ $(function () {
   $('#user-menu-button').on('click', () => {
     var userMenu = $('[aria-labelledby="user-menu-button"]');
     if (userMenu.hasClass('invisible')) {
-      userMenu.removeClass(
-        'transition ease-out duration-100 transform opacity-0 scale-95 invisible'
-      );
-      userMenu.addClass(
-        'transition ease-in duration-75 transform opacity-100 scale-100'
-      );
+      userMenu.removeClass('transition ease-out duration-100 transform opacity-0 scale-95 invisible');
+      userMenu.addClass('transition ease-in duration-75 transform opacity-100 scale-100');
     } else {
-      userMenu.removeClass(
-        'transition ease-in duration-75 transform opacity-100 scale-100'
-      );
-      userMenu.addClass(
-        'transition ease-out duration-100 transform opacity-0 scale-95'
-      );
+      userMenu.removeClass('transition ease-in duration-75 transform opacity-100 scale-100');
+      userMenu.addClass('transition ease-out duration-100 transform opacity-0 scale-95');
       setTimeout(() => {
         userMenu.addClass('invisible');
       }, 100);
@@ -54,9 +46,7 @@ $(function () {
 
   function toggleFlyout() {
     if ($(this).hasClass('invisible')) {
-      $(this).removeClass(
-        'transition ease-in duration-150 opacity-0 invisible'
-      );
+      $(this).removeClass('transition ease-in duration-150 opacity-0 invisible');
       $(this).addClass('transition ease-out duration-200 opacity-100');
     } else {
       $(this).removeClass('transition ease-out duration-200 opacity-100');
