@@ -5,6 +5,12 @@
     var products = @Model.ProductDatas;
 }
 
+@section PageScripts {
+    <script type="script" src="./Index.cshtml.js">
+
+                                                                                </script>
+}
+
 <div class="min-h-screen bg-white">
     <div class="mx-auto max-w-2xl px-4 lg:max-w-7xl">
         <h1 class="text-4xl font-semibold mb-6">Product list</h1>
@@ -30,9 +36,3 @@
     </div>
 
 </div>
-
-@section Scripts {
-    <script type="script" src="./Index.cshtml.js">
-
-                                                                        </script>
-}
