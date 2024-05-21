@@ -16,12 +16,17 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Register
         [FromQuery]
         public string? ReturnUrl { get; set; }
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
         private readonly SignInManager<User> _signInManager;
 
-        public IndexModel(UserManager<User> userManager, SignInManager<User> signInManager)
+        public IndexModel(
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            RoleManager<IdentityRole<int>> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         public IActionResult OnGet()
@@ -56,6 +61,8 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Register
                 }
                 return await Task.FromResult<IActionResult>(Page());
             }
+
+            await _userManager.AddToRoleAsync(newUser, "Buyer");
 
             result = _userManager.AddClaimsAsync(newUser, new Claim[]{
                             new Claim(JwtClaimTypes.Name, newUser.FirstName + " " + newUser.LastName),

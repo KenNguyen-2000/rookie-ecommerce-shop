@@ -33,7 +33,7 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Logout
         /// <summary>
         /// Show logout page
         /// </summary>
-        public async Task<IActionResult> OnGet(string logoutId)
+        public async Task<IActionResult> OnGet(string logoutId, string? returnUrl)
         {
             var vm = await BuildLoggedOutViewModelAsync(logoutId);
 
@@ -58,6 +58,10 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Logout
                 return SignOut(new AuthenticationProperties { RedirectUri = url }, vm.ExternalAuthenticationScheme);
             }
 
+            if (returnUrl != null)
+            {
+                return Redirect(returnUrl);
+            }
 
 
             return Redirect("~/Account/Login");
