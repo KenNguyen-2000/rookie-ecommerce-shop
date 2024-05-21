@@ -50,6 +50,7 @@ namespace RookEcomShop.Infrastructure.Extensions.IdentityServer
                 .AddInMemoryClients(IdentityServerConfig.Clients(clientUrls))
                 .AddAspNetIdentity<User>();
 
+
             // not recommended for production - you need to store your key material somewhere secure
             if (builder.Environment.IsDevelopment()) identityBuilderService.AddDeveloperSigningCredential();
 

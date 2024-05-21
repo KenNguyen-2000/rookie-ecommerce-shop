@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RookEcomShop.Application.Dto;
 using RookEcomShop.Application.Handlers.Products.Create;
 using RookEcomShop.Application.Handlers.Products.DeleteById;
 using RookEcomShop.Application.Handlers.Products.GetByCategoryName;
@@ -26,6 +27,7 @@ namespace RookEcomShop.Api.Controllers.v1
             _sender = sender;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromForm] CreateProductRequest product)
         {
@@ -47,14 +49,9 @@ namespace RookEcomShop.Api.Controllers.v1
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetProducts(
-            string? searchTerm,
-            string? sortOrder,
-            string? sortColumn,
-            int page = 1,
-            int pageSize = 10)
+        public async Task<IActionResult> GetProducts([FromQuery] QueryDto queryDto)
         {
-            var query = new GetListProductQuery(searchTerm, sortOrder, sortColumn, page, pageSize);
+            var query = new GetListProductQuery(queryDto);
 
             var result = await _sender.Send(query);
 
@@ -74,11 +71,13 @@ namespace RookEcomShop.Api.Controllers.v1
             var query = new GetProductsByCategoryNameQuery
             {
                 CategoryName = categoryName,
-                SearchTerm = searchTerm,
-                SortOrder = sortOrder,
-                SortColumn = sortColumn,
-                Page = page,
-                PageSize = pageSize
+                QueryObject = {
+                    SearchTerm = searchTerm,
+                    SortOrder = sortOrder,
+                    SortColumn = sortColumn,
+                    Page = page,
+                    PageSize = pageSize
+                }
             };
 
             var result = await _sender.Send(query);
@@ -96,6 +95,7 @@ namespace RookEcomShop.Api.Controllers.v1
             return Ok(result.Value);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
@@ -106,6 +106,7 @@ namespace RookEcomShop.Api.Controllers.v1
 
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPatch("{id}/status")]
         public async Task<IActionResult> UpdateProductStatus(int id, [FromQuery] ProductStatus status)
         {
@@ -116,6 +117,7 @@ namespace RookEcomShop.Api.Controllers.v1
             return Ok("Update product status successfully!");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProductById(int id, [FromForm] UpdateProductRequest updateProductRequest)
         {

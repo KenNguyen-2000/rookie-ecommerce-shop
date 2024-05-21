@@ -31,7 +31,7 @@ namespace RookEcomShop.Api.Middlewares
                     {
                         throw new NotFoundException("Cannot find user with the provided id.");
                     }
-                    var email = result.Value.Email;
+                    var email = result.Value.Email!;
                     userContext.SetContext(userId, email, 2);
                 }
 

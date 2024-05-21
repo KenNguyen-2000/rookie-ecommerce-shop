@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.Application.Handlers.Categories.Create;
 using RookEcomShop.Application.Handlers.Categories.GetList;
@@ -7,6 +8,7 @@ using RookEcomShop.ViewModels.Category;
 
 namespace RookEcomShop.Api.Controllers.v1
 {
+    [Authorize]
     [Route("api/v1/categories")]
     [ApiController]
     public class CategoriesController : ControllerBase
@@ -18,6 +20,7 @@ namespace RookEcomShop.Api.Controllers.v1
             _sender = sender;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetCategories()
         {
@@ -27,6 +30,7 @@ namespace RookEcomShop.Api.Controllers.v1
             return Ok(result.Value);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryRequest createCategoryRequest)
         {

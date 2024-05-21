@@ -1,4 +1,5 @@
-﻿using IdentityServer4;
+﻿using IdentityModel;
+using IdentityServer4;
 using IdentityServer4.Models;
 
 namespace RookEcomShop.Infrastructure.Extensions.IdentityServer
@@ -10,11 +11,14 @@ namespace RookEcomShop.Infrastructure.Extensions.IdentityServer
                    {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+                new IdentityResource(
+         name: "roles",
+         userClaims: new[] {JwtClaimTypes.Role})
                    };
         public static IEnumerable<ApiResource> ApiResources =>
             new List<ApiResource>
             {
-                new ApiResource("rookEcomShop.api", "RookEcomShop Api") {Scopes = {"rookEcomShop.api"}}
+                new ApiResource("rookEcomShop.api", "RookEcomShop Api") {Scopes = {"rookEcomShop.api"}, UserClaims = {JwtClaimTypes.Role}}
             };
 
 
@@ -45,7 +49,10 @@ namespace RookEcomShop.Infrastructure.Extensions.IdentityServer
 
                     AllowedScopes = new List<string>
                     {
-                        "rookEcomShop.api"
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "rookEcomShop.api",
+                        "roles"
                     }
                 },
                  new Client
@@ -65,7 +72,9 @@ namespace RookEcomShop.Infrastructure.Extensions.IdentityServer
                     {
                          IdentityServerConstants.StandardScopes.OpenId,
                          IdentityServerConstants.StandardScopes.Profile,
-                         "rookEcomShop.api"
+                         "rookEcomShop.api",
+                        "roles"
+
                     }
                 },
 

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RookEcomShop.Application.Common.Helpers;
 using RookEcomShop.Application.Handlers.Carts.AddProduct;
 using RookEcomShop.Application.Handlers.Carts.GetProducts;
 using RookEcomShop.Application.Handlers.Carts.RemoveProduct;
@@ -14,11 +15,13 @@ namespace RookEcomShop.Api.Controllers.v1
     [ApiController]
     public class CartController : ControllerBase
     {
+        private readonly UserContext userContext;
         private readonly ISender _sender;
 
-        public CartController(ISender sender)
+        public CartController(ISender sender, UserContext userContext)
         {
             _sender = sender;
+            this.userContext = userContext;
         }
 
         [HttpGet("products")]
@@ -26,7 +29,7 @@ namespace RookEcomShop.Api.Controllers.v1
         {
             var query = new GetProductsFromCartQuery();
             var result = await _sender.Send(query);
-            return Ok(new Response<CartDetailVM>(datas: result.Value, "Get products in cart succeeded"));
+            return Ok(result.Value);
         }
 
         [HttpPost("products/add")]
@@ -44,11 +47,10 @@ namespace RookEcomShop.Api.Controllers.v1
         [HttpDelete("products/remove")]
         public async Task<IActionResult> RemoveProductFromCart([FromBody] RemoveProductFromCartRequest request)
         {
-            var userContext = 2;
             var command = new RemoveProductCommand
             {
                 ProductId = request.ProductId,
-                UserId = userContext
+                UserId = userContext.UserId
             };
 
             await _sender.Send(command);

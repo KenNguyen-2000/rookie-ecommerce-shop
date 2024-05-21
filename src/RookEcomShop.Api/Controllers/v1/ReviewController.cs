@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RookEcomShop.Api.Controllers.v1
 {
+    [Authorize]
     [Route("api/v1/products{productId}/reviews")]
     [ApiController]
     public class ReviewController : ControllerBase
