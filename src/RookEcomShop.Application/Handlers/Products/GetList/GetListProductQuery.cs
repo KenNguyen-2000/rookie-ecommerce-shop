@@ -6,9 +6,5 @@ using RookEcomShop.ViewModels.Product;
 namespace RookEcomShop.Application.Handlers.Products.GetList
 {
     public record GetListProductQuery(
-        string? SearchTerm,
-        string? SortColumn,
-        string? SortOrder,
-        int Page,
-        int PageSize) : IRequest<Result<PaginatedList<ProductVM>>>;
+        QueryDto QueryObject) : IRequest<Result<PaginatedList<ProductVM>>>;
 }

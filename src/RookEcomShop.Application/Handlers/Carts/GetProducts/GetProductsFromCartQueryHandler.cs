@@ -59,18 +59,21 @@ namespace RookEcomShop.Application.Handlers.Carts.GetProducts
             return cart.CartDetails.Select(x => new CartDetailVM
             {
                 Id = x.Id,
-                ProductId = x.Product.Id,
-                Description = x.Product.Description,
-                Name = x.Product.Name,
-                Price = x.Product.Price,
                 Quantity = x.Quantity,
-                Category = new CategoryVM
+                Product = new ProductVM
                 {
-                    Id = x.Product.Category.Id,
-                    Name = x.Product.Category.Name,
-                    Description = x.Product.Category.Description
-                },
-                ImgUrls = x.Product.ProductImages.Select(pI => pI.Url)
+                    Id = x.Product.Id,
+                    Description = x.Product.Description,
+                    Name = x.Product.Name,
+                    Price = x.Product.Price,
+                    Category = new CategoryVM
+                    {
+                        Id = x.Product.Category.Id,
+                        Name = x.Product.Category.Name,
+                        Description = x.Product.Category.Description
+                    },
+                    ImgUrls = x.Product.ProductImages.Select(pI => pI.Url)
+                }
             });
         }
     }

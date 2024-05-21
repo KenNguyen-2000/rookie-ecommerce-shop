@@ -23,14 +23,14 @@ namespace RookEcomShop.Application.Handlers.Products.GetList
         {
             IQueryable<Product> productsQuery = _context.Products;
 
-            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+            if (!string.IsNullOrWhiteSpace(query.QueryObject.SearchTerm))
             {
                 productsQuery = productsQuery.Where(p =>
-                    p.Name.Contains(query.SearchTerm) ||
-                    p.Description.Contains(query.SearchTerm));
+                    p.Name.Contains(query.QueryObject.SearchTerm) ||
+                    p.Description.Contains(query.QueryObject.SearchTerm));
             }
 
-            if (query.SortOrder?.ToLower() == "desc")
+            if (query.QueryObject.SortOrder?.ToLower() == "desc")
             {
                 productsQuery = productsQuery.OrderByDescending(GetSortProperty(query));
             }
@@ -54,13 +54,13 @@ namespace RookEcomShop.Application.Handlers.Products.GetList
                 ImgUrls = p.ProductImages.Select(i => i.Url).ToList()
             });
 
-            var products = await PaginatedList<ProductVM>.CreateAsync(productResponsesQuery, query.Page, query.PageSize);
+            var products = await PaginatedList<ProductVM>.CreateAsync(productResponsesQuery, query.QueryObject.Page, query.QueryObject.PageSize);
 
             return Result.Ok(products);
         }
 
         private static Expression<Func<Product, object>> GetSortProperty(GetListProductQuery request) =>
-       request.SortColumn?.ToLower() switch
+       request.QueryObject.SortColumn?.ToLower() switch
        {
            "name" => product => product.Name,
            "description" => product => product.Description,
