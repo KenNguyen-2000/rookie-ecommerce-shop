@@ -8,12 +8,16 @@ namespace RookEcomShop.CustomerFrontend.Controllers
     {
         public IActionResult SignIn()
         {
-            return Challenge(new AuthenticationProperties { RedirectUri = "/" }, "oidc");
+            return Challenge(new AuthenticationProperties { RedirectUri = "/products" }, "oidc");
         }
 
-        public IActionResult Logout()
+        public IActionResult Logout(string returnUrl = "/")
         {
-            return SignOut(new AuthenticationProperties { RedirectUri = "/" }, "Cookies", "oidc");
+            var properties = new AuthenticationProperties
+            {
+                RedirectUri = Url.Action("LoggedOut", "Account", new { returnUrl })
+            };
+            return SignOut(properties, "Cookies", "oidc");
         }
 
         [Authorize]
