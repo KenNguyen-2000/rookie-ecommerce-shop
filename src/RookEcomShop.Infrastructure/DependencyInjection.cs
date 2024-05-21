@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,7 @@ using RookEcomShop.Domain.Entities;
 using RookEcomShop.Infrastructure.Extensions.Authentication;
 using RookEcomShop.Infrastructure.Extensions.Cors;
 using RookEcomShop.Infrastructure.Extensions.IdentityServer;
+using RookEcomShop.Infrastructure.Extensions.Swagger;
 using RookEcomShop.Infrastructure.Persistence;
 using RookEcomShop.Infrastructure.Persistence.Repositories;
 using RookEcomShop.Infrastructure.Services;
@@ -21,17 +23,30 @@ namespace RookEcomShop.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
+            var JwtSettings = new JwtSettings();
+            configuration.Bind(JwtSettings.SectionName, JwtSettings);
+
+            services.AddSingleton(Options.Create(JwtSettings));
+            services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+
+            services.ConfigureAuthentication(configuration);
+            services.AddSwaggerConfig();
+            services.ConfigureCors();
+
 
             services
                 .AddAuth(configuration)
                 .AddPersistence(configuration);
 
-
-            services
-                .ConfigureCors();
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
             return services;
+        }
+
+        public static void MapInfrastructure(this WebApplicationBuilder builder)
+        {
+            builder.AddConfigIdentityServices();
+            builder.Services.AddScoped<IProfileService, ProfileService>();
         }
 
         private static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
@@ -51,12 +66,6 @@ namespace RookEcomShop.Infrastructure
 
             services.AddControllersWithViews();
 
-            //services
-            //    .AddIdentity<User, IdentityRole<int>>()
-            //    .AddEntityFrameworkStores<RookEcomShopDbContext>();
-
-            //services.AddConfigIdentityServices(configuration);
-
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IRookEcomShopDbContext>(sp =>
                     sp.GetRequiredService<RookEcomShopDbContext>());
@@ -66,20 +75,13 @@ namespace RookEcomShop.Infrastructure
             services.AddScoped<ICartRepository, CartRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
 
-            //SeedData.EnsureSeedData(connectionString);
-
             return services;
         }
 
         private static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration)
         {
-            var JwtSettings = new JwtSettings();
-            configuration.Bind(JwtSettings.SectionName, JwtSettings);
 
-            services.AddSingleton(Options.Create(JwtSettings));
-            services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
 
-            //services.ConfigureAuthentication(configuration);
 
             return services;
         }

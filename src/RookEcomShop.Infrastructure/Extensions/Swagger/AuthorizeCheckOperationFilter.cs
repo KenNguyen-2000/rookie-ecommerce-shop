@@ -2,7 +2,7 @@
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace RookEcomShop.Api.Extensions
+namespace RookEcomShop.Infrastructure.Extensions.Swagger
 {
     public class AuthorizeCheckOperationFilter : IOperationFilter
     {
@@ -29,7 +29,7 @@ namespace RookEcomShop.Api.Extensions
                                     Id = "oauth2",
                                 }
                             }
-                        ] = new[] { "rookEcomShop.api" }
+                        ] = new[] { "rookEcomShop.api", "roles" }
                     }
                 };
 

@@ -1,32 +1,25 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
+<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>2972c7a7-30ab-4890-9c2e-3178455edbff</UserSecretsId>
   </PropertyGroup>
-
   <ItemGroup>
-    <Content Remove="wwwroot\uploads\502bf158-09da-467c-a50e-d7152c16c0df.jpg" />
-    <Content Remove="wwwroot\uploads\6d464c49-b7e9-4cee-b7f8-efa9aaceeff0.jpg" />
+    <Content Remove="wwwroot\uploads\502bf158-09da-467c-a50e-d7152c16c0df.jpg"/>
+    <Content Remove="wwwroot\uploads\6d464c49-b7e9-4cee-b7f8-efa9aaceeff0.jpg"/>
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.2" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.2"/>
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.6.1"/>
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\RookEcomShop.Application\RookEcomShop.Application.csproj" />
-    <ProjectReference Include="..\RookEcomShop.Infrastructure\RookEcomShop.Infrastructure.csproj" />
-    <ProjectReference Include="..\RookEcomShop.ViewModels\RookEcomShop.ViewModels.csproj" />
+    <ProjectReference Include="..\RookEcomShop.Application\RookEcomShop.Application.csproj"/>
+    <ProjectReference Include="..\RookEcomShop.Infrastructure\RookEcomShop.Infrastructure.csproj"/>
+    <ProjectReference Include="..\RookEcomShop.ViewModels\RookEcomShop.ViewModels.csproj"/>
   </ItemGroup>
-
   <ItemGroup>
-    <None Include="wwwroot\uploads\502bf158-09da-467c-a50e-d7152c16c0df.jpg" />
-    <None Include="wwwroot\uploads\6d464c49-b7e9-4cee-b7f8-efa9aaceeff0.jpg" />
+    <None Include="wwwroot\uploads\502bf158-09da-467c-a50e-d7152c16c0df.jpg"/>
+    <None Include="wwwroot\uploads\6d464c49-b7e9-4cee-b7f8-efa9aaceeff0.jpg"/>
   </ItemGroup>
-
 </Project>

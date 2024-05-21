@@ -1,13 +1,10 @@
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 using RookEcomShop.Api;
-using RookEcomShop.Api.Extensions.Configurations;
 using RookEcomShop.Api.Middlewares;
 using RookEcomShop.Application;
-using RookEcomShop.Domain.Entities;
 using RookEcomShop.Infrastructure;
 using RookEcomShop.Infrastructure.Extensions.GlobalExceptonHandler;
-using RookEcomShop.Infrastructure.Extensions.IdentityServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,9 +24,10 @@ builder.Services
     .AddDirectoryBrowser();
 
 
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerConfiguration();
+
 
 var app = builder.Build();
 
@@ -71,6 +69,7 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.UseRouting();
 app.UseCors("RookEcomShop");
+
 
 app.UseAuthentication();
 

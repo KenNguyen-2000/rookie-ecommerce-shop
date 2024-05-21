@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.IdentityModel.Tokens.Jwt;
+using IdentityModel;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace RookEcomShop.Infrastructure.Extensions.Authentication
 {
@@ -13,23 +14,29 @@ namespace RookEcomShop.Infrastructure.Extensions.Authentication
             var JwtSettings = new JwtSettings();
             configuration.Bind(JwtSettings.SectionName, JwtSettings);
 
-            services
-                .AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-                .AddJwtBearer("Bearer", jwtBearerOptions =>
-                {
-                    jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
+            services.AddAuthentication("Bearer")
+                    .AddJwtBearer("Bearer", options =>
                     {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSettings.Secret)),
-                        ValidateIssuer = true,
-                        ValidIssuer = configuration["JwtSettings:Issuer"],
-                        ValidateAudience = true,
-                        ValidAudience = configuration["JwtSettings:Audience"],
-                        ValidateLifetime = true,
-                        ClockSkew = TimeSpan.Zero
-                    };
+                        options.Audience = "rookEcomShop.api"; //api resource name
+                        options.Authority = configuration["IdentityServer:Authority"];
+                        options.RequireHttpsMetadata = false;
+                    });
+
+            services.AddAuthorization(option =>
+            {
+                option.AddPolicy("ApiScope", policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireClaim("scope", "rookEcomShop.api");
                 });
+                option.AddPolicy("Admin", policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireRole("Admin");
+                });
+            });
         }
     }
 }

@@ -1,10 +1,11 @@
-﻿using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 
-namespace RookEcomShop.Api.Extensions.Configurations
+namespace RookEcomShop.Infrastructure.Extensions.Swagger
 {
-    public static class SwaggerConfiguration
+    public static class SwaggerExtension
     {
-        public static void AddSwaggerConfiguration(this IServiceCollection services)
+        public static void AddSwaggerConfig(this IServiceCollection services)
         {
             services.AddSwaggerGen(option =>
             {
@@ -21,14 +22,15 @@ namespace RookEcomShop.Api.Extensions.Configurations
                             TokenUrl = new Uri("https://localhost:7280/connect/token"),
                             Scopes = new Dictionary<string, string>
                             {
-                                {"rookEcomShop.api", "RookEcomShop Api"}
+                                {"rookEcomShop.api", "RookEcomShop Api"},
                             }
                         }
                     }
                 });
 
+
                 option.OperationFilter<AuthorizeCheckOperationFilter>();
             });
         }
-     }
+    }
 }
