@@ -1,17 +1,37 @@
 ﻿@using RookEcomShop.ViewModels.Product
 @model List<ProductVM>
 @{
-    ViewData["Title"] = "Products Page";
-    var productList = (ViewData["Products"] as List<ProductVM>)!;
+  ViewData["Title"] = "Products Page";
+
+
+
+
+
+
+
+  var productList = (ViewData["Products"] as List<ProductVM>)!;
 }
 
 <ul class="bg-bl">
-    @foreach (var product in productList)
-    {
-        <li>
-            <a href="@Url.Action("Details", "Products", new { id = product.Id })">
-                @product.Name
-            </a>
-        </li>
-    }
+  @foreach (var product in productList)
+
+
+
+
+
+
+
+  {
+    <li>
+      <a href="@Url.Action("Details", "Products", new { id = product.Id })">
+        @product.Name
+      </a>
+    </li>
+  }
 </ul>
+
+@section PageScripts {
+  <script type="text/javascript">
+    alert("Hello")
+  </script>
+}
