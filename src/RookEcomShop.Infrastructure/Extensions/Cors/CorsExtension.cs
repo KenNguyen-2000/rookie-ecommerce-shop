@@ -14,7 +14,7 @@ namespace RookEcomShop.Infrastructure.Extensions.Cors
                         //.WithOrigins("https://rook-ecom-shop.vercel.app", "http://localhost:3000")
                         //.SetIsOriginAllowedToAllowWildcardSubdomains()
                         //.AllowCredentials()
-                        .AllowAnyOrigin()
+                        .WithOrigins("https://localhost:7019", "http://localhost:3000", "https://localhost:7280")
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });
