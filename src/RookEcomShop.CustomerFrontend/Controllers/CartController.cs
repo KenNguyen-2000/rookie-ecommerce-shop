@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RookEcomShop.CustomerFrontend.Services.Cart;
 using RookEcomShop.CustomerFrontend.Services.Products;
+using RookEcomShop.Domain.Entities;
+using RookEcomShop.ViewModels.Cart;
 
 namespace RookEcomShop.CustomerFrontend.Controllers
 {
@@ -10,16 +13,24 @@ namespace RookEcomShop.CustomerFrontend.Controllers
     {
         private readonly ILogger<CartController> _logger;
         private readonly IProductsApiClient _productsApiClient;
+        private readonly ICartApiClient _cartApiClient;
 
-        public CartController(IProductsApiClient productsApiClient, ILogger<CartController> logger)
+        public CartController(
+            IProductsApiClient productsApiClient,
+            ILogger<CartController> logger,
+            ICartApiClient cartApiClient)
         {
             _logger = logger;
             _productsApiClient = productsApiClient;
+            _cartApiClient = cartApiClient;
         }
 
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
         {
-            return View();
+            ViewData["Title"] = "Cart";
+            IEnumerable<CartDetailVM> productsInCart = await _cartApiClient.GetProductsInCart();
+            return View(productsInCart);
         }
 
         [HttpPost("add-to-cart/{productId}")]

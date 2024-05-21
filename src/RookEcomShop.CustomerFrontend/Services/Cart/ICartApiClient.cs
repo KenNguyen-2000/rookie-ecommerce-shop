@@ -5,6 +5,6 @@ namespace RookEcomShop.CustomerFrontend.Services.Cart
 {
     public interface ICartApiClient
     {
-        Task<List<CartDetailVM>> GetProductsInCart();
+        Task<IEnumerable<CartDetailVM>> GetProductsInCart();
     }
 }

@@ -13,15 +13,23 @@ namespace RookEcomShop.CustomerFrontend.Services.Cart
             _httpClient.BaseAddress = new Uri("https://localhost:7181/api/v1/");
         }
 
-        public async Task<List<CartDetailVM>> GetProductsInCart()
+        public async Task<IEnumerable<CartDetailVM>> GetProductsInCart()
         {
-            var response = await _httpClient.GetAsync("carts/products");
+            try
+            {
+                var response = await _httpClient.GetAsync("carts/products");
 
-            response.EnsureSuccessStatusCode();
+                response.EnsureSuccessStatusCode();
 
-            string content = await response.Content.ReadAsStringAsync();
-            var productsInCart = JsonConvert.DeserializeObject<List<CartDetailVM>>(content)!;
-            return (dynamic)productsInCart;
+                string content = await response.Content.ReadAsStringAsync();
+                var productsInCart = JsonConvert.DeserializeObject<IEnumerable<CartDetailVM>>(content)!;
+                return (dynamic)productsInCart;
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
         }
     }
 }
