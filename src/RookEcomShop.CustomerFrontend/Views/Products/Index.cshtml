@@ -5,22 +5,11 @@
 
 
 
-
-
-
-
   var productList = (ViewData["Products"] as List<ProductVM>)!;
 }
 
 <ul class="bg-bl">
   @foreach (var product in productList)
-
-
-
-
-
-
-
   {
     <li>
       <a href="@Url.Action("Details", "Products", new { id = product.Id })">
@@ -33,5 +22,5 @@
 @section PageScripts {
   <script type="text/javascript">
     alert("Hello")
-  </script>
+    </script>
 }

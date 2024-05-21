@@ -38,6 +38,10 @@ namespace RookEcomShop.CustomerFrontend.Controllers
         {
             Console.WriteLine(productId);
             var product = await _productsApiClient.GetProductByIdAsync(productId);
+            if (product == null)
+            {
+                return NotFound();
+            }
             return Ok(product);
         }
     }
