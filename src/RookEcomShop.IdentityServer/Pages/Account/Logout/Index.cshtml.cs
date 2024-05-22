@@ -58,13 +58,13 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Logout
                 return SignOut(new AuthenticationProperties { RedirectUri = url }, vm.ExternalAuthenticationScheme);
             }
 
-            if (returnUrl != null)
+            if (vm.PostLogoutRedirectUri != null)
             {
-                return Redirect(returnUrl);
+                return Redirect(vm.PostLogoutRedirectUri);
             }
 
 
-            return Redirect("~/Account/Login");
+            return Redirect($"~/Account/Login");
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Logout
                 LogoutId = logoutId
             };
 
-            if (User?.Identity.IsAuthenticated == true)
+            if (User?.Identity?.IsAuthenticated == true)
             {
                 var idp = User.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
                 if (idp != null && idp != IdentityServer4.IdentityServerConstants.LocalIdentityProvider)

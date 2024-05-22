@@ -24,10 +24,7 @@ namespace RookEcomShop.Infrastructure.Extensions.IdentityServer
 
             builder.Services.AddControllersWithViews();
 
-            //services.AddDbContext<RookEcomShopDbContext>(options =>
-            //    options.UseSqlServer(connectionString));
 
-            SeedData.EnsureSeedData(connectionString);
             builder.Services
                 .AddIdentity<User, IdentityRole<int>>()
                 .AddEntityFrameworkStores<RookEcomShopDbContext>()

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using RookEcomShop.Domain.Entities;
 
 namespace RookEcomShop.CustomerFrontend.Controllers
 {
@@ -8,16 +10,12 @@ namespace RookEcomShop.CustomerFrontend.Controllers
     {
         public IActionResult SignIn()
         {
-            return Challenge(new AuthenticationProperties { RedirectUri = "/products" }, "oidc");
+            return Challenge(new AuthenticationProperties { RedirectUri = "/" }, "oidc");
         }
 
-        public IActionResult Logout(string returnUrl = "/")
+        public IActionResult Logout()
         {
-            var properties = new AuthenticationProperties
-            {
-                RedirectUri = Url.Action("LoggedOut", "Account", new { returnUrl })
-            };
-            return SignOut(properties, "Cookies", "oidc");
+            return SignOut(new AuthenticationProperties { RedirectUri = "/" }, "Cookies", "oidc");
         }
 
         [Authorize]
