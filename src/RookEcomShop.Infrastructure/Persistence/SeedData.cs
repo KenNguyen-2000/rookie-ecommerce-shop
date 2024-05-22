@@ -36,7 +36,7 @@ namespace RookEcomShop.Infrastructure.Persistence
                     CreateRoles(roleManager, out adminRole, out buyerRole);
 
                     await CreateAliceUser(userMgr, buyerRole!);
-                    await CreateBobUser(userMgr, adminRole!, buyerRole!);
+                    await CreateBobUser(userMgr, adminRole!);
                     context!.Database.Migrate();
 
 
@@ -106,7 +106,7 @@ namespace RookEcomShop.Infrastructure.Persistence
                 _ = userMgr.AddToRolesAsync(alice, [buyerRole.Name!]).Result;
         }
 
-        private static async Task CreateBobUser(UserManager<User> userMgr, IdentityRole<int> adminRole, IdentityRole<int> buyerRole)
+        private static async Task CreateBobUser(UserManager<User> userMgr, IdentityRole<int> adminRole)
         {
             var bob = userMgr.FindByNameAsync("bob").Result;
             if (bob == null)
@@ -119,7 +119,7 @@ namespace RookEcomShop.Infrastructure.Persistence
                     Email = "BobSmith@email.com",
                     EmailConfirmed = true
                 };
-                var result = await userMgr.CreateAsync(bob, "Pass123$");
+                var result = userMgr.CreateAsync(bob, "Pass123$").Result;
 
                 if (!result.Succeeded)
                 {
@@ -145,7 +145,7 @@ namespace RookEcomShop.Infrastructure.Persistence
 
                 //Log.Debug("bob already exists");
             }
-            if (!userMgr.IsInRoleAsync(bob, buyerRole.Name!).Result)
+            if (!userMgr.IsInRoleAsync(bob, adminRole.Name!).Result)
                 _ = userMgr.AddToRolesAsync(bob, [adminRole.Name!]).Result;
         }
     }
