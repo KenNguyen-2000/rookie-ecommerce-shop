@@ -29,7 +29,6 @@ namespace RookEcomShop.CustomerFrontend.Controllers
         {
             _logger.LogInformation("Get products from API");
             var products = await _productsApiClient.GetProductsAsync();
-            ViewData["Products"] = products;
             return View(products);
         }
 

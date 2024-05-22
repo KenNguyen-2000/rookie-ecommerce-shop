@@ -14,7 +14,15 @@
 
 
 
+
+
+
+
     string appName = TempData.Peek("appName") as string ?? "";
+
+
+
+
 
 
 
@@ -41,19 +49,6 @@
 </head>
 
 <body class="w-full flex min-h-screen items-stretch">
-  @* <partial name="Partials/_Sidebar.cshtml"></partial>
-  <div class="flex-1 flex flex-col min-h-screen">
-
-  <partial name="Partials/_Header.cshtml"></partial>
-
-  <div class="flex-1">
-  <main role="main" class="container mx-auto p-4 md:p-6">
-  @RenderBody()
-  </main>
-  </div>
-
-  <partial name="Partials/_Footer.cshtml"></partial>
-  </div> *@
 
   <!-- Layout Content -->
   @RenderBody()

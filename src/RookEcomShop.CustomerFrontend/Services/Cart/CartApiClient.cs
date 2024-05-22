@@ -1,3 +1,5 @@
+using System.Text;
+using FluentResults;
 using Newtonsoft.Json;
 using RookEcomShop.ViewModels.Cart;
 
@@ -11,6 +13,28 @@ namespace RookEcomShop.CustomerFrontend.Services.Cart
         {
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri("https://localhost:7181/api/v1/");
+        }
+
+        public async Task AddProductToCart(int productId)
+        {
+            try
+            {
+                var jsonData = JsonConvert.SerializeObject(new { ProductId = productId, Quantity = 1 });
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync($"carts/products/add", content);
+
+                response.EnsureSuccessStatusCode();
+                // Read the response content
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                // Output the response
+                Console.WriteLine(responseBody);
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task<IEnumerable<CartDetailVM>> GetProductsInCart()

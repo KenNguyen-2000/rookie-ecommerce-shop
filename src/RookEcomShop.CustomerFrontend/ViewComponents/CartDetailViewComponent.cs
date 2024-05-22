@@ -3,7 +3,8 @@ using RookEcomShop.ViewModels.Cart;
 
 namespace RookEcomShop.CustomerFrontend.ViewComponents
 {
-    public class CartDetail : ViewComponent
+    [ViewComponent(Name = "CartDetail")]
+    public class CartDetailViewComponent : ViewComponent
     {
         public IViewComponentResult Invoke(CartDetailVM cartDetail)
         {

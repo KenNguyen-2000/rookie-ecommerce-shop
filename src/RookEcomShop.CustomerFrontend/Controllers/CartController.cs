@@ -37,12 +37,19 @@ namespace RookEcomShop.CustomerFrontend.Controllers
         public async Task<IActionResult> AddToCart(int productId)
         {
             Console.WriteLine(productId);
-            var product = await _productsApiClient.GetProductByIdAsync(productId);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            return Ok(product);
+            await _cartApiClient.AddProductToCart(productId);
+
+            return Ok();
+        }
+
+        [HttpGet("update-header")]
+        public async Task<IActionResult> UpdateHeader()
+        {
+            _logger.LogInformation("Getting products in cart");
+            var productsInCart = await _cartApiClient.GetProductsInCart();
+            _logger.LogInformation("Updating header");
+            ViewData["CartCount"] = productsInCart.Count();
+            return ViewComponent("Header", productsInCart);
         }
     }
 }

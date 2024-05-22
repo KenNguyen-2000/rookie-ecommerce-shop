@@ -19,8 +19,8 @@
                     @foreach (var category in @Model)
                     {
                         <li>
-                            <a class="category-item text-gray-500 font-semibold hover:text-indigo-600"
-                                asp-asp-controller="Collections" asp-action="Index" asp-route-categoryName="@category.Name">
+                            <a asp-controller="Collections" asp-action="Details" asp-route-categoryName="@category.Name"
+                                class="category-item text-gray-500 font-semibold hover:text-indigo-600">
                                 @category.Name
                             </a>
                         </li>
@@ -29,18 +29,18 @@
             </section>
 
             <div class="h-[1px] w-full bg-gray-300 my-6"></div>
-            @*
+
             <section class="sidebar-section">
-            <h3 class="text-lg font-semibold mb-3">Filter by:</h3>
-            <ul class="category-list">
+                <h3 class="text-lg font-semibold mb-3">Filter by:</h3>
+                <ul class="category-list">
 
-            <li class="category-item">T-Shirt</li>
-            <li class="category-item">T-Shirt</li>
-            <li class="category-item">T-Shirt</li>
-            <li class="category-item">T-Shirt</li>
+                    <li class="category-item">T-Shirt</li>
+                    <li class="category-item">T-Shirt</li>
+                    <li class="category-item">T-Shirt</li>
+                    <li class="category-item">T-Shirt</li>
 
-            </ul>
-            </section> *@
+                </ul>
+            </section>
         </div>
     </div>
 </aside>
