@@ -3,12 +3,10 @@
 @{
     ViewData["Title"] = "Home Page";
     var products = @Model.ProductDatas;
+    Layout = "~/Views/Shared/Layouts/_ContentSidebarLayout.cshtml";
 }
 
 @section PageScripts {
-    <script type="script" src="./Index.cshtml.js">
-
-                                                                                </script>
 }
 
 <div class="min-h-screen bg-white">

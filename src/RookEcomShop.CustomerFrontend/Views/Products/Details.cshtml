@@ -23,7 +23,6 @@
           'Authorization': 'Bearer ' + accessToken,
           "Access-Control-Allow-Origin": "*", // Required for CORS
         },
-        dataType: 'json',
         data: {
           productId: @Model.Id,
           quantity: 1
@@ -31,6 +30,14 @@
         success: function (data) {
           console.log('Success:', data);
           // Handle the response data here
+
+          $.ajax({
+            url: '/cart/update-header',
+            type: 'GET',
+            success: function (headerHtml) {
+              $('#header-wrapper').html(headerHtml);
+            }
+          });
         },
         error: function (error) {
           console.log('Error:', error);
