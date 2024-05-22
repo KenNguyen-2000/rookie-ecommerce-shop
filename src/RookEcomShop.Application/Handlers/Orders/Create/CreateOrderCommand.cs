@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace RookEcomShop.Application.Handlers.Orders.Create
 {
-    public class CreateOrderCommand : CreateOrderRequest,IRequest<Result>
+    public class CreateOrderCommand : CreateOrderRequest, IRequest<Result>
     {
+        public int UserId { get; set; }
     }
 }

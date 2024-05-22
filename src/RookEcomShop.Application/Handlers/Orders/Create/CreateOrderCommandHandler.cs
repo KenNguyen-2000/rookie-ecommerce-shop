@@ -1,5 +1,6 @@
 ﻿using FluentResults;
 using MediatR;
+using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Interfaces.Services;
 using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.Domain.Common.Enums;
@@ -13,41 +14,68 @@ namespace RookEcomShop.Application.Handlers.Orders.Create
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProductRepository _productRepository;
         private readonly IOrderRepository _orderRepository;
+        private readonly ICartRepository _cartRepository;
         private readonly IDateTimeProvider _dateTimeProvider;
 
-        public CreateOrderCommandHandler(IOrderRepository orderRepository, IUnitOfWork unitOfWork, IDateTimeProvider dateTimeProvider, IProductRepository productRepository)
+        public CreateOrderCommandHandler(
+            IOrderRepository orderRepository,
+            IUnitOfWork unitOfWork,
+            IDateTimeProvider dateTimeProvider,
+            IProductRepository productRepository,
+            ICartRepository cartRepository)
         {
             _orderRepository = orderRepository;
             _unitOfWork = unitOfWork;
             _dateTimeProvider = dateTimeProvider;
             _productRepository = productRepository;
+            _cartRepository = cartRepository;
         }
 
         public async Task<Result> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
         {
-            CreateNewOrder(command);
+            Cart cart = await GetUserCart(command);
+            CreateNewOrder(cart);
+            ClearCart(cart);
 
             await _unitOfWork.SaveAsync(cancellationToken);
 
             return Result.Ok();
         }
 
-        private async void CreateNewOrder(CreateOrderCommand command)
+        private async Task<Cart> GetUserCart(CreateOrderCommand command)
         {
-            var producttIds = command.CartDetails.Select(cD => cD.Product.Id);
-            var products = await _productRepository.GetListAsync(p => producttIds.Contains(p.Id));
+            var cart = await _cartRepository.GetCartByUserIdAsync(command.UserId);
+            if (cart == null)
+            {
+                throw new NotFoundException("User's cart not found");
+            }
+            else if (cart.CartDetails.Count == 0)
+            {
+                throw new BadRequestException("Cart is empty");
+            }
 
+            return cart;
+        }
+
+        private void ClearCart(Cart cart)
+        {
+            cart.CartDetails.Clear();
+            _cartRepository.Update(cart);
+        }
+
+        private void CreateNewOrder(Cart cart)
+        {
             var newOrder = new Order
             {
-                OrderDetails = command.CartDetails.Select(cD => new OrderDetail
+                OrderDetails = cart.CartDetails.Select(cD => new OrderDetail
                 {
-                    UnitPrice = cD.Price,
+                    UnitPrice = cD.Product.Price,
                     Quantity = cD.Quantity,
-                    Product = products.FirstOrDefault(p => p.Id.Equals(cD.Product.Id))!,
+                    Product = cD.Product,
                 }).ToList(),
                 Status = OrderStatus.Pending,
                 UserId = 2,
-                TotalAmount = command.CartDetails.Sum(cD => cD.Price * cD.Quantity),
+                TotalAmount = cart.CartDetails.Sum(cD => cD.Product.Price * cD.Quantity),
                 OrderDate = _dateTimeProvider.UtcNow,
                 UpdatedAt = _dateTimeProvider.UtcNow
             };
