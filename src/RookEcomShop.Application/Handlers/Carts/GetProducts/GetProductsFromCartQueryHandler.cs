@@ -37,7 +37,7 @@ namespace RookEcomShop.Application.Handlers.Carts.GetProducts
 
         public async Task<Result<IEnumerable<CartDetailVM>>> Handle(GetProductsFromCartQuery query, CancellationToken cancellationToken)
         {
-            var cart = await _cartRepository.GetCartByUserIdAsync(2);
+            var cart = await _cartRepository.GetCartByUserIdAsync(query.UserId);
             var userId = userContext.UserId;
             if (cart is null)
             {

@@ -19,24 +19,36 @@ namespace RookEcomShop.Application.Handlers.Categories.Create
 
         public async Task<Result> Handle(CreateCategoryCommand command, CancellationToken cancellationToken)
         {
-            var category = _categoryRepository.GetCategoryByName(command.Name);
 
-            if (category != null)
-                throw new BadRequestException($"Category with name {command.Name} already existed!");
-            CreateCategory(command);
+            await CreateCategory(command);
 
-            await _unitOfWork.SaveAsync();
+            await _unitOfWork.SaveAsync(cancellationToken);
 
             return Result.Ok();
         }
 
-        private void CreateCategory(CreateCategoryCommand command)
+        private async Task CreateCategory(CreateCategoryCommand command)
         {
-            _categoryRepository.Create(new Category
+            var category = _categoryRepository.GetCategoryByName(command.Name);
+
+            if (category != null)
+                throw new BadRequestException($"Category with name {command.Name} already existed!");
+
+            var newCategory = new Category
             {
                 Name = command.Name,
                 Description = command.Description
-            });
+            };
+            if (command.ParentId.HasValue)
+            {
+                var parentCategory = await _categoryRepository.GetByIdAsync(command.ParentId.Value);
+
+                if (parentCategory == null)
+                    throw new NotFoundException($"Category with id {command.ParentId.Value} not found!");
+
+                newCategory.CategoryId = parentCategory.Id;
+            }
+            _categoryRepository.Create(newCategory);
         }
     }
 }
