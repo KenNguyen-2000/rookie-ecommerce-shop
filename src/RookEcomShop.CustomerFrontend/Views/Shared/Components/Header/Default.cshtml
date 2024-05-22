@@ -1,5 +1,12 @@
-﻿@{
+@using RookEcomShop.ViewModels.Category
+@model List<CategoryVM>
+
+@{
     var isLoggedIn = User?.Identity?.IsAuthenticated ?? false;
+}
+
+@section PageScripts {
+    <script src="~/js/header.js"></script>
 }
 
 <div class="bg-white relative z-50">
