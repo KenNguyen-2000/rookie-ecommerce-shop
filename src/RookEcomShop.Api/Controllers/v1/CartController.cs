@@ -27,7 +27,10 @@ namespace RookEcomShop.Api.Controllers.v1
         [HttpGet("products")]
         public async Task<IActionResult> GetProductsInCart()
         {
-            var query = new GetProductsFromCartQuery();
+            var query = new GetProductsFromCartQuery()
+            {
+                UserId = userContext.UserId
+            };
             var result = await _sender.Send(query);
             return Ok(result.Value);
         }
