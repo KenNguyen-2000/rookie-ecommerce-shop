@@ -37,7 +37,8 @@ namespace RookEcomShop.Api.Controllers.v1
             var command = new CreateCategoryCommand
             {
                 Name = createCategoryRequest.Name,
-                Description = createCategoryRequest.Description
+                Description = createCategoryRequest.Description,
+                ParentId = createCategoryRequest.ParentId
             };
             await _sender.Send(command);
 
