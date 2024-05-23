@@ -94,20 +94,38 @@ namespace RookEcomShop.Infrastructure.Extensions
 
         private static void CategoriesSeeder(EntityTypeBuilder<Category> modelBuilder)
         {
+            // Seeding first level categories
             modelBuilder.HasData(
-                            new Category { Id = 1, Name = "Electronics" },
-                            new Category { Id = 2, Name = "Clothing" },
-                            new Category { Id = 3, Name = "Home & Kitchen" },
-                            new Category { Id = 4, Name = "Books" },
-                            new Category { Id = 5, Name = "Sports & Outdoors" },
-                            new Category { Id = 6, Name = "Beauty & Personal Care" },
-                            new Category { Id = 7, Name = "Health & Wellness" },
-                            new Category { Id = 8, Name = "Toys & Games" },
-                            new Category { Id = 9, Name = "Automotive" },
-                            new Category { Id = 10, Name = "Jewelry & Accessories" },
-                            new Category { Id = 11, Name = "Baby & Kids" },
-                            new Category { Id = 12, Name = "Grocery & Gourmet" }
-                        );
+                new Category { Id = 1, Name = "Electronics" },
+                new Category { Id = 2, Name = "Clothing" },
+                new Category { Id = 3, Name = "Home & Kitchen" },
+                new Category { Id = 4, Name = "Books" },
+                new Category { Id = 5, Name = "Sports & Outdoors" },
+                new Category { Id = 6, Name = "Beauty & Personal Care" },
+                new Category { Id = 7, Name = "Health & Wellness" },
+                new Category { Id = 8, Name = "Toys & Games" },
+                new Category { Id = 9, Name = "Automotive" },
+                new Category { Id = 10, Name = "Jewelry & Accessories" },
+                new Category { Id = 11, Name = "Baby & Kids" },
+                new Category { Id = 12, Name = "Grocery & Gourmet" }
+            );
+
+            // Seeding second level categories
+            modelBuilder.HasData(
+                // Electronics
+                new Category { Id = 16, Name = "Smartphones", CategoryId = 1 },
+                new Category { Id = 17, Name = "Laptops", CategoryId = 1 },
+                new Category { Id = 18, Name = "Tablets", CategoryId = 1 },
+
+                // Clothing
+                new Category { Id = 13, Name = "Furniture", CategoryId = 3 },
+                new Category { Id = 14, Name = "Appliances", CategoryId = 3 },
+                new Category { Id = 15, Name = "Decor", CategoryId = 3 },
+
+                // Books
+                new Category { Id = 19, Name = "Fiction", CategoryId = 4 },
+                new Category { Id = 20, Name = "Non-Fiction", CategoryId = 4 }
+            );
         }
     }
 }

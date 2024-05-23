@@ -22,7 +22,13 @@ namespace RookEcomShop.Application.Handlers.Categories.GetList
             {
                 Id = c.Id,
                 Name = c.Name,
-                Description = c.Description
+                Description = c.Description,
+                SubCategories = c.SubCategories.Select(sc => new CategoryVM
+                {
+                    Id = sc.Id,
+                    Name = sc.Name,
+                    Description = sc.Description
+                })
             }));
         }
     }

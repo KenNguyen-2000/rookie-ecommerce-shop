@@ -50,6 +50,7 @@ namespace RookEcomShop.Infrastructure.Persistence
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     => optionsBuilder
         .LogTo(Console.WriteLine)
+        .EnableSensitiveDataLogging()
         .EnableDetailedErrors();
     }
 }

@@ -29,7 +29,7 @@ namespace RookEcomShop.Application.Handlers.Categories.Create
 
         private async Task CreateCategory(CreateCategoryCommand command)
         {
-            var category = _categoryRepository.GetCategoryByName(command.Name);
+            var category = await _categoryRepository.GetCategoryByName(command.Name);
 
             if (category != null)
                 throw new BadRequestException($"Category with name {command.Name} already existed!");
