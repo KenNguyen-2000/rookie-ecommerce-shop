@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.Application.Dto;
 using RookEcomShop.CustomerFrontend.Models;
-using RookEcomShop.CustomerFrontend.Models.Home;
 using RookEcomShop.CustomerFrontend.Services.Categories;
 using RookEcomShop.CustomerFrontend.Services.Products;
+using RookEcomShop.ViewModels.Collections;
+using RookEcomShop.ViewModels.Dto;
 using RookEcomShop.ViewModels.Product;
 using System.Diagnostics;
 
@@ -29,9 +30,16 @@ public class CollectionsController : Controller
     [HttpGet("{categoryName}")]
     public async Task<IActionResult> Details(string categoryName, [FromQuery] QueryDto queryDto)
     {
+        ViewBag.CategoryName = categoryName;
+        var category = await _categoriesApiClient.GetCategoryByNameAsync(categoryName);
         PaginatedList<ProductVM> products = await _productsApiClient.GetProductsByCategoryNameAsync(categoryName, queryDto);
 
-        return View(products);
+        return View(new CollectionsVM
+        {
+            Category = category,
+            Products = products
+
+        });
     }
 
 
