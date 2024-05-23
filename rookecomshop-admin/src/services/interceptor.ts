@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 const interceptor = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
     timeout: 10000,
+    withCredentials: true,
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

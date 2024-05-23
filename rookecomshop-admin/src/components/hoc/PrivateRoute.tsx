@@ -1,22 +1,18 @@
-import Cookies from 'js-cookie';
-import  { useEffect, useState } from 'react'
+import { useAppSelector } from '@/redux/reduxHooks';
+import  { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom';
 
 const PrivateRoute = () => {
-    const [isAuth, setIsAuth] = useState(false)
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+    const {isAuthenticated} = useAppSelector(state => state.auth)
     useEffect(() => {
-      const token = Cookies.get('rookecomshop-access-token')
   
-      if(token)
-        {
-            setIsAuth(true)
-        }else
-        {
-          navigate('/login')
-        }
-    },[navigate])
-    return isAuth ? (
+      // if(!isAuthenticated)
+      //   {
+      //     navigate('/authentication/login')
+      //   }
+    },[navigate, isAuthenticated])
+    return isAuthenticated ? (
       <Outlet />
     ) : null
   }
