@@ -4,16 +4,19 @@
 <link
   href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
   rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
 <environment include="Development">
   <!-- Application stylesheets -->
   <link rel="stylesheet" href="~/css/site.css" />
 
-  <!-- Tailwindcss stylesheets -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Swiper js stylesheets -->
+  <link rel="stylesheet" href="~/css/styles.css" />
 </environment>
 
 <environment exclude="Development">
-
   <!-- Application stylesheets -->
   <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
 </environment>
