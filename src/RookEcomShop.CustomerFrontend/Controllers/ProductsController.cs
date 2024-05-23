@@ -44,7 +44,7 @@ namespace RookEcomShop.CustomerFrontend.Controllers
             }
 
             var accessToken = await HttpContext.GetTokenAsync("access_token");
-            ViewBag.AccessToken = accessToken;
+            ViewData["AccessToken"] = accessToken;
 
             return View(product);
         }
@@ -60,6 +60,15 @@ namespace RookEcomShop.CustomerFrontend.Controllers
             }
 
             return Redirect("/cart");
+        }
+
+        [HttpPost("{id}/reviews")]
+        public async Task<IActionResult> ReviewProduct(int id)
+        {
+            await Task.CompletedTask;
+            Console.WriteLine(id);
+
+            return Redirect($"/products/{id}");
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using RookEcomShop.CustomerFrontend.Services.Cart;
 using RookEcomShop.CustomerFrontend.Services.Categories;
 using RookEcomShop.CustomerFrontend.Services.Products;
+using RookEcomShop.CustomerFrontend.Services.Reviews;
 
 namespace RookEcomShop.CustomerFrontend
 {
@@ -11,6 +12,7 @@ namespace RookEcomShop.CustomerFrontend
     {
         public static IServiceCollection AddAuthenticationConfiguration(this IServiceCollection services)
         {
+
 
             services.AddControllersWithViews();
 
@@ -55,6 +57,7 @@ namespace RookEcomShop.CustomerFrontend
             services.AddHttpClient<IProductsApiClient, ProductsApiClient>(configureClient);
             services.AddHttpClient<ICategoriesApiClient, CategoriesApiClient>(configureClient);
             services.AddHttpClient<ICartApiClient, CartApiClient>(configureClient);
+            services.AddHttpClient<IReviewsApiClient, ReviewsApiClient>(configureClient);
 
             return services;
         }
