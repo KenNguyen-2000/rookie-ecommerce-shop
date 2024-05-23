@@ -18,10 +18,11 @@ namespace RookEcomShop.CustomerFrontend.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
+            ViewData["CartCount"] = 0;
+            var categories = await _categoriesApiClient.GetCategoriesAsync();
             try
             {
-                ViewData["CartCount"] = 0;
-                var categories = await _categoriesApiClient.GetCategoriesAsync();
+
                 if (User.Identity.IsAuthenticated)
                 {
                     var productsInCart = await _cartApiClient.GetProductsInCart();
@@ -31,10 +32,10 @@ namespace RookEcomShop.CustomerFrontend.ViewComponents
 
                 return View(categories);
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-
-                return View(new List<CategoryVM>());
+                Console.WriteLine(ex);
+                return View(new List<CategoryVM>(categories));
             }
         }
     }
