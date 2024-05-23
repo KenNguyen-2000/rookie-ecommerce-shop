@@ -23,5 +23,16 @@ namespace RookEcomShop.CustomerFrontend.Services.Categories
             var res = JsonConvert.DeserializeObject<IList<CategoryVM>>(content)!;
             return (dynamic)res;
         }
+
+        public async Task<CategoryVM?> GetCategoryByNameAsync(string categoryName)
+        {
+            var response = await _httpClient.GetAsync("api/v1/categories/" + categoryName);
+
+            response.EnsureSuccessStatusCode();
+
+            string content = await response.Content.ReadAsStringAsync();
+            var res = JsonConvert.DeserializeObject<CategoryVM>(content)!;
+            return (dynamic)res;
+        }
     }
 }

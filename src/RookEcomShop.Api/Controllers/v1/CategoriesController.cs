@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.Application.Handlers.Categories.Create;
+using RookEcomShop.Application.Handlers.Categories.GetByName;
 using RookEcomShop.Application.Handlers.Categories.GetList;
 using RookEcomShop.ViewModels.Api;
 using RookEcomShop.ViewModels.Category;
@@ -25,6 +26,18 @@ namespace RookEcomShop.Api.Controllers.v1
         public async Task<IActionResult> GetCategories()
         {
             var query = new GetListCategoriesQuery();
+            var result = await _sender.Send(query);
+
+            return Ok(result.Value);
+        }
+        [AllowAnonymous]
+        [HttpGet("{categoryName}")]
+        public async Task<IActionResult> GetCategoryByName(string categoryName)
+        {
+            var query = new GetCategoryByNameQuery
+            {
+                CategoryName = categoryName
+            };
             var result = await _sender.Send(query);
 
             return Ok(result.Value);
