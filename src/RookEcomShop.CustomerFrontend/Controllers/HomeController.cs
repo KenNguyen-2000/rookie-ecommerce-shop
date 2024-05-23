@@ -4,6 +4,7 @@ using RookEcomShop.CustomerFrontend.Models;
 using RookEcomShop.CustomerFrontend.Models.Home;
 using RookEcomShop.CustomerFrontend.Services.Categories;
 using RookEcomShop.CustomerFrontend.Services.Products;
+using RookEcomShop.ViewModels.Dto;
 using RookEcomShop.ViewModels.Product;
 using System.Diagnostics;
 
