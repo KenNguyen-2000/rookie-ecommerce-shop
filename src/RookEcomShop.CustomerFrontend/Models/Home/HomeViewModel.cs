@@ -1,5 +1,4 @@
-using RookEcomShop.Application.Dto;
-using RookEcomShop.ViewModels.Category;
+using RookEcomShop.ViewModels.Dto;
 using RookEcomShop.ViewModels.Product;
 
 namespace RookEcomShop.CustomerFrontend.Models.Home

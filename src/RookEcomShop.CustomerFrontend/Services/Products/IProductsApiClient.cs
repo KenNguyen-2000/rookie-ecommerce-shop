@@ -1,4 +1,5 @@
 ﻿using RookEcomShop.Application.Dto;
+using RookEcomShop.ViewModels.Dto;
 using RookEcomShop.ViewModels.Product;
 
 namespace RookEcomShop.CustomerFrontend.Services.Products

@@ -2,10 +2,9 @@
 using FluentResults;
 using MediatR;
 using RookEcomShop.Application.Common.Data;
-using RookEcomShop.Application.Common.Repositories;
-using RookEcomShop.Application.Dto;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.ViewModels.Category;
+using RookEcomShop.ViewModels.Dto;
 using RookEcomShop.ViewModels.Product;
 
 namespace RookEcomShop.Application.Handlers.Products.GetList

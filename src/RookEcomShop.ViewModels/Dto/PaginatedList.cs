@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace RookEcomShop.Application.Dto
+namespace RookEcomShop.ViewModels.Dto
 {
     public class PaginatedList<T>
     {

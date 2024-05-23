@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using Newtonsoft.Json;
 using RookEcomShop.Application.Dto;
-using RookEcomShop.ViewModels.Api;
+using RookEcomShop.ViewModels.Dto;
 using RookEcomShop.ViewModels.Product;
 
 namespace RookEcomShop.CustomerFrontend.Services.Products
