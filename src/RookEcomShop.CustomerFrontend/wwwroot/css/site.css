@@ -1,33 +1,21 @@
-.body-container {
-  margin-top: 60px;
-  padding-bottom: 40px;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-family-1: Oswald, sans-serif;
+  --font-family-2: Montserrat, sans-serif;
+  --font-family-3: Lato, sans-serif;
 }
 
-.welcome-page li {
-  list-style: none;
-  padding: 4px;
-}
-
-.logged-out-page iframe {
-  display: none;
-  width: 0;
-  height: 0;
-}
-
-.grants-page .card {
-  margin-top: 20px;
-  border-bottom: 1px solid lightgray;
-}
-.grants-page .card .card-title {
-  font-size: 120%;
-  font-weight: bold;
-}
-.grants-page .card .card-title img {
-  width: 100px;
-  height: 100px;
-}
-.grants-page .card label {
-  font-weight: bold;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-family-2);
+  color: #000;
+  fill: #000;
+  stroke: #000;
 }
 
 .flex-center {
@@ -36,55 +24,35 @@
   align-items: center;
 }
 
-.navigation-btn.active {
-  --tw-border-opacity: 1;
-  border-color: rgb(79 70 229 / var(--tw-border-opacity));
-  --tw-text-opacity: 1;
-  color: rgb(79 70 229 / var(--tw-text-opacity));
+svg,
+path {
+  fill: inherit;
+  stroke: inherit;
 }
 
-.sidebar-wrapper {
-  display: none;
-  min-width: 300px;
-  background-color: #f8f9fa;
-  position: relative;
-  z-index: 2;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-  @apply border-r border-gray-300 shadow-lg;
+span,
+p,
+strong,
+b {
+  color: inherit;
 }
 
-.sidebar-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+.absolute-right-center {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+.absolute-left-center {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
 }
 
-.category-list {
-  padding-left: 32px;
-}
-
-.category-item {
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.3s;
-}
-
-.category-item:hover {
-  color: rgba(79 70 229);
-}
-
-.category-item.active {
-  @apply text-indigo-700;
-}
-
-.sidebar-section {
-  padding: 20px 0;
-}
-
-@media (min-width: 1024px) {
-  .sidebar-wrapper {
-    display: block;
-  }
+.absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

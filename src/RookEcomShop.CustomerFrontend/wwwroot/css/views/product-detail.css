@@ -1,0 +1,27 @@
+#add-to-cart-btn {
+  font-family: var(--font-family-1);
+}
+
+.product-info-btn {
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.product-info-btn::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background-color: #000;
+  transition: width 0.3s ease;
+}
+
+.product-info-btn.selected::before {
+  width: 100%;
+}
+
+/* .product-info-btn:hover::before {
+  width: 100%;
+} */
