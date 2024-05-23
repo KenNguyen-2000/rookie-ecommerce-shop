@@ -82,23 +82,32 @@ namespace RookEcomShop.Infrastructure.Extensions.IdentityServer
                 {
                     ClientId = "rookEcomShop.react",
                     ClientName = "RookEcomShop Admin Client",
-                    ClientUri = "https://localhost:5003",
+                    ClientUri = clientUrls["React"],
                     RequireConsent = false,
                     AllowedGrantTypes = GrantTypes.Code,
                     RequirePkce = true,
                     RequireClientSecret = false,
                     AllowAccessTokensViaBrowser = true,
 
-                    RedirectUris = {$"{clientUrls["React"]}/login-callback" },
+                    RedirectUris = {
+                        $"{clientUrls["React"]}/authentication/login-callback",
+                        $"{clientUrls["React"]}/silent-renew.html",
+                        $"{clientUrls["React"]}"
+                     },
 
-                    PostLogoutRedirectUris = { $"{clientUrls["React"]}/logout" },
+                    PostLogoutRedirectUris = {
+                         $"{clientUrls["React"]}/unauthorized",
+                        $"{clientUrls["React"]}/authentication/logout-callback",
+                        $"{clientUrls["React"]}"
+                     },
                     AllowedCorsOrigins = { $"{clientUrls["React"]}" },
 
                     AllowedScopes =
                     {
                           IdentityServerConstants.StandardScopes.OpenId,
                           IdentityServerConstants.StandardScopes.Profile,
-                          "rookEcomShop.api"
+                          "rookEcomShop.api",
+                          "roles"
                     }
                 }
             };
