@@ -57,26 +57,27 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
+import moment from "moment"
 import { RookEcomSidebar } from "@/components/page"
-import interceptor from "@/services/interceptor"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
+import { useAppDispatch, useAppSelector } from "@/redux/reduxHooks"
+import { useNavigate } from "react-router-dom"
+import { getProductsAsync } from "@/redux/thunks/product.thunk"
 
 
 export function ProductPage() {
-  const [products, setProducts] = useState([]);
-  const fetchProducts = async () => {
-    try {
-      const res = await interceptor.get("/products");
-      console.log(res.data)
-      setProducts(res.data)
-    } catch (error) {
-      console.error(error)
-    }
-  }
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const {user} = useAppSelector((state) => state.auth);
+
+  const {products} = useAppSelector((state) => state.products);
+
+ 
 
   useEffect(() => {
-    fetchProducts()
-  },[])
+    console.log(user)
+    dispatch(getProductsAsync())
+  },[dispatch, user])
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -193,7 +194,7 @@ export function ProductPage() {
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
           <Tabs defaultValue="all">
             <div className="flex items-center">
-              <TabsList>
+              <TabsList >
                 <TabsTrigger value="all">All</TabsTrigger>
                 <TabsTrigger value="active">Active</TabsTrigger>
                 <TabsTrigger value="draft">Draft</TabsTrigger>
@@ -261,6 +262,9 @@ export function ProductPage() {
                           Total Sales
                         </TableHead>
                         <TableHead className="hidden md:table-cell">
+                          Category
+                        </TableHead>
+                        <TableHead className="hidden md:table-cell">
                           Created at
                         </TableHead>
                         <TableHead>
@@ -269,7 +273,7 @@ export function ProductPage() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {products?.slice(0,5)?.map((product :any) => (
+                      {products?.map((product :any) => (
                         <TableRow key={product.id}>
                         
                         <TableCell className="hidden sm:table-cell">
@@ -294,7 +298,10 @@ export function ProductPage() {
                           25
                         </TableCell>
                         <TableCell className="hidden md:table-cell">
-                          2023-07-12 10:42 AM
+                          {product.category.name}
+                        </TableCell>
+                        <TableCell className="hidden md:table-cell">
+                          {moment(product.createdAt).format("DD/MM/yyyy")}
                         </TableCell>
                         <TableCell>
                           <DropdownMenu>
@@ -310,8 +317,8 @@ export function ProductPage() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                              <DropdownMenuItem>Edit</DropdownMenuItem>
-                              <DropdownMenuItem>Delete</DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => navigate(`/products/${product.id}`)}>Edit</DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => navigate(`/products/${product.id}`)}>Delete</DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </TableCell>
