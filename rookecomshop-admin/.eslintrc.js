@@ -1,9 +1,9 @@
-const pluginJs = require("'@eslint/js'");
-const tseslint = require('typescript-eslint');
-const pluginReactConfig = require('eslint-plugin-react/configs/recommended.js');
-const { fixupConfigRules } = require('@eslint/compat');
+import pluginJs from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import pluginReactConfig from 'eslint-plugin-react/configs/recommended.js';
+import { fixupConfigRules } from '@eslint/compat';
 
-module.exports = {
+export default {
     ...pluginJs.confis.recommended,
     ...tseslint.configs.recommended,
     ...fixupConfigRules(pluginReactConfig),
