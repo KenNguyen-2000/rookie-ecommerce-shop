@@ -64,7 +64,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RookEcomSidebar } from "@/components/page";
 
-export function DashboardPage() {
+const DashboardPage = () => {
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <RookEcomSidebar />
@@ -615,4 +615,6 @@ export function DashboardPage() {
       </div>
     </div>
   );
-}
+};
+
+export default DashboardPage;

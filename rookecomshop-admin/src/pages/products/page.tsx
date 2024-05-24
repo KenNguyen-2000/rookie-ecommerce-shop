@@ -33,20 +33,27 @@ import moment from "moment";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/reduxHooks";
 import { useNavigate } from "react-router-dom";
-import { getProductsAsync } from "@/redux/thunks/product.thunk";
+import { getProductsAsync } from "@/redux/thunks/products.thunk";
 import { ContentSidebarLayout } from "@/components/layouts";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
-export function ProductPage() {
+const ProductPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.auth);
 
   const { products } = useAppSelector((state) => state.products);
 
   useEffect(() => {
-    console.log(user);
     dispatch(getProductsAsync());
-  }, [dispatch, user]);
+  }, [dispatch]);
 
   return (
     <ContentSidebarLayout>
@@ -241,8 +248,36 @@ export function ProductPage() {
               </Table>
             </CardContent>
             <CardFooter>
-              <div className="text-xs text-muted-foreground">
-                Showing <strong>1-10</strong> of <strong>32</strong> products
+              <div className="w-full flex items-center">
+                <div className="text-xs text-muted-foreground">
+                  Showing <strong>1-10</strong> of <strong>32</strong> products
+                </div>
+                <div className="ml-auto">
+                  <Pagination>
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious href="#" />
+                      </PaginationItem>
+                      <PaginationItem>
+                        <PaginationLink href="#">1</PaginationLink>
+                      </PaginationItem>
+                      <PaginationItem>
+                        <PaginationLink href="#" isActive>
+                          2
+                        </PaginationLink>
+                      </PaginationItem>
+                      <PaginationItem>
+                        <PaginationLink href="#">3</PaginationLink>
+                      </PaginationItem>
+                      <PaginationItem>
+                        <PaginationEllipsis />
+                      </PaginationItem>
+                      <PaginationItem>
+                        <PaginationNext href="#" />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                </div>
               </div>
             </CardFooter>
           </Card>
@@ -250,4 +285,5 @@ export function ProductPage() {
       </Tabs>
     </ContentSidebarLayout>
   );
-}
+};
+export default ProductPage;

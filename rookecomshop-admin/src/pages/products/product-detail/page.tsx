@@ -61,7 +61,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { RookEcomSidebar } from "@/components/page";
 
-export function ProductDetailPage() {
+const ProductDetailPage = () => {
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <RookEcomSidebar />
@@ -507,4 +507,6 @@ export function ProductDetailPage() {
       </div>
     </div>
   );
-}
+};
+
+export default ProductDetailPage;
