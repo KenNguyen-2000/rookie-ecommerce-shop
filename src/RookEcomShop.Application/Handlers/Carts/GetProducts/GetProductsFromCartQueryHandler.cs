@@ -66,6 +66,7 @@ namespace RookEcomShop.Application.Handlers.Carts.GetProducts
                     Description = x.Product.Description,
                     Name = x.Product.Name,
                     Price = x.Product.Price,
+                    Status = x.Product.Status,
                     Category = new CategoryVM
                     {
                         Id = x.Product.Category.Id,

@@ -1,4 +1,5 @@
-﻿using RookEcomShop.ViewModels.Category;
+﻿using RookEcomShop.Domain.Common.Enums;
+using RookEcomShop.ViewModels.Category;
 
 namespace RookEcomShop.ViewModels.Product
 {
@@ -8,6 +9,7 @@ namespace RookEcomShop.ViewModels.Product
         public string Name { get; set; } = null!;
         public string Description { get; set; } = null!;
         public decimal Price { get; set; }
+        public ProductStatus Status { get; set; }
         public int StockQuantity { get; set; }
         public CategoryVM Category { get; set; } = null!;
         public IEnumerable<string> ImgUrls { get; set; } = new List<string>();

@@ -30,6 +30,7 @@ namespace RookEcomShop.Application.Handlers.Products.GetById
                 Description = product.Description,
                 Price = product.Price,
                 StockQuantity = product.StockQuantity,
+                Status = product.Status,
                 Category = new CategoryVM
                 {
                     Id = product.Category.Id,

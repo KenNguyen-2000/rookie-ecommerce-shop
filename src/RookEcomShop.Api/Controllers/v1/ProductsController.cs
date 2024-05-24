@@ -40,7 +40,7 @@ namespace RookEcomShop.Api.Controllers.v1
                 Description = product.Description,
                 Name = product.Name,
                 Price = product.Price,
-                Stock = product.Stock,
+                StockQuantity = product.StockQuantity,
                 Images = product.Images,
                 UserId = _userContext.UserId
             };
@@ -122,7 +122,8 @@ namespace RookEcomShop.Api.Controllers.v1
                 Price = updateProductRequest.Price,
                 Status = updateProductRequest.Status,
                 StockQuantity = updateProductRequest.StockQuantity,
-                Images = updateProductRequest.Images
+                Images = updateProductRequest.Images,
+                CategoryName = updateProductRequest.CategoryName
             };
 
             await _sender.Send(command);

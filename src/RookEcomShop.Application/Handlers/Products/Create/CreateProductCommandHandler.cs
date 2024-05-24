@@ -53,7 +53,7 @@ namespace RookEcomShop.Application.Handlers.Products.Create
                 Name = command.Name,
                 Description = command.Description,
                 Price = command.Price,
-                StockQuantity = command.Stock,
+                StockQuantity = command.StockQuantity,
                 User = user,
                 Category = category,
                 ProductImages = productImages

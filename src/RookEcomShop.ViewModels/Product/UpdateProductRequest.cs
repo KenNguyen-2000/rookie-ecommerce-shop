@@ -8,6 +8,7 @@ namespace RookEcomShop.ViewModels.Product
         public string Description { get; set; } = null!;
         public decimal Price { get; set; }
         public int StockQuantity { get; set; }
+        public string CategoryName { get; set; } = null!;
         public ProductStatus Status { get; set; }
         public IFormFileCollection? Images { get; set; }
     }

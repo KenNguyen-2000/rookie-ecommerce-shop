@@ -10,14 +10,20 @@ namespace RookEcomShop.Application.Handlers.Products.Update
     public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Result>
     {
         private readonly IProductRepository _productRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IFileStorageService _fileStorageService;
 
-        public UpdateProductCommandHandler(IProductRepository productRepository, IUnitOfWork unitOfWork, IFileStorageService fileStorageService)
+        public UpdateProductCommandHandler(
+            IProductRepository productRepository,
+            IUnitOfWork unitOfWork,
+            IFileStorageService fileStorageService,
+            ICategoryRepository categoryRepository)
         {
             _productRepository = productRepository;
             _unitOfWork = unitOfWork;
             _fileStorageService = fileStorageService;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<Result> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
@@ -26,16 +32,25 @@ namespace RookEcomShop.Application.Handlers.Products.Update
 
             if (existingProduct == null)
                 throw new NotFoundException($"Product with id {command.Id} not found!");
+            var category = await _categoryRepository.GetCategoryByName(command.CategoryName);
+            if (category == null)
+                throw new NotFoundException($"Category with name {command.CategoryName} not found!");
 
-
-            await RemoveProductImages(existingProduct);
+            existingProduct.Category = category;
 
             List<ProductImage> productImages = new List<ProductImage>();
-            if (command.Images != null && command.Images.Count > 0)
+            if (command.Images != null)
             {
+                await RemoveProductImages(existingProduct);
+                if (command.Images.Count > 0)
+                {
 
-                productImages = await SaveProductImages(command);
+                    productImages = await SaveProductImages(command);
+                }
+                else
+                    productImages = existingProduct.ProductImages.ToList();
             }
+
             UpdateProduct(existingProduct, command, productImages);
 
 
