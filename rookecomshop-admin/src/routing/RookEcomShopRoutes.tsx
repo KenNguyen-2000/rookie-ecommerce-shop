@@ -1,9 +1,11 @@
-import { OidcAuthProvider, ReduxProvider } from "@/components/hoc";
-import { DashboardPage } from "@/pages/dashboard/page";
+import {
+  OidcAuthProvider,
+  PrivateRoute,
+  ReduxProvider,
+} from "@/components/hoc";
+import { AxiosInterceptor } from "@/components/hoc/AxiosInterceptor";
+import { Toaster } from "@/components/ui/toaster";
 import NotFoundPage from "@/pages/errors/NotFoundPage";
-import CreateProductPage from "@/pages/products/create/page";
-import { ProductPage } from "@/pages/products/page";
-import { ProductDetailPage } from "@/pages/products/product-detail/page";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import {
   createBrowserRouter,
@@ -17,12 +19,44 @@ const RookEcomShopRoutes = () => {
     createRoutesFromElements(
       <Route>
         <Route path="/authentication/:action" element={<OidcAuthProvider />} />
-        <Route path="/">
-          <Route index element={<DashboardPage />} />
+        <Route path="/" element={<PrivateRoute />}>
+          <Route
+            index
+            lazy={async () => {
+              const { default: DashboardPage } = await import(
+                "../pages/dashboard/page"
+              );
+              return { Component: DashboardPage };
+            }}
+          />
           <Route path="/products">
-            <Route index element={<ProductPage />} />
-            <Route path=":id" element={<ProductDetailPage />} />
-            <Route path="create" element={<CreateProductPage />} />
+            <Route
+              index
+              lazy={async () => {
+                const { default: ProductPage } = await import(
+                  "../pages/products/page"
+                );
+                return { Component: ProductPage };
+              }}
+            />
+            <Route
+              path=":id"
+              lazy={async () => {
+                const { default: ProductDetailPage } = await import(
+                  "../pages/products/product-detail/page"
+                );
+                return { Component: ProductDetailPage };
+              }}
+            />
+            <Route
+              path="create"
+              lazy={async () => {
+                const { default: CreateProductPage } = await import(
+                  "../pages/products/create/page"
+                );
+                return { Component: CreateProductPage };
+              }}
+            />
           </Route>
         </Route>
         <Route path="*" element={<NotFoundPage />} />
@@ -32,8 +66,11 @@ const RookEcomShopRoutes = () => {
   return (
     <TooltipProvider>
       <ReduxProvider>
-        <RouterProvider router={router} />
+        <AxiosInterceptor>
+          <RouterProvider router={router} />
+        </AxiosInterceptor>
       </ReduxProvider>
+      <Toaster />
     </TooltipProvider>
   );
 };
