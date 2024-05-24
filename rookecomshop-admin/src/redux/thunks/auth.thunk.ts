@@ -13,6 +13,10 @@ export const completedLoginAsync = createAsyncThunk(
   },
 );
 
+export const getUserAsync = createAsyncThunk("auth/get-user", async () => {
+  return await authService.getUserAsync();
+});
+
 export const logoutAsync = createAsyncThunk("auth/logout", async () => {
   await authService.logoutAsync();
 });
@@ -21,5 +25,12 @@ export const completedLogoutAsync = createAsyncThunk(
   "auth/completed-logout",
   async () => {
     await authService.logoutAsync();
+  },
+);
+
+export const renewTokenAsync = createAsyncThunk(
+  "auth/renew-token",
+  async () => {
+    return await authService.renewTokenAsync();
   },
 );

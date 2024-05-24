@@ -1,10 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { User } from "oidc-client";
-import { completedLoginAsync } from "../thunks/auth.thunk";
+import { Profile } from "oidc-client";
+import {
+  completedLoginAsync,
+  getUserAsync,
+  renewTokenAsync,
+} from "../thunks/auth.thunk";
+import Cookies from "js-cookie";
+import { COOKIES_CONFIGS, TOKEN_STRING } from "@/lib/constants/cookies.constant";
 
 type AuthSliceState = {
   isAuthenticated: boolean;
-  user: User | null;
+  user: Profile | null;
   isLoading: boolean;
   error: string | null;
 };
@@ -30,14 +36,46 @@ const authSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(completedLoginAsync.fulfilled, (state, action) => {
-        state = {
-          ...state,
-          isAuthenticated: true,
-          user: action.payload,
-          isLoading: false,
-        };
+        console.log(action.payload);
+        state.user = action.payload?.profile ?? null;
+        state.isAuthenticated = true;
+        state.isLoading = false;
+        if (action.payload)
+          Cookies.set(TOKEN_STRING, action.payload?.access_token, COOKIES_CONFIGS);
       })
       .addCase(completedLoginAsync.rejected, (state) => {
+        state.isLoading = false;
+        state.error = "Failed to login";
+      });
+    builder
+      .addCase(getUserAsync.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getUserAsync.fulfilled, (state, action) => {
+        state.user = action.payload?.profile ?? null;
+        state.isAuthenticated = true;
+        state.isLoading = false;
+        if (action.payload)
+          Cookies.set(TOKEN_STRING, action.payload?.access_token, COOKIES_CONFIGS);
+      })
+      .addCase(getUserAsync.rejected, (state, action) => {
+        console.log(action.payload);
+        state.isLoading = false;
+        state.error = "Failed to login";
+      });
+    builder
+      .addCase(renewTokenAsync.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(renewTokenAsync.fulfilled, (state, action) => {
+        state.user = action.payload?.profile ?? null;
+        state.isAuthenticated = true;
+        state.isLoading = false;
+        if (action.payload)
+          Cookies.set(TOKEN_STRING, action.payload?.access_token);
+      })
+      .addCase(renewTokenAsync.rejected, (state, action) => {
+        console.log(action.payload);
         state.isLoading = false;
         state.error = "Failed to login";
       });

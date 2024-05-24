@@ -22,7 +22,12 @@ const loginAsync = async (): Promise<void> => {
 };
 
 const completeLoginAsync = async (url: string): Promise<User> => {
-  return userManager.signinCallback(url);
+  try {
+    return await userManager.signinCallback(url);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
 
 const renewTokenAsync = async (): Promise<User> => {
