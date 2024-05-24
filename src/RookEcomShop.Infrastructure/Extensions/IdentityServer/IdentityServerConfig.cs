@@ -53,7 +53,9 @@ namespace RookEcomShop.Infrastructure.Extensions.IdentityServer
                         IdentityServerConstants.StandardScopes.Profile,
                         "rookEcomShop.api",
                         "roles"
-                    }
+                    },
+                    AccessTokenLifetime = 3600,
+                    IdentityTokenLifetime = 3600
                 },
                  new Client
                 {
@@ -75,7 +77,9 @@ namespace RookEcomShop.Infrastructure.Extensions.IdentityServer
                          "rookEcomShop.api",
                         "roles"
 
-                    }
+                    },
+                    AccessTokenLifetime = 3600,
+                    IdentityTokenLifetime = 3600
                 },
 
                   new Client
@@ -90,9 +94,7 @@ namespace RookEcomShop.Infrastructure.Extensions.IdentityServer
                     AllowAccessTokensViaBrowser = true,
 
                     RedirectUris = {
-                        $"{clientUrls["React"]}/authentication/login-callback",
-                        $"{clientUrls["React"]}/silent-renew.html",
-                        $"{clientUrls["React"]}"
+                        $"{clientUrls["React"]}/authentication/login-callback"
                      },
 
                     PostLogoutRedirectUris = {
@@ -108,7 +110,9 @@ namespace RookEcomShop.Infrastructure.Extensions.IdentityServer
                           IdentityServerConstants.StandardScopes.Profile,
                           "rookEcomShop.api",
                           "roles"
-                    }
+                    },
+                    AccessTokenLifetime = 3600,
+                    IdentityTokenLifetime = 3600
                 }
             };
     }

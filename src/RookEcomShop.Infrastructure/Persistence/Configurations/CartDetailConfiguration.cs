@@ -16,7 +16,7 @@ namespace RookEcomShop.Infrastructure.Persistence.Configurations
 
             builder.HasOne(e => e.Product)
                .WithMany(e => e.CartDetails)
-               .OnDelete(DeleteBehavior.ClientSetNull);
+               .OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }
