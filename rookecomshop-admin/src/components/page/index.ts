@@ -1,3 +1,3 @@
 import RookEcomSidebar from "./Sidebar";
 
-export {RookEcomSidebar}
+export { RookEcomSidebar };

@@ -1,13 +1,18 @@
 import { useAppDispatch, useAppSelector } from "@/redux/reduxHooks";
-import { completedLoginAsync, completedLogoutAsync, loginAsync, logoutAsync } from "@/redux/thunks/auth.thunk";
+import {
+  completedLoginAsync,
+  completedLogoutAsync,
+  loginAsync,
+  logoutAsync,
+} from "@/redux/thunks/auth.thunk";
 import { ReactNode, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-const OidcAuthProvider = ({children}: {children?: ReactNode}) => {
-    const navigate = useNavigate();
+const OidcAuthProvider = ({ children }: { children?: ReactNode }) => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { action } = useParams<{ action: string }>();
-  const {isAuthenticated} = useAppSelector((state) => state.auth); 
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     switch (action) {
@@ -15,7 +20,7 @@ const OidcAuthProvider = ({children}: {children?: ReactNode}) => {
         dispatch(loginAsync());
         break;
       case "login-callback":
-        console.log("Dispatch login")
+        console.log("Dispatch login");
         dispatch(completedLoginAsync());
         navigate("/");
         break;
@@ -31,14 +36,9 @@ const OidcAuthProvider = ({children}: {children?: ReactNode}) => {
     }
   }, [dispatch, navigate, action]);
 
-  if(!isAuthenticated)
-    return null;
+  if (!isAuthenticated) return null;
 
-  return (
-    <>
-        {children}
-    </>
-  )
-}
+  return <>{children}</>;
+};
 
-export default OidcAuthProvider
+export default OidcAuthProvider;
