@@ -5,9 +5,9 @@ import productsReducer from './slices/products.slice';
 import categoriesReducer from './slices/categories.slice';
 
 const rootReducer = combineReducers({
-    auth: authReducer,
-    products: productsReducer,
-    categories: categoriesReducer,
+	auth: authReducer,
+	products: productsReducer,
+	categories: categoriesReducer,
 });
 
 export default rootReducer;

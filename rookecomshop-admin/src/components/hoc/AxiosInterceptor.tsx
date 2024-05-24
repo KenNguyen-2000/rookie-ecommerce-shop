@@ -1,67 +1,60 @@
 import { TOKEN_STRING } from '@/lib/constants/cookies.constant';
 import { useAppDispatch } from '@/redux/reduxHooks';
 import { renewTokenAsync } from '@/redux/thunks/auth.thunk';
-import axios, {
-    AxiosError,
-    AxiosResponse,
-    InternalAxiosRequestConfig,
-} from 'axios';
+import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import Cookies from 'js-cookie';
 import React, { useEffect } from 'react';
 
 const UNAUTHORIZED = 401;
 const interceptor = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
-    timeout: 10000,
-    withCredentials: true,
+	baseURL: import.meta.env.VITE_API_URL,
+	timeout: 10000,
+	withCredentials: true,
 });
 
 type AxiosInterceptorProps = {
-    children: React.ReactNode;
+	children: React.ReactNode;
 };
 
 const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
-    const dispatch = useAppDispatch();
+	const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        interceptor.interceptors.request.use(
-            (req: InternalAxiosRequestConfig<unknown>) => {
-                const token = Cookies.get(TOKEN_STRING);
-                if (token && req.headers)
-                    req.headers.Authorization = `Bearer ${token}`;
+	useEffect(() => {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		interceptor.interceptors.request.use((req: InternalAxiosRequestConfig<unknown>) => {
+			const token = Cookies.get(TOKEN_STRING);
+			if (token && req.headers) req.headers.Authorization = `Bearer ${token}`;
 
-                return req;
-            },
-        );
+			return req;
+		});
 
-        interceptor.interceptors.response.use(
-            (res: AxiosResponse) => {
-                const { code } = res.data;
-                if (code === UNAUTHORIZED) {
-                    throw new Error('Unauthorized');
-                }
+		interceptor.interceptors.response.use(
+			(res: AxiosResponse) => {
+				const { code } = res.data;
+				if (code === UNAUTHORIZED) {
+					throw new Error('Unauthorized');
+				}
 
-                return res;
-            },
-            (error: AxiosError) => {
-                if (error.response?.status === UNAUTHORIZED) {
-                    Cookies.remove(TOKEN_STRING);
-                    dispatch(renewTokenAsync());
-                }
-                if (error.response?.status === 403) {
-                    return Promise.reject(error.response);
-                }
-                if (error.response) {
-                    return error.response;
-                } else {
-                    return Promise.reject(error);
-                }
-            },
-        );
-    }, [dispatch]);
+				return res;
+			},
+			(error: AxiosError) => {
+				if (error.response?.status === UNAUTHORIZED) {
+					Cookies.remove(TOKEN_STRING);
+					dispatch(renewTokenAsync());
+				}
+				if (error.response?.status === 403) {
+					return Promise.reject(error.response);
+				}
+				if (error.response) {
+					return error.response;
+				} else {
+					return Promise.reject(error);
+				}
+			},
+		);
+	}, [dispatch]);
 
-    return children;
+	return children;
 };
 
 export default interceptor;

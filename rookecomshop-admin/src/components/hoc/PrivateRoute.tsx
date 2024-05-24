@@ -6,20 +6,20 @@ import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 const PrivateRoute = () => {
-    const navigate = useNavigate();
-    const { isAuthenticated } = useAppSelector((state) => state.auth);
-    const dispatch = useAppDispatch();
-    useEffect(() => {
-        if (!isAuthenticated) {
-            const token = Cookies.get(TOKEN_STRING);
-            if (!token) {
-                navigate('/authentication/login');
-            } else {
-                dispatch(getUserAsync());
-            }
-        }
-    }, [navigate, isAuthenticated, dispatch]);
-    return isAuthenticated ? <Outlet /> : null;
+	const navigate = useNavigate();
+	const { isAuthenticated } = useAppSelector((state) => state.auth);
+	const dispatch = useAppDispatch();
+	useEffect(() => {
+		if (!isAuthenticated) {
+			const token = Cookies.get(TOKEN_STRING);
+			if (!token) {
+				navigate('/authentication/login');
+			} else {
+				dispatch(getUserAsync());
+			}
+		}
+	}, [navigate, isAuthenticated, dispatch]);
+	return isAuthenticated ? <Outlet /> : null;
 };
 
 export default PrivateRoute;
