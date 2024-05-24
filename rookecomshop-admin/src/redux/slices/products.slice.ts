@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice } from "@reduxjs/toolkit";
-import { getProductsAsync } from "../thunks/product.thunk";
+import { getProductsAsync } from "../thunks/products.thunk";
 
 type ProductState = {
   products: any[];
