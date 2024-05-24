@@ -1,3 +1,3 @@
-import ContentSidebarLayout from "./ContentSidebarLayout";
+import ContentSidebarLayout from './ContentSidebarLayout';
 
 export { ContentSidebarLayout };

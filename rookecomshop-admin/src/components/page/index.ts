@@ -1,3 +1,4 @@
-import RookEcomSidebar from "./Sidebar";
+import RookEcomSidebar from './Sidebar';
+import AlertPopup from './AlertPopup';
 
-export { RookEcomSidebar };
+export { RookEcomSidebar, AlertPopup };
