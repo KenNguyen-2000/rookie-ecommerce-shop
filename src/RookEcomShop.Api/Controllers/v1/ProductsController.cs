@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RookEcomShop.Application.Common.Helpers;
 using RookEcomShop.Application.Dto;
 using RookEcomShop.Application.Handlers.Products.Create;
 using RookEcomShop.Application.Handlers.Products.DeleteById;
@@ -21,10 +22,12 @@ namespace RookEcomShop.Api.Controllers.v1
     public class ProductsController : ControllerBase
     {
         private readonly IMediator _sender;
+        private readonly UserContext _userContext;
 
-        public ProductsController(IMediator sender)
+        public ProductsController(IMediator sender, UserContext userContext)
         {
             _sender = sender;
+            _userContext = userContext;
         }
 
         [Authorize(Roles = "Admin")]
@@ -33,13 +36,13 @@ namespace RookEcomShop.Api.Controllers.v1
         {
             var command = new CreateProductCommand
             {
-                CategoryId = product.CategoryId,
+                CategoryName = product.CategoryName,
                 Description = product.Description,
                 Name = product.Name,
                 Price = product.Price,
                 Stock = product.Stock,
-                UserId = product.UserId,
-                Images = product.Images
+                Images = product.Images,
+                UserId = _userContext.UserId
             };
 
             await _sender.Send(command);

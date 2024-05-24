@@ -32,7 +32,7 @@ namespace RookEcomShop.Application.Handlers.Products.Create
 
         public async Task<Result> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
-            var category = await _categoryRepository.GetByIdAsync(command.CategoryId);
+            var category = await _categoryRepository.GetCategoryByName(command.CategoryName);
 
             if (category == null)
                 throw new NotFoundException("Category not found");
