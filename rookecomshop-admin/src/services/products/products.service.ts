@@ -23,8 +23,7 @@ const createProductAsync = async (request: CreateUpdateProductInputs): Promise<v
 	createProductForm.append('stockQuantity', request.stockQuantity.toString());
 	createProductForm.append('description', request.description ?? '');
 	createProductForm.append('categoryName', request.categoryName.toString());
-	if(request.images)
-		createProductForm.append('images', request.images);
+	if (request.images) createProductForm.append('images', request.images);
 
 	await interceptor.post('/products', createProductForm);
 };
@@ -37,8 +36,7 @@ const updateProductAsync = async (request: CreateUpdateProductInputs): Promise<v
 	updateProductForm.append('description', request.description ?? '');
 	updateProductForm.append('categoryName', request.categoryName.toString());
 	updateProductForm.append('status', request.status?.toString() ?? '');
-	if(request.images)
-		updateProductForm.append('images', request.images);
+	if (request.images) updateProductForm.append('images', request.images);
 
 	await interceptor.put(`/products/${request.id}`, updateProductForm);
 };

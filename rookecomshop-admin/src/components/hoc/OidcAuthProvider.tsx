@@ -1,5 +1,10 @@
 import { useAppDispatch, useAppSelector } from '@/redux/reduxHooks';
-import { completedLoginAsync, completedLogoutAsync, loginAsync, logoutAsync } from '@/redux/thunks/auth.thunk';
+import {
+	completedLoginAsync,
+	completedLogoutAsync,
+	loginAsync,
+	logoutAsync,
+} from '@/redux/thunks/auth.thunk';
 import { ReactNode, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 

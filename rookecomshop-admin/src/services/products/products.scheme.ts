@@ -36,8 +36,8 @@ export const CreateProductScheme = z.object({
 		.refine(
 			(file) => ACCEPTED_IMAGE_TYPES.includes(file.type),
 			'Only these types are allowed .jpg, .jpeg, .png and .webp',
-		).optional(),
-   
+		)
+		.optional(),
 });
 
 export const UpdateProductScheme = z.object({
@@ -74,8 +74,9 @@ export const UpdateProductScheme = z.object({
 		.refine(
 			(file) => ACCEPTED_IMAGE_TYPES.includes(file.type),
 			'Only these types are allowed .jpg, .jpeg, .png and .webp',
-		).optional(),
-    status: z.coerce.number().optional(),
+		)
+		.optional(),
+	status: z.coerce.number().optional(),
 });
 
 export const CreateUpdateProductScheme = CreateProductScheme.merge(UpdateProductScheme);

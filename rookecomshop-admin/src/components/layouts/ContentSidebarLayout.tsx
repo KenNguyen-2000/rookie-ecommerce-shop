@@ -2,7 +2,16 @@ import React from 'react';
 import Sidebar from '../page/Sidebar';
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
 import { Button } from '../ui/button';
-import { Home, LineChart, Package, Package2, PanelLeft, Search, ShoppingCart, Users2 } from 'lucide-react';
+import {
+	Home,
+	LineChart,
+	Package,
+	Package2,
+	PanelLeft,
+	Search,
+	ShoppingCart,
+	Users2,
+} from 'lucide-react';
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -61,7 +70,10 @@ const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children })
 									<ShoppingCart className="h-5 w-5" />
 									Orders
 								</a>
-								<a href="#" className="flex items-center gap-4 px-2.5 text-foreground">
+								<a
+									href="#"
+									className="flex items-center gap-4 px-2.5 text-foreground"
+								>
 									<Package className="h-5 w-5" />
 									Products
 								</a>
@@ -111,7 +123,11 @@ const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children })
 					</div>
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
-							<Button variant="outline" size="icon" className="overflow-hidden rounded-full">
+							<Button
+								variant="outline"
+								size="icon"
+								className="overflow-hidden rounded-full"
+							>
 								<img
 									src="/placeholder-user.jpg"
 									width={36}
@@ -131,7 +147,9 @@ const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children })
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</header>
-				<main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">{children}</main>
+				<main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+					{children}
+				</main>
 			</div>
 		</div>
 	);

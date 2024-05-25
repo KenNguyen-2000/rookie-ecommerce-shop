@@ -1,22 +1,27 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ContentSidebarLayout } from '@/components/layouts';
 import { useAppDispatch } from '@/redux/reduxHooks';
-import { createProductAsync } from '@/redux/thunks/products.thunk';
 import { CreateUpdateProductInputs } from '@/services/products/products.type';
 import { useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import CreateUpdateProductForm from '@/components/page/CreateUpdateProductForm';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import productsService from '@/services/products/products.service';
 
 const CreateProductPage = () => {
 	const { toast } = useToast();
 	const dispatch = useAppDispatch();
+	const queryClient = useQueryClient();
 
-	const [createProductLoading, setCreateProductLoading] = useState(false);
+	const createProductMutation = useMutation({
+		mutationFn: productsService.createProductAsync,
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['products'] });
+		},
+	});
 
 	const onSubmit = async (data: CreateUpdateProductInputs) => {
-		setCreateProductLoading(true);
-		await dispatch(createProductAsync(data));
-		setCreateProductLoading(false);
+		await createProductMutation.mutateAsync(data);
 		toast({
 			title: 'Create Product Succeeded',
 			description: (
@@ -27,16 +32,15 @@ const CreateProductPage = () => {
 		});
 	};
 
-
 	return (
 		<ContentSidebarLayout>
-			<CreateUpdateProductForm 
+			<CreateUpdateProductForm
 				defaultValue={{
-					name: "",
+					name: '',
 					price: 0,
 					stockQuantity: 0,
-					description: "",
-					categoryName: "",
+					description: '',
+					categoryName: '',
 				}}
 				handleSubmitForm={onSubmit}
 			/>

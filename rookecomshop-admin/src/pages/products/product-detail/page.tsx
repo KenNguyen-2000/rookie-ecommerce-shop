@@ -1,4 +1,3 @@
-
 import { ContentSidebarLayout } from '@/components/layouts';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
@@ -21,14 +20,16 @@ const ProductDetailPage = () => {
 		queryFn: () => productsService.getByIdAsync(parseInt(id!)),
 	});
 
-	const onSubmit= async (data : CreateUpdateProductInputs) => {
-        if(!product) return;
-        console.log(data)
-		await dispatch(updateProductAsync({
-            ...data,
-            id: product.id,
-            status: product.status,
-        }));
+	const onSubmit = async (data: CreateUpdateProductInputs) => {
+		if (!product) return;
+		console.log(data);
+		await dispatch(
+			updateProductAsync({
+				...data,
+				id: product.id,
+				status: product.status,
+			}),
+		);
 		toast({
 			title: 'Update Product Succeeded',
 			description: (
@@ -39,24 +40,25 @@ const ProductDetailPage = () => {
 		});
 	};
 
-
-
 	if (isLoading) return <div>Loading...</div>;
 
 	if (isError || !product) return <div>Error...</div>;
 
 	return (
 		<ContentSidebarLayout>
-			<CreateUpdateProductForm defaultValue={{
-                id: product.id,
-                name: product.name,
-                description: product.description,
-                price: product.price,
-                stockQuantity: product.stockQuantity,
-                categoryName: product.category.name,
-                imgUrls: product.imgUrls,
-                category: product.category,
-            }} handleSubmitForm={onSubmit} />
+			<CreateUpdateProductForm
+				defaultValue={{
+					id: product.id,
+					name: product.name,
+					description: product.description,
+					price: product.price,
+					stockQuantity: product.stockQuantity,
+					categoryName: product.category.name,
+					imgUrls: product.imgUrls,
+					category: product.category,
+				}}
+				handleSubmitForm={onSubmit}
+			/>
 		</ContentSidebarLayout>
 	);
 };

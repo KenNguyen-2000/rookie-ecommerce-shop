@@ -3,7 +3,14 @@ import { File, ListFilter, MoreHorizontal, PlusCircle } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from '@/components/ui/card';
 import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
@@ -13,13 +20,20 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '@/redux/reduxHooks';
-import { useNavigate } from 'react-router-dom';
-import { deleteProductAsync, getProductsAsync } from '@/redux/thunks/products.thunk';
+import { useAppDispatch } from '@/redux/reduxHooks';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { deleteProductAsync } from '@/redux/thunks/products.thunk';
 import { ContentSidebarLayout } from '@/components/layouts';
 import {
 	Pagination,
@@ -31,13 +45,21 @@ import {
 	PaginationPrevious,
 } from '@/components/ui/pagination';
 import { AlertPopup } from '@/components/page';
+import { QueryDto } from '@/types/query-dto';
+import { useQuery } from '@tanstack/react-query';
+import productsService from '@/services/products/products.service';
 
 const ProductPage = () => {
 	const navigate = useNavigate();
+	const [searchParams, setSearchParams] = useSearchParams();
 	const dispatch = useAppDispatch();
-	const { products } = useAppSelector((state) => state.products);
 	const [isOpen, setIsOpen] = useState(false);
 	const [productId, setProductId] = useState<number | null>(null);
+	const [queryDto, setQueryDto] = useState<QueryDto>({ page: 1, pageSize: 5, searchTerm: '' });
+	const { data: products } = useQuery({
+		queryKey: ['products', queryDto],
+		queryFn: () => productsService.getProductsAsync(queryDto),
+	});
 
 	const handleDeleteProduct = () => {
 		if (productId) {
@@ -53,9 +75,22 @@ const ProductPage = () => {
 		setProductId(productId);
 	};
 
+	const handleAddParams = (page: number, pageSize: number) => {
+		const newParams = new URLSearchParams(searchParams);
+		newParams.set('page', page.toString());
+		newParams.set('pageSize', pageSize.toString());
+		setSearchParams(newParams);
+	};
+
 	useEffect(() => {
-		dispatch(getProductsAsync());
-	}, [dispatch]);
+		const page = searchParams.get('page') ?? '1';
+		const pageSize = searchParams.get('pageSize') ?? '5';
+		if (page && pageSize) {
+			setQueryDto({ page: parseInt(page), pageSize: parseInt(pageSize) });
+		}
+	}, [searchParams]);
+
+	useEffect(() => {}, [queryDto]);
 
 	return (
 		<ContentSidebarLayout>
@@ -75,7 +110,9 @@ const ProductPage = () => {
 							<DropdownMenuTrigger asChild>
 								<Button variant="outline" size="sm" className="h-8 gap-1">
 									<ListFilter className="h-3.5 w-3.5" />
-									<span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Filter</span>
+									<span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+										Filter
+									</span>
 								</Button>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent align="end">
@@ -88,11 +125,19 @@ const ProductPage = () => {
 						</DropdownMenu>
 						<Button size="sm" variant="outline" className="h-8 gap-1">
 							<File className="h-3.5 w-3.5" />
-							<span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Export</span>
+							<span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+								Export
+							</span>
 						</Button>
-						<Button size="sm" className="h-8 gap-1" onClick={() => navigate('/products/create')}>
+						<Button
+							size="sm"
+							className="h-8 gap-1"
+							onClick={() => navigate('/products/create')}
+						>
 							<PlusCircle className="h-3.5 w-3.5" />
-							<span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Add Product</span>
+							<span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+								Add Product
+							</span>
 						</Button>
 					</div>
 				</div>
@@ -100,7 +145,9 @@ const ProductPage = () => {
 					<Card x-chunk="dashboard-06-chunk-0">
 						<CardHeader>
 							<CardTitle>Products</CardTitle>
-							<CardDescription>Manage your products and view their sales performance.</CardDescription>
+							<CardDescription>
+								Manage your products and view their sales performance.
+							</CardDescription>
 						</CardHeader>
 						<CardContent>
 							<Table>
@@ -111,17 +158,25 @@ const ProductPage = () => {
 										</TableHead>
 										<TableHead>Name</TableHead>
 										<TableHead>Status</TableHead>
-										<TableHead className="hidden md:table-cell">Price</TableHead>
-										<TableHead className="hidden md:table-cell">Total Sales</TableHead>
-										<TableHead className="hidden md:table-cell">Category</TableHead>
-										<TableHead className="hidden md:table-cell">Created at</TableHead>
+										<TableHead className="hidden md:table-cell">
+											Price
+										</TableHead>
+										<TableHead className="hidden md:table-cell">
+											Total Sales
+										</TableHead>
+										<TableHead className="hidden md:table-cell">
+											Category
+										</TableHead>
+										<TableHead className="hidden md:table-cell">
+											Created at
+										</TableHead>
 										<TableHead>
 											<span className="sr-only">Actions</span>
 										</TableHead>
 									</TableRow>
 								</TableHeader>
 								<TableBody>
-									{products?.map((product: any) => (
+									{products?.items?.map((product: any) => (
 										<TableRow key={product.id}>
 											<TableCell className="hidden sm:table-cell">
 												<img
@@ -132,12 +187,18 @@ const ProductPage = () => {
 													width="64"
 												/>
 											</TableCell>
-											<TableCell className="font-medium">{product.name}</TableCell>
+											<TableCell className="font-medium">
+												{product.name}
+											</TableCell>
 											<TableCell>
 												<Badge variant="outline">Draft</Badge>
 											</TableCell>
-											<TableCell className="hidden md:table-cell">${product.price}</TableCell>
-											<TableCell className="hidden md:table-cell">25</TableCell>
+											<TableCell className="hidden md:table-cell">
+												${product.price}
+											</TableCell>
+											<TableCell className="hidden md:table-cell">
+												25
+											</TableCell>
 											<TableCell className="hidden md:table-cell">
 												{product.category.name}
 											</TableCell>
@@ -147,21 +208,34 @@ const ProductPage = () => {
 											<TableCell>
 												<DropdownMenu>
 													<DropdownMenuTrigger asChild>
-														<Button aria-haspopup="true" size="icon" variant="ghost">
+														<Button
+															aria-haspopup="true"
+															size="icon"
+															variant="ghost"
+														>
 															<MoreHorizontal className="h-4 w-4" />
-															<span className="sr-only">Toggle menu</span>
+															<span className="sr-only">
+																Toggle menu
+															</span>
 														</Button>
 													</DropdownMenuTrigger>
 													<DropdownMenuContent align="end">
-														<DropdownMenuLabel>Actions</DropdownMenuLabel>
+														<DropdownMenuLabel>
+															Actions
+														</DropdownMenuLabel>
 														<DropdownMenuItem
-															onClick={() => navigate(`/products/${product.id}`)}
+															onClick={() =>
+																navigate(`/products/${product.id}`)
+															}
 														>
 															Edit
 														</DropdownMenuItem>
 
 														<DropdownMenuItem
-															onClick={onSelectProductToDelete.bind(null, product.id)}
+															onClick={onSelectProductToDelete.bind(
+																null,
+																product.id,
+															)}
 														>
 															Delete
 														</DropdownMenuItem>
@@ -181,17 +255,27 @@ const ProductPage = () => {
 												width="64"
 											/>
 										</TableCell>
-										<TableCell className="font-medium">TechTonic Energy Drink</TableCell>
+										<TableCell className="font-medium">
+											TechTonic Energy Drink
+										</TableCell>
 										<TableCell>
 											<Badge variant="secondary">Active</Badge>
 										</TableCell>
-										<TableCell className="hidden md:table-cell">$2.99</TableCell>
+										<TableCell className="hidden md:table-cell">
+											$2.99
+										</TableCell>
 										<TableCell className="hidden md:table-cell">0</TableCell>
-										<TableCell className="hidden md:table-cell">2023-12-25 11:59 PM</TableCell>
+										<TableCell className="hidden md:table-cell">
+											2023-12-25 11:59 PM
+										</TableCell>
 										<TableCell>
 											<DropdownMenu>
 												<DropdownMenuTrigger asChild>
-													<Button aria-haspopup="true" size="icon" variant="ghost">
+													<Button
+														aria-haspopup="true"
+														size="icon"
+														variant="ghost"
+													>
 														<MoreHorizontal className="h-4 w-4" />
 														<span className="sr-only">Toggle menu</span>
 													</Button>
@@ -216,24 +300,39 @@ const ProductPage = () => {
 									<Pagination>
 										<PaginationContent>
 											<PaginationItem>
-												<PaginationPrevious href="#" />
+												<PaginationPrevious
+													onClick={handleAddParams.bind(null, 7, 5)}
+												/>
 											</PaginationItem>
 											<PaginationItem>
-												<PaginationLink href="#">1</PaginationLink>
+												<PaginationLink
+													onClick={handleAddParams.bind(null, 1, 5)}
+												>
+													1
+												</PaginationLink>
 											</PaginationItem>
 											<PaginationItem>
-												<PaginationLink href="#" isActive>
+												<PaginationLink
+													onClick={handleAddParams.bind(null, 2, 5)}
+													isActive
+												>
 													2
 												</PaginationLink>
 											</PaginationItem>
 											<PaginationItem>
-												<PaginationLink href="#">3</PaginationLink>
+												<PaginationLink
+													onClick={handleAddParams.bind(null, 3, 5)}
+												>
+													3
+												</PaginationLink>
 											</PaginationItem>
 											<PaginationItem>
 												<PaginationEllipsis />
 											</PaginationItem>
 											<PaginationItem>
-												<PaginationNext href="#" />
+												<PaginationNext
+													onClick={handleAddParams.bind(null, 6, 5)}
+												/>
 											</PaginationItem>
 										</PaginationContent>
 									</Pagination>

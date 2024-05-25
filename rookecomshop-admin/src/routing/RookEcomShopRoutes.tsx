@@ -1,9 +1,20 @@
-import { OidcAuthProvider, PrivateRoute, ReduxProvider, TanstackProvider } from '@/components/hoc';
-import { AxiosInterceptor } from '@/components/hoc/AxiosInterceptor';
+import {
+	AxiosInterceptor,
+	ErrorHandleProvider,
+	OidcAuthProvider,
+	PrivateRoute,
+	ReduxProvider,
+	TanstackProvider,
+} from '@/components/hoc';
 import { Toaster } from '@/components/ui/toaster';
 import NotFoundPage from '@/pages/errors/NotFoundPage';
 import { TooltipProvider } from '@radix-ui/react-tooltip';
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
+import {
+	createBrowserRouter,
+	createRoutesFromElements,
+	Route,
+	RouterProvider,
+} from 'react-router-dom';
 
 const RookEcomShopRoutes = () => {
 	const router = createBrowserRouter(
@@ -14,7 +25,9 @@ const RookEcomShopRoutes = () => {
 					<Route
 						index
 						lazy={async () => {
-							const { default: DashboardPage } = await import('../pages/dashboard/page');
+							const { default: DashboardPage } = await import(
+								'../pages/dashboard/page'
+							);
 							return { Component: DashboardPage };
 						}}
 					/>
@@ -22,7 +35,9 @@ const RookEcomShopRoutes = () => {
 						<Route
 							index
 							lazy={async () => {
-								const { default: ProductPage } = await import('../pages/products/page');
+								const { default: ProductPage } = await import(
+									'../pages/products/page'
+								);
 								return { Component: ProductPage };
 							}}
 						/>
@@ -38,7 +53,9 @@ const RookEcomShopRoutes = () => {
 						<Route
 							path="create"
 							lazy={async () => {
-								const { default: CreateProductPage } = await import('../pages/products/create/page');
+								const { default: CreateProductPage } = await import(
+									'../pages/products/create/page'
+								);
 								return { Component: CreateProductPage };
 							}}
 						/>
@@ -49,16 +66,18 @@ const RookEcomShopRoutes = () => {
 		),
 	);
 	return (
-		<TooltipProvider>
-			<ReduxProvider>
-				<TanstackProvider>
-					<AxiosInterceptor>
-						<RouterProvider router={router} />
-					</AxiosInterceptor>
-				</TanstackProvider>
-			</ReduxProvider>
-			<Toaster />
-		</TooltipProvider>
+		<ErrorHandleProvider>
+			<TooltipProvider>
+				<ReduxProvider>
+					<TanstackProvider>
+						<AxiosInterceptor>
+							<RouterProvider router={router} />
+						</AxiosInterceptor>
+					</TanstackProvider>
+				</ReduxProvider>
+				<Toaster />
+			</TooltipProvider>
+		</ErrorHandleProvider>
 	);
 };
 

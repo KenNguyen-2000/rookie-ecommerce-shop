@@ -36,7 +36,8 @@ const authSlice = createSlice({
 				state.user = action.payload?.profile ?? null;
 				state.isAuthenticated = true;
 				state.isLoading = false;
-				if (action.payload) Cookies.set(TOKEN_STRING, action.payload?.access_token, COOKIES_CONFIGS);
+				if (action.payload)
+					Cookies.set(TOKEN_STRING, action.payload?.access_token, COOKIES_CONFIGS);
 			})
 			.addCase(completedLoginAsync.rejected, (state) => {
 				state.isLoading = false;
@@ -50,7 +51,8 @@ const authSlice = createSlice({
 				state.user = action.payload?.profile ?? null;
 				state.isAuthenticated = true;
 				state.isLoading = false;
-				if (action.payload) Cookies.set(TOKEN_STRING, action.payload?.access_token, COOKIES_CONFIGS);
+				if (action.payload)
+					Cookies.set(TOKEN_STRING, action.payload?.access_token, COOKIES_CONFIGS);
 			})
 			.addCase(getUserAsync.rejected, (state) => {
 				state.isLoading = false;
