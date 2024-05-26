@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { ProductStatus } from './products.enum';
 
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
 
@@ -66,6 +67,7 @@ export const UpdateProductScheme = z.object({
 	categoryName: z.string({
 		message: 'Category is required',
 	}),
+	subCategoryName: z.string().optional(),
 	images: z
 		.instanceof(File)
 		.refine((file) => file.size < 7000000, {
@@ -76,7 +78,7 @@ export const UpdateProductScheme = z.object({
 			'Only these types are allowed .jpg, .jpeg, .png and .webp',
 		)
 		.optional(),
-	status: z.coerce.number().optional(),
+	status: z.nativeEnum(ProductStatus).optional(),
 });
 
 export const CreateUpdateProductScheme = CreateProductScheme.merge(UpdateProductScheme);

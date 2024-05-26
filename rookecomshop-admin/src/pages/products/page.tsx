@@ -46,26 +46,36 @@ import {
 } from '@/components/ui/pagination';
 import { AlertPopup } from '@/components/page';
 import { QueryDto } from '@/types/query-dto';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import productsService from '@/services/products/products.service';
+import { Skeleton } from '@/components/ui/skeleton';
+import { toast } from '@/components/ui/use-toast';
 
 const ProductPage = () => {
 	const navigate = useNavigate();
-	const [searchParams, setSearchParams] = useSearchParams();
 	const dispatch = useAppDispatch();
+	const queryClient = useQueryClient();
+
+	const [searchParams, setSearchParams] = useSearchParams();
 	const [isOpen, setIsOpen] = useState(false);
 	const [productId, setProductId] = useState<number | null>(null);
 	const [queryDto, setQueryDto] = useState<QueryDto>({ page: 1, pageSize: 5, searchTerm: '' });
-	const { data: products } = useQuery({
+	const { data: products, isLoading } = useQuery({
 		queryKey: ['products', queryDto],
 		queryFn: () => productsService.getProductsAsync(queryDto),
 	});
 
-	const handleDeleteProduct = () => {
+	const handleDeleteProduct = async () => {
 		if (productId) {
 			//Delete product
 			console.log('Delete product');
-			dispatch(deleteProductAsync(productId));
+			await dispatch(deleteProductAsync(productId));
+			queryClient.invalidateQueries({ queryKey: ['products', queryDto]});
+			toast({
+				title: 'Product Deleted',
+				description: 'Product has been deleted successfully',
+			
+			});
 		}
 		setIsOpen(false);
 	};
@@ -176,74 +186,80 @@ const ProductPage = () => {
 									</TableRow>
 								</TableHeader>
 								<TableBody>
-									{products?.items?.map((product: any) => (
-										<TableRow key={product.id}>
-											<TableCell className="hidden sm:table-cell">
-												<img
-													alt="Product image"
-													className="aspect-square rounded-md object-cover"
-													height="64"
-													src="/placeholder.svg"
-													width="64"
-												/>
-											</TableCell>
-											<TableCell className="font-medium">
-												{product.name}
-											</TableCell>
-											<TableCell>
-												<Badge variant="outline">Draft</Badge>
-											</TableCell>
-											<TableCell className="hidden md:table-cell">
-												${product.price}
-											</TableCell>
-											<TableCell className="hidden md:table-cell">
-												25
-											</TableCell>
-											<TableCell className="hidden md:table-cell">
-												{product.category.name}
-											</TableCell>
-											<TableCell className="hidden md:table-cell">
-												{moment(product.createdAt).format('DD/MM/yyyy')}
-											</TableCell>
-											<TableCell>
-												<DropdownMenu>
-													<DropdownMenuTrigger asChild>
-														<Button
-															aria-haspopup="true"
-															size="icon"
-															variant="ghost"
-														>
-															<MoreHorizontal className="h-4 w-4" />
-															<span className="sr-only">
-																Toggle menu
-															</span>
-														</Button>
-													</DropdownMenuTrigger>
-													<DropdownMenuContent align="end">
-														<DropdownMenuLabel>
-															Actions
-														</DropdownMenuLabel>
-														<DropdownMenuItem
-															onClick={() =>
-																navigate(`/products/${product.id}`)
-															}
-														>
-															Edit
-														</DropdownMenuItem>
+									{!isLoading ? (
+										products?.items?.map((product: any) => (
+											<TableRow key={product.id}>
+												<TableCell className="hidden sm:table-cell">
+													<img
+														alt="Product image"
+														className="aspect-square rounded-md object-cover"
+														height="64"
+														src="/placeholder.svg"
+														width="64"
+													/>
+												</TableCell>
+												<TableCell className="font-medium">
+													{product.name}
+												</TableCell>
+												<TableCell>
+													<Badge variant="outline">Draft</Badge>
+												</TableCell>
+												<TableCell className="hidden md:table-cell">
+													${product.price}
+												</TableCell>
+												<TableCell className="hidden md:table-cell">
+													25
+												</TableCell>
+												<TableCell className="hidden md:table-cell">
+													{product.category.name}
+												</TableCell>
+												<TableCell className="hidden md:table-cell">
+													{moment(product.createdAt).format('DD/MM/yyyy')}
+												</TableCell>
+												<TableCell>
+													<DropdownMenu>
+														<DropdownMenuTrigger asChild>
+															<Button
+																aria-haspopup="true"
+																size="icon"
+																variant="ghost"
+															>
+																<MoreHorizontal className="h-4 w-4" />
+																<span className="sr-only">
+																	Toggle menu
+																</span>
+															</Button>
+														</DropdownMenuTrigger>
+														<DropdownMenuContent align="end">
+															<DropdownMenuLabel>
+																Actions
+															</DropdownMenuLabel>
+															<DropdownMenuItem
+																onClick={() =>
+																	navigate(
+																		`/products/${product.id}`,
+																	)
+																}
+															>
+																Edit
+															</DropdownMenuItem>
 
-														<DropdownMenuItem
-															onClick={onSelectProductToDelete.bind(
-																null,
-																product.id,
-															)}
-														>
-															Delete
-														</DropdownMenuItem>
-													</DropdownMenuContent>
-												</DropdownMenu>
-											</TableCell>
-										</TableRow>
-									))}
+															<DropdownMenuItem
+																onClick={onSelectProductToDelete.bind(
+																	null,
+																	product.id,
+																)}
+															>
+																Delete
+															</DropdownMenuItem>
+														</DropdownMenuContent>
+													</DropdownMenu>
+												</TableCell>
+											</TableRow>
+										))
+									) : (
+										<ProductsSkeleton count={5} />
+									)}
 
 									<TableRow>
 										<TableCell className="hidden sm:table-cell">
@@ -346,3 +362,51 @@ const ProductPage = () => {
 	);
 };
 export default ProductPage;
+
+const ProductsSkeleton = ({ count }: { count: number }) => {
+	return (
+		<>
+			{Array.from({ length: count }).map((_, index) => (
+				<TableRow key={index}>
+					<TableCell className="hidden sm:table-cell">
+						<Skeleton className="bg-slate-300 h-16 w-16 rounded-full" />
+					</TableCell>
+					<TableCell className="font-medium">
+						<Skeleton className="bg-slate-300 h-6 w-32 rounded-full" />
+					</TableCell>
+					<TableCell>
+						<Skeleton className="bg-slate-300 h-6 w-10 rounded-full" />
+					</TableCell>
+					<TableCell className="hidden md:table-cell">
+						<Skeleton className="bg-slate-300 h-6 w-32 rounded-full" />
+					</TableCell>
+					<TableCell className="hidden md:table-cell">
+						<Skeleton className="bg-slate-300 h-6 w-32 rounded-full" />
+					</TableCell>
+					<TableCell className="hidden md:table-cell">
+						<Skeleton className="bg-slate-300 h-6 w-32 rounded-full" />
+					</TableCell>
+					<TableCell className="hidden md:table-cell">
+						<Skeleton className="bg-slate-300 h-6 w-32 rounded-full" />
+					</TableCell>
+					<TableCell>
+						<DropdownMenu>
+							<DropdownMenuTrigger asChild>
+								<Button aria-haspopup="true" size="icon" variant="ghost">
+									<MoreHorizontal className="h-4 w-4" />
+									<span className="sr-only">Toggle menu</span>
+								</Button>
+							</DropdownMenuTrigger>
+							<DropdownMenuContent align="end">
+								<DropdownMenuLabel>Actions</DropdownMenuLabel>
+								<DropdownMenuItem>Edit</DropdownMenuItem>
+
+								<DropdownMenuItem>Delete</DropdownMenuItem>
+							</DropdownMenuContent>
+						</DropdownMenu>
+					</TableCell>
+				</TableRow>
+			))}
+		</>
+	);
+};

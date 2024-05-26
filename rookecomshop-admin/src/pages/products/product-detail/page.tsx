@@ -7,6 +7,7 @@ import { useAppDispatch } from '@/redux/reduxHooks';
 import CreateUpdateProductForm from '@/components/page/CreateUpdateProductForm';
 import { updateProductAsync } from '@/redux/thunks/products.thunk';
 import { toast } from '@/components/ui/use-toast';
+import { ProductStatus } from '@/services/products/products.enum';
 
 const ProductDetailPage = () => {
 	const { id } = useParams();
@@ -56,6 +57,7 @@ const ProductDetailPage = () => {
 					categoryName: product.category.name,
 					imgUrls: product.imgUrls,
 					category: product.category,
+					status: product.status,
 				}}
 				handleSubmitForm={onSubmit}
 			/>

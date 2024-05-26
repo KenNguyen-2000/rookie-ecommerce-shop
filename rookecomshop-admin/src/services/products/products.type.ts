@@ -6,6 +6,7 @@ import {
 	UpdateProductScheme,
 } from './products.scheme';
 import { CategoryDto } from '../categories/categories.type';
+import { ProductStatus } from './products.enum';
 
 export type CreateProductInputs = z.infer<typeof CreateProductScheme>;
 
@@ -24,6 +25,6 @@ export type ProductDto = {
 	price: number;
 	stockQuantity: number;
 	category: CategoryDto;
+	status: ProductStatus;
 	imgUrls: string[];
-	status: number;
 };

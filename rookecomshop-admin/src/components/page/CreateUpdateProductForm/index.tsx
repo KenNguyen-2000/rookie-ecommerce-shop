@@ -29,6 +29,8 @@ import { FC, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/reduxHooks';
 import { getCategoriesAsync } from '@/redux/thunks/categories.thunk';
 import { setSelectedTopCategory } from '@/redux/slices/categories.slice';
+import { ProductStatus } from '@/services/products/products.enum';
+import { useNavigate } from 'react-router-dom';
 
 type CreateUpdateProductFormProps = {
 	defaultValue?: CreateUpdateProductInputs;
@@ -40,6 +42,8 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 	handleSubmitForm,
 }) => {
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+
 	const {
 		categories,
 		isLoading: categoryLoading,
@@ -60,12 +64,19 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 			dispatch(setSelectedTopCategory(defaultValue.category));
 		}
 	}, [defaultValue?.categoryName]);
+
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)}>
 				<div className="mx-auto grid max-w-[64rem] flex-1 auto-rows-max gap-4">
 					<div className="flex items-center gap-4">
-						<Button type="button" variant="outline" size="icon" className="h-7 w-7">
+						<Button
+							type="button"
+							variant="outline"
+							size="icon"
+							className="h-7 w-7"
+							onClick={() => navigate(-1)}
+						>
 							<ChevronLeft className="h-4 w-4" />
 							<span className="sr-only">Back</span>
 						</Button>
@@ -190,12 +201,10 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 										<div className="grid gap-3">
 											<FormField
 												control={form.control}
-												name="categoryName"
+												name="subCategoryName"
 												render={({ field }) => (
 													<FormItem>
-														<FormLabel htmlFor="category">
-															Category
-														</FormLabel>
+														<FormLabel>Category</FormLabel>
 														<Select
 															defaultValue={
 																defaultValue?.categoryName
@@ -232,27 +241,37 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 											/>
 										</div>
 										<div className="grid gap-3">
-											<Label htmlFor="subcategory">
-												Subcategory (optional)
-											</Label>
-											<Select>
-												<SelectTrigger
-													id="subcategory"
-													aria-label="Select subcategory"
-												>
-													<SelectValue placeholder="Select subcategory" />
-												</SelectTrigger>
-												<SelectContent>
-													{categories.map((category) => (
-														<SelectItem
-															key={category.name}
-															value={category.name}
+											<FormField
+												control={form.control}
+												name="categoryName"
+												render={({ field }) => (
+													<FormItem>
+														<FormLabel>Sub Category</FormLabel>
+														<Select
+															defaultValue={selectedTopCategory?.name}
+															onValueChange={(value) => {
+																field.onChange(value);
+															}}
 														>
-															{category.name}
-														</SelectItem>
-													))}
-												</SelectContent>
-											</Select>
+															<SelectTrigger>
+																<SelectValue placeholder="Select sub category" />
+															</SelectTrigger>
+															<SelectContent>
+																{selectedTopCategory?.subCategories.map(
+																	(subCategory) => (
+																		<SelectItem
+																			key={subCategory.id}
+																			value={subCategory.name}
+																		>
+																			{subCategory.name}
+																		</SelectItem>
+																	),
+																)}
+															</SelectContent>
+														</Select>
+													</FormItem>
+												)}
+											/>
 										</div>
 									</div>
 								</CardContent>
@@ -266,24 +285,37 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 								<CardContent>
 									<div className="grid gap-6">
 										<div className="grid gap-3">
-											<Label htmlFor="status">Status</Label>
-											<Select>
-												<SelectTrigger
-													id="status"
-													aria-label="Select status"
-												>
-													<SelectValue placeholder="Select status" />
-												</SelectTrigger>
-												<SelectContent>
-													<SelectItem value="draft">Draft</SelectItem>
-													<SelectItem value="published">
-														Active
-													</SelectItem>
-													<SelectItem value="archived">
-														Archived
-													</SelectItem>
-												</SelectContent>
-											</Select>
+											<FormField
+												control={form.control}
+												name="status"
+												render={({ field }) => (
+													<FormItem>
+														<FormLabel>Status</FormLabel>
+														<Select
+															defaultValue={defaultValue?.status?.toString()}
+															onValueChange={(value) => {
+																field.onChange(value);
+															}}
+														>
+															<SelectTrigger>
+																<SelectValue placeholder="Select status" />
+															</SelectTrigger>
+															<SelectContent>
+																<SelectItem
+																	value={ProductStatus.Active.toString()}
+																>
+																	Active
+																</SelectItem>
+																<SelectItem
+																	value={ProductStatus.Inactive.toString()}
+																>
+																	Inactive
+																</SelectItem>
+															</SelectContent>
+														</Select>
+													</FormItem>
+												)}
+											/>
 										</div>
 									</div>
 								</CardContent>

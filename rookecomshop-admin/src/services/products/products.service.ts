@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import interceptor from '@/components/hoc/AxiosInterceptor';
-import { CreateProductInputs, CreateUpdateProductInputs, ProductDto } from './products.type';
+import { CreateUpdateProductInputs, ProductDto } from './products.type';
 import { QueryDto, defaultQuery } from '@/types/query-dto';
 import { PagniatedList } from '@/types/pagniated-list.type';
 
@@ -22,7 +22,7 @@ const createProductAsync = async (request: CreateUpdateProductInputs): Promise<v
 	createProductForm.append('price', request.price.toString());
 	createProductForm.append('stockQuantity', request.stockQuantity.toString());
 	createProductForm.append('description', request.description ?? '');
-	createProductForm.append('categoryName', request.categoryName.toString());
+	createProductForm.append('categoryName', request.subCategoryName ?? request.categoryName);
 	if (request.images) createProductForm.append('images', request.images);
 
 	await interceptor.post('/products', createProductForm);

@@ -22,13 +22,22 @@ const RookEcomShopRoutes = () => {
 			<Route>
 				<Route path="/authentication/:action" element={<OidcAuthProvider />} />
 				<Route path="/" element={<PrivateRoute />}>
-					<Route
+				<Route
 						index
 						lazy={async () => {
 							const { default: DashboardPage } = await import(
 								'../pages/dashboard/page'
 							);
 							return { Component: DashboardPage };
+						}}
+					/>
+					<Route
+						path="orders"
+						lazy={async () => {
+							const { default: OrdersPage } = await import(
+								'../pages/orders/page'
+							);
+							return { Component: OrdersPage };
 						}}
 					/>
 					<Route path="/products">
