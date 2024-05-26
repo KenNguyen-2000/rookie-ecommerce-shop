@@ -2,9 +2,10 @@
 @model IEnumerable<CartDetailVM>
 
 @{
-  Layout = "~/Views/Shared/Layouts/_ContentSidebarLayout.cshtml";
+  Layout = "~/Views/Shared/Layouts/_LayoutNoSidebar.cshtml";
 
   var cartDetails = @Model;
+  ViewData["CartDetails"] = @Model;
 }
 
 <section class="bg-white antialiased dark:bg-gray-900 md:py-8">
@@ -30,7 +31,7 @@
       </div>
 
       <div class="lg:sticky lg:top-4 mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
-        <partial name="Partials/_OrderSummary"></partial>
+        <partial name="Partials/_OrderSummary" view-data="ViewData" />
 
         <div
           class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">

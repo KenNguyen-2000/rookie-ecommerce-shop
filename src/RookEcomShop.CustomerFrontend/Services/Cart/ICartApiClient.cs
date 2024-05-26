@@ -7,6 +7,7 @@ namespace RookEcomShop.CustomerFrontend.Services.Cart
     public interface ICartApiClient
     {
         Task<IEnumerable<CartDetailVM>> GetProductsInCart();
-        Task AddProductToCart(int productId);
+        Task AddProductToCart(AddProductToCartRequest request);
+        Task RemoveProductFromCart(int productId);
     }
 }

@@ -4,6 +4,7 @@ using RookEcomShop.CustomerFrontend.Services.Cart;
 using RookEcomShop.CustomerFrontend.Services.Products;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.ViewModels.Cart;
+using Serilog;
 
 namespace RookEcomShop.CustomerFrontend.Controllers
 {
@@ -34,12 +35,29 @@ namespace RookEcomShop.CustomerFrontend.Controllers
         }
 
         [HttpPost("{productId}")]
-        public async Task<IActionResult> AddToCart(int productId)
+        public async Task<IActionResult> AddToCart(AddProductToCartRequest request)
         {
-            Console.WriteLine(productId);
-            await _cartApiClient.AddProductToCart(productId);
+            _logger.LogInformation("Adding product to cart: " + request);
+            await _cartApiClient.AddProductToCart(request);
 
             return Ok();
+        }
+
+        [HttpPost("{productId}/remove")]
+        public async Task<IActionResult> RemoveFromCart(int productId)
+        {
+            try
+            {
+                _logger.LogInformation($"Remove product with id {productId} from cart");
+                await _cartApiClient.RemoveProductFromCart(productId);
+                Console.WriteLine("Removing product from cart: " + productId);
+            }
+            catch (System.Exception e)
+            {
+
+                Console.WriteLine(e);
+            }
+            return Redirect("/cart");
         }
 
         [HttpGet("update-header")]

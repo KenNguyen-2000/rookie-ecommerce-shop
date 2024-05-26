@@ -15,11 +15,11 @@ namespace RookEcomShop.CustomerFrontend.Services.Cart
             _httpClient.BaseAddress = new Uri("https://localhost:7181/api/v1/");
         }
 
-        public async Task AddProductToCart(int productId)
+        public async Task AddProductToCart(AddProductToCartRequest request)
         {
             try
             {
-                var jsonData = JsonConvert.SerializeObject(new { ProductId = productId, Quantity = 1 });
+                var jsonData = JsonConvert.SerializeObject(request);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync($"carts/products/add", content);
 
@@ -48,6 +48,22 @@ namespace RookEcomShop.CustomerFrontend.Services.Cart
                 string content = await response.Content.ReadAsStringAsync();
                 var productsInCart = JsonConvert.DeserializeObject<IEnumerable<CartDetailVM>>(content)!;
                 return (dynamic)productsInCart;
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task RemoveProductFromCart(int productId)
+        {
+            try
+            {
+                var response = await _httpClient.DeleteAsync($"carts/products/{productId}");
+
+                response.EnsureSuccessStatusCode();
+
             }
             catch (System.Exception)
             {
