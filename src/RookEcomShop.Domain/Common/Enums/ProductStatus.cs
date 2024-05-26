@@ -3,6 +3,7 @@
     public enum ProductStatus
     {
         Active,
-        Inactive
+        Inactive,
+        Deleted
     }
 }
