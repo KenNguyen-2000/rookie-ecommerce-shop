@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.CustomerFrontend.Services.Categories;
 using RookEcomShop.CustomerFrontend.Services.Products;
+using RookEcomShop.ViewModels.Product;
 
 namespace RookEcomShop.CustomerFrontend.Controllers
 {
@@ -10,6 +11,8 @@ namespace RookEcomShop.CustomerFrontend.Controllers
     [Route("products")]
     public class ProductsController : Controller
     {
+        [BindProperty]
+        public AddToCartInput AddToCartInput { get; set; } = new AddToCartInput();
         private readonly ILogger<ProductsController> _logger;
         private readonly IProductsApiClient _productsApiClient;
         private readonly ICategoriesApiClient _categoriesApiClient;
@@ -43,9 +46,6 @@ namespace RookEcomShop.CustomerFrontend.Controllers
                 return NotFound();
             }
 
-            var accessToken = await HttpContext.GetTokenAsync("access_token");
-            ViewData["AccessToken"] = accessToken;
-
             return View(product);
         }
 
@@ -62,13 +62,5 @@ namespace RookEcomShop.CustomerFrontend.Controllers
             return Redirect("/cart");
         }
 
-        [HttpPost("{id}/reviews")]
-        public async Task<IActionResult> ReviewProduct(int id)
-        {
-            await Task.CompletedTask;
-            Console.WriteLine(id);
-
-            return Redirect($"/products/{id}");
-        }
     }
 }
