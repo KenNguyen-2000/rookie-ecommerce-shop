@@ -3,9 +3,6 @@
 
 @{
   var product = @Model;
-  var productImgUrl = Model.ImgUrls.Count() > 0 ? "https://localhost:7181/api/v1/upload-image?imageName=" +
-  Model.ImgUrls.FirstOrDefault() :
-  "https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg";
 
   Layout = "~/Views/Shared/Layouts/_LayoutNoSidebar.cshtml";
 
@@ -44,20 +41,37 @@
             <!-- Additional required wrapper -->
             <div class="swiper-wrapper relative">
               <!-- Slides -->
-              <div class="swiper-slide">
-                <div class="w-full rounded-lg overflow-hidden">
-                  <img src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg"
-                    alt="Front of men&#039;s Basic Tee in black."
-                    class="opacity-0 h-full w-full object-cover object-center lg:h-full lg:w-full" loading="lazy">
+              @if (product.ImgUrls.Count() > 0)
+              {
+
+                foreach (var imgUrl in product.ImgUrls)
+                {
+                  <div class="swiper-slide">
+                    <div class="w-full rounded-lg overflow-hidden">
+                      <partial name="~/Views/Shared/Partials/_ServerImage.cshtml"
+                        model='new ServerImageVM {Url= imgUrl, Alt=product.Name, ClassName="h-full w-full object-cover object-center lg:h-full lg:w-full"}' />
+                    </div>
+                  </div>
+                }
+              }
+              else
+              {
+                <div class="swiper-slide">
+                  <div class="w-full rounded-lg overflow-hidden">
+                    <img src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg"
+                      alt="Front of men&#039;s Basic Tee in black."
+                      class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                  </div>
                 </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="w-full rounded-lg overflow-hidden">
-                  <img src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg"
-                    alt="Front of men&#039;s Basic Tee in black."
-                    class="opacity-0 h-full w-full object-cover object-center lg:h-full lg:w-full" loading="lazy">
+                <div class="swiper-slide">
+                  <div class="w-full rounded-lg overflow-hidden">
+                    <img src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg"
+                      alt="Front of men&#039;s Basic Tee in black."
+                      class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                  </div>
                 </div>
-              </div>
+              }
+
             </div>
             <!-- If we need pagination -->
             <div class="swiper-pagination"></div>
@@ -130,20 +144,24 @@
               purchases based on your values and goals to live more low waste.
             </p>
 
-            <div class="flex gap-2">
+            <form id="add-to-cart-form" class="flex gap-2">
+              <input type="text" name="productId" class="hidden" value="@product.Id" />
+
               <div class="border rounded-md p-2 flex items-center gap-5 text-lg">
                 <!-- Decrease quantity -->
-                <button type="button" class="hover:stroke-neutral-500 transition-all duration-500">
+                <button id="decrease-quantity-btn" type="button"
+                  class="hover:stroke-neutral-500 transition-all duration-500">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
                   </svg>
                 </button>
 
-                <span>1</span>
+                <input id="product-quantity" name="productQuantity" type="number" value="1" class="w-12 text-center" />
 
                 <!-- Increase quantity -->
-                <button type="button" class="hover:stroke-neutral-500 transition-all duration-500">
+                <button id="increase-quantity-btn" type="button"
+                  class="hover:stroke-neutral-500 transition-all duration-500">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -152,12 +170,12 @@
               </div>
 
               <div class="flex-1 flex-center">
-                <button type="button"
-                  class="add-to-cart-btn w-full h-full bg-blue-300 text-blue-950 rounded-md hover:bg-blue-950 hover:text-white transition-all duration-300 uppercase font-semibold tracking-wider">
+                <button type="submit"
+                  class="w-full h-full bg-blue-300 text-blue-950 rounded-md hover:bg-blue-950 hover:text-white transition-all duration-300 uppercase font-semibold tracking-wider">
                   Add to cart - $@product.Price
                 </button>
               </div>
-            </div>
+            </form>
           </div>
 
           <div>
@@ -186,7 +204,7 @@
             Reviews</button>
         </div>
         <div id="product-description-sec">
-          <partial name="Partials/_ProductInfo.cshtml"></partial>
+          <partial name="Partials/_ProductInfo.cshtml" model="@Model"></partial>
         </div>
         <div id="product-reviews-sec" class="hidden">
           <vc:product-reviews product="@Model"></vc:product-reviews>
@@ -199,73 +217,6 @@
 
 
 @section PageScripts {
-  <script type="text/javascript">
-    // <reference path='~/Scripts/jquery-3.7.1.js' />;
-    $(".add-to-cart-btn").on("click", function () {
-      $.ajax({
-        url: '/cart/add-to-cart',
-        type: 'POST',
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          "Access-Control-Allow-Origin": "*", // Required for CORS
-        },
-        data: {
-          productId: @Model.Id,
-          quantity: 1
-        },
-        success: function (data) {
-          console.log('Success:', data);
-          // Handle the response data here
-
-          $.ajax({
-            url: '/cart/update-header',
-            type: 'GET',
-            success: function (headerHtml) {
-              $('#header-wrapper').html(headerHtml);
-            }
-          });
-        },
-        error: function (error) {
-          console.log('Error:', error);
-          // Handle the error here
-        }
-      });
-    })
-
-    $("#review-form").on("submit", function () {
-
-    });
-
-  </script>
-  <script type="module">
-
-    const swiper = new Swiper('.swiper', {
-      // Optional parameters
-      direction: 'horizontal',
-      // Enable autoplay
-      autoplay: {
-        delay: 3000, // Delay between slides in milliseconds
-        disableOnInteraction: false, // Keep autoplay running even after user interactions
-      },
-      loop: true,
-      wrapper: {
-        el: '.swiper-wrapper'
-      },
-
-      // Navigation arrows
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-
-      },
-
-      // If we need pagination
-      pagination: {
-        el: '.swiper-pagination',
-      },
-
-    });
-  </script>
   <script src="~/js/product-detail.js" asp-append-version="true"></script>
   <script src="~/js/view-components/product-reviews.js" asp-append-version="true"></script>
 }
