@@ -11,11 +11,10 @@ namespace RookEcomShop.CustomerFrontend.Services.Categories
         public CategoriesApiClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("https://localhost:7181/");
         }
         public async Task<IList<CategoryVM>> GetCategoriesAsync()
         {
-            var response = await _httpClient.GetAsync("api/v1/categories");
+            var response = await _httpClient.GetAsync("categories");
 
             response.EnsureSuccessStatusCode();
 
@@ -26,7 +25,7 @@ namespace RookEcomShop.CustomerFrontend.Services.Categories
 
         public async Task<CategoryVM?> GetCategoryByNameAsync(string categoryName)
         {
-            var response = await _httpClient.GetAsync("api/v1/categories/" + categoryName);
+            var response = await _httpClient.GetAsync("categories/" + categoryName);
 
             response.EnsureSuccessStatusCode();
 
