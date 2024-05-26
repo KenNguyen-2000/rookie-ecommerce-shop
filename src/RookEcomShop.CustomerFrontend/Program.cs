@@ -1,13 +1,18 @@
 
 using RookEcomShop.CustomerFrontend;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 // Add services to the container.
 builder.Services
     .AddAuthenticationConfiguration()
     .AddHttpContextAccessor()
     .AddApiClientConfiguration();
+
 
 var app = builder.Build();
 
