@@ -4,6 +4,7 @@ namespace RookEcomShop.ViewModels.Reviews
 {
     public class ReviewVM
     {
+        public int Id { get; set; }
         public int ProductId { get; set; }
         public int Rating { get; set; }
         public string Content { get; set; } = null!;

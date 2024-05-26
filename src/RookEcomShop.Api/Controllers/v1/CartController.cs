@@ -15,6 +15,8 @@ namespace RookEcomShop.Api.Controllers.v1
     [ApiController]
     public class CartController : ControllerBase
     {
+        [BindProperty]
+        public RemoveProductFromCartRequest removeProductFromCartRequest { get; set; } = null!;
         private readonly UserContext userContext;
         private readonly ISender _sender;
 
@@ -47,12 +49,12 @@ namespace RookEcomShop.Api.Controllers.v1
             return Ok(new Response<Unit>("Add product to cart succeeded"));
         }
 
-        [HttpDelete("products/remove")]
-        public async Task<IActionResult> RemoveProductFromCart([FromBody] RemoveProductFromCartRequest request)
+        [HttpDelete("products/{productId}")]
+        public async Task<IActionResult> RemoveProductFromCart(int productId)
         {
             var command = new RemoveProductCommand
             {
-                ProductId = request.ProductId,
+                ProductId = productId,
                 UserId = userContext.UserId
             };
 
