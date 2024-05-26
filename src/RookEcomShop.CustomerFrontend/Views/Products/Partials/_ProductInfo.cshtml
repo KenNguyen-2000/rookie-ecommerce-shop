@@ -57,14 +57,15 @@
       Hello world
     </div>
 
-    <form asp-controller="Products" asp-action="AddToCart" class="mt-10">
-      <input class="hidden" type="text" asp-for="Id" />
+    <form id="add-one-cart-form" class="mt-10">
+      <input class="hidden" type="text" name="productId" value="@Model.Id" />
+      <input class="hidden" type="text" value="1" name="productQuantity" />
 
 
+      <button value="add-to-cart"
+        class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Add
+        to cart</button>
     </form>
-    <button type="button" id="add-to-cart-btn" name="button" value="add-to-cart"
-      class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Add
-      to cart</button>
   </div>
 
   <div class="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
@@ -73,10 +74,11 @@
       <h3 class="sr-only">Description</h3>
 
       <div class="space-y-6">
-        <p class="text-base text-gray-900">The Basic Tee 6-Pack allows you to fully express your vibrant personality
-          with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try
-          our exclusive colorway: &quot;Black&quot;. Need to add an extra pop of color to your outfit? Our white tee has
-          you covered.</p>
+        @* <p class="text-base text-gray-900">The Basic Tee 6-Pack allows you to fully express your vibrant personality
+        with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try
+        our exclusive colorway: &quot;Black&quot;. Need to add an extra pop of color to your outfit? Our white tee has
+        you covered.</p> *@
+        <p class="text-base text-gray-900">@Model.Description</p>
       </div>
     </div>
 
