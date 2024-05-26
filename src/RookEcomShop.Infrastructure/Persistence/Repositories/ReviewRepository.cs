@@ -13,7 +13,10 @@ namespace RookEcomShop.Infrastructure.Persistence.Repositories
 
         public override async Task<IEnumerable<Review>> GetListAsync(Expression<Func<Review, bool>>? filter, CancellationToken cancellationToken = default)
         {
-            return await _dbContext.Reviews
+            return filter != null ? await _dbContext.Reviews
+            .Include(r => r.User)
+            .Where(filter)
+            .ToListAsync(cancellationToken) : await _dbContext.Reviews
             .Include(r => r.User)
             .ToListAsync(cancellationToken);
         }

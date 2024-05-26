@@ -17,10 +17,11 @@ namespace RookEcomShop.Application.Handlers.Reviews.GetList
 
         public async Task<Result<IEnumerable<ReviewVM>>> Handle(GetReviewsListQuery request, CancellationToken cancellationToken)
         {
-            var reviews = await _reviewRepository.GetListAsync(r => r.Product.Id == request.ProductId, cancellationToken);
+            var reviews = await _reviewRepository.GetListAsync(r => r.Product.Id.Equals(request.ProductId), cancellationToken);
 
             return Result.Ok(reviews.Select(r => new ReviewVM
             {
+                Id = r.Id,
                 ProductId = request.ProductId,
                 Rating = r.Rating,
                 Content = r.Content,
