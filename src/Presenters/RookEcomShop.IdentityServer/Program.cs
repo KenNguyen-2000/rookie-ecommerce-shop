@@ -15,9 +15,7 @@ try
                 .AddUserSecrets<Program>()
                 .AddEnvironmentVariables();
     builder.Services.AddPersistence(builder.Configuration);
-    builder.ConfigureIdentityService();
-
-    builder.AddIdentityServices();
+    builder.AddIdentityServicesConfiguration();
 
     //builder.Services.AddAuthentication()
     //    .AddGoogle(options =>
@@ -57,7 +55,7 @@ try
         SeedUsers.EnsureSeedData(connectionString);
         Log.Information("Done seeding database.");
         return;
-}
+    }
 
     Log.Information("Starting host...");
 

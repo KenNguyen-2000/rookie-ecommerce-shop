@@ -28,9 +28,9 @@ namespace RookEcomShop.Infrastructure
             return services;
         }
 
-        public static void ConfigureIdentityService(this WebApplicationBuilder builder)
+        public static void AddIdentityServicesConfiguration(this WebApplicationBuilder builder)
         {
-            builder.Services.AddConfigIdentityServices(builder.Configuration);
+            builder.ConfigureIdentityServices();
             builder.Services.AddScoped<IProfileService, ProfileService>();
         }
 

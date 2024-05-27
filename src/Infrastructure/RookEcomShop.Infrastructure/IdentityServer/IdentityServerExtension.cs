@@ -11,21 +11,50 @@ namespace RookEcomShop.Infrastructure.IdentityServer
 {
     public static class IdentityServerExtension
     {
-        public static void AddConfigIdentityServices(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureIdentityServices(this WebApplicationBuilder builder)
         {
-            string connectionString = configuration.GetConnectionString("DefaultConnection")!;
+            builder.Services.AddControllersWithViews();
+            var clientUrls = new Dictionary<string, string>
+            {
+                ["Mvc"] = builder.Configuration["ClientUrl:Mvc"]!,
+                ["Swagger"] = builder.Configuration["ClientUrl:Swagger"]!,
+                ["React"] = builder.Configuration["ClientUrl:React"]!
+            };
 
-            services.AddDbContext<RookEcomShopDbContext>(opt =>
+            string connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
+
+            builder.Services.AddDbContext<RookEcomShopDbContext>(opt =>
                       opt.UseSqlServer(connectionString,
                           providerOptions =>
                           {
                               providerOptions.EnableRetryOnFailure();
                           }));
 
-            services
+            builder.Services
                 .AddIdentity<ApplicationUser, IdentityRole<int>>()
                 .AddEntityFrameworkStores<RookEcomShopDbContext>()
                 .AddDefaultTokenProviders();
+
+            var identityBuilderService = builder.Services
+                .AddIdentityServer(options =>
+                {
+                    options.Events.RaiseErrorEvents = true;
+                    options.Events.RaiseInformationEvents = true;
+                    options.Events.RaiseFailureEvents = true;
+                    options.Events.RaiseSuccessEvents = true;
+
+                    // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
+                    options.EmitStaticAudienceClaim = true;
+                })
+                .AddInMemoryIdentityResources(Config.IdentityResources)
+                .AddInMemoryApiScopes(Config.ApiScopes)
+                .AddInMemoryApiResources(Config.ApiResources)
+                .AddInMemoryClients(Config.Clients(clientUrls))
+                .AddAspNetIdentity<ApplicationUser>();
+
+
+            // not recommended for production - you need to store your key material somewhere secure
+            if (builder.Environment.IsDevelopment()) identityBuilderService.AddDeveloperSigningCredential();
         }
     }
 }
