@@ -9,6 +9,8 @@ using RookEcomShop.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders();
+
 // Add services to the container.
 builder.Configuration
             .AddJsonFile("appsettings.json", true, true)

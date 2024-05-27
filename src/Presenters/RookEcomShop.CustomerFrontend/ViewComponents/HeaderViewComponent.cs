@@ -22,7 +22,7 @@ namespace RookEcomShop.CustomerFrontend.ViewComponents
             try
             {
 
-                if (User.Identity.IsAuthenticated)
+                if (User.Identity?.IsAuthenticated == true)
                 {
                     var productsInCart = await _cartApiClient.GetProductsInCart();
 

@@ -1,4 +1,4 @@
-﻿namespace RookEcomShop.IdentityServer.Pages.Account.Login
+﻿namespace RookEcomShop.IdentityServer.Controllers.Account
 {
     public class ExternalProvider
     {

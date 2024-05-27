@@ -22,11 +22,14 @@ namespace RookEcomShop.Infrastructure.Swagger
                             TokenUrl = new Uri("https://localhost:7280/connect/token"),
                             Scopes = new Dictionary<string, string>
                             {
-                                {"rookEcomShop.api", "RookEcomShop Api"},
+                                {"rookEcomShop.api", "rookEcomShop.api"},
+                                {"profile", "profile" },
+                                {"openid", "openid" }
                             }
                         }
                     }
                 });
+
 
 
                 option.OperationFilter<AuthorizeCheckOperationFilter>();

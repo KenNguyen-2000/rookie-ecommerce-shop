@@ -1,6 +1,6 @@
 ﻿using IdentityServer4.Models;
 
-namespace RookEcomShop.IdentityServer.Pages.Home
+namespace RookEcomShop.IdentityServer.Controllers.Home
 {
     public class ErrorViewModel
     {

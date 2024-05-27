@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication;
+using RookEcomShop.CustomerFrontend.Services.Accounts;
 using RookEcomShop.CustomerFrontend.Services.Cart;
 using RookEcomShop.CustomerFrontend.Services.Categories;
 using RookEcomShop.CustomerFrontend.Services.Orders;
@@ -60,6 +61,7 @@ namespace RookEcomShop.CustomerFrontend
             services.AddHttpClient<ICartApiClient, CartApiClient>(configureClient);
             services.AddHttpClient<IReviewsApiClient, ReviewsApiClient>(configureClient);
             services.AddHttpClient<IOrdersApiClient, OrdersApiClient>(configureClient);
+            services.AddHttpClient<IAccountApiClient, AccountApiClient>(configureClient);
 
             return services;
         }

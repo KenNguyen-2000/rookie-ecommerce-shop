@@ -1,4 +1,4 @@
-namespace RookEcomShop.IdentityServer.Pages.Account.Logout
+﻿namespace RookEcomShop.IdentityServer.Controllers.Account
 {
     public class LogoutViewModel : LogoutInputModel
     {

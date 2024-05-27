@@ -19,6 +19,7 @@ namespace RookEcomShop.Infrastructure.Authentication
                         options.Audience = "rookEcomShop.api"; //api resource name
                         options.Authority = configuration["IdentityServer:Authority"];
                         options.RequireHttpsMetadata = false;
+
                     });
 
             services.AddAuthorization(option =>
@@ -26,7 +27,7 @@ namespace RookEcomShop.Infrastructure.Authentication
                 option.AddPolicy("ApiScope", policy =>
                 {
                     policy.RequireAuthenticatedUser();
-                    policy.RequireClaim("scope", "rookEcomShop.api");
+                    policy.RequireClaim("scope", "rookEcomShop.api", "profile", "openid");
                 });
                 option.AddPolicy("Admin", policy =>
                 {

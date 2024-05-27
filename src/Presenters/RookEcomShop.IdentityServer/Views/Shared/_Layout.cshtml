@@ -8,11 +8,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script
         src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
+
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
 </head>
 
 <body class="h-full flex flex-col">
-    <partial name="Partials/_Header.cshtml"></partial>
+    @* <partial name="Partials/_Header.cshtml"></partial>
 
     <div class="flex-1">
         <main role="main" class="container mx-auto p-6">
@@ -20,10 +22,19 @@
         </main>
     </div>
 
-    <partial name="Partials/_Footer.cshtml"></partial>
+    <partial name="Partials/_Footer.cshtml"></partial> *@
+
+   
+    <partial name="_Nav" />
+   
+    <div class="container body-container">
+        @RenderBody()
+    </div>
+
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

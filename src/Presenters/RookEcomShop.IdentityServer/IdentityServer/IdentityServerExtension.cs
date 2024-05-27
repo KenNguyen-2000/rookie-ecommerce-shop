@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RookEcomShop.IdentityServer.Persistence;
 using RookEcomShop.Infrastructure;
@@ -29,6 +30,12 @@ namespace RookEcomShop.IdentityServer.IdentityServer
                               providerOptions.EnableRetryOnFailure();
                           }));
 
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = "Bearer";
+                options.DefaultAuthenticateScheme = "Bearer";
+            });
+
             builder.Services
                 .AddIdentity<ApplicationUser, IdentityRole<int>>()
                 .AddEntityFrameworkStores<IdentityServerDbContext>()
@@ -55,8 +62,16 @@ namespace RookEcomShop.IdentityServer.IdentityServer
             // not recommended for production - you need to store your key material somewhere secure
             if (builder.Environment.IsDevelopment()) identityBuilderService.AddDeveloperSigningCredential();
 
-            builder.Services.AddAuthentication();
             builder.ConfigureIdentityService();
+            
+
+            builder.Services.AddAuthorization(option =>
+            {
+                option.AddPolicy("Bearer", policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                });
+            });
         }
     }
 }

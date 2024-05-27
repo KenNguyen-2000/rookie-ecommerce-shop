@@ -1,6 +1,7 @@
 
 using RookEcomShop.IdentityServer;
 using RookEcomShop.IdentityServer.IdentityServer;
+using RookEcomShop.IdentityServer.Persistence.Repositories;
 using RookEcomShop.Persistence;
 using Serilog;
 
@@ -13,9 +14,9 @@ try
                 .AddJsonFile("appsettings.json", true, true)
                 .AddUserSecrets<Program>()
                 .AddEnvironmentVariables();
-
-    builder.Services.AddRazorPages();
+    builder.Services.AddScoped<UsersRepository>();
     builder.AddConfigIdentityServices();
+    builder.Services.AddControllers();
 
     //builder.Services.AddAuthentication()
     //    .AddGoogle(options =>
@@ -65,11 +66,12 @@ try
     app.UseRouting();
 
     app.UseIdentityServer();
+    app.UseAuthentication();
     app.UseAuthorization();
 
-    app.MapRazorPages()
-        .RequireAuthorization();
-
+    app.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Home}/{action=Index}/{id?}");
     app.Run();
 
 }
