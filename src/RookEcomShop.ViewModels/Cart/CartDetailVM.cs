@@ -1,10 +1,4 @@
-﻿using RookEcomShop.ViewModels.Category;
-using RookEcomShop.ViewModels.Product;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RookEcomShop.ViewModels.Product;
 
 namespace RookEcomShop.ViewModels.Cart
 {

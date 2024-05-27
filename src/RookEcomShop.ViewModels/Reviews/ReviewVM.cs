@@ -1,5 +1,3 @@
-using RookEcomShop.ViewModels.Product;
-
 namespace RookEcomShop.ViewModels.Reviews
 {
     public class ReviewVM
