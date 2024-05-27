@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="IdentityServer4.EntityFramework" Version="4.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.5">
       <PrivateAssets>all</PrivateAssets>
@@ -24,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\RookEcomShop.Application\RookEcomShop.Application.csproj" />
     <ProjectReference Include="..\..\Core\RookEcomShop.Domain\RookEcomShop.Domain.csproj" />
+    <ProjectReference Include="..\..\RookEcomShop.ViewModels\RookEcomShop.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

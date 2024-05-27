@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace RookEcomShop.IdentityServer.Pages.Account.Register
+namespace RookEcomShop.IdentityServer.Views.Account.Register
 {
     public class RegisterInputModel
     {

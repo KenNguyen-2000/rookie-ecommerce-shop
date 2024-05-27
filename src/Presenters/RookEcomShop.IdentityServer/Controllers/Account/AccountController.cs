@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.Infrastructure.IdentityServer;
+using RookEcomShop.Persistence;
 
 namespace RookEcomShop.IdentityServer.Controllers.Account
 {

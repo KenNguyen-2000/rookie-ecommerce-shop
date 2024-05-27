@@ -1,7 +1,7 @@
 
 using RookEcomShop.IdentityServer;
-using RookEcomShop.IdentityServer.IdentityServer;
-using RookEcomShop.IdentityServer.Persistence.Repositories;
+using RookEcomShop.Infrastructure;
+using RookEcomShop.Infrastructure.IdentityServer;
 using RookEcomShop.Persistence;
 using Serilog;
 
@@ -14,9 +14,10 @@ try
                 .AddJsonFile("appsettings.json", true, true)
                 .AddUserSecrets<Program>()
                 .AddEnvironmentVariables();
-    builder.Services.AddScoped<UsersRepository>();
-    builder.AddConfigIdentityServices();
-    builder.Services.AddControllers();
+    builder.Services.AddPersistence(builder.Configuration);
+    builder.ConfigureIdentityService();
+
+    builder.AddIdentityServices();
 
     //builder.Services.AddAuthentication()
     //    .AddGoogle(options =>
@@ -56,7 +57,7 @@ try
         SeedUsers.EnsureSeedData(connectionString);
         Log.Information("Done seeding database.");
         return;
-    }
+}
 
     Log.Information("Starting host...");
 

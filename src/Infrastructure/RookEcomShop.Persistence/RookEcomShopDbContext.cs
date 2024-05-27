@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using RookEcomShop.Application.Common.Data;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.Persistence.DataSeeding;
 
 namespace RookEcomShop.Persistence;
 
-public partial class RookEcomShopDbContext : DbContext, IRookEcomShopDbContext
+public partial class RookEcomShopDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>, IRookEcomShopDbContext
 {
     public RookEcomShopDbContext()
     {

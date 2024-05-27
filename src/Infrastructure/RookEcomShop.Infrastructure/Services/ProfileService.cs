@@ -2,7 +2,7 @@ using IdentityModel;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using Microsoft.AspNetCore.Identity;
-using RookEcomShop.Infrastructure.IdentityServer;
+using RookEcomShop.Persistence;
 using System.Security.Claims;
 
 namespace RookEcomShop.Infrastructure.Services

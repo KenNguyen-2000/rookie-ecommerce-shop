@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace RookEcomShop.IdentityServer.Pages
+namespace RookEcomShop.IdentityServer.Views
 {
     [AllowAnonymous]
     public class IndexModel : PageModel

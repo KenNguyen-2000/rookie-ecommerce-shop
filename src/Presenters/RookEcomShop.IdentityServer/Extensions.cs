@@ -1,8 +1,8 @@
 ﻿using IdentityServer4.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using RookEcomShop.IdentityServer.Models;
-using RookEcomShop.IdentityServer.Persistence;
+using RookEcomShop.Infrastructure.IdentityServer;
+using RookEcomShop.Persistence;
 
 namespace RookEcomShop.IdentityServer
 {
@@ -25,24 +25,39 @@ namespace RookEcomShop.IdentityServer
             return controller.View(viewName, new RedirectViewModel { RedirectUrl = redirectUri });
         }
 
-        public static IServiceCollection AddIdentityPersistence(this IServiceCollection services, IConfiguration configuration)
+        public static void AddIdentityServices(this WebApplicationBuilder builder)
         {
-            string? connectionString = configuration.GetConnectionString("DefaultConnection");
-            if (string.IsNullOrEmpty(connectionString))
+            builder.Services.AddControllersWithViews();
+            var clientUrls = new Dictionary<string, string>
             {
-                Console.WriteLine("Connection string not found");
-                throw new Exception("Connection string not found");
-            }
+                ["Mvc"] = builder.Configuration["ClientUrl:Mvc"]!,
+                ["Swagger"] = builder.Configuration["ClientUrl:Swagger"]!,
+                ["React"] = builder.Configuration["ClientUrl:React"]!
+            };
 
-            services.AddDbContext<IdentityServerDbContext>(opt =>
-              opt.UseSqlServer(connectionString,
-                  providerOptions =>
-                  {
-                      providerOptions.EnableRetryOnFailure();
-                  }));
+            var identityBuilderService = builder.Services
+                .AddIdentityServer(options =>
+                {
+                    options.Events.RaiseErrorEvents = true;
+                    options.Events.RaiseInformationEvents = true;
+                    options.Events.RaiseFailureEvents = true;
+                    options.Events.RaiseSuccessEvents = true;
+
+                    // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
+                    options.EmitStaticAudienceClaim = true;
+                })
+                .AddInMemoryIdentityResources(Config.IdentityResources)
+                .AddInMemoryApiScopes(Config.ApiScopes)
+                .AddInMemoryApiResources(Config.ApiResources)
+                .AddInMemoryClients(Config.Clients(clientUrls))
+                .AddAspNetIdentity<ApplicationUser>();
 
 
-            return services;
+            // not recommended for production - you need to store your key material somewhere secure
+            if (builder.Environment.IsDevelopment()) identityBuilderService.AddDeveloperSigningCredential();
+
         }
+
+
     }
 }

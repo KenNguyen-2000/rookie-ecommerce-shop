@@ -5,22 +5,22 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="FluentResults" Version="3.15.2"/>
-    <PackageReference Include="FluentValidation" Version="11.9.1"/>
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.1"/>
-    <PackageReference Include="MediatR" Version="12.2.0"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.5"/>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1"/>
-    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7"/>
-    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0"/>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+    <PackageReference Include="FluentResults" Version="3.15.2" />
+    <PackageReference Include="FluentValidation" Version="11.9.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.1" />
+    <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.5" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\RookEcomShop.ViewModels\RookEcomShop.ViewModels.csproj"/>
-    <ProjectReference Include="..\RookEcomShop.Domain\RookEcomShop.Domain.csproj"/>
+    <ProjectReference Include="..\..\RookEcomShop.ViewModels\RookEcomShop.ViewModels.csproj" />
+    <ProjectReference Include="..\RookEcomShop.Domain\RookEcomShop.Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Handlers\Orders\Cancel\"/>
-    <Folder Include="Handlers\Orders\Confirm\"/>
+    <Folder Include="Handlers\Orders\Cancel\" />
+    <Folder Include="Handlers\Orders\Confirm\" />
   </ItemGroup>
 </Project>

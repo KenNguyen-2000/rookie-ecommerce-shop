@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using RookEcomShop.Application.Common.Interfaces.Services;
 using RookEcomShop.Infrastructure.Authentication;
 using RookEcomShop.Infrastructure.Cors;
+using RookEcomShop.Infrastructure.IdentityServer;
 using RookEcomShop.Infrastructure.Services;
 using RookEcomShop.Infrastructure.Swagger;
 
@@ -29,6 +30,7 @@ namespace RookEcomShop.Infrastructure
 
         public static void ConfigureIdentityService(this WebApplicationBuilder builder)
         {
+            builder.Services.AddConfigIdentityServices(builder.Configuration);
             builder.Services.AddScoped<IProfileService, ProfileService>();
         }
 

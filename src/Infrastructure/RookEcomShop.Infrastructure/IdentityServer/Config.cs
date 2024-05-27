@@ -2,7 +2,7 @@
 using IdentityServer4;
 using IdentityServer4.Models;
 
-namespace RookEcomShop.IdentityServer.IdentityServer
+namespace RookEcomShop.Infrastructure.IdentityServer
 {
     public static class Config
     {

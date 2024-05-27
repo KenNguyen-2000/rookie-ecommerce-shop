@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace RookEcomShop.IdentityServer.Pages
+namespace RookEcomShop.IdentityServer.Views
 {
     public class RedirectModel : PageModel
     {

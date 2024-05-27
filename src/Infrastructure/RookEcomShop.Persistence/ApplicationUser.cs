@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using RookEcomShop.Domain.Common.Enums;
 
-namespace RookEcomShop.Infrastructure.IdentityServer
+namespace RookEcomShop.Persistence
 {
     public class ApplicationUser : IdentityUser<int>
     {

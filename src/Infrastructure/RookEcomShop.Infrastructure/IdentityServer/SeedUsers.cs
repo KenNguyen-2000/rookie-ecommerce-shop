@@ -5,12 +5,12 @@
 using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using RookEcomShop.IdentityServer.Persistence;
-using RookEcomShop.Infrastructure.IdentityServer;
+using Microsoft.Extensions.DependencyInjection;
+using RookEcomShop.Persistence;
 using Serilog;
 using System.Security.Claims;
 
-namespace RookEcomShop.IdentityServer.IdentityServer
+namespace RookEcomShop.Infrastructure.IdentityServer
 {
     public class SeedUsers
     {
@@ -18,11 +18,11 @@ namespace RookEcomShop.IdentityServer.IdentityServer
         {
             var services = new ServiceCollection();
             services.AddLogging();
-            services.AddDbContext<IdentityServerDbContext>(options =>
+            services.AddDbContext<RookEcomShopDbContext>(options =>
                options.UseSqlServer(connectionString));
 
             services.AddIdentity<ApplicationUser, IdentityRole<int>>()
-                .AddEntityFrameworkStores<IdentityServerDbContext>()
+                .AddEntityFrameworkStores<RookEcomShopDbContext>()
                 .AddDefaultTokenProviders();
 
             using (var serviceProvider = services.BuildServiceProvider())
@@ -31,7 +31,7 @@ namespace RookEcomShop.IdentityServer.IdentityServer
                 {
                     try
                     {
-                        var context = scope.ServiceProvider.GetService<IdentityServerDbContext>();
+                        var context = scope.ServiceProvider.GetService<RookEcomShopDbContext>();
                         context.Database.Migrate();
 
                         var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
@@ -42,7 +42,7 @@ namespace RookEcomShop.IdentityServer.IdentityServer
                         await CreateAliceUser(userMgr, buyerRole!);
                         await CreateBobUser(userMgr, adminRole!);
                     }
-                    catch (System.Exception e)
+                    catch (Exception e)
                     {
                         Console.WriteLine(e.Message);
                         throw;
@@ -120,25 +120,27 @@ namespace RookEcomShop.IdentityServer.IdentityServer
 
         private static async Task CreateBobUser(UserManager<ApplicationUser> userMgr, IdentityRole<int> adminRole)
         {
-            var bob = await userMgr.FindByNameAsync("bob");
-            if (bob == null)
+           try
             {
-                bob = new ApplicationUser
+                var bob = await userMgr.FindByNameAsync("bob");
+                if (bob == null)
                 {
-                    FirstName = "Bob",
-                    LastName = "Smith",
-                    UserName = "bob",
-                    Email = "BobSmith@email.com",
-                    EmailConfirmed = true
-                };
-                var result = userMgr.CreateAsync(bob, "Pass123$").Result;
+                    bob = new ApplicationUser
+                    {
+                        FirstName = "Bob",
+                        LastName = "Smith",
+                        UserName = "bob",
+                        Email = "BobSmith@email.com",
+                        EmailConfirmed = true
+                    };
+                    var result = userMgr.CreateAsync(bob, "Pass123$").Result;
 
-                if (!result.Succeeded)
-                {
-                    throw new Exception(result.Errors.First().Description);
-                }
+                    if (!result.Succeeded)
+                    {
+                        throw new Exception(result.Errors.First().Description);
+                    }
 
-                result = userMgr.AddClaimsAsync(bob, new Claim[]{
+                    result = userMgr.AddClaimsAsync(bob, new Claim[]{
                             new Claim(JwtClaimTypes.Name, "Bob Smith"),
                             new Claim(JwtClaimTypes.GivenName, "Bob"),
                             new Claim(JwtClaimTypes.FamilyName, "Smith"),
@@ -146,19 +148,24 @@ namespace RookEcomShop.IdentityServer.IdentityServer
                             new Claim("location", "somewhere"),
                             new Claim(JwtClaimTypes.Role, "Admin")
                         }).Result;
-                if (!result.Succeeded)
-                {
-                    throw new Exception(result.Errors.First().Description);
+                    if (!result.Succeeded)
+                    {
+                        throw new Exception(result.Errors.First().Description);
+                    }
+                    Log.Debug("bob created");
                 }
-                Log.Debug("bob created");
-            }
-            else
-            {
+                else
+                {
 
-                Log.Debug("bob already exists");
+                    Log.Debug("bob already exists");
+                }
+                if (!userMgr.IsInRoleAsync(bob, adminRole.Name!).Result)
+                    _ = userMgr.AddToRolesAsync(bob, [adminRole.Name!]).Result;
+            }catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
             }
-            if (!userMgr.IsInRoleAsync(bob, adminRole.Name!).Result)
-                _ = userMgr.AddToRolesAsync(bob, [adminRole.Name!]).Result;
         }
     }
 }
