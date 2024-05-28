@@ -15,7 +15,7 @@ namespace RookEcomShop.CustomerFrontend.Services.Products
             _httpClient = httpClient;
         }
 
-        public async Task<ProductVM?> GetProductByIdAsync(int id)
+        public async Task<ProductVM?> GetProductByIdAsync(Guid id)
         {
             var response = await _httpClient.GetAsync($"products/{id}");
 

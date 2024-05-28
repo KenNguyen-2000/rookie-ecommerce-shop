@@ -6,6 +6,6 @@ namespace RookEcomShop.CustomerFrontend.Services.Cart
     {
         Task<IEnumerable<CartDetailVM>> GetProductsInCart();
         Task AddProductToCart(AddProductToCartRequest request);
-        Task RemoveProductFromCart(int productId);
+        Task RemoveProductFromCart(Guid productId);
     }
 }

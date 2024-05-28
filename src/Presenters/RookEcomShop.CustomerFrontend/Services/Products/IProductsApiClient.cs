@@ -8,6 +8,6 @@ namespace RookEcomShop.CustomerFrontend.Services.Products
     {
         Task<PaginatedList<ProductVM>> GetProductsAsync();
         Task<PaginatedList<ProductVM>> GetProductsByCategoryNameAsync(string categoryName, QueryDto queryDto);
-        Task<ProductVM?> GetProductByIdAsync(int id);
+        Task<ProductVM?> GetProductByIdAsync(Guid id);
     }
 }

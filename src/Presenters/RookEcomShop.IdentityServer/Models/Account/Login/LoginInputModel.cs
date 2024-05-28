@@ -9,6 +9,6 @@ namespace RookEcomShop.IdentityServer.Models.Account.Login
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; } = null!;
         public bool RememberLogin { get; set; }
-        public string ReturnUrl { get; set; } = "~/";
+        public string? ReturnUrl { get; set; }
     }
 }

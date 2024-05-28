@@ -12,7 +12,7 @@ namespace RookEcomShop.Domain.Entities
         public decimal Price { get; set; }
         public int StockQuantity { get; set; }
         public ProductStatus Status { get; set; } = ProductStatus.Inactive;
-        public Guid UserId { get; set; }
+        public Guid? UserId { get; set; }
         public Guid CategoryId { get; set; }
 
         public virtual User? User { get; set; } = null!;

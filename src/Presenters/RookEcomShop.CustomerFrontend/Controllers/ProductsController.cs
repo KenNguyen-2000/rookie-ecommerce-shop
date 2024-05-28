@@ -36,7 +36,7 @@ namespace RookEcomShop.CustomerFrontend.Controllers
 
         [AllowAnonymous]
         [HttpGet("{id}")]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(Guid id)
         {
             _logger.LogInformation("Get product by id from API");
             var product = await _productsApiClient.GetProductByIdAsync(id);
@@ -49,7 +49,7 @@ namespace RookEcomShop.CustomerFrontend.Controllers
         }
 
         [HttpPost("{id}")]
-        public async Task<IActionResult> AddToCart(int id)
+        public async Task<IActionResult> AddToCart(Guid id)
         {
             _logger.LogInformation("Add product to cart");
             var product = await _productsApiClient.GetProductByIdAsync(id);

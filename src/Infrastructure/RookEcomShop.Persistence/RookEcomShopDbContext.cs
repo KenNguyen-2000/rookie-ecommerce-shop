@@ -39,7 +39,7 @@ public partial class RookEcomShopDbContext : DbContext, IRookEcomShopDbContext
     {
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(RookEcomShopDbContext).Assembly);
-        //modelBuilder.Seed();
+        modelBuilder.Seed();
         base.OnModelCreating(modelBuilder);
     }
 

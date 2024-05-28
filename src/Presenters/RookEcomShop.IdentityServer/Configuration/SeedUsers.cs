@@ -166,6 +166,7 @@ namespace RookEcomShop.Infrastructure.IdentityServer
                 {
                     bob = new ApplicationUser
                     {
+                        Id= Guid.NewGuid(),
                         FirstName = "Bob",
                         LastName = "Smith",
                         UserName = "bob",

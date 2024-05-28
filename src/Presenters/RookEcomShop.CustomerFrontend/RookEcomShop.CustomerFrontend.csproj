@@ -11,6 +11,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\NewFolder\" />
+    <Folder Include="Views\Shared\Components\ProductCard\Partials\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\RookEcomShop.Application\RookEcomShop.Application.csproj" />

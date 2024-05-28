@@ -42,7 +42,7 @@ namespace RookEcomShop.CustomerFrontend.Controllers
         }
 
         [HttpPost("{productId}/remove")]
-        public async Task<IActionResult> RemoveFromCart(int productId)
+        public async Task<IActionResult> RemoveFromCart(Guid productId)
         {
             try
             {

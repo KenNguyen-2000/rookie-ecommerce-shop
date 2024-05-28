@@ -2,6 +2,7 @@ using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.IdentityServer.Domain;
@@ -53,7 +54,8 @@ public class IndexModel : PageModel
             return Page();
 
         var user = await _userManager.FindByNameAsync(RegisterInputModel.Username);
-        if (user is not null)
+        var appUser = await _rookEcomContext.Users.FirstOrDefaultAsync(u => u.Username == RegisterInputModel.Username);
+        if (user is not null || appUser is not null)
         {
             ModelState.AddModelError("Username", "Username is already taken");
             return Page();
@@ -61,36 +63,21 @@ public class IndexModel : PageModel
 
         user = new ApplicationUser()
         {
+            Id = Guid.NewGuid(),
             UserName = RegisterInputModel.Username,
             Email = RegisterInputModel.Username,
             PhoneNumber = RegisterInputModel.PhoneNumber,
             FirstName = RegisterInputModel.Firstname,
             LastName = RegisterInputModel.Lastname,
-            EmailConfirmed = true
+            EmailConfirmed = false
         };
 
-        var identityTask = _userManager.CreateAsync(user, RegisterInputModel.Password);
+        var result = _userManager.CreateAsync(user, RegisterInputModel.Password).Result;
 
-        _rookEcomContext.Users.Add(new User
-        {
-            Email = RegisterInputModel.Username,
-            PhoneNumber = RegisterInputModel.PhoneNumber,
-            FirstName = RegisterInputModel.Firstname,
-            LastName = RegisterInputModel.Lastname,
-        });
-        var appTask = _rookEcomContext.SaveChangesAsync();
-        await Task.WhenAll(identityTask, appTask);
-        Console.WriteLine("Finish");
-        if (appTask.IsFaulted || identityTask.IsFaulted)
-        {
-            Console.WriteLine("Something went wrong!");
-            ModelState.AddModelError(string.Empty, "An error occurred while creating the user");
-            return Page();
-        }
-        if (!identityTask.Result.Succeeded)
+        if(!result.Succeeded)
         {
             Console.WriteLine("Identity task failed");
-            foreach (var error in identityTask.Result.Errors)
+            foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
@@ -98,6 +85,19 @@ public class IndexModel : PageModel
             return Page();
         }
 
+        appUser = new User
+        {
+            Id = user.Id,
+            Username = user.UserName,
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            EmailConfirmed = user.EmailConfirmed
+        };
+        var buyerROle = await _rookEcomContext.Roles.FirstOrDefaultAsync(r => r.Name == "Buyer");
+        appUser.UserRoles.Add(new UserRole { RoleId = buyerROle.Id, UserId = appUser.Id });
+        await _rookEcomContext.SaveChangesAsync();
         await _userManager.AddClaimsAsync(user,
         [
             new(JwtClaimTypes.PhoneNumber, user.PhoneNumber),

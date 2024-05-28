@@ -110,10 +110,12 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Logout
             {
                 // it's safe to automatically sign-out
                 LogoutViewModel.ShowLogoutPrompt = false;
+                return;
             }
 
             // show the logout prompt. this prevents attacks where the user
             // is automatically signed out by another malicious web page.
+            return;
         }
 
         private async Task BuildLoggedOutViewModelAsync(string logoutId)

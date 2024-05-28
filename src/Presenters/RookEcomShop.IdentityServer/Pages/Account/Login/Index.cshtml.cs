@@ -16,13 +16,12 @@ using RookEcomShop.IdentityServer.Models.Account.Login;
 
 namespace RookEcomShop.IdentityServer.Pages.Account.Login
 {
-    [SecurityHeaders]
     [AllowAnonymous]
     public class IndexModel : PageModel
     {
         public LoginViewModel LoginViewModel { get; set; } = default!;
         [BindProperty]
-        public LoginInputModel LoginInputModel { get; set; } = new();
+        public LoginInputModel LoginInputModel { get; set; } = default!;
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -57,11 +56,10 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Login
         {
             if (User?.Identity?.IsAuthenticated == true)
             {
-                return Redirect("~/");
+                return Redirect(returnUrl ?? "~/");
             }
             // build a model so we know what to show on the login page
             await BuildLoginViewModelAsync(returnUrl);
-            Console.WriteLine(LoginViewModel.IsExternalLoginOnly);
             if (LoginViewModel.IsExternalLoginOnly)
             {
                 // we only have one option for logging in and it's an external provider
@@ -153,8 +151,13 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Login
         /*****************************************/
         /* helper APIs for the AccountController */
         /*****************************************/
-        private async Task BuildLoginViewModelAsync(string returnUrl)
+        private async Task BuildLoginViewModelAsync(string? returnUrl)
         {
+            LoginInputModel = new LoginInputModel
+            {
+                ReturnUrl = returnUrl
+            };
+
             var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
             if (context?.IdP != null && await _schemeProvider.GetSchemeAsync(context.IdP) != null)
             {
@@ -164,7 +167,6 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Login
                 LoginViewModel = new LoginViewModel
                 {
                     EnableLocalLogin = local,
-                    ReturnUrl = returnUrl,
                     Username = context?.LoginHint,
                 };
 
@@ -172,6 +174,8 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Login
                 {
                     LoginViewModel.ExternalProviders = new[] { new ExternalProvider { AuthenticationScheme = context.IdP } };
                 }
+
+                return;
             }
 
             var schemes = await _schemeProvider.GetAllSchemesAsync();

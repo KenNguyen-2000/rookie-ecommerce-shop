@@ -55,7 +55,7 @@ namespace RookEcomShop.CustomerFrontend.Services.Cart
             }
         }
 
-        public async Task RemoveProductFromCart(int productId)
+        public async Task RemoveProductFromCart(Guid productId)
         {
             try
             {

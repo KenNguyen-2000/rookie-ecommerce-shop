@@ -1,4 +1,5 @@
 
+using Microsoft.Extensions.FileProviders;
 using RookEcomShop.CustomerFrontend;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,9 +25,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 
 app.UseRouting();
 

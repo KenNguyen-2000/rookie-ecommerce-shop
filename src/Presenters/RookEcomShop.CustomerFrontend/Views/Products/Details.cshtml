@@ -138,11 +138,18 @@
             </p>
           </div>
 
+          <partial name="Partials/_Sustainability.cshtml" />
+
           <div>
             <p class="text-sm text-neutral-500 mb-6">
               Sustainability Icons provide transparency for you, the consumer, to be able to make more responsible
               purchases based on your values and goals to live more low waste.
             </p>
+
+            <div class="w-full mb-5 border-t border-gray-300">
+              <img alt="sustainability" src="~/images/sustainability-seals-badges.png" height="150" width="1200"
+                class="max-w-full h-auto object-contain" />
+            </div>
 
             <form id="add-to-cart-form" class="flex gap-2">
               <input type="text" name="productId" class="hidden" value="@product.Id" />
