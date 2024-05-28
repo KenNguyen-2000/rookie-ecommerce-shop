@@ -1,0 +1,86 @@
+﻿@page
+@using RookEcomShop.IdentityServer.Pages.Account.Login
+@model IndexModel
+@{
+    Layout = "~/Pages/Shared/Layouts/_BlankLayout.cshtml";
+}
+
+<div vaul-drawer-wrapper="">
+
+    <div class="relative flex min-h-screen flex-col bg-background">
+
+        <div class="flex-1 w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
+
+            <div class="flex items-center justify-center py-12">
+
+                @if (@Model.LoginViewModel.EnableLocalLogin)
+                {
+                    <div class="mx-auto grid w-[350px] gap-6">
+
+                        <div class="grid gap-2 text-center">
+                            <h1 class="text-3xl font-bold">Login</h1>
+                            <p class="text-muted text-balance">Enter your email below to login to your account</p>
+                        </div>
+
+                        <form method="post" class="grid gap-4">
+                            <input type="hidden" asp-for="LoginInputModel.ReturnUrl" />
+                            <div class="grid gap-2">
+                                <label asp-for="LoginInputModel.Username"
+                                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Username</label>
+                                <input type="text" asp-for="LoginInputModel.Username"
+                                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                    placeholder="johndoe" />
+                                <span asp-validation-for="LoginInputModel.Username"
+                                    class="text-red-500 font-semibold text-sm"></span>
+                            </div>
+
+                            <div class="grid gap-2">
+
+                                <div class="flex items-center">
+                                    <label
+                                        class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                        asp-for="LoginInputModel.Password">Password</label>
+                                    <a class="ml-auto inline-block text-sm underline" href="/forgot-password">Forgot your
+                                        password?</a>
+                                </div>
+
+                                <input asp-validation type="password" asp-for="LoginInputModel.Password"
+                                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" />
+                                <span asp-validation-for="LoginInputModel.Password"
+                                    class="text-red-500 font-semibold text-sm"></span>
+
+                            </div>
+
+                            <button value="login" name="button"
+                                class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-black text-slate-50 hover:bg-black/90 h-10 px-4 py-2 w-full"
+                                type="submit">Login</button>
+
+                            <button type="button"
+                                class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full">Login
+                                with Google</button>
+                        </form>
+
+                        <div class="mt-4 text-center text-sm">Don't have an account?
+                            <a class="underline" asp-page="/Account/Register/Index">Sign up</a>
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+            <div class="hidden bg-muted lg:block bg-slate-100">
+                <img alt="Image" loading="lazy" width="1920" height="1080" decoding="async" data-nimg="1"
+                    class="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale" style="color:transparent"
+                    src="/placeholder.svg" />
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section PageScripts {
+    <partial name="~/Pages/Shared/_ValidationScriptsPartial.cshtml" />
+}

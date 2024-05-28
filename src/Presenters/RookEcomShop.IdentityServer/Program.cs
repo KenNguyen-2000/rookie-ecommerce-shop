@@ -53,14 +53,14 @@ try
 
     //if (seed)
     //{
-        Log.Information("Seeding database...");
-        var config = builder.Configuration;
-        var defaultString = config.GetConnectionString("DefaultConnection");
-    var rookEcomStr = config.GetConnectionString("RookEcomShopString");
+    Log.Information("Seeding database...");
+    var config = builder.Configuration;
+    var defaultString = config.GetConnectionString("IdentityConnection");
+    var rookEcomStr = config.GetConnectionString("DefaultConnection");
 
     SeedUsers.EnsureSeedData(defaultString, rookEcomStr);
-        Log.Information("Done seeding database.");
-        //return;
+    Log.Information("Done seeding database.");
+    //return;
     //}
 
     Log.Information("Starting host...");

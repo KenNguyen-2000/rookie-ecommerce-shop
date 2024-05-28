@@ -1,6 +1,6 @@
 ﻿@page
-@using RookEcomShop.IdentityServer.Views.Account
-@model LoggedOutModel
+@using RookEcomShop.IdentityServer.Pages.Account.LoggedOut
+@model IndexModel
 
 <div class="logged-out-page">
     <h1>
@@ -11,7 +11,8 @@
     @if (Model.LoggedOutViewModel.PostLogoutRedirectUri is not null)
     {
         <div>
-            Click <a class="PostLogoutRedirectUri" href="@Model.LoggedOutViewModel.PostLogoutRedirectUri">here</a> to return to the
+            Click <a class="PostLogoutRedirectUri" href="@Model.LoggedOutViewModel.PostLogoutRedirectUri">here</a> to return
+            to the
             <span>@Model.LoggedOutViewModel.ClientName</span> application.
         </div>
     }

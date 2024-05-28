@@ -1,19 +1,16 @@
 using IdentityModel;
-using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Services;
-using IdentityServer4.Stores;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.VisualBasic;
 using RookEcomShop.IdentityServer.Controllers.Account;
 using RookEcomShop.IdentityServer.Domain;
+using RookEcomShop.IdentityServer.Models.Account.Logout;
 
-namespace RookEcomShop.IdentityServer.Views.Account
+namespace RookEcomShop.IdentityServer.Pages.Account.LoggedOut
 {
-    public class LoggedOutModel : PageModel
+    public class IndexModel : PageModel
     {
         public LoggedOutViewModel LoggedOutViewModel { get; set; } = default!;
         [BindProperty]
@@ -23,7 +20,7 @@ namespace RookEcomShop.IdentityServer.Views.Account
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IEventService _events;
 
-        public LoggedOutModel(
+        public IndexModel(
             SignInManager<ApplicationUser> signInManager,
             IIdentityServerInteractionService interaction,
             IEventService events)

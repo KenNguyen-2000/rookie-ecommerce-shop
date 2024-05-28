@@ -1,4 +1,4 @@
-﻿namespace RookEcomShop.IdentityServer.Controllers.Account
+﻿namespace RookEcomShop.IdentityServer.Models.Account
 {
     public class RedirectViewModel
     {

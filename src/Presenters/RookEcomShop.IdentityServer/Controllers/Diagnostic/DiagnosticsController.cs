@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RookEcomShop.IdentityServer.Models;
 
 namespace RookEcomShop.IdentityServer.Controllers.Diagnostic
 {

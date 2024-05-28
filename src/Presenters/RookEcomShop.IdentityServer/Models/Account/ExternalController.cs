@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.IdentityServer.Domain;
 using System.Security.Claims;
 
-namespace RookEcomShop.IdentityServer.Controllers.Account
+namespace RookEcomShop.IdentityServer.Models.Account
 {
     [SecurityHeadersAttribute]
     [AllowAnonymous]

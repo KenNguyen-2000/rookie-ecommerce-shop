@@ -1,6 +1,7 @@
 ﻿using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RookEcomShop.IdentityServer.Models;
 
 namespace RookEcomShop.IdentityServer.Controllers.Home
 {

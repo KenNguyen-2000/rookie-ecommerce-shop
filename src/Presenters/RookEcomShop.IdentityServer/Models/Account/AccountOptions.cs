@@ -1,4 +1,4 @@
-﻿namespace RookEcomShop.IdentityServer.Models.Account
+﻿namespace RookEcomShop.IdentityServer.Controllers.Account
 {
     public class AccountOptions
     {

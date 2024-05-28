@@ -20,7 +20,7 @@ namespace RookEcomShop.IdentityServer.Configuration
                 ["React"] = builder.Configuration["ClientUrl:React"]!
             };
 
-            string connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
+            string connectionString = builder.Configuration.GetConnectionString("IdentityConnection")!;
 
             builder.Services.AddDbContext<IdentityServerDbContext>(opt =>
                       opt.UseSqlServer(connectionString,
