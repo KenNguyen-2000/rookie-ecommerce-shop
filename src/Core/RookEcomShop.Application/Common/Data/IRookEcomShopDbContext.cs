@@ -23,5 +23,9 @@ namespace RookEcomShop.Application.Common.Data
         DbSet<Review> Reviews { get; set; }
 
         DbSet<PaymentTransaction> PaymentTransactions { get; set; }
+        DbSet<User> Users { get; set; }
+        DbSet<Role> Roles { get; set; }
+        DbSet<UserRole> UserRoles { get; set; }
+
     }
 }

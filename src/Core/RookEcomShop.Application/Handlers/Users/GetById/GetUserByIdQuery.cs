@@ -6,7 +6,7 @@ namespace RookEcomShop.Application.Handlers.Users.GetById
 {
     public class GetUserByIdQuery : IRequest<Result<UserDto>>
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
     }
 }

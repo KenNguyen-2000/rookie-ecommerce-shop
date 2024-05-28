@@ -30,7 +30,7 @@ namespace RookEcomShop.IdentityServer.Configuration
                           }));
 
             builder.Services
-                .AddIdentity<ApplicationUser, IdentityRole<int>>()
+                .AddIdentity<ApplicationUser, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<IdentityServerDbContext>()
                 .AddDefaultTokenProviders();
 

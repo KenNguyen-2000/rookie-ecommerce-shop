@@ -26,7 +26,7 @@ namespace RookEcomShop.Api.Controllers.v1
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetProductReviews(int productId)
+        public async Task<IActionResult> GetProductReviews(Guid productId)
         {
             var query = new GetReviewsListQuery
             {
@@ -41,7 +41,7 @@ namespace RookEcomShop.Api.Controllers.v1
         }
 
         [HttpPost]
-        public async Task<IActionResult> ReviewProduct(int productId, CreateReviewRequest createViewRequest)
+        public async Task<IActionResult> ReviewProduct(Guid productId, CreateReviewRequest createViewRequest)
         {
             var command = new CreateReviewCommand
             {
@@ -58,7 +58,7 @@ namespace RookEcomShop.Api.Controllers.v1
         }
 
         [HttpDelete("{reviewId}")]
-        public IActionResult RemoveReview(int reviewId)
+        public IActionResult RemoveReview(Guid reviewId)
         {
             var command = new DeleteReviewCommand
             {
@@ -75,7 +75,7 @@ namespace RookEcomShop.Api.Controllers.v1
         }
 
         [HttpPut("{reviewId}")]
-        public async Task<IActionResult> UpdateReview(int productId, int reviewId, UpdateReviewRequest updateReviewRequest)
+        public async Task<IActionResult> UpdateReview(Guid productId, Guid reviewId, UpdateReviewRequest updateReviewRequest)
         {
             var command = new UpdateReviewCommand
             {

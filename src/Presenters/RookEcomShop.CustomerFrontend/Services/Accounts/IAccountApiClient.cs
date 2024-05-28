@@ -2,6 +2,6 @@
 {
     public interface IAccountApiClient
     {
-        Task<dynamic> GetUser();
+        Task<dynamic?> GetUser();
     }
 }

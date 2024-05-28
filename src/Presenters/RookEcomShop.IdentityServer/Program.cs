@@ -44,24 +44,23 @@ try
     {
         app.UseExceptionHandler("/Home/Error");
     }
-    Console.WriteLine(args);
-    var seed = args.Contains("/seed");
+    var seed = args.FirstOrDefault( arg => arg == "/seed") != null;
     if (seed)
     {
         args = args.Except(new[] { "/seed" }).ToArray();
     }
 
-    //if (seed)
-    //{
-    Log.Information("Seeding database...");
-    var config = builder.Configuration;
-    var defaultString = config.GetConnectionString("IdentityConnection");
-    var rookEcomStr = config.GetConnectionString("DefaultConnection");
+    if (seed)
+    {
+        Log.Information("Seeding database...");
+        var config = builder.Configuration;
+        var defaultString = config.GetConnectionString("IdentityConnection");
+        var rookEcomStr = config.GetConnectionString("DefaultConnection");
 
-    SeedUsers.EnsureSeedData(defaultString, rookEcomStr);
-    Log.Information("Done seeding database.");
-    //return;
-    //}
+        SeedUsers.EnsureSeedData(defaultString, rookEcomStr).Wait();
+        Log.Information("Done seeding database.");
+        return;
+    }
 
     Log.Information("Starting host...");
 

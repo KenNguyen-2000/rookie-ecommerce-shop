@@ -51,7 +51,7 @@ namespace RookEcomShop.CustomerFrontend
             var configureClient = new Action<IServiceProvider, HttpClient>(async (provider, client) =>
             {
                 var httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
-                var accessToken = await httpContextAccessor?.HttpContext?.GetTokenAsync("access_token") ?? "";
+                string? accessToken = await httpContextAccessor?.HttpContext?.GetTokenAsync("access_token") ?? "";
                 client.BaseAddress = new Uri("https://localhost:7181/api/v1/");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             });

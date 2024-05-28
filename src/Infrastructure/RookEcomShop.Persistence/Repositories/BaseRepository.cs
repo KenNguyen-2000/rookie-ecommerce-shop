@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace RookEcomShop.Persistence.Repositories
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
+    public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity<Guid>
     {
         protected readonly RookEcomShopDbContext _dbContext;
 
@@ -24,7 +24,7 @@ namespace RookEcomShop.Persistence.Repositories
             _dbContext.Remove(entity);
         }
 
-        public virtual async Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+        public virtual async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await _dbContext.Set<T>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }

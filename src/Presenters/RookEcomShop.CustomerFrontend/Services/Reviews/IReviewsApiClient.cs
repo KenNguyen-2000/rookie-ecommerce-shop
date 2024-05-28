@@ -5,8 +5,8 @@ namespace RookEcomShop.CustomerFrontend.Services.Reviews
 {
     public interface IReviewsApiClient
     {
-        Task<IEnumerable<ReviewVM>> GetReviews(int productId);
+        Task<IEnumerable<ReviewVM>> GetReviews(Guid productId);
         Task ReviewProductAsync(ReviewsProductInputModel request);
-        Task RemoveReviewAsync(int productId, int reviewId);
+        Task RemoveReviewAsync(Guid productId, Guid reviewId);
     }
 }

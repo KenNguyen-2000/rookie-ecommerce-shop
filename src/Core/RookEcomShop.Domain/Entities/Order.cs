@@ -4,14 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RookEcomShop.Domain.Entities
 {
-    public class Order : BaseEntity
+    public class Order : BaseEntity<Guid>
     {
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
         [Column(TypeName = "decimal(18, 2)")]
         public decimal TotalAmount { get; set; }
         public DateTime OrderDate { get; set; }
-        public DateTime UpdatedAt { get; set; }
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
 
         public virtual User User { get; set; } = null!;
         public virtual PaymentTransaction? PaymentTransaction { get; set; }

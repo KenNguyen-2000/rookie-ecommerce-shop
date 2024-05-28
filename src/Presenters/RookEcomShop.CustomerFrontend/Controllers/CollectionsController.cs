@@ -32,6 +32,12 @@ public class CollectionsController : Controller
     {
         ViewBag.CategoryName = categoryName;
         var category = await _categoriesApiClient.GetCategoryByNameAsync(categoryName);
+
+        if(category == null)
+        {
+            return View("NotFound");
+        }
+
         PaginatedList<ProductVM> products = await _productsApiClient.GetProductsByCategoryNameAsync(categoryName, queryDto);
 
         return View(new CollectionsVM

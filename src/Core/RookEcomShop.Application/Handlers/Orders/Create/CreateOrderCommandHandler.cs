@@ -74,7 +74,7 @@ namespace RookEcomShop.Application.Handlers.Orders.Create
                     Product = cD.Product,
                 }).ToList(),
                 Status = OrderStatus.Pending,
-                UserId = 2,
+                UserId = cart.UserId,
                 TotalAmount = cart.CartDetails.Sum(cD => cD.Product.Price * cD.Quantity),
                 OrderDate = _dateTimeProvider.UtcNow,
                 UpdatedAt = _dateTimeProvider.UtcNow

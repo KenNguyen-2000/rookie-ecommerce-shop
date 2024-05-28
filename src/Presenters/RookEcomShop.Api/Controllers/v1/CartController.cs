@@ -48,7 +48,7 @@ namespace RookEcomShop.Api.Controllers.v1
         }
 
         [HttpDelete("products/{productId}")]
-        public async Task<IActionResult> RemoveProductFromCart(int productId)
+        public async Task<IActionResult> RemoveProductFromCart(Guid productId)
         {
             var command = new RemoveProductCommand
             {

@@ -32,8 +32,8 @@ public partial class RookEcomShopDbContext : DbContext, IRookEcomShopDbContext
 
     public virtual DbSet<PaymentTransaction> PaymentTransactions { get; set; }
     public virtual DbSet<User> Users { get; set; }
-
-
+    public virtual DbSet<Role> Roles { get; set; }
+    public virtual DbSet<UserRole> UserRoles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

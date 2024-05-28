@@ -6,6 +6,6 @@ namespace RookEcomShop.Application.Handlers.Orders.GetList
 {
     public class GetListOrderQuery : IRequest<Result<IEnumerable<OrderVM>>>
     {
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
     }
 }

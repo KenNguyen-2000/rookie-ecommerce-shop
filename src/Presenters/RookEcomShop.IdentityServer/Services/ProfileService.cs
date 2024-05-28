@@ -11,10 +11,10 @@ namespace RookEcomShop.IdentityServer.Services
     {
         private readonly IUserClaimsPrincipalFactory<ApplicationUser> _userClaimsPrincipalFactory;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole<int>> _roleManager;
+        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
         public ProfileService(
-            RoleManager<IdentityRole<int>> roleManager,
+            RoleManager<IdentityRole<Guid>> roleManager,
             UserManager<ApplicationUser> userManager,
             IUserClaimsPrincipalFactory<ApplicationUser> userClaimsPrincipalFactory)
         {
@@ -46,7 +46,7 @@ namespace RookEcomShop.IdentityServer.Services
                     claims.Add(new Claim(JwtClaimTypes.Role, roleName));
                     if (_roleManager.SupportsRoleClaims)
                     {
-                        IdentityRole<int>? role = await _roleManager.FindByNameAsync(roleName);
+                        IdentityRole<Guid>? role = await _roleManager.FindByNameAsync(roleName);
                         if (role != null)
                         {
                             claims.AddRange(await _roleManager.GetClaimsAsync(role));

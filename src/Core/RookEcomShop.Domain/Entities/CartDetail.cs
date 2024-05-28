@@ -2,7 +2,7 @@
 
 namespace RookEcomShop.Domain.Entities
 {
-    public class CartDetail : BaseEntity
+    public class CartDetail : BaseEntity<Guid>
     {
         public int Quantity { get; set; }
 

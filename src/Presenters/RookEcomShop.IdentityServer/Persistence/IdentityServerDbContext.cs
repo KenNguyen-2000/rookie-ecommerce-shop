@@ -5,7 +5,7 @@ using RookEcomShop.IdentityServer.Domain;
 
 namespace RookEcomShop.IdentityServer.Persistence
 {
-    public class IdentityServerDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>
+    public class IdentityServerDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
     {
         public IdentityServerDbContext()
         {

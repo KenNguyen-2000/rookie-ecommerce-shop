@@ -6,6 +6,6 @@ namespace RookEcomShop.Application.Handlers.Orders.Create
 {
     public class CreateOrderCommand : CreateOrderRequest, IRequest<Result>
     {
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
     }
 }

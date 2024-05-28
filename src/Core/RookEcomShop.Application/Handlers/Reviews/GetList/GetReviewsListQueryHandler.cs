@@ -21,7 +21,7 @@ namespace RookEcomShop.Application.Handlers.Reviews.GetList
         public async Task<Result<IEnumerable<ReviewVM>>> Handle(GetReviewsListQuery request, CancellationToken cancellationToken)
         {
             var reviews = await _reviewRepository.GetListAsync(r => r.Product.Id.Equals(request.ProductId), cancellationToken);
-            IEnumerable<int> userIds = reviews.Select(r => r.UserId).ToList();
+            IEnumerable<Guid> userIds = reviews.Select(r => r.UserId).ToList();
             var users = await _userRepository.GetUsersByIds(userIds);
             IEnumerable<ReviewVM> mergedReviews = MergeUsersToReviews(request, reviews, users);
             return Result.Ok(mergedReviews);

@@ -13,6 +13,7 @@ namespace RookEcomShop.Persistence.Configurations
 
             builder.HasOne(e => e.User)
                 .WithMany()
+                .HasForeignKey(e => e.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }

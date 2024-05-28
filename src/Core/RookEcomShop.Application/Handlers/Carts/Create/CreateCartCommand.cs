@@ -5,6 +5,6 @@ namespace RookEcomShop.Application.Handlers.Carts.Create
 {
     public class CreateCartCommand : IRequest<Result>
     {
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
     }
 }

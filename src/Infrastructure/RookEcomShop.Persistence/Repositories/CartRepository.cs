@@ -11,7 +11,7 @@ namespace RookEcomShop.Persistence.Repositories
         }
 
 
-        public async Task<Cart?> GetCartByUserIdAsync(int userId)
+        public async Task<Cart?> GetCartByUserIdAsync(Guid userId)
         {
             return await _dbContext.Carts
                     .Include(e => e.CartDetails)

@@ -17,7 +17,7 @@ namespace RookEcomShop.CustomerFrontend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddReview(int productId, ReviewsProductInputModel request)
+        public async Task<IActionResult> AddReview(Guid productId, ReviewsProductInputModel request)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace RookEcomShop.CustomerFrontend.Controllers
         }
 
         [HttpPost("{reviewId}")]
-        public async Task<IActionResult> RemoveReview(int productId, int reviewId)
+        public async Task<IActionResult> RemoveReview(Guid productId, Guid reviewId)
         {
             try
             {

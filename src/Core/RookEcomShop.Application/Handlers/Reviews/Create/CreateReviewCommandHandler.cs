@@ -37,7 +37,7 @@ namespace RookEcomShop.Application.Handlers.Reviews.Create
                 Rating = request.Rating,
                 CreatedAt = _dateTimeProvider.UtcNow,
                 UpdatedAt = _dateTimeProvider.UtcNow,
-                UserId = 1,
+                UserId = request.UserId,
                 Product = t
             };
 

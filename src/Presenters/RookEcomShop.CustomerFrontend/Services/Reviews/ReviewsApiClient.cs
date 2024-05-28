@@ -14,7 +14,7 @@ namespace RookEcomShop.CustomerFrontend.Services.Reviews
             _httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<ReviewVM>> GetReviews(int productId)
+        public async Task<IEnumerable<ReviewVM>> GetReviews(Guid productId)
         {
             var response = await _httpClient.GetAsync($"products/{productId}/reviews");
 
@@ -25,7 +25,7 @@ namespace RookEcomShop.CustomerFrontend.Services.Reviews
             return reviews;
         }
 
-        public async Task RemoveReviewAsync(int productId, int reviewId)
+        public async Task RemoveReviewAsync(Guid productId, Guid reviewId)
         {
             var response = await _httpClient.DeleteAsync($"products/{productId}/reviews/{reviewId}");
             response.EnsureSuccessStatusCode();

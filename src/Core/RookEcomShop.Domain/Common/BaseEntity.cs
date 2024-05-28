@@ -1,9 +1,11 @@
-﻿namespace RookEcomShop.Domain.Common
+﻿
+namespace RookEcomShop.Domain.Common
 {
-    public abstract class BaseEntity
+    public abstract class BaseEntity<T> : IHasKey<T>, ITrackable
     {
-        public int Id { get; set; }
-
+        public T Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 
 }

@@ -4,7 +4,7 @@ namespace RookEcomShop.CustomerFrontend.Models.Reviews
 {
     public class ReviewsProductInputModel
     {
-        public int ProductId { get; set; }
+        public Guid ProductId { get; set; }
         [Required]
         public string Content { get; set; } = null!;
         [Range(1, 5)]

@@ -6,7 +6,7 @@ namespace RookEcomShop.Application.Handlers.Products.PatchStatus
 {
     public class UpdateProductStatusCommand : IRequest<Result>
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public ProductStatus Status { get; set; }
     }
 }

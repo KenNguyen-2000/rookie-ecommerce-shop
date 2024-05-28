@@ -13,7 +13,7 @@ namespace RookEcomShop.CustomerFrontend.Services.Accounts
             _httpClient.BaseAddress = new Uri("https://localhost:7280");
         }
 
-        public async Task<dynamic> GetUser()
+        public async Task<dynamic?> GetUser()
         {
             var response = await _httpClient.GetAsync("/api/v1/users");
 

@@ -17,7 +17,7 @@ namespace RookEcomShop.Persistence.Repositories
             _dbContext.Entry(entity).Property("IsDeleted").CurrentValue = true;
         }
 
-        public override async Task<Product?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+        public override async Task<Product?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await _dbContext.Products
                 .Include(p => p.Category)

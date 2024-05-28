@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RookEcomShop.Domain.Entities
 {
-    public class OrderDetail : BaseEntity
+    public class OrderDetail : BaseEntity<Guid>
     {
         public int Quantity { get; set; }
         [Column(TypeName = "decimal(18, 2)")]

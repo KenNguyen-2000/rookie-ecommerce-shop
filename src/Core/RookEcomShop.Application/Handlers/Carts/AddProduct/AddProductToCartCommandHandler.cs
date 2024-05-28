@@ -50,7 +50,7 @@ namespace RookEcomShop.Application.Handlers.Carts.AddProduct
             return Result.Ok();
         }
 
-        private async Task<Cart> CreateCartIfNotExists(int userId, CancellationToken cancellationToken)
+        private async Task<Cart> CreateCartIfNotExists(Guid userId, CancellationToken cancellationToken)
         {
             await _sender.Send(new CreateCartCommand { UserId = userId }, cancellationToken);
             return (await _cartRepository.GetCartByUserIdAsync(userId))!;

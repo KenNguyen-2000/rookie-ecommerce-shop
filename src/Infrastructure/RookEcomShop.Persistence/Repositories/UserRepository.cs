@@ -12,7 +12,7 @@ namespace RookEcomShop.Persistence.Repositories
         {
         }
 
-        public async Task<UserDto?> GetByIdAsync(int userId)
+        public async Task<UserDto?> GetByIdAsync(Guid userId)
         {
             return await _dbContext.Users.Select(u => new UserDto
             {
@@ -47,7 +47,7 @@ namespace RookEcomShop.Persistence.Repositories
             }).ToListAsync();
         }
 
-        public async Task<IEnumerable<UserDto>> GetUsersByIds(IEnumerable<int> userIds)
+        public async Task<IEnumerable<UserDto>> GetUsersByIds(IEnumerable<Guid> userIds)
         {
             return await _dbContext.Users.Where(u => userIds.Contains(u.Id)).Select(u => new UserDto
             {

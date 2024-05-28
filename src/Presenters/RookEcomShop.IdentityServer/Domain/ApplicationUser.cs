@@ -3,7 +3,7 @@ using RookEcomShop.Domain.Common.Enums;
 
 namespace RookEcomShop.IdentityServer.Domain
 {
-    public class ApplicationUser : IdentityUser<int>
+    public class ApplicationUser : IdentityUser<Guid>
     {
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;

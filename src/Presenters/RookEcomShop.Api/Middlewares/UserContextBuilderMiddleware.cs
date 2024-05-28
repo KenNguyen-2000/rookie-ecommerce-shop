@@ -20,7 +20,7 @@ namespace RookEcomShop.Api.Middlewares
             {
                 if (context.User?.Identity?.IsAuthenticated == true)
                 {
-                    int userId = int.Parse(context.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+                    Guid userId = Guid.Parse(context.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
                     //var query = new GetUserByIdQuery { Id = userId };
                     //var result = await sender.Send(query);
                     //if (result.IsFailed)

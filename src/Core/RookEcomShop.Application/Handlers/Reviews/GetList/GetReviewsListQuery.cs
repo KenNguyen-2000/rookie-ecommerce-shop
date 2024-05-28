@@ -6,6 +6,6 @@ namespace RookEcomShop.Application.Handlers.Reviews.GetList
 {
     public class GetReviewsListQuery : IRequest<Result<IEnumerable<ReviewVM>>>
     {
-        public int ProductId { get; set; }
+        public Guid ProductId { get; set; }
     }
 }

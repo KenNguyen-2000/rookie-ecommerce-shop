@@ -20,7 +20,7 @@ namespace RookEcomShop.Application.Handlers.Carts.Create
         {
             _cartRepository.Create(new Cart
             {
-                UserId = 2
+                UserId = command.UserId
             });
             await _unitOfWork.SaveAsync(cancellationToken);
             return Result.Ok();

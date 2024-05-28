@@ -78,7 +78,7 @@ namespace RookEcomShop.Api.Controllers.v1
 
         [AllowAnonymous]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetProductById(int id)
+        public async Task<IActionResult> GetProductById(Guid id)
         {
             var query = new GetProductByIdQuery { Id = id };
 
@@ -88,8 +88,8 @@ namespace RookEcomShop.Api.Controllers.v1
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete("{id:int}")]
-        public async Task<IActionResult> DeleteProduct(int id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(Guid id)
         {
             var command = new DeleteProductByIdCommand { Id = id };
             await _sender.Send(command);
@@ -100,7 +100,7 @@ namespace RookEcomShop.Api.Controllers.v1
 
         [Authorize(Roles = "Admin")]
         [HttpPatch("{id}/status")]
-        public async Task<IActionResult> UpdateProductStatus(int id, [FromQuery] ProductStatus status)
+        public async Task<IActionResult> UpdateProductStatus(Guid id, [FromQuery] ProductStatus status)
         {
             var command = new UpdateProductStatusCommand { Id = id, Status = status };
 
@@ -111,7 +111,7 @@ namespace RookEcomShop.Api.Controllers.v1
 
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProductById(int id, [FromForm] UpdateProductRequest updateProductRequest)
+        public async Task<IActionResult> UpdateProductById(Guid id, [FromForm] UpdateProductRequest updateProductRequest)
         {
             var command = new UpdateProductCommand
             {

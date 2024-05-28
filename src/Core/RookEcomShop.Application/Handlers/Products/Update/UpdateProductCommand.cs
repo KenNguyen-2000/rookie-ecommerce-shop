@@ -6,6 +6,6 @@ namespace RookEcomShop.Application.Handlers.Products.Update
 {
     public class UpdateProductCommand : UpdateProductRequest, IRequest<Result>
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

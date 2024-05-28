@@ -36,7 +36,7 @@ namespace RookEcomShop.Api.Controllers.v1
         }
 
         [HttpGet("{orderId}")]
-        public async Task<IActionResult> GetOrderDetail(int orderId)
+        public async Task<IActionResult> GetOrderDetail(Guid orderId)
         {
             var query = new GetOrderByIdQuery
             {
@@ -60,7 +60,7 @@ namespace RookEcomShop.Api.Controllers.v1
 
         [Authorize(Roles = "Admin")]
         [HttpPatch("{orderId}/confirm")]
-        public async Task<IActionResult> ConfirmOrder(int orderId)
+        public async Task<IActionResult> ConfirmOrder(Guid orderId)
         {
             var command = new ConfirmOrderCommand
             {
@@ -72,7 +72,7 @@ namespace RookEcomShop.Api.Controllers.v1
         }
 
         [HttpPatch("{orderId}/cancel")]
-        public async Task<IActionResult> CancelOrder(int orderId)
+        public async Task<IActionResult> CancelOrder(Guid orderId)
         {
             var command = new CancelOrderCommand
             {

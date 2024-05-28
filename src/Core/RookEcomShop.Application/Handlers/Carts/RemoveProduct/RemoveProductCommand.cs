@@ -5,7 +5,7 @@ namespace RookEcomShop.Application.Handlers.Carts.RemoveProduct
 {
     public class RemoveProductCommand : IRequest<Result>
     {
-        public int ProductId { get; set; }
-        public int UserId { get; set; }
+        public Guid ProductId { get; set; }
+        public Guid UserId { get; set; }
     }
 }

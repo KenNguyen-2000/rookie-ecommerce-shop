@@ -59,7 +59,7 @@ namespace RookEcomShop.CustomerFrontend.Services.Products
                     queryString[property.Name] = value;
                 }
             }
-            return queryString.ToString();
+            return queryString?.ToString() ?? String.Empty;
         }
     }
 }

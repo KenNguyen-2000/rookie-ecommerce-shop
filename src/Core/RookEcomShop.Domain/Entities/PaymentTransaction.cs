@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RookEcomShop.Domain.Entities
 {
-    public class PaymentTransaction : BaseEntity
+    public class PaymentTransaction : BaseEntity<Guid>
     {
-        public int OrderId { get; set; }
+        public Guid OrderId { get; set; }
         public PaymentTransactionStatus Status { get; set; } = PaymentTransactionStatus.Pending;
         [Column(TypeName = "decimal(18, 2)")]
         public decimal TotalAmount { get; set; }
