@@ -1,14 +1,14 @@
 ﻿using IdentityModel;
+using IdentityServer4;
 using IdentityServer4.Events;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
-using IdentityServer4;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using RookEcomShop.IdentityServer.Domain;
 using System.Security.Claims;
-using RookEcomShop.Persistence;
 
 namespace RookEcomShop.IdentityServer.Controllers.Account
 {
@@ -133,12 +133,12 @@ namespace RookEcomShop.IdentityServer.Controllers.Account
 
             if (context != null)
             {
-                if (context.IsNativeClient())
-                {
-                    // The client is native, so this change in how to
-                    // return the response is for better UX for the end user.
-                    return this.LoadingPage("Redirect", returnUrl);
-                }
+                //if (context.IsNativeClient())
+                //{
+                //    // The client is native, so this change in how to
+                //    // return the response is for better UX for the end user.
+                //    return this.LoadingPage("Redirect", returnUrl);
+                //}
             }
 
             return Redirect(returnUrl);

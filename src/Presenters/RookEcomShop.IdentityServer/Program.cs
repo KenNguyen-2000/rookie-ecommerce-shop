@@ -1,5 +1,4 @@
-
-using RookEcomShop.IdentityServer;
+using RookEcomShop.IdentityServer.Configuration;
 using RookEcomShop.Infrastructure;
 using RookEcomShop.Infrastructure.IdentityServer;
 using RookEcomShop.Persistence;
@@ -14,8 +13,13 @@ try
                 .AddJsonFile("appsettings.json", true, true)
                 .AddUserSecrets<Program>()
                 .AddEnvironmentVariables();
-    builder.Services.AddPersistence(builder.Configuration);
-    builder.AddIdentityServicesConfiguration();
+    builder.ConfigureIdentityServices();
+
+    builder.Services.AddRazorPages();
+    builder.Services
+        .AddPersistence(builder.Configuration)
+        .AddInfrastructure(builder.Configuration);
+
 
     //builder.Services.AddAuthentication()
     //    .AddGoogle(options =>
@@ -47,15 +51,17 @@ try
         args = args.Except(new[] { "/seed" }).ToArray();
     }
 
-    if (seed)
-    {
+    //if (seed)
+    //{
         Log.Information("Seeding database...");
         var config = builder.Configuration;
-        var connectionString = config.GetConnectionString("DefaultConnection");
-        SeedUsers.EnsureSeedData(connectionString);
+        var defaultString = config.GetConnectionString("DefaultConnection");
+    var rookEcomStr = config.GetConnectionString("RookEcomShopString");
+
+    SeedUsers.EnsureSeedData(defaultString, rookEcomStr);
         Log.Information("Done seeding database.");
-        return;
-    }
+        //return;
+    //}
 
     Log.Information("Starting host...");
 
@@ -68,9 +74,7 @@ try
     app.UseAuthentication();
     app.UseAuthorization();
 
-    app.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
+    app.MapRazorPages();
     app.Run();
 
 }

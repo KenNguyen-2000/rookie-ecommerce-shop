@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using RookEcomShop.Application.Common.Data;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.Persistence.DataSeeding;
 
 namespace RookEcomShop.Persistence;
 
-public partial class RookEcomShopDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>, IRookEcomShopDbContext
+public partial class RookEcomShopDbContext : DbContext, IRookEcomShopDbContext
 {
     public RookEcomShopDbContext()
     {
@@ -33,6 +31,7 @@ public partial class RookEcomShopDbContext : IdentityDbContext<ApplicationUser, 
     public virtual DbSet<Review> Reviews { get; set; }
 
     public virtual DbSet<PaymentTransaction> PaymentTransactions { get; set; }
+    public virtual DbSet<User> Users { get; set; }
 
 
 
@@ -40,7 +39,7 @@ public partial class RookEcomShopDbContext : IdentityDbContext<ApplicationUser, 
     {
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(RookEcomShopDbContext).Assembly);
-        modelBuilder.Seed();
+        //modelBuilder.Seed();
         base.OnModelCreating(modelBuilder);
     }
 

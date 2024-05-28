@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using RookEcomShop.IdentityServer.Domain;
+using RookEcomShop.IdentityServer.Persistence;
+using RookEcomShop.IdentityServer.Services;
 using RookEcomShop.Infrastructure;
-using RookEcomShop.Persistence;
+using RookEcomShop.Infrastructure.IdentityServer;
 
-namespace RookEcomShop.Infrastructure.IdentityServer
+namespace RookEcomShop.IdentityServer.Configuration
 {
     public static class IdentityServerExtension
     {
@@ -23,7 +22,7 @@ namespace RookEcomShop.Infrastructure.IdentityServer
 
             string connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
 
-            builder.Services.AddDbContext<RookEcomShopDbContext>(opt =>
+            builder.Services.AddDbContext<IdentityServerDbContext>(opt =>
                       opt.UseSqlServer(connectionString,
                           providerOptions =>
                           {
@@ -32,7 +31,7 @@ namespace RookEcomShop.Infrastructure.IdentityServer
 
             builder.Services
                 .AddIdentity<ApplicationUser, IdentityRole<int>>()
-                .AddEntityFrameworkStores<RookEcomShopDbContext>()
+                .AddEntityFrameworkStores<IdentityServerDbContext>()
                 .AddDefaultTokenProviders();
 
             var identityBuilderService = builder.Services
@@ -55,6 +54,9 @@ namespace RookEcomShop.Infrastructure.IdentityServer
 
             // not recommended for production - you need to store your key material somewhere secure
             if (builder.Environment.IsDevelopment()) identityBuilderService.AddDeveloperSigningCredential();
+
+            builder.Services.AddScoped<IProfileService, ProfileService>();
+
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿@using System.Diagnostics
-
+﻿@page
+@using System.Diagnostics
+@using RookEcomShop.IdentityServer.Views
+@model IndexModel
 @{
     var version = FileVersionInfo.GetVersionInfo(typeof(IdentityServer4.Hosting.IdentityServerMiddleware).Assembly.Location).ProductVersion.Split('+').First();
 }

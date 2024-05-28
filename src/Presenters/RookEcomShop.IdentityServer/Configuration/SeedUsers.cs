@@ -5,7 +5,8 @@
 using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using RookEcomShop.IdentityServer.Domain;
+using RookEcomShop.IdentityServer.Persistence;
 using RookEcomShop.Persistence;
 using Serilog;
 using System.Security.Claims;
@@ -14,15 +15,17 @@ namespace RookEcomShop.Infrastructure.IdentityServer
 {
     public class SeedUsers
     {
-        public static async void EnsureSeedData(string connectionString)
+        public static async void EnsureSeedData(string connectionString, string rookEcomConnection)
         {
             var services = new ServiceCollection();
             services.AddLogging();
-            services.AddDbContext<RookEcomShopDbContext>(options =>
+            services.AddDbContext<IdentityServerDbContext>(options =>
                options.UseSqlServer(connectionString));
 
+            services.AddDbContext<RookEcomShopDbContext>(options =>
+                options.UseSqlServer(rookEcomConnection));
             services.AddIdentity<ApplicationUser, IdentityRole<int>>()
-                .AddEntityFrameworkStores<RookEcomShopDbContext>()
+                .AddEntityFrameworkStores<IdentityServerDbContext>()
                 .AddDefaultTokenProviders();
 
             using (var serviceProvider = services.BuildServiceProvider())
@@ -31,7 +34,8 @@ namespace RookEcomShop.Infrastructure.IdentityServer
                 {
                     try
                     {
-                        var context = scope.ServiceProvider.GetService<RookEcomShopDbContext>();
+                        var context = scope.ServiceProvider.GetService<IdentityServerDbContext>();
+                        var appContext = scope.ServiceProvider.GetService<RookEcomShopDbContext>();
                         context.Database.Migrate();
 
                         var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
@@ -39,8 +43,9 @@ namespace RookEcomShop.Infrastructure.IdentityServer
                         IdentityRole<int> adminRole, buyerRole;
                         CreateRoles(roleManager, out adminRole, out buyerRole);
 
-                        await CreateAliceUser(userMgr, buyerRole!);
-                        await CreateBobUser(userMgr, adminRole!);
+                        await CreateAliceUser(appContext, userMgr, buyerRole);
+
+                        await CreateBobUser(appContext,userMgr, adminRole!);
                     }
                     catch (Exception e)
                     {
@@ -52,6 +57,59 @@ namespace RookEcomShop.Infrastructure.IdentityServer
 
                 }
             }
+        }
+
+        private static async Task CreateAliceUser(RookEcomShopDbContext? appContext, UserManager<ApplicationUser> userMgr, IdentityRole<int> buyerRole)
+        {
+            var alice = userMgr.FindByNameAsync("alice").Result;
+            if (alice == null)
+            {
+                alice = new ApplicationUser
+                {
+                    FirstName = "Alice",
+                    LastName = "Smith",
+                    UserName = "alice",
+                    Email = "AliceSmith@email.com",
+                    EmailConfirmed = true,
+                };
+                var result = userMgr.CreateAsync(alice, "Pass123$");
+                appContext.Users.Add(new Domain.Entities.User
+                {
+                    FirstName = alice.FirstName,
+                    LastName = alice.LastName,
+                    Email = alice.Email,
+                });
+                var dbSave = appContext.SaveChangesAsync();
+
+                await Task.WhenAll(result, dbSave);
+                var aliceResult = result.Result;
+                if (!aliceResult.Succeeded)
+                {
+                    Console.WriteLine(aliceResult.Errors.First().Description);
+                    throw new Exception(aliceResult.Errors.First().Description);
+                }
+
+                await userMgr.AddToRoleAsync(alice, "Buyer");
+
+                aliceResult = userMgr.AddClaimsAsync(alice, new Claim[]{
+                            new Claim(JwtClaimTypes.Name, "Alice Smith"),
+                            new Claim(JwtClaimTypes.GivenName, "Alice"),
+                            new Claim(JwtClaimTypes.FamilyName, "Smith"),
+                            new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
+                        }).Result;
+                if (!aliceResult.Succeeded)
+                {
+                    Console.WriteLine(aliceResult.Errors.First().Description);
+                    throw new Exception(aliceResult.Errors.First().Description);
+                }
+                Log.Debug("alice created");
+            }
+            else
+            {
+                Log.Debug("alice already exists");
+            }
+            if (!userMgr.IsInRoleAsync(alice, buyerRole.Name!).Result)
+                _ = userMgr.AddToRolesAsync(alice, [buyerRole.Name!]).Result;
         }
 
         private static void CreateRoles(RoleManager<IdentityRole<int>> roleManager, out IdentityRole<int>? adminRole, out IdentityRole<int>? buyerRole)
@@ -77,50 +135,10 @@ namespace RookEcomShop.Infrastructure.IdentityServer
             }
         }
 
-        private static async Task CreateAliceUser(UserManager<ApplicationUser> userMgr, IdentityRole<int> buyerRole)
-        {
-            var alice = userMgr.FindByNameAsync("alice").Result;
-            if (alice == null)
-            {
-                alice = new ApplicationUser
-                {
-                    FirstName = "Alice",
-                    LastName = "Smith",
-                    UserName = "alice",
-                    Email = "AliceSmith@email.com",
-                    EmailConfirmed = true,
-                };
-                var result = userMgr.CreateAsync(alice, "Pass123$").Result;
-                await userMgr.AddToRoleAsync(alice, "Admin");
-                if (!result.Succeeded)
-                {
-                    Console.WriteLine(result.Errors.First().Description);
-                    throw new Exception(result.Errors.First().Description);
-                }
-                result = userMgr.AddClaimsAsync(alice, new Claim[]{
-                            new Claim(JwtClaimTypes.Name, "Alice Smith"),
-                            new Claim(JwtClaimTypes.GivenName, "Alice"),
-                            new Claim(JwtClaimTypes.FamilyName, "Smith"),
-                            new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
-                        }).Result;
-                if (!result.Succeeded)
-                {
-                    Console.WriteLine(result.Errors.First().Description);
-                    throw new Exception(result.Errors.First().Description);
-                }
-                Log.Debug("alice created");
-            }
-            else
-            {
-                Log.Debug("alice already exists");
-            }
-            if (!userMgr.IsInRoleAsync(alice, buyerRole.Name!).Result)
-                _ = userMgr.AddToRolesAsync(alice, [buyerRole.Name!]).Result;
-        }
 
-        private static async Task CreateBobUser(UserManager<ApplicationUser> userMgr, IdentityRole<int> adminRole)
+        private static async Task CreateBobUser(RookEcomShopDbContext? appContext, UserManager<ApplicationUser> userMgr, IdentityRole<int> adminRole)
         {
-           try
+            try
             {
                 var bob = await userMgr.FindByNameAsync("bob");
                 if (bob == null)
@@ -133,14 +151,25 @@ namespace RookEcomShop.Infrastructure.IdentityServer
                         Email = "BobSmith@email.com",
                         EmailConfirmed = true
                     };
-                    var result = userMgr.CreateAsync(bob, "Pass123$").Result;
-
-                    if (!result.Succeeded)
+                    var result = userMgr.CreateAsync(bob, "Pass123$");
+                    appContext.Users.Add(new Domain.Entities.User
                     {
-                        throw new Exception(result.Errors.First().Description);
+                        FirstName = bob.FirstName,
+                        LastName = bob.LastName,
+                        Email = bob.Email,
+                    });
+                    var dbSave = appContext.SaveChangesAsync();
+                    await Task.WhenAll(result, dbSave);
+                    var bobResult = result.Result;
+                    if (!bobResult.Succeeded)
+                    {
+                        throw new Exception(bobResult.Errors.First().Description);
                     }
 
-                    result = userMgr.AddClaimsAsync(bob, new Claim[]{
+                    await userMgr.AddToRoleAsync(bob, "Admin");
+
+
+                    bobResult = userMgr.AddClaimsAsync(bob, new Claim[]{
                             new Claim(JwtClaimTypes.Name, "Bob Smith"),
                             new Claim(JwtClaimTypes.GivenName, "Bob"),
                             new Claim(JwtClaimTypes.FamilyName, "Smith"),
@@ -148,9 +177,9 @@ namespace RookEcomShop.Infrastructure.IdentityServer
                             new Claim("location", "somewhere"),
                             new Claim(JwtClaimTypes.Role, "Admin")
                         }).Result;
-                    if (!result.Succeeded)
+                    if (!bobResult.Succeeded)
                     {
-                        throw new Exception(result.Errors.First().Description);
+                        throw new Exception(bobResult.Errors.First().Description);
                     }
                     Log.Debug("bob created");
                 }
@@ -161,7 +190,8 @@ namespace RookEcomShop.Infrastructure.IdentityServer
                 }
                 if (!userMgr.IsInRoleAsync(bob, adminRole.Name!).Result)
                     _ = userMgr.AddToRolesAsync(bob, [adminRole.Name!]).Result;
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 throw;

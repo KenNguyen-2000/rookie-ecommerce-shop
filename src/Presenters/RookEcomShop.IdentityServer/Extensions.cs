@@ -1,11 +1,7 @@
 ﻿using IdentityServer4.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using RookEcomShop.IdentityServer.Models;
-using RookEcomShop.Infrastructure.IdentityServer;
-using RookEcomShop.Persistence;
-using System.Configuration;
 
 namespace RookEcomShop.IdentityServer
 {
@@ -20,12 +16,12 @@ namespace RookEcomShop.IdentityServer
             return !context.RedirectUri.StartsWith("https", StringComparison.Ordinal)
                && !context.RedirectUri.StartsWith("http", StringComparison.Ordinal);
         }
-        public static IActionResult LoadingPage(this Controller controller, string viewName, string redirectUri)
+        internal static IActionResult LoadingPage(this PageModel page, string viewName, string redirectUri)
         {
-            controller.HttpContext.Response.StatusCode = 200;
-            controller.HttpContext.Response.Headers["Location"] = "";
+            page.HttpContext.Response.StatusCode = 200;
+            page.HttpContext.Response.Headers["Location"] = "";
 
-            return controller.View(viewName, new RedirectViewModel { RedirectUrl = redirectUri });
+            return page.RedirectToPage("/Redirect/Index", new { RedirectUri = redirectUri });
         }
 
 

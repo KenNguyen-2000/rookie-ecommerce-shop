@@ -9,6 +9,11 @@ namespace RookEcomShop.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Review> builder)
         {
             builder.ToTable(nameof(Review) + "s");
+
+
+            builder.HasOne(e => e.User)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

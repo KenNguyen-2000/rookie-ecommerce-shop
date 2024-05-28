@@ -1,5 +1,6 @@
 using FluentResults;
 using MediatR;
+using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.ViewModels.Category;
 using RookEcomShop.ViewModels.Order;
@@ -10,14 +11,21 @@ namespace RookEcomShop.Application.Handlers.Orders.GetList
     public class GetListOrderQueryHandler : IRequestHandler<GetListOrderQuery, Result<IEnumerable<OrderVM>>>
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly IUserRepository _userRepository;
 
-        public GetListOrderQueryHandler(IOrderRepository orderRepository)
+        public GetListOrderQueryHandler(IOrderRepository orderRepository, IUserRepository userRepository)
         {
             _orderRepository = orderRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<Result<IEnumerable<OrderVM>>> Handle(GetListOrderQuery request, CancellationToken cancellationToken)
         {
+            var user = await _userRepository.GetByIdAsync(request.UserId);
+            if (user == null)
+            {
+                throw new NotFoundException($"User with id {request.UserId} not found!");
+            }
             var orders = await _orderRepository.GetListAsync(o => o.UserId == request.UserId, cancellationToken);
 
             return Result.Ok(orders.Select(o => new OrderVM

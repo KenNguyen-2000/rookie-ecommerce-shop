@@ -2,10 +2,10 @@ using IdentityModel;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using Microsoft.AspNetCore.Identity;
-using RookEcomShop.Persistence;
+using RookEcomShop.IdentityServer.Domain;
 using System.Security.Claims;
 
-namespace RookEcomShop.Infrastructure.Services
+namespace RookEcomShop.IdentityServer.Services
 {
     public class ProfileService : IProfileService
     {

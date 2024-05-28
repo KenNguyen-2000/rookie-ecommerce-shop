@@ -1,0 +1,62 @@
+@{
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  @{
+    string title = ViewData["title"] as string ?? "";
+
+    string appName = TempData.Peek("appName") as string ?? "";
+
+    string productPage = TempData.Peek("productPage") as string ?? "";
+  }
+  <title>@title | @appName</title>
+  <meta name="description" content="" />
+
+  @* <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="~/RookEcomShop.CustomerFrontend.styles.css" asp-append-version="true" /> *@
+
+  <!-- Core Styles -->
+    @await Html.PartialAsync("~/Pages/Shared/Sections/_Styles.cshtml")
+
+  <!-- Vendor Styles -->
+  @RenderSection("VendorStyles", required: false)
+
+  <!-- Page Styles -->
+  @RenderSection("PageStyles", required: false)
+
+  <!-- Include Scripts for customizer, helper, analytics, config -->
+    @await Html.PartialAsync("~/Pages/Shared/Sections/_ScriptsIncludes.cshtml")
+</head>
+
+<body class="w-full flex min-h-screen items-stretch">
+
+  <!-- Layout Content -->
+  @RenderBody()
+  <!--/ Layout Content -->
+
+  <!-- Core Scripts -->
+    @await Html.PartialAsync("~/Pages/Shared/Sections/_Scripts.cshtml")
+
+  <!-- Vendor Scripts -->
+  @RenderSection("VendorScripts", required: false)
+
+
+  <!-- Page Scripts-->
+  @RenderSection("PageScripts", required: false)
+
+
+  @* <script src="~/lib/jquery/dist/jquery.min.js"></script>
+  <script src="~/js/product-detail.js" asp-append-version="true"></script>
+  <script src="~/js/site.js" asp-append-version="true"></script>
+  @await RenderSectionAsync("Scripts", required: false) *@
+</body>
+
+</html>

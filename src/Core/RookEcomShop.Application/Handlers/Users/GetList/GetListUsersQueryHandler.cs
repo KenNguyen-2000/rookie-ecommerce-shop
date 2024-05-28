@@ -2,11 +2,6 @@
 using MediatR;
 using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.ViewModels.User;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RookEcomShop.Application.Handlers.Users.GetList
 {
@@ -22,7 +17,7 @@ namespace RookEcomShop.Application.Handlers.Users.GetList
 
         public async Task<Result<IEnumerable<UserDto>>> Handle(GetListUsersQuery request, CancellationToken cancellationToken)
         {
-            var users = await _userRepository.GetUsers();
+            var users = await _userRepository.GetUsersAsync();
 
             return Result.Ok(users);
         }

@@ -1,6 +1,6 @@
 using IdentityServer4.Models;
 
-namespace RookEcomShop.Infrastructure.Services
+namespace RookEcomShop.IdentityServer.Services
 {
     public interface IProfileService
     {

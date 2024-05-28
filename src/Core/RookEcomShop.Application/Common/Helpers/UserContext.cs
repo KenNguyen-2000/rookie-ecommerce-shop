@@ -15,7 +15,7 @@ namespace RookEcomShop.Application.Common.Helpers
             UserRoleId = userRole;
         }
 
-        public void SetContext(int userId,  int userRole)
+        public void SetContext(int userId, int userRole)
         {
             UserId = userId;
             UserRoleId = userRole;

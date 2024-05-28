@@ -1,7 +1,5 @@
 using MediatR;
-using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Helpers;
-using RookEcomShop.Application.Handlers.Users.GetById;
 using System.Security.Claims;
 
 namespace RookEcomShop.Api.Middlewares

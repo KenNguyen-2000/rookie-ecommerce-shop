@@ -13,6 +13,7 @@ namespace RookEcomShop.Domain.Entities
         public DateTime UpdatedAt { get; set; }
         public int UserId { get; set; }
 
+        public virtual User User { get; set; } = null!;
         public virtual PaymentTransaction? PaymentTransaction { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     }

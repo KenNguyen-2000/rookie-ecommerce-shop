@@ -1,31 +1,30 @@
 using FluentResults;
 using MediatR;
-using Newtonsoft.Json;
+using RookEcomShop.Application.Common.Exceptions;
+using RookEcomShop.Application.Common.Repositories;
+using RookEcomShop.ViewModels.User;
 
 namespace RookEcomShop.Application.Handlers.Users.GetById
 {
-    public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Result>
+    public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Result<UserDto>>
     {
-        private readonly HttpClient _httpClient;
+        private readonly IUserRepository _userRepository;
 
-        public GetUserByIdQueryHandler(HttpClient httpClient)
+        public GetUserByIdQueryHandler(IUserRepository userRepository)
         {
-            _httpClient = httpClient;
+            _userRepository = userRepository;
         }
 
-        public async Task<Result> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<UserDto>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
-            var response = await _httpClient.GetAsync($"/api/v1/users");
-            if (!response.IsSuccessStatusCode)
+            var user = await _userRepository.GetByIdAsync(request.Id);
+
+            if (user == null)
             {
-                return Result.Fail("Failed to get user profile");
+                throw new NotFoundException($"User with id {request.Id} not found");
             }
 
-            var content = await response.Content.ReadAsStringAsync();
-            var user = JsonConvert.DeserializeObject<dynamic>(content);
-            Console.WriteLine(user);
-            await Task.CompletedTask;
-            return Result.Ok();
+            return Result.Ok(user);
         }
     }
 }
