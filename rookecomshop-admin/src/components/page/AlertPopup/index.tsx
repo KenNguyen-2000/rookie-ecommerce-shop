@@ -15,9 +15,16 @@ type AlertPopupProps = {
 	title?: string;
 	description?: string;
 	confirmAction: (args?: any) => void;
+	closeModal: () => void;
 };
 
-const AlertPopup: FC<AlertPopupProps> = ({ open, title, description, confirmAction }) => {
+const AlertPopup: FC<AlertPopupProps> = ({
+	open,
+	title,
+	description,
+	confirmAction,
+	closeModal,
+}) => {
 	return (
 		<AlertDialog open={open}>
 			<AlertDialogContent>
@@ -30,7 +37,7 @@ const AlertPopup: FC<AlertPopupProps> = ({ open, title, description, confirmActi
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>
-					<AlertDialogCancel>Cancel</AlertDialogCancel>
+					<AlertDialogCancel onClick={closeModal}>Cancel</AlertDialogCancel>
 					<AlertDialogAction onClick={confirmAction}>Continue</AlertDialogAction>
 				</AlertDialogFooter>
 			</AlertDialogContent>

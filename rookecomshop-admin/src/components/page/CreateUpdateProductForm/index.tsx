@@ -57,6 +57,7 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 
 	const onSubmit: SubmitHandler<CreateUpdateProductInputs> = (data) => {
 		handleSubmitForm(data);
+		form.reset();
 	};
 
 	useEffect(() => {
@@ -65,7 +66,6 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 			dispatch(setSelectedTopCategory(defaultValue.category));
 		}
 	}, [defaultValue?.categoryName]);
-
 
 	return (
 		<Form {...form}>
@@ -111,68 +111,80 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 								</CardHeader>
 								<CardContent>
 									<div className="grid gap-6">
-									{defaultValue?.imgUrls && defaultValue?.imgUrls?.length > 0 && <div className="grid grid-cols-7 gap-3">
-										<Label>Images</Label>
-											{defaultValue?.imgUrls.map((image) => 
-											(<div key={image} className="max-w-20 max-h-20 bg-muted/10 border border-gray-300 rounded-md">
-
-<img 
-												width={80}
-												height={80}
-												loading='lazy'
-												src={image}
-												alt={image}
-												
-												className="aspect-square w-20 rounded-md object-contain"
-											/>
-											</div>)
+										{defaultValue?.imgUrls &&
+											defaultValue?.imgUrls?.length > 0 && (
+												<div>
+													<Label>Images</Label>
+													<div className="grid grid-cols-7 gap-3">
+														{defaultValue?.imgUrls.map((image) => (
+															<div
+																key={image}
+																className="max-w-20 max-h-20 bg-muted/10 border border-gray-300 rounded-md"
+															>
+																<img
+																	width={80}
+																	height={80}
+																	loading="lazy"
+																	src={`https://localhost:7181/api/v1/upload-image?imageName=${image}`}
+																	alt={image}
+																	className="aspect-square w-20 rounded-md object-contain"
+																/>
+															</div>
+														))}
+													</div>
+												</div>
 											)}
-											
-										</div>}
-											<div className='grid gap-3'>
+										<div className="grid gap-3">
 											<Label>Uploads</Label>
-										<div className="grid grid-cols-7 gap-3">
-											{form.watch("images") && [...(form.watch("images") as any)].map((file) => 
-											(<div key={file.name} className="max-w-20 max-h-20 bg-muted/10 border border-gray-300 rounded-md">
-
-<img 
-												width={80}
-												height={80}
-												loading='lazy'
-												src={URL.createObjectURL(file)}
-												alt={file.name}
-												
-												className="aspect-square w-20 rounded-md object-contain"
-											/>
-											</div>)
-											)}
-											<FormField 
-												control={form.control}
-												name='images'
-												render={({ field : {onChange, value,...restField} }) => (
-													<FormItem>
-													<FormLabel className="flex aspect-square w-20 items-center justify-center rounded-md border border-dashed">
-												<Upload className="h-4 w-4 text-muted-foreground" />
-												<span className="sr-only">Upload</span>
-											</FormLabel>
-														<FormControl>
-															<Input
-																type='file'
-																multiple
-																{...restField}
-																onChange={(e) => {
-																	onChange(e.target.files);
-																}}
-																className='hidden'
-															/>
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
-										</div>
+											<div className="grid grid-cols-7 gap-3">
+												{form.watch('images') &&
+													[...(form.watch('images') as any)].map(
+														(file) => (
+															<div
+																key={file.name}
+																className="max-w-20 max-h-20 bg-muted/10 border border-gray-300 rounded-md"
+															>
+																<img
+																	width={80}
+																	height={80}
+																	loading="lazy"
+																	src={URL.createObjectURL(file)}
+																	alt={file.name}
+																	className="aspect-square w-20 rounded-md object-contain"
+																/>
+															</div>
+														),
+													)}
+												<FormField
+													control={form.control}
+													name="images"
+													render={({
+														field: { onChange, value, ...restField },
+													}) => (
+														<FormItem>
+															<FormLabel className="flex aspect-square w-20 items-center justify-center rounded-md border border-dashed">
+																<Upload className="h-4 w-4 text-muted-foreground" />
+																<span className="sr-only">
+																	Upload
+																</span>
+															</FormLabel>
+															<FormControl>
+																<Input
+																	type="file"
+																	multiple
+																	{...restField}
+																	onChange={(e) => {
+																		onChange(e.target.files);
+																	}}
+																	className="hidden"
+																/>
+															</FormControl>
+															<FormMessage />
+														</FormItem>
+													)}
+												/>
 											</div>
-										
+										</div>
 									</div>
 								</CardContent>
 							</Card>
@@ -246,38 +258,41 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 												/>
 											</div>
 											<div className="grid gap-3">
-											<FormField
-												control={form.control}
-												name="status"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Status</FormLabel>
-														<Select
-															defaultValue={defaultValue?.status?.toString()}
-															onValueChange={(value) => {
-																field.onChange(value);
-															}}
-														>
-															<SelectTrigger>
-																<SelectValue placeholder="Select status" />
-															</SelectTrigger>
-															<SelectContent>
-																<SelectItem
-																	value={ProductStatus.Active.toString()}
-																>
-																	Active
-																</SelectItem>
-																<SelectItem
-																	value={ProductStatus.Inactive.toString()}
-																>
-																	Inactive
-																</SelectItem>
-															</SelectContent>
-														</Select>
-													</FormItem>
-												)}
-											/>
-										</div>
+												<FormField
+													control={form.control}
+													name="status"
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Status</FormLabel>
+															<Select
+																defaultValue={defaultValue?.status?.toString()}
+																onValueChange={(value) => {
+																	field.onChange(parseInt(value));
+																}}
+															>
+																<FormControl>
+																	<SelectTrigger>
+																		<SelectValue placeholder="Select status" />
+																	</SelectTrigger>
+																</FormControl>
+																<SelectContent>
+																	<SelectItem
+																		value={ProductStatus.Active.toString()}
+																	>
+																		Active
+																	</SelectItem>
+																	<SelectItem
+																		value={ProductStatus.Inactive.toString()}
+																	>
+																		Inactive
+																	</SelectItem>
+																</SelectContent>
+															</Select>
+															<FormMessage />
+														</FormItem>
+													)}
+												/>
+											</div>
 										</div>
 										<div className="grid gap-3">
 											<FormField
@@ -285,15 +300,20 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 												name="description"
 												render={({ field }) => (
 													<FormItem>
-														<Label>Description</Label>
+														<FormLabel>Description</FormLabel>
 														<FormControl>
-														<QuillEditor className='min-h-[150px]' onChange={(value) => field.onChange(field)} />
+															<QuillEditor
+																className="min-h-[150px]"
+																onChange={(value) =>
+																	field.onChange(value)
+																}
+																value={field.value}
+															/>
 														</FormControl>
 														<FormMessage />
 													</FormItem>
 												)}
 											/>
-											
 										</div>
 									</div>
 								</CardContent>
@@ -307,14 +327,12 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 										<div className="grid gap-3">
 											<FormField
 												control={form.control}
-												name="subCategoryName"
+												name="categoryName"
 												render={({ field }) => (
 													<FormItem>
 														<FormLabel>Category</FormLabel>
 														<Select
-															defaultValue={
-																defaultValue?.categoryName
-															}
+															defaultValue={field.value}
 															onValueChange={(value) => {
 																const getCategory = categories.find(
 																	(category) =>
@@ -328,9 +346,11 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 																field.onChange(value);
 															}}
 														>
-															<SelectTrigger>
-																<SelectValue placeholder="Select category" />
-															</SelectTrigger>
+															<FormControl>
+																<SelectTrigger>
+																	<SelectValue placeholder="Select category" />
+																</SelectTrigger>
+															</FormControl>
 															<SelectContent>
 																{categories.map((category) => (
 																	<SelectItem
@@ -342,6 +362,7 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 																))}
 															</SelectContent>
 														</Select>
+														<FormMessage />
 													</FormItem>
 												)}
 											/>
@@ -349,7 +370,7 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 										<div className="grid gap-3">
 											<FormField
 												control={form.control}
-												name="categoryName"
+												name="subCategoryName"
 												render={({ field }) => (
 													<FormItem>
 														<FormLabel>Sub Category</FormLabel>
@@ -359,9 +380,11 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 																field.onChange(value);
 															}}
 														>
-															<SelectTrigger>
-																<SelectValue placeholder="Select sub category" />
-															</SelectTrigger>
+															<FormControl>
+																<SelectTrigger>
+																	<SelectValue placeholder="Select sub category" />
+																</SelectTrigger>
+															</FormControl>
 															<SelectContent>
 																{selectedTopCategory?.subCategories.map(
 																	(subCategory) => (

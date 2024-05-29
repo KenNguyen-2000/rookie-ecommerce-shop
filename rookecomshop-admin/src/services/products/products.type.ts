@@ -27,4 +27,6 @@ export type ProductDto = {
 	category: CategoryDto;
 	status: ProductStatus;
 	imgUrls: string[];
+	createdAt: string;
+	updatedAt: string;
 };

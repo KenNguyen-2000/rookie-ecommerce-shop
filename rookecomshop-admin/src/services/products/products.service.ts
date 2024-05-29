@@ -23,12 +23,17 @@ const createProductAsync = async (request: CreateUpdateProductInputs): Promise<v
 	createProductForm.append('stockQuantity', request.stockQuantity.toString());
 	createProductForm.append('description', request.description ?? '');
 	createProductForm.append('categoryName', request.subCategoryName ?? request.categoryName);
-	if (request.images) createProductForm.append('images', request.images);
+	if (request.images) {
+		Array.from(request.images).forEach((image) => {
+			createProductForm.append('images', image);
+		});
+	}
 
 	await interceptor.post('/products', createProductForm);
 };
 
 const updateProductAsync = async (request: CreateUpdateProductInputs): Promise<void> => {
+	console.log(request);
 	const updateProductForm = new FormData();
 	updateProductForm.append('name', request.name);
 	updateProductForm.append('price', request.price.toString());
@@ -36,12 +41,16 @@ const updateProductAsync = async (request: CreateUpdateProductInputs): Promise<v
 	updateProductForm.append('description', request.description ?? '');
 	updateProductForm.append('categoryName', request.categoryName.toString());
 	updateProductForm.append('status', request.status?.toString() ?? '');
-	if (request.images) updateProductForm.append('images', request.images);
+	if (request.images) {
+		Array.from(request.images).forEach((image) => {
+			updateProductForm.append('images', image);
+		});
+	}
 
 	await interceptor.put(`/products/${request.id}`, updateProductForm);
 };
 
-const deleteProductAsync = async (productId: number) => {
+const deleteProductAsync = async (productId: string) => {
 	await interceptor.delete(`/products/${productId}`);
 };
 
