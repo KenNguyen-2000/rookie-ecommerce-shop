@@ -35,7 +35,7 @@ public class HomeController : Controller
         if (CategoryName != null)
             products = await _productsApiClient.GetProductsByCategoryNameAsync(CategoryName, queryDto);
         else
-            products = await _productsApiClient.GetProductsAsync();
+            products = await _productsApiClient.GetProductsAsync(queryDto);
         ViewData["Categories"] = await _categoriesApiClient.GetCategoriesAsync();
         return View(new HomeViewModel
         {
@@ -53,4 +53,5 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
 }

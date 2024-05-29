@@ -6,8 +6,8 @@ namespace RookEcomShop.CustomerFrontend.Services.Products
 {
     public interface IProductsApiClient
     {
-        Task<PaginatedList<ProductVM>> GetProductsAsync();
-        Task<PaginatedList<ProductVM>> GetProductsByCategoryNameAsync(string categoryName, QueryDto queryDto);
+        Task<PaginatedList<ProductVM>> GetProductsAsync(QueryDto queryDto = default!);
+        Task<PaginatedList<ProductVM>> GetProductsByCategoryNameAsync(string categoryName, QueryDto queryDto = default!);
         Task<ProductVM?> GetProductByIdAsync(Guid id);
     }
 }

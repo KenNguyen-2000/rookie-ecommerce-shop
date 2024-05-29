@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using RookEcomShop.ViewModels.Cart;
+using Serilog;
 using System.Text;
 
 namespace RookEcomShop.CustomerFrontend.Services.Cart
@@ -7,17 +8,17 @@ namespace RookEcomShop.CustomerFrontend.Services.Cart
     public class CartApiClient : ICartApiClient
     {
         private readonly HttpClient _httpClient;
+        private readonly ILogger<CartApiClient> _logger;
 
-        public CartApiClient(HttpClient httpClient)
+        public CartApiClient(HttpClient httpClient, ILogger<CartApiClient> logger)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("https://localhost:7181/api/v1/");
+            _logger = logger;
         }
 
         public async Task AddProductToCart(AddProductToCartRequest request)
         {
-            try
-            {
+                _logger.LogInformation("Adding product to cart");
                 var jsonData = JsonConvert.SerializeObject(request);
                 var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync($"carts/products/add", content);
@@ -26,49 +27,27 @@ namespace RookEcomShop.CustomerFrontend.Services.Cart
                 // Read the response content
                 string responseBody = await response.Content.ReadAsStringAsync();
 
-                // Output the response
-                Console.WriteLine(responseBody);
-            }
-            catch (System.Exception)
-            {
-
-                throw;
-            }
         }
 
         public async Task<IEnumerable<CartDetailVM>> GetProductsInCart()
         {
-            try
-            {
+                Log.Information("Getting products in cart");
                 var response = await _httpClient.GetAsync("carts/products");
 
                 response.EnsureSuccessStatusCode();
 
                 string content = await response.Content.ReadAsStringAsync();
                 var productsInCart = JsonConvert.DeserializeObject<IEnumerable<CartDetailVM>>(content)!;
-                return (dynamic)productsInCart;
-            }
-            catch (System.Exception)
-            {
 
-                throw;
-            }
+                _logger.LogInformation("Products in cart: {productsInCart}", productsInCart);
+                return (dynamic)productsInCart;
         }
 
         public async Task RemoveProductFromCart(Guid productId)
         {
-            try
-            {
                 var response = await _httpClient.DeleteAsync($"carts/products/{productId}");
 
                 response.EnsureSuccessStatusCode();
-
-            }
-            catch (System.Exception)
-            {
-
-                throw;
-            }
         }
     }
 }
