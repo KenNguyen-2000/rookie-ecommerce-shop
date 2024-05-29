@@ -11,7 +11,7 @@ const getProductsAsync = async (queryDto?: QueryDto): Promise<PagniatedList<Prod
 	return res.data;
 };
 
-const getByIdAsync = async (productId: number): Promise<ProductDto> => {
+const getByIdAsync = async (productId: string): Promise<ProductDto> => {
 	const res = await interceptor.get<ProductDto>(`/products/${productId}`);
 	return res.data;
 };

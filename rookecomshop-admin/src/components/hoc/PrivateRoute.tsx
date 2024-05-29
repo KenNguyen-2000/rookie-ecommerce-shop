@@ -13,7 +13,7 @@ const PrivateRoute = () => {
 		if (!isAuthenticated) {
 			const token = Cookies.get(TOKEN_STRING);
 			if (!token) {
-				navigate('/authentication/login');
+				navigate('/');
 			} else {
 				dispatch(getUserAsync());
 			}

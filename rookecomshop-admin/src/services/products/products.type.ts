@@ -12,14 +12,14 @@ export type CreateProductInputs = z.infer<typeof CreateProductScheme>;
 
 export type UpdateProductInputs = z.infer<typeof UpdateProductScheme>;
 export type CreateUpdateProductInputs = z.infer<typeof CreateUpdateProductScheme> & {
-	id?: number;
+	id?: string;
 	imgUrls?: string[];
 	category?: CategoryDto;
 	status?: number;
 };
 
 export type ProductDto = {
-	id: number;
+	id: string;
 	name: string;
 	description: string;
 	price: number;

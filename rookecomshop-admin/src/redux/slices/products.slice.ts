@@ -1,15 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice } from '@reduxjs/toolkit';
 import { deleteProductAsync, getProductsAsync } from '../thunks/products.thunk';
+import { ProductDto } from '@/services/products/products.type';
+import { PagniatedList } from '@/types/pagniated-list.type';
 
-type ProductState = {
-	products: any[];
+type ProductState = PagniatedList<ProductDto> & {
 	isLoading: boolean;
 };
 
 const initialState: ProductState = {
-	products: [],
 	isLoading: false,
+	hasNextPage: false,
+	hasPreviousPage: false,
+	items: [],
+	page: 1,
+	pageSize: 5,
+	totalCount: 0,
 };
 
 const productSlice = createSlice({
@@ -17,7 +23,7 @@ const productSlice = createSlice({
 	name: 'products',
 	reducers: {
 		setProducts(state, action) {
-			state.products = action.payload;
+			state.items = action.payload;
 		},
 	},
 	extraReducers(builder) {
@@ -27,7 +33,7 @@ const productSlice = createSlice({
 			})
 			.addCase(getProductsAsync.fulfilled, (state, action) => {
 				state.isLoading = false;
-				state.products = action.payload.items;
+				state = { ...state, ...action.payload };
 			})
 			.addCase(getProductsAsync.rejected, (state) => {
 				state.isLoading = false;

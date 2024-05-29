@@ -31,6 +31,7 @@ import { getCategoriesAsync } from '@/redux/thunks/categories.thunk';
 import { setSelectedTopCategory } from '@/redux/slices/categories.slice';
 import { ProductStatus } from '@/services/products/products.enum';
 import { useNavigate } from 'react-router-dom';
+import QuillEditor from '../QuillEditor';
 
 type CreateUpdateProductFormProps = {
 	defaultValue?: CreateUpdateProductInputs;
@@ -64,6 +65,7 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 			dispatch(setSelectedTopCategory(defaultValue.category));
 		}
 	}, [defaultValue?.categoryName]);
+
 
 	return (
 		<Form {...form}>
@@ -102,6 +104,80 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 						<div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
 							<Card x-chunk="dashboard-07-chunk-0">
 								<CardHeader>
+									<CardTitle>Product Images</CardTitle>
+									<CardDescription>
+										Lipsum dolor sit amet, consectetur adipiscing elit
+									</CardDescription>
+								</CardHeader>
+								<CardContent>
+									<div className="grid gap-6">
+									{defaultValue?.imgUrls && defaultValue?.imgUrls?.length > 0 && <div className="grid grid-cols-7 gap-3">
+										<Label>Images</Label>
+											{defaultValue?.imgUrls.map((image) => 
+											(<div key={image} className="max-w-20 max-h-20 bg-muted/10 border border-gray-300 rounded-md">
+
+<img 
+												width={80}
+												height={80}
+												loading='lazy'
+												src={image}
+												alt={image}
+												
+												className="aspect-square w-20 rounded-md object-contain"
+											/>
+											</div>)
+											)}
+											
+										</div>}
+											<div className='grid gap-3'>
+											<Label>Uploads</Label>
+										<div className="grid grid-cols-7 gap-3">
+											{form.watch("images") && [...(form.watch("images") as any)].map((file) => 
+											(<div key={file.name} className="max-w-20 max-h-20 bg-muted/10 border border-gray-300 rounded-md">
+
+<img 
+												width={80}
+												height={80}
+												loading='lazy'
+												src={URL.createObjectURL(file)}
+												alt={file.name}
+												
+												className="aspect-square w-20 rounded-md object-contain"
+											/>
+											</div>)
+											)}
+											<FormField 
+												control={form.control}
+												name='images'
+												render={({ field : {onChange, value,...restField} }) => (
+													<FormItem>
+													<FormLabel className="flex aspect-square w-20 items-center justify-center rounded-md border border-dashed">
+												<Upload className="h-4 w-4 text-muted-foreground" />
+												<span className="sr-only">Upload</span>
+											</FormLabel>
+														<FormControl>
+															<Input
+																type='file'
+																multiple
+																{...restField}
+																onChange={(e) => {
+																	onChange(e.target.files);
+																}}
+																className='hidden'
+															/>
+														</FormControl>
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
+										</div>
+											</div>
+										
+									</div>
+								</CardContent>
+							</Card>
+							<Card x-chunk="dashboard-07-chunk-0">
+								<CardHeader>
 									<CardTitle>Product Details</CardTitle>
 									<CardDescription>
 										Lipsum dolor sit amet, consectetur adipiscing elit
@@ -115,7 +191,7 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 												name="name"
 												render={({ field }) => (
 													<FormItem>
-														<Label>Name</Label>
+														<FormLabel>Name</FormLabel>
 														<FormControl>
 															<Input
 																className="w-full"
@@ -169,6 +245,39 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 													)}
 												/>
 											</div>
+											<div className="grid gap-3">
+											<FormField
+												control={form.control}
+												name="status"
+												render={({ field }) => (
+													<FormItem>
+														<FormLabel>Status</FormLabel>
+														<Select
+															defaultValue={defaultValue?.status?.toString()}
+															onValueChange={(value) => {
+																field.onChange(value);
+															}}
+														>
+															<SelectTrigger>
+																<SelectValue placeholder="Select status" />
+															</SelectTrigger>
+															<SelectContent>
+																<SelectItem
+																	value={ProductStatus.Active.toString()}
+																>
+																	Active
+																</SelectItem>
+																<SelectItem
+																	value={ProductStatus.Inactive.toString()}
+																>
+																	Inactive
+																</SelectItem>
+															</SelectContent>
+														</Select>
+													</FormItem>
+												)}
+											/>
+										</div>
 										</div>
 										<div className="grid gap-3">
 											<FormField
@@ -178,16 +287,13 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 													<FormItem>
 														<Label>Description</Label>
 														<FormControl>
-															<Textarea
-																placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc."
-																className="min-h-32"
-																{...field}
-															/>
+														<QuillEditor className='min-h-[150px]' onChange={(value) => field.onChange(field)} />
 														</FormControl>
 														<FormMessage />
 													</FormItem>
 												)}
 											/>
+											
 										</div>
 									</div>
 								</CardContent>
@@ -278,7 +384,7 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 							</Card>
 						</div>
 						<div className="grid auto-rows-max items-start gap-4 lg:gap-8">
-							<Card x-chunk="dashboard-07-chunk-3">
+							{/* <Card x-chunk="dashboard-07-chunk-3">
 								<CardHeader>
 									<CardTitle>Product Status</CardTitle>
 								</CardHeader>
@@ -362,7 +468,7 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 										</div>
 									</div>
 								</CardContent>
-							</Card>
+							</Card> */}
 							<Card x-chunk="dashboard-07-chunk-5">
 								<CardHeader>
 									<CardTitle>Archive Product</CardTitle>

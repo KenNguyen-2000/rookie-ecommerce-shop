@@ -8,6 +8,7 @@ import {
 } from '@/components/hoc';
 import { Toaster } from '@/components/ui/toaster';
 import NotFoundPage from '@/pages/errors/NotFoundPage';
+import HomePage from '@/pages/page';
 import { TooltipProvider } from '@radix-ui/react-tooltip';
 import {
 	createBrowserRouter,
@@ -15,15 +16,17 @@ import {
 	Route,
 	RouterProvider,
 } from 'react-router-dom';
+import "quill/dist/quill.snow.css";
 
 const RookEcomShopRoutes = () => {
 	const router = createBrowserRouter(
 		createRoutesFromElements(
 			<Route>
 				<Route path="/authentication/:action" element={<OidcAuthProvider />} />
+				<Route path="/" element={<HomePage />} />
 				<Route path="/" element={<PrivateRoute />}>
-				<Route
-						index
+					<Route
+						path="/dashboard"
 						lazy={async () => {
 							const { default: DashboardPage } = await import(
 								'../pages/dashboard/page'
@@ -34,9 +37,7 @@ const RookEcomShopRoutes = () => {
 					<Route
 						path="orders"
 						lazy={async () => {
-							const { default: OrdersPage } = await import(
-								'../pages/orders/page'
-							);
+							const { default: OrdersPage } = await import('../pages/orders/page');
 							return { Component: OrdersPage };
 						}}
 					/>
