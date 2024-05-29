@@ -16,7 +16,7 @@ import {
 	Route,
 	RouterProvider,
 } from 'react-router-dom';
-import "quill/dist/quill.snow.css";
+import 'quill/dist/quill.snow.css';
 
 const RookEcomShopRoutes = () => {
 	const router = createBrowserRouter(
@@ -38,6 +38,13 @@ const RookEcomShopRoutes = () => {
 						path="orders"
 						lazy={async () => {
 							const { default: OrdersPage } = await import('../pages/orders/page');
+							return { Component: OrdersPage };
+						}}
+					/>
+					<Route
+						path="users"
+						lazy={async () => {
+							const { default: OrdersPage } = await import('../pages/users/page');
 							return { Component: OrdersPage };
 						}}
 					/>
