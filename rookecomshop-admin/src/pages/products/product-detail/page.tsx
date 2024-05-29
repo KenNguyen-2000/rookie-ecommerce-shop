@@ -18,7 +18,7 @@ const ProductDetailPage = () => {
 		isError,
 	} = useQuery({
 		queryKey: ['product', id],
-		queryFn: () => productsService.getByIdAsync(parseInt(id!)),
+		queryFn: () => productsService.getByIdAsync(id!),
 	});
 
 	const onSubmit = async (data: CreateUpdateProductInputs) => {

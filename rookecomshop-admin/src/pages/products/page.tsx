@@ -30,7 +30,7 @@ import {
 } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useAppDispatch } from '@/redux/reduxHooks';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { deleteProductAsync } from '@/redux/thunks/products.thunk';
@@ -50,6 +50,8 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import productsService from '@/services/products/products.service';
 import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from '@/components/ui/use-toast';
+import { PagniatedList } from '@/types/pagniated-list.type';
+import { ProductDto } from '@/services/products/products.type';
 
 const ProductPage = () => {
 	const navigate = useNavigate();
@@ -59,7 +61,12 @@ const ProductPage = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [isOpen, setIsOpen] = useState(false);
 	const [productId, setProductId] = useState<number | null>(null);
-	const [queryDto, setQueryDto] = useState<QueryDto>({ page: 1, pageSize: 5, searchTerm: '' });
+	const [queryDto, setQueryDto] = useState<QueryDto>({
+		page: parseInt(searchParams.get('page') ?? '1'),
+		pageSize: parseInt(searchParams.get('pageSize') ?? '5'),
+		searchTerm: searchParams.get('searchTerm') ?? '',
+		sortOrder: searchParams.get('sortOrder') ?? 'asc',
+	});
 	const { data: products, isLoading } = useQuery({
 		queryKey: ['products', queryDto],
 		queryFn: () => productsService.getProductsAsync(queryDto),
@@ -70,11 +77,10 @@ const ProductPage = () => {
 			//Delete product
 			console.log('Delete product');
 			await dispatch(deleteProductAsync(productId));
-			queryClient.invalidateQueries({ queryKey: ['products', queryDto]});
+			queryClient.invalidateQueries({ queryKey: ['products', queryDto] });
 			toast({
 				title: 'Product Deleted',
 				description: 'Product has been deleted successfully',
-			
 			});
 		}
 		setIsOpen(false);
@@ -85,22 +91,28 @@ const ProductPage = () => {
 		setProductId(productId);
 	};
 
-	const handleAddParams = (page: number, pageSize: number) => {
-		const newParams = new URLSearchParams(searchParams);
-		newParams.set('page', page.toString());
-		newParams.set('pageSize', pageSize.toString());
-		setSearchParams(newParams);
+	const handleAddParams = (page: number, pageSize?: number) => {
+		setQueryDto({ ...queryDto, page, pageSize: pageSize ?? queryDto.pageSize });
 	};
 
-	useEffect(() => {
-		const page = searchParams.get('page') ?? '1';
-		const pageSize = searchParams.get('pageSize') ?? '5';
-		if (page && pageSize) {
-			setQueryDto({ page: parseInt(page), pageSize: parseInt(pageSize) });
-		}
-	}, [searchParams]);
+	// useEffect(() => {
+	// 	const page = searchParams.get('page') ?? '1';
+	// 	const pageSize = searchParams.get('pageSize') ?? '5';
+	// 	if (page && pageSize) {
+	// 		setQueryDto({ page: parseInt(page), pageSize: parseInt(pageSize) });
+	// 	}
+	// }, [searchParams]);
 
-	useEffect(() => {}, [queryDto]);
+	useEffect(() => {
+		function updateQueryParams(queryDto: QueryDto) {
+			const newParams = new URLSearchParams(searchParams);
+			newParams.set('page', queryDto.page.toString());
+			newParams.set('pageSize', queryDto.pageSize.toString());
+			setSearchParams(newParams);
+		}
+
+		updateQueryParams(queryDto);
+	}, [queryDto]);
 
 	return (
 		<ContentSidebarLayout>
@@ -313,45 +325,13 @@ const ProductPage = () => {
 									Showing <strong>1-10</strong> of <strong>32</strong> products
 								</div>
 								<div className="ml-auto">
-									<Pagination>
-										<PaginationContent>
-											<PaginationItem>
-												<PaginationPrevious
-													onClick={handleAddParams.bind(null, 7, 5)}
-												/>
-											</PaginationItem>
-											<PaginationItem>
-												<PaginationLink
-													onClick={handleAddParams.bind(null, 1, 5)}
-												>
-													1
-												</PaginationLink>
-											</PaginationItem>
-											<PaginationItem>
-												<PaginationLink
-													onClick={handleAddParams.bind(null, 2, 5)}
-													isActive
-												>
-													2
-												</PaginationLink>
-											</PaginationItem>
-											<PaginationItem>
-												<PaginationLink
-													onClick={handleAddParams.bind(null, 3, 5)}
-												>
-													3
-												</PaginationLink>
-											</PaginationItem>
-											<PaginationItem>
-												<PaginationEllipsis />
-											</PaginationItem>
-											<PaginationItem>
-												<PaginationNext
-													onClick={handleAddParams.bind(null, 6, 5)}
-												/>
-											</PaginationItem>
-										</PaginationContent>
-									</Pagination>
+									{products && (
+										<ProductsPagination
+											products={products}
+											queryDto={queryDto}
+											handleAddParams={handleAddParams}
+										/>
+									)}
 								</div>
 							</div>
 						</CardFooter>
@@ -362,6 +342,100 @@ const ProductPage = () => {
 	);
 };
 export default ProductPage;
+
+const ProductsPagination = ({
+	products,
+	queryDto,
+	handleAddParams,
+}: {
+	products: PagniatedList<ProductDto>;
+	queryDto: QueryDto;
+	handleAddParams: (page: number, pageSize?: number) => void;
+}) => {
+	const totalPages = useMemo(
+		() => Math.ceil((products?.totalCount ?? 0) / queryDto.pageSize),
+		[products, queryDto],
+	);
+	const currentPage = queryDto.page;
+	const MAX_TO_SHOW = 3;
+	let startPage: number, endPage: number;
+
+	if (totalPages <= MAX_TO_SHOW) {
+		// Show all pages if total pages is less than or equal to maxPagesToShow
+		startPage = 1;
+		endPage = totalPages;
+	} else {
+		// Calculate start and end page
+		if (currentPage <= Math.ceil(MAX_TO_SHOW / 2)) {
+			startPage = 1;
+			endPage = MAX_TO_SHOW;
+		} else if (currentPage + Math.floor(MAX_TO_SHOW / 2) >= totalPages) {
+			startPage = totalPages - MAX_TO_SHOW + 1;
+			endPage = totalPages;
+		} else {
+			startPage = currentPage - Math.floor(MAX_TO_SHOW / 2);
+			endPage = currentPage + Math.floor(MAX_TO_SHOW / 2);
+		}
+	}
+
+	return (
+		<Pagination>
+			<PaginationContent>
+				{products?.hasPreviousPage && (
+					<PaginationItem className="cursor-pointer">
+						<PaginationPrevious onClick={() => handleAddParams(queryDto.page - 1)} />
+					</PaginationItem>
+				)}
+
+				{startPage > 1 && (
+					<>
+						<PaginationItem className="cursor-pointer">
+							<PaginationLink onClick={handleAddParams.bind(null, 1, undefined)}>
+								1
+							</PaginationLink>
+						</PaginationItem>
+						{startPage > 2 && (
+							<PaginationItem className="cursor-pointer">
+								<PaginationEllipsis />
+							</PaginationItem>
+						)}
+					</>
+				)}
+				{new Array(endPage - startPage + 1).fill(0).map((_, index) => (
+					<PaginationItem key={startPage + index} className="cursor-pointer">
+						<PaginationLink
+							onClick={handleAddParams.bind(null, startPage + index, undefined)}
+							isActive={queryDto.page === startPage + index}
+						>
+							{startPage + index}
+						</PaginationLink>
+					</PaginationItem>
+				))}
+				{endPage < totalPages && (
+					<>
+						{endPage < totalPages - 1 && (
+							<PaginationItem className="cursor-pointer">
+								<PaginationEllipsis />
+							</PaginationItem>
+						)}
+						<PaginationItem className="cursor-pointer">
+							<PaginationLink
+								onClick={handleAddParams.bind(null, totalPages, undefined)}
+							>
+								{totalPages}
+							</PaginationLink>
+						</PaginationItem>
+					</>
+				)}
+				{products?.hasNextPage && (
+					<PaginationItem className="cursor-pointer">
+						<PaginationNext onClick={() => handleAddParams(queryDto.page + 1)} />
+					</PaginationItem>
+				)}
+			</PaginationContent>
+		</Pagination>
+	);
+};
 
 const ProductsSkeleton = ({ count }: { count: number }) => {
 	return (
