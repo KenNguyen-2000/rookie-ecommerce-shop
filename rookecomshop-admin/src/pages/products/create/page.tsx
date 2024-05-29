@@ -21,6 +21,7 @@ const CreateProductPage = () => {
 	});
 
 	const onSubmit = async (data: CreateUpdateProductInputs) => {
+		console.log(data);
 		await createProductMutation.mutateAsync(data);
 		toast({
 			title: 'Create Product Succeeded',

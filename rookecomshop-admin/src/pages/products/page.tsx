@@ -52,6 +52,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from '@/components/ui/use-toast';
 import { PagniatedList } from '@/types/pagniated-list.type';
 import { ProductDto } from '@/services/products/products.type';
+import ProductRow from './components/ProductRow';
+import ReusePagination from '@/components/page/ReusePagination';
 
 const ProductPage = () => {
 	const navigate = useNavigate();
@@ -60,7 +62,7 @@ const ProductPage = () => {
 
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [isOpen, setIsOpen] = useState(false);
-	const [productId, setProductId] = useState<number | null>(null);
+	const [productId, setProductId] = useState<string | null>(null);
 	const [queryDto, setQueryDto] = useState<QueryDto>({
 		page: parseInt(searchParams.get('page') ?? '1'),
 		pageSize: parseInt(searchParams.get('pageSize') ?? '5'),
@@ -86,7 +88,7 @@ const ProductPage = () => {
 		setIsOpen(false);
 	};
 
-	const onSelectProductToDelete = (productId: number) => {
+	const onSelectProductToDelete = (productId: string) => {
 		setIsOpen(true);
 		setProductId(productId);
 	};
@@ -116,7 +118,11 @@ const ProductPage = () => {
 
 	return (
 		<ContentSidebarLayout>
-			<AlertPopup open={isOpen} confirmAction={handleDeleteProduct} />
+			<AlertPopup
+				open={isOpen}
+				closeModal={() => setIsOpen(false)}
+				confirmAction={handleDeleteProduct}
+			/>
 			<Tabs defaultValue="all">
 				<div className="flex items-center">
 					<TabsList>
@@ -184,7 +190,7 @@ const ProductPage = () => {
 											Price
 										</TableHead>
 										<TableHead className="hidden md:table-cell">
-											Total Sales
+											Stock
 										</TableHead>
 										<TableHead className="hidden md:table-cell">
 											Category
@@ -200,74 +206,11 @@ const ProductPage = () => {
 								<TableBody>
 									{!isLoading ? (
 										products?.items?.map((product: any) => (
-											<TableRow key={product.id}>
-												<TableCell className="hidden sm:table-cell">
-													<img
-														alt="Product image"
-														className="aspect-square rounded-md object-cover"
-														height="64"
-														src="/placeholder.svg"
-														width="64"
-													/>
-												</TableCell>
-												<TableCell className="font-medium">
-													{product.name}
-												</TableCell>
-												<TableCell>
-													<Badge variant="outline">Draft</Badge>
-												</TableCell>
-												<TableCell className="hidden md:table-cell">
-													${product.price}
-												</TableCell>
-												<TableCell className="hidden md:table-cell">
-													25
-												</TableCell>
-												<TableCell className="hidden md:table-cell">
-													{product.category.name}
-												</TableCell>
-												<TableCell className="hidden md:table-cell">
-													{moment(product.createdAt).format('DD/MM/yyyy')}
-												</TableCell>
-												<TableCell>
-													<DropdownMenu>
-														<DropdownMenuTrigger asChild>
-															<Button
-																aria-haspopup="true"
-																size="icon"
-																variant="ghost"
-															>
-																<MoreHorizontal className="h-4 w-4" />
-																<span className="sr-only">
-																	Toggle menu
-																</span>
-															</Button>
-														</DropdownMenuTrigger>
-														<DropdownMenuContent align="end">
-															<DropdownMenuLabel>
-																Actions
-															</DropdownMenuLabel>
-															<DropdownMenuItem
-																onClick={() =>
-																	navigate(
-																		`/products/${product.id}`,
-																	)
-																}
-															>
-																Edit
-															</DropdownMenuItem>
-
-															<DropdownMenuItem
-																onClick={onSelectProductToDelete.bind(
-																	null,
-																	product.id,
-																)}
-															>
-																Delete
-															</DropdownMenuItem>
-														</DropdownMenuContent>
-													</DropdownMenu>
-												</TableCell>
-											</TableRow>
+											<ProductRow
+												key={product.id}
+												product={product}
+												onSelectProductToDelete={onSelectProductToDelete}
+											/>
 										))
 									) : (
 										<ProductsSkeleton count={5} />
@@ -326,10 +269,10 @@ const ProductPage = () => {
 								</div>
 								<div className="ml-auto">
 									{products && (
-										<ProductsPagination
-											products={products}
+										<ReusePagination<ProductDto>
+											data={products}
 											queryDto={queryDto}
-											handleAddParams={handleAddParams}
+											handleChangePage={handleAddParams}
 										/>
 									)}
 								</div>
@@ -342,100 +285,6 @@ const ProductPage = () => {
 	);
 };
 export default ProductPage;
-
-const ProductsPagination = ({
-	products,
-	queryDto,
-	handleAddParams,
-}: {
-	products: PagniatedList<ProductDto>;
-	queryDto: QueryDto;
-	handleAddParams: (page: number, pageSize?: number) => void;
-}) => {
-	const totalPages = useMemo(
-		() => Math.ceil((products?.totalCount ?? 0) / queryDto.pageSize),
-		[products, queryDto],
-	);
-	const currentPage = queryDto.page;
-	const MAX_TO_SHOW = 3;
-	let startPage: number, endPage: number;
-
-	if (totalPages <= MAX_TO_SHOW) {
-		// Show all pages if total pages is less than or equal to maxPagesToShow
-		startPage = 1;
-		endPage = totalPages;
-	} else {
-		// Calculate start and end page
-		if (currentPage <= Math.ceil(MAX_TO_SHOW / 2)) {
-			startPage = 1;
-			endPage = MAX_TO_SHOW;
-		} else if (currentPage + Math.floor(MAX_TO_SHOW / 2) >= totalPages) {
-			startPage = totalPages - MAX_TO_SHOW + 1;
-			endPage = totalPages;
-		} else {
-			startPage = currentPage - Math.floor(MAX_TO_SHOW / 2);
-			endPage = currentPage + Math.floor(MAX_TO_SHOW / 2);
-		}
-	}
-
-	return (
-		<Pagination>
-			<PaginationContent>
-				{products?.hasPreviousPage && (
-					<PaginationItem className="cursor-pointer">
-						<PaginationPrevious onClick={() => handleAddParams(queryDto.page - 1)} />
-					</PaginationItem>
-				)}
-
-				{startPage > 1 && (
-					<>
-						<PaginationItem className="cursor-pointer">
-							<PaginationLink onClick={handleAddParams.bind(null, 1, undefined)}>
-								1
-							</PaginationLink>
-						</PaginationItem>
-						{startPage > 2 && (
-							<PaginationItem className="cursor-pointer">
-								<PaginationEllipsis />
-							</PaginationItem>
-						)}
-					</>
-				)}
-				{new Array(endPage - startPage + 1).fill(0).map((_, index) => (
-					<PaginationItem key={startPage + index} className="cursor-pointer">
-						<PaginationLink
-							onClick={handleAddParams.bind(null, startPage + index, undefined)}
-							isActive={queryDto.page === startPage + index}
-						>
-							{startPage + index}
-						</PaginationLink>
-					</PaginationItem>
-				))}
-				{endPage < totalPages && (
-					<>
-						{endPage < totalPages - 1 && (
-							<PaginationItem className="cursor-pointer">
-								<PaginationEllipsis />
-							</PaginationItem>
-						)}
-						<PaginationItem className="cursor-pointer">
-							<PaginationLink
-								onClick={handleAddParams.bind(null, totalPages, undefined)}
-							>
-								{totalPages}
-							</PaginationLink>
-						</PaginationItem>
-					</>
-				)}
-				{products?.hasNextPage && (
-					<PaginationItem className="cursor-pointer">
-						<PaginationNext onClick={() => handleAddParams(queryDto.page + 1)} />
-					</PaginationItem>
-				)}
-			</PaginationContent>
-		</Pagination>
-	);
-};
 
 const ProductsSkeleton = ({ count }: { count: number }) => {
 	return (
