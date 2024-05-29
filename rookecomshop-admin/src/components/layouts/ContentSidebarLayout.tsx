@@ -29,12 +29,20 @@ import {
 	DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import { Input } from '../ui/input';
+import { Link, useLocation } from 'react-router-dom';
+import { NAV_LINKS } from '@/lib/constants/nav-links.constant';
+import { cn } from '@/lib/utils';
+
+const ACTIVE_CLASSNAME = "group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
+const INACTIVE_CLASSNAME = "flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
 
 type ContentSidebarLayoutProps = {
 	children: React.ReactNode;
 };
 
 const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children }) => {
+	const {pathname} = useLocation();
+
 	return (
 		<div className="flex min-h-screen w-full flex-col bg-muted/40">
 			<Sidebar />
@@ -49,41 +57,21 @@ const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children })
 						</SheetTrigger>
 						<SheetContent side="left" className="sm:max-w-xs">
 							<nav className="grid gap-6 text-lg font-medium">
-								<a
-									href="#"
-									className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
+								{NAV_LINKS.map((link) => (
+									<Link
+									key={link.route}
+									to={`/${link.route}`}
+									className={cn({
+										[ACTIVE_CLASSNAME]: pathname.includes(`/${link.route}`),
+										[INACTIVE_CLASSNAME]: !pathname.includes(`/${link.route}`)
+									
+									})}
 								>
-									<Package2 className="h-5 w-5 transition-all group-hover:scale-110" />
-									<span className="sr-only">Acme Inc</span>
-								</a>
-								<a
-									href="#"
-									className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-								>
-									<Home className="h-5 w-5" />
-									Dashboard
-								</a>
-								<a
-									href="#"
-									className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-								>
-									<ShoppingCart className="h-5 w-5" />
-									Orders
-								</a>
-								<a
-									href="#"
-									className="flex items-center gap-4 px-2.5 text-foreground"
-								>
-									<Package className="h-5 w-5" />
-									Products
-								</a>
-								<a
-									href="#"
-									className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-								>
-									<Users2 className="h-5 w-5" />
-									Customers
-								</a>
+									{link.icon}
+									<span className="sr-only">{link.name}</span>
+								</Link>
+								))}
+								
 								<a
 									href="#"
 									className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
@@ -98,13 +86,13 @@ const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children })
 						<BreadcrumbList>
 							<BreadcrumbItem>
 								<BreadcrumbLink asChild>
-									<a href="#">Dashboard</a>
+									<Link to="/dashboard">Dashboard</Link>
 								</BreadcrumbLink>
 							</BreadcrumbItem>
 							<BreadcrumbSeparator />
 							<BreadcrumbItem>
 								<BreadcrumbLink asChild>
-									<a href="#">Products</a>
+									<Link to="/products">Products</Link>
 								</BreadcrumbLink>
 							</BreadcrumbItem>
 							<BreadcrumbSeparator />
