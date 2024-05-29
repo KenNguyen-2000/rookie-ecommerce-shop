@@ -68,7 +68,7 @@
     </form>
   </div>
 
-  <div class="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
+  <div class="pb-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8">
     <!-- Description and details -->
     <div>
       <h3 class="sr-only">Description</h3>
@@ -78,7 +78,9 @@
         with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try
         our exclusive colorway: &quot;Black&quot;. Need to add an extra pop of color to your outfit? Our white tee has
         you covered.</p> *@
-        <p class="text-base text-gray-900">@Model.Description</p>
+        <div class="ql-editor">
+            @Html.Raw(product.Description)
+         </div>
       </div>
     </div>
 
@@ -95,7 +97,7 @@
       </div>
     </div>
 
-    <div class="mt-10">
+    @* <div class="mt-10">
       <h2 class="text-sm font-medium text-gray-900">Details</h2>
 
       <div class="mt-4 space-y-6">
@@ -103,6 +105,6 @@
           up for our subscription service and be the first to get new, exciting colors, like our upcoming &quot;Charcoal
           Gray&quot; limited release.</p>
       </div>
-    </div>
+    </div> *@
   </div>
 </div>

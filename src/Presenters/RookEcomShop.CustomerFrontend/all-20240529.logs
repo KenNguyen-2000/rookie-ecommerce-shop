@@ -3559,3 +3559,425 @@ System.Net.Http.HttpRequestException: Response status code does not indicate suc
 2024-05-29 17:38:30.652 +07:00 [INF] Get lists products success
 2024-05-29 17:39:01.262 +07:00 [INF] Getting products in cart
 2024-05-29 17:39:07.046 +07:00 [ERR] Unauthorized request
+2024-05-29 19:39:17.310 +07:00 [INF] Call api get lists products 
+2024-05-29 19:39:26.999 +07:00 [INF] Get lists products success
+2024-05-29 20:01:47.723 +07:00 [INF] Call api get lists products 
+2024-05-29 20:01:51.609 +07:00 [INF] Get lists products success
+2024-05-29 20:04:08.834 +07:00 [INF] Call api get lists products 
+2024-05-29 20:04:08.896 +07:00 [INF] Get lists products success
+2024-05-29 20:04:10.561 +07:00 [INF] Call api get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512"
+2024-05-29 20:04:10.612 +07:00 [INF] Get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512" success
+2024-05-29 20:06:16.973 +07:00 [INF] Call api get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512"
+2024-05-29 20:06:17.018 +07:00 [INF] Get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512" success
+2024-05-29 20:06:19.354 +07:00 [INF] Call api get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512"
+2024-05-29 20:06:19.399 +07:00 [INF] Get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512" success
+2024-05-29 20:06:21.959 +07:00 [INF] Call api get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512"
+2024-05-29 20:06:22.009 +07:00 [INF] Get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512" success
+2024-05-29 20:06:52.699 +07:00 [INF] Call api get lists products 
+2024-05-29 20:06:57.289 +07:00 [INF] Get lists products success
+2024-05-29 20:07:00.633 +07:00 [INF] Call api get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512"
+2024-05-29 20:07:00.791 +07:00 [INF] Get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512" success
+2024-05-29 20:09:57.795 +07:00 [INF] Call api get lists products 
+2024-05-29 20:10:01.847 +07:00 [INF] Get lists products success
+2024-05-29 20:10:07.923 +07:00 [INF] Call api get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512"
+2024-05-29 20:10:08.070 +07:00 [INF] Get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512" success
+2024-05-29 20:12:14.948 +07:00 [INF] Call api get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512"
+2024-05-29 20:12:15.017 +07:00 [INF] Get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512" success
+2024-05-29 20:14:26.683 +07:00 [INF] Call api get lists products 
+2024-05-29 20:14:31.176 +07:00 [INF] Get lists products success
+2024-05-29 20:14:35.275 +07:00 [INF] Call api get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512"
+2024-05-29 20:14:35.411 +07:00 [INF] Get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512" success
+2024-05-29 20:14:35.925 +07:00 [ERR] An unhandled exception occurred.
+System.InvalidOperationException: RenderBody invocation in '/Views/Shared/Partials/_QuillEditor.cshtml' is invalid. RenderBody can only be called from a layout page.
+   at Microsoft.AspNetCore.Mvc.Razor.RazorPage.RenderBody()
+   at AspNetCoreGeneratedDocument.Views_Shared_Partials__QuillEditor.ExecuteAsync() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Views\Shared\Partials\_QuillEditor.cshtml:line 8
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.RenderPartialViewAsync(TextWriter writer, Object model, IView view)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.ProcessAsync(TagHelperContext context, TagHelperOutput output)
+   at Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner.<RunAsync>g__Awaited|0_0(Task task, TagHelperExecutionContext executionContext, Int32 i, Int32 count)
+   at AspNetCoreGeneratedDocument.Views_Products_Partials__ProductInfo.ExecuteAsync() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Views\Products\Partials\_ProductInfo.cshtml:line 17
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.RenderPartialViewAsync(TextWriter writer, Object model, IView view)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.ProcessAsync(TagHelperContext context, TagHelperOutput output)
+   at Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner.<RunAsync>g__Awaited|0_0(Task task, TagHelperExecutionContext executionContext, Int32 i, Int32 count)
+   at AspNetCoreGeneratedDocument.Views_Products_Details.ExecuteAsync() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Views\Products\Details.cshtml:line 214
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ActionContext actionContext, IView view, ViewDataDictionary viewData, ITempDataDictionary tempData, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at RookEcomShop.CustomerFrontend.Middlewares.GlobalExceptionMiddlerware.InvokeAsync(HttpContext context) in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Middlewares\GlobalExceptionMiddlerware.cs:line 18
+2024-05-29 20:14:43.023 +07:00 [INF] Call api get lists products 
+2024-05-29 20:14:43.085 +07:00 [INF] Get lists products success
+2024-05-29 20:14:45.826 +07:00 [INF] Call api get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512"
+2024-05-29 20:14:45.869 +07:00 [INF] Get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512" success
+2024-05-29 20:14:46.224 +07:00 [ERR] An unhandled exception occurred.
+System.InvalidOperationException: RenderBody invocation in '/Views/Shared/Partials/_QuillEditor.cshtml' is invalid. RenderBody can only be called from a layout page.
+   at Microsoft.AspNetCore.Mvc.Razor.RazorPage.RenderBody()
+   at AspNetCoreGeneratedDocument.Views_Shared_Partials__QuillEditor.ExecuteAsync() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Views\Shared\Partials\_QuillEditor.cshtml:line 8
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.RenderPartialViewAsync(TextWriter writer, Object model, IView view)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.ProcessAsync(TagHelperContext context, TagHelperOutput output)
+   at Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner.<RunAsync>g__Awaited|0_0(Task task, TagHelperExecutionContext executionContext, Int32 i, Int32 count)
+   at AspNetCoreGeneratedDocument.Views_Products_Partials__ProductInfo.ExecuteAsync() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Views\Products\Partials\_ProductInfo.cshtml:line 17
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.RenderPartialViewAsync(TextWriter writer, Object model, IView view)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.ProcessAsync(TagHelperContext context, TagHelperOutput output)
+   at Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner.<RunAsync>g__Awaited|0_0(Task task, TagHelperExecutionContext executionContext, Int32 i, Int32 count)
+   at AspNetCoreGeneratedDocument.Views_Products_Details.ExecuteAsync() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Views\Products\Details.cshtml:line 214
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ActionContext actionContext, IView view, ViewDataDictionary viewData, ITempDataDictionary tempData, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at RookEcomShop.CustomerFrontend.Middlewares.GlobalExceptionMiddlerware.InvokeAsync(HttpContext context) in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Middlewares\GlobalExceptionMiddlerware.cs:line 18
+2024-05-29 20:14:47.544 +07:00 [INF] Call api get lists products 
+2024-05-29 20:14:47.596 +07:00 [INF] Get lists products success
+2024-05-29 20:14:48.590 +07:00 [INF] Call api get product by id "93f87466-1c9a-4bb0-9430-03ed45c4fba4"
+2024-05-29 20:14:48.624 +07:00 [INF] Get product by id "93f87466-1c9a-4bb0-9430-03ed45c4fba4" success
+2024-05-29 20:14:49.029 +07:00 [ERR] An unhandled exception occurred.
+System.InvalidOperationException: RenderBody invocation in '/Views/Shared/Partials/_QuillEditor.cshtml' is invalid. RenderBody can only be called from a layout page.
+   at Microsoft.AspNetCore.Mvc.Razor.RazorPage.RenderBody()
+   at AspNetCoreGeneratedDocument.Views_Shared_Partials__QuillEditor.ExecuteAsync() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Views\Shared\Partials\_QuillEditor.cshtml:line 8
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.RenderPartialViewAsync(TextWriter writer, Object model, IView view)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.ProcessAsync(TagHelperContext context, TagHelperOutput output)
+   at Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner.<RunAsync>g__Awaited|0_0(Task task, TagHelperExecutionContext executionContext, Int32 i, Int32 count)
+   at AspNetCoreGeneratedDocument.Views_Products_Partials__ProductInfo.ExecuteAsync() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Views\Products\Partials\_ProductInfo.cshtml:line 17
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.RenderPartialViewAsync(TextWriter writer, Object model, IView view)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.ProcessAsync(TagHelperContext context, TagHelperOutput output)
+   at Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner.<RunAsync>g__Awaited|0_0(Task task, TagHelperExecutionContext executionContext, Int32 i, Int32 count)
+   at AspNetCoreGeneratedDocument.Views_Products_Details.ExecuteAsync() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Views\Products\Details.cshtml:line 214
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ActionContext actionContext, IView view, ViewDataDictionary viewData, ITempDataDictionary tempData, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at RookEcomShop.CustomerFrontend.Middlewares.GlobalExceptionMiddlerware.InvokeAsync(HttpContext context) in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Middlewares\GlobalExceptionMiddlerware.cs:line 18
+2024-05-29 20:14:50.254 +07:00 [INF] Call api get lists products 
+2024-05-29 20:14:50.303 +07:00 [INF] Get lists products success
+2024-05-29 20:14:55.572 +07:00 [INF] Call api get lists products 
+2024-05-29 20:14:55.846 +07:00 [INF] Get lists products success
+2024-05-29 20:14:55.932 +07:00 [INF] Getting products in cart
+2024-05-29 20:15:01.667 +07:00 [INF] Call api get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512"
+2024-05-29 20:15:01.705 +07:00 [INF] Get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512" success
+2024-05-29 20:15:02.177 +07:00 [ERR] An unhandled exception occurred.
+System.InvalidOperationException: RenderBody invocation in '/Views/Shared/Partials/_QuillEditor.cshtml' is invalid. RenderBody can only be called from a layout page.
+   at Microsoft.AspNetCore.Mvc.Razor.RazorPage.RenderBody()
+   at AspNetCoreGeneratedDocument.Views_Shared_Partials__QuillEditor.ExecuteAsync() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Views\Shared\Partials\_QuillEditor.cshtml:line 8
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.RenderPartialViewAsync(TextWriter writer, Object model, IView view)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.ProcessAsync(TagHelperContext context, TagHelperOutput output)
+   at Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner.<RunAsync>g__Awaited|0_0(Task task, TagHelperExecutionContext executionContext, Int32 i, Int32 count)
+   at AspNetCoreGeneratedDocument.Views_Products_Partials__ProductInfo.ExecuteAsync() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Views\Products\Partials\_ProductInfo.cshtml:line 17
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.RenderPartialViewAsync(TextWriter writer, Object model, IView view)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.ProcessAsync(TagHelperContext context, TagHelperOutput output)
+   at Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner.<RunAsync>g__Awaited|0_0(Task task, TagHelperExecutionContext executionContext, Int32 i, Int32 count)
+   at AspNetCoreGeneratedDocument.Views_Products_Details.ExecuteAsync() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Views\Products\Details.cshtml:line 214
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ActionContext actionContext, IView view, ViewDataDictionary viewData, ITempDataDictionary tempData, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at RookEcomShop.CustomerFrontend.Middlewares.GlobalExceptionMiddlerware.InvokeAsync(HttpContext context) in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Middlewares\GlobalExceptionMiddlerware.cs:line 18
+2024-05-29 20:15:04.181 +07:00 [INF] Call api get lists products 
+2024-05-29 20:15:04.234 +07:00 [INF] Get lists products success
+2024-05-29 20:15:04.335 +07:00 [INF] Getting products in cart
+2024-05-29 20:15:12.419 +07:00 [ERR] An unhandled exception occurred.
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 404 (Not Found).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at RookEcomShop.CustomerFrontend.Services.Accounts.AccountApiClient.GetUser() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Services\Accounts\AccountApiClient.cs:line 20
+   at RookEcomShop.CustomerFrontend.Controllers.AccountController.Index() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Controllers\AccountController.cs:line 19
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at RookEcomShop.CustomerFrontend.Middlewares.GlobalExceptionMiddlerware.InvokeAsync(HttpContext context) in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Middlewares\GlobalExceptionMiddlerware.cs:line 18
+2024-05-29 20:15:13.946 +07:00 [INF] Call api get lists products 
+2024-05-29 20:15:13.998 +07:00 [INF] Get lists products success
+2024-05-29 20:15:14.099 +07:00 [INF] Getting products in cart
+2024-05-29 20:15:33.050 +07:00 [INF] Call api get lists products 
+2024-05-29 20:15:33.102 +07:00 [INF] Get lists products success
+2024-05-29 20:15:39.107 +07:00 [INF] Call api get lists products 
+2024-05-29 20:15:39.141 +07:00 [INF] Get lists products success
+2024-05-29 20:15:39.211 +07:00 [INF] Getting products in cart
+2024-05-29 20:15:40.699 +07:00 [INF] Call api get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512"
+2024-05-29 20:15:40.730 +07:00 [INF] Get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512" success
+2024-05-29 20:15:41.080 +07:00 [ERR] An unhandled exception occurred.
+System.InvalidOperationException: RenderBody invocation in '/Views/Shared/Partials/_QuillEditor.cshtml' is invalid. RenderBody can only be called from a layout page.
+   at Microsoft.AspNetCore.Mvc.Razor.RazorPage.RenderBody()
+   at AspNetCoreGeneratedDocument.Views_Shared_Partials__QuillEditor.ExecuteAsync() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Views\Shared\Partials\_QuillEditor.cshtml:line 8
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.RenderPartialViewAsync(TextWriter writer, Object model, IView view)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.ProcessAsync(TagHelperContext context, TagHelperOutput output)
+   at Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner.<RunAsync>g__Awaited|0_0(Task task, TagHelperExecutionContext executionContext, Int32 i, Int32 count)
+   at AspNetCoreGeneratedDocument.Views_Products_Partials__ProductInfo.ExecuteAsync() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Views\Products\Partials\_ProductInfo.cshtml:line 17
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.RenderPartialViewAsync(TextWriter writer, Object model, IView view)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.ProcessAsync(TagHelperContext context, TagHelperOutput output)
+   at Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner.<RunAsync>g__Awaited|0_0(Task task, TagHelperExecutionContext executionContext, Int32 i, Int32 count)
+   at AspNetCoreGeneratedDocument.Views_Products_Details.ExecuteAsync() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Views\Products\Details.cshtml:line 214
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ActionContext actionContext, IView view, ViewDataDictionary viewData, ITempDataDictionary tempData, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at RookEcomShop.CustomerFrontend.Middlewares.GlobalExceptionMiddlerware.InvokeAsync(HttpContext context) in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Middlewares\GlobalExceptionMiddlerware.cs:line 18
+2024-05-29 20:16:32.932 +07:00 [INF] Call api get lists products 
+2024-05-29 20:16:38.849 +07:00 [INF] Get lists products success
+2024-05-29 20:16:39.488 +07:00 [INF] Getting products in cart
+2024-05-29 20:16:42.355 +07:00 [INF] Call api get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512"
+2024-05-29 20:16:42.498 +07:00 [INF] Get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512" success
+2024-05-29 20:16:43.165 +07:00 [ERR] An unhandled exception occurred.
+System.InvalidOperationException: RenderBody invocation in '/Views/Shared/Partials/_QuillEditor.cshtml' is invalid. RenderBody can only be called from a layout page.
+   at Microsoft.AspNetCore.Mvc.Razor.RazorPage.RenderBody()
+   at AspNetCoreGeneratedDocument.Views_Shared_Partials__QuillEditor.ExecuteAsync() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Views\Shared\Partials\_QuillEditor.cshtml:line 8
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.RenderPartialViewAsync(TextWriter writer, Object model, IView view)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.ProcessAsync(TagHelperContext context, TagHelperOutput output)
+   at Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner.<RunAsync>g__Awaited|0_0(Task task, TagHelperExecutionContext executionContext, Int32 i, Int32 count)
+   at AspNetCoreGeneratedDocument.Views_Products_Partials__ProductInfo.ExecuteAsync() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Views\Products\Partials\_ProductInfo.cshtml:line 17
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.RenderPartialViewAsync(TextWriter writer, Object model, IView view)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.ProcessAsync(TagHelperContext context, TagHelperOutput output)
+   at Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner.<RunAsync>g__Awaited|0_0(Task task, TagHelperExecutionContext executionContext, Int32 i, Int32 count)
+   at AspNetCoreGeneratedDocument.Views_Products_Details.ExecuteAsync() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Views\Products\Details.cshtml:line 214
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ActionContext actionContext, IView view, ViewDataDictionary viewData, ITempDataDictionary tempData, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at RookEcomShop.CustomerFrontend.Middlewares.GlobalExceptionMiddlerware.InvokeAsync(HttpContext context) in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Middlewares\GlobalExceptionMiddlerware.cs:line 18
+2024-05-29 20:17:10.545 +07:00 [INF] Call api get lists products 
+2024-05-29 20:17:10.604 +07:00 [INF] Get lists products success
+2024-05-29 20:17:10.706 +07:00 [INF] Getting products in cart
+2024-05-29 20:17:11.742 +07:00 [INF] Call api get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512"
+2024-05-29 20:17:11.783 +07:00 [INF] Get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512" success
+2024-05-29 20:17:12.120 +07:00 [ERR] An unhandled exception occurred.
+System.InvalidOperationException: RenderBody invocation in '/Views/Shared/Partials/_QuillEditor.cshtml' is invalid. RenderBody can only be called from a layout page.
+   at Microsoft.AspNetCore.Mvc.Razor.RazorPage.RenderBody()
+   at AspNetCoreGeneratedDocument.Views_Shared_Partials__QuillEditor.ExecuteAsync() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Views\Shared\Partials\_QuillEditor.cshtml:line 8
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.RenderPartialViewAsync(TextWriter writer, Object model, IView view)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.ProcessAsync(TagHelperContext context, TagHelperOutput output)
+   at Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner.<RunAsync>g__Awaited|0_0(Task task, TagHelperExecutionContext executionContext, Int32 i, Int32 count)
+   at AspNetCoreGeneratedDocument.Views_Products_Partials__ProductInfo.ExecuteAsync() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Views\Products\Partials\_ProductInfo.cshtml:line 17
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.RenderPartialViewAsync(TextWriter writer, Object model, IView view)
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.ProcessAsync(TagHelperContext context, TagHelperOutput output)
+   at Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner.<RunAsync>g__Awaited|0_0(Task task, TagHelperExecutionContext executionContext, Int32 i, Int32 count)
+   at AspNetCoreGeneratedDocument.Views_Products_Details.ExecuteAsync() in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Views\Products\Details.cshtml:line 214
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ActionContext actionContext, IView view, ViewDataDictionary viewData, ITempDataDictionary tempData, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at RookEcomShop.CustomerFrontend.Middlewares.GlobalExceptionMiddlerware.InvokeAsync(HttpContext context) in D:\project\Rookie_Batch7_2024\Rookie_Ecommerce_Shop\RookEcomShop\src\Presenters\RookEcomShop.CustomerFrontend\Middlewares\GlobalExceptionMiddlerware.cs:line 18
+2024-05-29 20:17:30.766 +07:00 [INF] Call api get lists products 
+2024-05-29 20:17:35.675 +07:00 [INF] Get lists products success
+2024-05-29 20:17:36.299 +07:00 [INF] Getting products in cart
+2024-05-29 20:17:41.152 +07:00 [INF] Call api get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512"
+2024-05-29 20:17:41.282 +07:00 [INF] Get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512" success
+2024-05-29 20:17:41.577 +07:00 [INF] Getting products in cart
+2024-05-29 20:20:30.670 +07:00 [INF] Call api get lists products 
+2024-05-29 20:20:34.599 +07:00 [INF] Get lists products success
+2024-05-29 20:20:35.325 +07:00 [INF] Getting products in cart
+2024-05-29 20:20:37.947 +07:00 [INF] Call api get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512"
+2024-05-29 20:20:38.101 +07:00 [INF] Get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512" success
+2024-05-29 20:20:38.459 +07:00 [INF] Getting products in cart
+2024-05-29 20:22:23.849 +07:00 [INF] Call api get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512"
+2024-05-29 20:22:23.894 +07:00 [INF] Get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512" success
+2024-05-29 20:22:24.021 +07:00 [INF] Getting products in cart
+2024-05-29 20:27:07.619 +07:00 [INF] Call api get lists products 
+2024-05-29 20:27:10.579 +07:00 [INF] Get lists products success
+2024-05-29 20:27:11.077 +07:00 [INF] Getting products in cart
+2024-05-29 20:48:18.417 +07:00 [INF] Call api get lists products 
+2024-05-29 20:48:26.179 +07:00 [INF] Get lists products success
+2024-05-29 20:48:26.704 +07:00 [INF] Getting products in cart
+2024-05-29 20:55:00.913 +07:00 [INF] Call api get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512"
+2024-05-29 20:55:00.967 +07:00 [INF] Get product by id "8226712c-a5ce-45f5-934b-08dc7fdfb512" success
+2024-05-29 20:55:01.304 +07:00 [INF] Getting products in cart
+2024-05-29 20:59:17.107 +07:00 [INF] Getting products in cart
+2024-05-29 20:59:17.286 +07:00 [INF] Getting products in cart
+2024-05-29 20:59:19.651 +07:00 [INF] Getting products in cart
+2024-05-29 20:59:19.813 +07:00 [INF] Getting products in cart
+2024-05-29 20:59:36.364 +07:00 [INF] Getting products in cart
+2024-05-29 20:59:36.512 +07:00 [INF] Getting products in cart
+2024-05-29 20:59:42.805 +07:00 [INF] Getting products in cart
+2024-05-29 20:59:42.915 +07:00 [INF] Getting products in cart
+2024-05-29 21:38:00.858 +07:00 [INF] Call api get lists products 
+2024-05-29 21:38:09.268 +07:00 [INF] Get lists products success
+2024-05-29 21:38:10.413 +07:00 [INF] Getting products in cart
+2024-05-29 21:38:10.493 +07:00 [ERR] Unauthorized request
+2024-05-29 21:43:16.315 +07:00 [INF] Call api get lists products 
+2024-05-29 21:43:22.835 +07:00 [INF] Get lists products success
+2024-05-29 21:43:23.747 +07:00 [INF] Getting products in cart
+2024-05-29 21:43:23.799 +07:00 [ERR] Unauthorized request
+2024-05-29 21:45:01.264 +07:00 [INF] Call api get lists products 
+2024-05-29 21:45:11.256 +07:00 [INF] Get lists products success
+2024-05-29 21:45:18.322 +07:00 [INF] Getting products in cart
+2024-05-29 21:45:18.372 +07:00 [ERR] Unauthorized request
+2024-05-29 21:55:12.698 +07:00 [INF] Call api get lists products 
+2024-05-29 21:55:18.894 +07:00 [INF] Get lists products success
+2024-05-29 21:55:19.829 +07:00 [INF] Getting products in cart
+2024-05-29 21:55:19.881 +07:00 [ERR] Unauthorized request

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.Application.Common.Helpers;
+using RookEcomShop.Application.Dto;
 using RookEcomShop.Application.Handlers.Users.GetById;
 using RookEcomShop.Application.Handlers.Users.GetList;
 
@@ -35,15 +36,18 @@ namespace RookEcomShop.Api.Controllers.v1
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetListUsers()
+        public async Task<IActionResult> GetListUsers([FromQuery] QueryDto queryDto)
         {
-            var query = new GetListUsersQuery();
+            var query = new GetListUsersQuery
+            {
+                QueryObject = queryDto
+            };
             var result = await _sender.Send(query);
             if (result.IsFailed)
             {
                 return NotFound();
             }
-            return Ok(result);
+            return Ok(result.Value);
         }
     }
 }
