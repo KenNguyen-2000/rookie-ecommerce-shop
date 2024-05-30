@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import productsService from '@/services/products/products.service';
 import { CreateUpdateProductInputs } from '@/services/products/products.type';
-import { QueryDto, defaultQuery } from '@/types/query-dto';
+import { ProductQueryDto } from '@/types/query-dto';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const getProductsAsync = createAsyncThunk(
 	'products/getProducts',
-	async (queryDto?: QueryDto) => {
+	async (queryDto?: ProductQueryDto) => {
 		return await productsService.getProductsAsync(queryDto);
 	},
 );

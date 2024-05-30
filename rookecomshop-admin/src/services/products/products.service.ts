@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import interceptor from '@/components/hoc/AxiosInterceptor';
 import { CreateUpdateProductInputs, ProductDto } from './products.type';
-import { QueryDto, defaultQuery } from '@/types/query-dto';
+import { ProductQueryDto, defaultQuery } from '@/types/query-dto';
 import { PagniatedList } from '@/types/pagniated-list.type';
 
-const getProductsAsync = async (queryDto?: QueryDto): Promise<PagniatedList<ProductDto>> => {
+const getProductsAsync = async (queryDto?: ProductQueryDto): Promise<PagniatedList<ProductDto>> => {
 	const res = await interceptor.get<PagniatedList<ProductDto>>('/products', {
 		params: queryDto ?? defaultQuery,
 	});

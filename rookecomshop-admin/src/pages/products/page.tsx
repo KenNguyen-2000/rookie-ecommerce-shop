@@ -29,31 +29,22 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import moment from 'moment';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch } from '@/redux/reduxHooks';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { deleteProductAsync } from '@/redux/thunks/products.thunk';
 import { ContentSidebarLayout } from '@/components/layouts';
-import {
-	Pagination,
-	PaginationContent,
-	PaginationEllipsis,
-	PaginationItem,
-	PaginationLink,
-	PaginationNext,
-	PaginationPrevious,
-} from '@/components/ui/pagination';
 import { AlertPopup } from '@/components/page';
-import { QueryDto } from '@/types/query-dto';
+import { ProductQueryDto, QueryDto } from '@/types/query-dto';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import productsService from '@/services/products/products.service';
 import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from '@/components/ui/use-toast';
-import { PagniatedList } from '@/types/pagniated-list.type';
 import { ProductDto } from '@/services/products/products.type';
 import ProductRow from './components/ProductRow';
 import ReusePagination from '@/components/page/ReusePagination';
+import categoriesService from '@/services/categories/categories.service';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const ProductPage = () => {
 	const navigate = useNavigate();
@@ -63,17 +54,22 @@ const ProductPage = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [isOpen, setIsOpen] = useState(false);
 	const [productId, setProductId] = useState<string | null>(null);
-	const [queryDto, setQueryDto] = useState<QueryDto>({
+	const [queryDto, setQueryDto] = useState<ProductQueryDto>({
 		page: parseInt(searchParams.get('page') ?? '1'),
 		pageSize: parseInt(searchParams.get('pageSize') ?? '5'),
 		searchTerm: searchParams.get('searchTerm') ?? '',
 		sortOrder: searchParams.get('sortOrder') ?? 'asc',
+		categoryName: searchParams.get('categoryName') ?? null,
+		status: null,
 	});
 	const { data: products, isLoading } = useQuery({
 		queryKey: ['products', queryDto],
 		queryFn: () => productsService.getProductsAsync(queryDto),
 	});
-
+	const { data: categories } = useQuery({
+		queryKey: ['categories'],
+		queryFn: () => categoriesService.getCategoriesAsync(),
+	});
 	const handleDeleteProduct = async () => {
 		if (productId) {
 			//Delete product
@@ -97,19 +93,13 @@ const ProductPage = () => {
 		setQueryDto({ ...queryDto, page, pageSize: pageSize ?? queryDto.pageSize });
 	};
 
-	// useEffect(() => {
-	// 	const page = searchParams.get('page') ?? '1';
-	// 	const pageSize = searchParams.get('pageSize') ?? '5';
-	// 	if (page && pageSize) {
-	// 		setQueryDto({ page: parseInt(page), pageSize: parseInt(pageSize) });
-	// 	}
-	// }, [searchParams]);
-
 	useEffect(() => {
-		function updateQueryParams(queryDto: QueryDto) {
+		function updateQueryParams(queryDto: ProductQueryDto) {
 			const newParams = new URLSearchParams(searchParams);
 			newParams.set('page', queryDto.page.toString());
 			newParams.set('pageSize', queryDto.pageSize.toString());
+			if (queryDto.categoryName !== null)
+				newParams.set('categoryName', queryDto.categoryName);
 			setSearchParams(newParams);
 		}
 
@@ -139,16 +129,40 @@ const ProductPage = () => {
 								<Button variant="outline" size="sm" className="h-8 gap-1">
 									<ListFilter className="h-3.5 w-3.5" />
 									<span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-										Filter
+										Categories
 									</span>
 								</Button>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent align="end">
 								<DropdownMenuLabel>Filter by</DropdownMenuLabel>
 								<DropdownMenuSeparator />
-								<DropdownMenuCheckboxItem checked>Active</DropdownMenuCheckboxItem>
-								<DropdownMenuCheckboxItem>Draft</DropdownMenuCheckboxItem>
-								<DropdownMenuCheckboxItem>Archived</DropdownMenuCheckboxItem>
+								<ScrollArea className="max-h-64 h-64">
+									<DropdownMenuCheckboxItem
+										checked={queryDto.categoryName === ''}
+										onClick={() =>
+											setQueryDto({
+												...queryDto,
+												categoryName: '',
+											})
+										}
+									>
+										All
+									</DropdownMenuCheckboxItem>
+									{categories?.map((category) => (
+										<DropdownMenuCheckboxItem
+											checked={queryDto.categoryName === category.name}
+											onClick={() =>
+												setQueryDto({
+													...queryDto,
+													categoryName: category.name,
+												})
+											}
+											key={category.id}
+										>
+											{category.name}
+										</DropdownMenuCheckboxItem>
+									))}
+								</ScrollArea>
 							</DropdownMenuContent>
 						</DropdownMenu>
 						<Button size="sm" variant="outline" className="h-8 gap-1">
