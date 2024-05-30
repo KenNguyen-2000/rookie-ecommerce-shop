@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RookEcomShop.CustomerFrontend.Models.Checkout;
 using RookEcomShop.CustomerFrontend.Services.Cart;
 
 namespace RookEcomShop.CustomerFrontend.Controllers
@@ -12,10 +13,13 @@ namespace RookEcomShop.CustomerFrontend.Controllers
             _cartApiClient = cartApiClient;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var cartItems = _cartApiClient.GetProductsInCart();
-            return View();
+            var cartItems = await _cartApiClient.GetProductsInCart();
+            return View(new CheckoutViewModel
+            {
+                Items = cartItems
+            });
         }
     }
 }

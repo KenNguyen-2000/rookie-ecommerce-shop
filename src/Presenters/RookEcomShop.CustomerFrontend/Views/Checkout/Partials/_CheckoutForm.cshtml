@@ -1,0 +1,84 @@
+@{
+}
+<form method="post" class="grid gap-8">
+    <section>
+
+        <h3 class="text-xl font-semibold text-neutral-900 mb-4">Contact <span class="text-red-500">*</span></h3>
+
+        <input type="text"
+            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            placeholder="Email or phone number" required />
+    </section>
+    <section class="grid gap-4">
+        <h3 class="text-xl font-semibold text-neutral-900 mb-2">Shipping address</h3>
+        <div class="grid lg:grid-cols-2 lg:items-start gap-4">
+            <div class="grid gap-2">
+                <label
+                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Firstname
+                    <span class="text-red-500">*</span>
+                </label>
+                <input type="text"
+                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    placeholder="John" required />
+                <span class="text-red-500 font-semibold text-sm"></span>
+            </div>
+            <div class="grid gap-2">
+                <label
+                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Lastname
+                    <span class="text-red-500">*</span>
+                </label>
+                <input type="text"
+                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    placeholder="Doe" required />
+                <span class="text-red-500 font-semibold text-sm"></span>
+            </div>
+        </div>
+
+
+        <div class="grid gap-2">
+            <label
+                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Shipping
+                Address
+                <span class="text-red-500">*</span></label>
+            <input type="text"
+                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                placeholder="Address" />
+            <span class="text-red-500 font-semibold text-sm"></span>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+
+            <div class="grid gap-2">
+                <label
+                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">City</label>
+
+                <input asp-validation type="password"
+                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" />
+                <span class="text-red-500 font-semibold text-sm"></span>
+            </div>
+            <div class="grid gap-2">
+                <label
+                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Province</label>
+
+                <input asp-validation type="password"
+                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" />
+                <span class="text-red-500 font-semibold text-sm"></span>
+            </div>
+            <div class="grid gap-2">
+                <label
+                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Zip
+                    Code</label>
+
+                <input asp-validation type="password"
+                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" />
+                <span class="text-red-500 font-semibold text-sm"></span>
+            </div>
+
+        </div>
+    </section>
+
+    <button value="register" name="button"
+        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-black text-slate-50 hover:bg-black/90 h-10 px-4 py-2 w-full"
+        type="submit">Make an order</button>
+
+</form>

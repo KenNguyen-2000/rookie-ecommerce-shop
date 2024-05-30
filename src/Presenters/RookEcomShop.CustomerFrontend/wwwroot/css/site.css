@@ -55,6 +55,12 @@
   b {
     color: inherit;
   }
+
+  .flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .success-toast {

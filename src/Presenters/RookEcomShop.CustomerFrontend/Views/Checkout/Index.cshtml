@@ -1,0 +1,98 @@
+@using RookEcomShop.CustomerFrontend.Models.Checkout
+@model CheckoutViewModel;
+
+@{
+    Layout = "~/Views/Shared/Layouts/_BlankLayout.cshtml";
+}
+
+<main class="w-full min-h-screen flex flex-col md:flex-row items-stretch">
+    <section class="flex-1 w-1/2">
+        <div class="w-full ml-auto max-w-[66rem] p-6">
+            <div class="flex flex-col items-center space-y-4">
+                <h1 class="text-8xl uppercase">ZWS</h1>
+                <h3 class="text-2xl text-neutral-700">ZeroWatseStore</h3>
+
+                <div class="w-full flex flex-col gap-2 items-center">
+                    <p class="text-gray-500 text-sm font-light">Express checkout</p>
+                    <div class="w-full flex items-center justify-center gap-2">
+                        <button type="button"
+                            class="flex-1 max-w-36 text-white text-lg font-semibold p-3 bg-amber-400 rounded-md">
+                            Paypal
+                        </button>
+                        <button type="button"
+                            class="flex-1 max-w-36 text-white text-lg font-semibold p-3 bg-amber-400 rounded-md">
+                            Paypal
+                        </button>
+                        <button type="button"
+                            class="flex-1 max-w-36 text-white text-lg font-semibold p-3 bg-amber-400 rounded-md">
+                            Paypal
+                        </button>
+                    </div>
+                </div>
+                <div class="w-full flex items-center gap-6 max-w-[32rem]">
+                    <div class="h-[1px] w-full bg-gray-400"></div>
+                    <span class="text-sm uppercase text-gray-400 font-semibold">Or</span>
+                    <div class="h-[1px] w-full bg-gray-400"></div>
+                </div>
+
+                <div class="w-full max-w-xl">
+                    <partial name="Partials/_CheckoutForm.cshtml" />
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="flex-1 w-1/2 hidden md:block bg-slate-100">
+        <div class="mr-auto max-w-xl p-6 space-y-8">
+            <div class="w-full text-center mt-6">
+                <h3>Free Shipping - ALL ORDERS $50+ 📦</h3>
+                <h3>$10 Cashback in ZWS Rewards - ALL ORDERS $100+ 👀</h3>
+            </div>
+
+            <ul class="space-y-6 w-full !my-10">
+                <li>
+                    <partial name="Partials/_OrderItemCard.cshtml" />
+                </li>
+                <li>
+                    <partial name="Partials/_OrderItemCard.cshtml" />
+                </li>
+                <li>
+                    <partial name="Partials/_OrderItemCard.cshtml" />
+                </li>
+            </ul>
+
+            <div class="bg-slate-200/40 border border-gray-400 p-4 rounded-md text-sm space-y-4 !my-10">
+                <h4 class="font-semibold">Redeem your Points</h4>
+                <p>
+                    You have <strong>200</strong> points. To redeem for a discount, you'll need 300 or more.
+                </p>
+                <div class="bg-white p-2.5 py-4 rounded-md">
+                    <p class="text-gray-500">Select a discount</p>
+                </div>
+
+                <button type="button" class="w-full py-4 text-center border border-gray-400 rounded-md">
+                    Redeem
+                </button>
+            </div>
+
+            <div>
+                <img class="w-full h-auto object-contain" alt="Shipped" src="/images/sustainability-seals-badges.png" />
+            </div>
+            <table role="table" class="w-full text-sm">
+                <tr role="row">
+                    <td role="rowheader">Subtotal</td>
+                    <td role="cell" class="text-right">$32.93</td>
+                </tr>
+                <tr role="row">
+                    <td role="rowheader">Shipping</td>
+                    <td role="cell" class="text-right">Calculated at next step</td>
+                </tr>
+                <tr role="row">
+                    <td role="rowheader" class="text-lg">Total</td>
+                    <td role="cell" class="text-right">
+                        <span class="text-gray-500">USD</span> <strong class="text-lg">$32.93</strong>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </section>
+</main>
