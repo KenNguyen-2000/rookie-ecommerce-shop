@@ -51,7 +51,7 @@ const CategoriesPage = () => {
 		if (action === 'edit') {
 			setShowDialog(true);
 		} else {
-			setShowAlert(true)
+			setShowAlert(true);
 		}
 	};
 
@@ -74,19 +74,23 @@ const CategoriesPage = () => {
 		});
 	};
 
-	const handleDeleteCategory = async() => {
+	const handleDeleteCategory = async () => {
 		await categoriesService.deleteCategoryAsync(selectedCategory!.id);
 		setShowAlert(false);
 		setSelectedCategory(null);
 		await queryClient.invalidateQueries({ queryKey: ['categories'] });
-	}
+	};
 
 	return (
 		<ContentSidebarLayout>
-			<AlertPopup open={showAlert} closeModal={() => {
-				setShowAlert(false)
-				setSelectedCategory(null)
-			}} confirmAction={handleDeleteCategory}  />
+			<AlertPopup
+				open={showAlert}
+				closeModal={() => {
+					setShowAlert(false);
+					setSelectedCategory(null);
+				}}
+				confirmAction={handleDeleteCategory}
+			/>
 			{categories && (
 				<CreateCategoryDialog
 					open={showDialog}

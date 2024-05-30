@@ -17,7 +17,6 @@ const updateCategoryAsync = async (request: UpdateCategoryDto): Promise<void> =>
 	await interceptor.put(`/categories/${request.id}`, request);
 };
 
-
 const deleteCategoryAsync = async (id: string): Promise<void> => {
 	await interceptor.delete(`/categories/${id}`);
 };
@@ -27,7 +26,7 @@ const categoriesService = {
 	createCategoryAsync,
 	updateCategoryAsync,
 	getByNameAsync,
-	deleteCategoryAsync
+	deleteCategoryAsync,
 };
 
 export default categoriesService;

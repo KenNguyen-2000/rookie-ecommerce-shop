@@ -16,13 +16,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-	Table,
-	TableBody,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from '@/components/ui/table';
+import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
 import categoriesService from '@/services/categories/categories.service';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -56,7 +50,7 @@ const CategoryDetail = () => {
 		if (action === 'edit') {
 			setShowDialog(true);
 		} else {
-			setShowAlert(true)
+			setShowAlert(true);
 		}
 	};
 
@@ -79,19 +73,23 @@ const CategoryDetail = () => {
 		});
 	};
 
-	const handleDeleteCategory = async() => {
+	const handleDeleteCategory = async () => {
 		await categoriesService.deleteCategoryAsync(selectedCategory!.id);
 		setShowAlert(false);
 		setSelectedCategory(null);
 		await queryClient.invalidateQueries({ queryKey: ['categories'] });
-	}
+	};
 
 	return (
 		<ContentSidebarLayout>
-			<AlertPopup open={showAlert} closeModal={() => {
-				setShowAlert(false)
-				setSelectedCategory(null)
-			}} confirmAction={handleDeleteCategory}  />
+			<AlertPopup
+				open={showAlert}
+				closeModal={() => {
+					setShowAlert(false);
+					setSelectedCategory(null);
+				}}
+				confirmAction={handleDeleteCategory}
+			/>
 
 			{category && (
 				<CreateCategoryDialog
