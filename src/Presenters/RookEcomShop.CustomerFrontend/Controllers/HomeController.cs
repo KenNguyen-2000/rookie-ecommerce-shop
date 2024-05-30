@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using RookEcomShop.Application.Dto;
 using RookEcomShop.CustomerFrontend.Models;
 using RookEcomShop.CustomerFrontend.Models.Home;
@@ -6,36 +7,35 @@ using RookEcomShop.CustomerFrontend.Services.Categories;
 using RookEcomShop.CustomerFrontend.Services.Products;
 using RookEcomShop.ViewModels.Dto;
 using RookEcomShop.ViewModels.Product;
+using Serilog;
 using System.Diagnostics;
 
 namespace RookEcomShop.CustomerFrontend.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
     private readonly IProductsApiClient _productsApiClient;
     private readonly ICategoriesApiClient _categoriesApiClient;
-    [FromQuery(Name = "categoryName")]
-    public string? CategoryName { get; set; }
+
 
     public HomeController(
-        ILogger<HomeController> logger,
         IProductsApiClient productsApiClient,
         ICategoriesApiClient categoriesApiClient)
     {
-        _logger = logger;
         _productsApiClient = productsApiClient;
         _categoriesApiClient = categoriesApiClient;
     }
 
-    public async Task<IActionResult> Index([FromQuery] ProductQueryDto queryDto)
+    public async Task<IActionResult> Index([FromQuery] ProductQueryDto? queryDto = null)
     {
-        _logger.LogInformation(CategoryName);
-        PaginatedList<ProductVM> products;
-        if (CategoryName != null)
-            products = await _productsApiClient.GetProductsByCategoryNameAsync(CategoryName, queryDto);
-        else
-            products = await _productsApiClient.GetProductsAsync(queryDto);
+        if (queryDto == null)
+        {
+            queryDto = new ProductQueryDto { PageSize = 5, Page = 1 };
+        }
+
+        Log.Information("[HomeController]: Get products from API " + JsonConvert.SerializeObject(queryDto));
+
+        PaginatedList<ProductVM> products = await _productsApiClient.GetProductsAsync(queryDto);
         ViewData["Categories"] = await _categoriesApiClient.GetCategoriesAsync();
         return View(new HomeViewModel
         {

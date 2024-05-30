@@ -31,7 +31,7 @@ namespace RookEcomShop.Api.Controllers.v1
         }
         [AllowAnonymous]
         [HttpGet("{categoryName}")]
-        public async Task<IActionResult> GetCategoryByName(string categoryName)
+        public async Task<IActionResult> GetCategoryByNameAsync(string categoryName)
         {
             var query = new GetCategoryByNameQuery
             {
@@ -44,7 +44,7 @@ namespace RookEcomShop.Api.Controllers.v1
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryRequest createCategoryRequest)
+        public async Task<IActionResult> CreateCategoryAsync([FromBody] CreateCategoryRequest createCategoryRequest)
         {
             var command = new CreateCategoryCommand
             {

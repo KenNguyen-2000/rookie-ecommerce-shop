@@ -21,12 +21,14 @@ namespace RookEcomShop.CustomerFrontend.Controllers
         public async Task<IActionResult> AddReview(Guid productId, ReviewsProductInputModel request)
         {
             Log.Information<ReviewsProductInputModel>("ReviewsController: [BEGIN] Add review for product", request);
+
             await _reviewsApiClient.ReviewProductAsync(new ReviewsProductInputModel
             {
                 ProductId = productId,
                 Content = request.Content,
                 Rating = request.Rating
             });
+
             Log.Information<ReviewsProductInputModel>("ReviewsController: [END] Add review for product", request);
 
             return Redirect($"/products/{request.ProductId}");

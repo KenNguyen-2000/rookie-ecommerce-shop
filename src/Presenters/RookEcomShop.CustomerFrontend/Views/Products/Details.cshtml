@@ -47,9 +47,9 @@
                 foreach (var imgUrl in product.ImgUrls)
                 {
                   <div class="swiper-slide">
-                    <div class="w-full rounded-lg overflow-hidden">
+                    <div class="w-full h-full flex justify-center items-center rounded-lg overflow-hidden">
                       <partial name="~/Views/Shared/Partials/_ServerImage.cshtml"
-                        model='new ServerImageVM {Url= imgUrl, Alt=product.Name, ClassName="h-full w-full object-cover object-center lg:h-full lg:w-full"}' />
+                        model='new ServerImageVM {Url= imgUrl, Alt=product.Name, ClassName="h-full w-full object-contain object-center lg:h-full lg:w-full"}' />
                     </div>
                   </div>
                 }

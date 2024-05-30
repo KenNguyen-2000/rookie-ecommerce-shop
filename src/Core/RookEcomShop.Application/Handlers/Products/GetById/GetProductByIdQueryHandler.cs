@@ -23,23 +23,7 @@ namespace RookEcomShop.Application.Handlers.Products.GetById
             if (product == null)
                 throw new NotFoundException($"Product with id {query.Id} not found");
 
-            return Result.Ok(new ProductVM
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                Price = product.Price,
-                StockQuantity = product.StockQuantity,
-                Status = product.Status,
-                Category = new CategoryVM
-                {
-                    Id = product.Category.Id,
-                    Name = product.Category.Name,
-                    Description = product.Category.Description,
-                    ParentId = product.Category.CategoryId
-                },
-                ImgUrls = product.ProductImages.Select(e => e.Url)
-            });
+            return Result.Ok(ProductsMapper.MapToProductVM(product));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FluentResults;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.Application.Common.Helpers;
@@ -11,6 +12,7 @@ using RookEcomShop.Application.Handlers.Products.GetList;
 using RookEcomShop.Application.Handlers.Products.PatchStatus;
 using RookEcomShop.Application.Handlers.Products.Update;
 using RookEcomShop.Domain.Common.Enums;
+using RookEcomShop.ViewModels.Dto;
 using RookEcomShop.ViewModels.Product;
 
 namespace RookEcomShop.Api.Controllers.v1
@@ -55,7 +57,7 @@ namespace RookEcomShop.Api.Controllers.v1
         {
             var query = new GetListProductQuery { QueryObject = queryDto ?? new ProductQueryDto() };
 
-            var result = await _sender.Send(query);
+            Result<PaginatedList<ProductVM>> result = await _sender.Send(query);
 
             return Ok(result.Value);
         }
@@ -64,7 +66,7 @@ namespace RookEcomShop.Api.Controllers.v1
         [HttpGet("collections/{categoryName}")]
         public async Task<IActionResult> GetProductsByCategoryName(
             string categoryName,
-            [FromQuery] QueryDto queryDto)
+            [FromQuery] ProductQueryDto queryDto)
         {
             var query = new GetProductsByCategoryNameQuery
             {
@@ -72,7 +74,7 @@ namespace RookEcomShop.Api.Controllers.v1
                 QueryObject = queryDto
             };
 
-            var result = await _sender.Send(query);
+            Result<PaginatedList<ProductVM>> result = await _sender.Send(query);
             return Ok(result.Value);
         }
 
@@ -82,7 +84,7 @@ namespace RookEcomShop.Api.Controllers.v1
         {
             var query = new GetProductByIdQuery { Id = id };
 
-            var result = await _sender.Send(query);
+            Result<ProductVM> result = await _sender.Send(query);
 
             return Ok(result.Value);
         }

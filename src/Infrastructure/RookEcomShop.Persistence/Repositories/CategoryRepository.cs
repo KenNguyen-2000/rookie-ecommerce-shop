@@ -11,12 +11,17 @@ namespace RookEcomShop.Persistence.Repositories
         {
         }
 
-        public async Task<Category?> GetCategoryByName(string name)
+        public async Task<Category?> GetCategoryByIdAsync(Guid id)
         {
-            return await _dbContext.Categories.FirstOrDefaultAsync(e => e.Name.Equals(name));
+            return await _dbContext.Categories.Include(c => c.SubCategories).FirstOrDefaultAsync(e => e.Id.Equals(id));
         }
 
-        public override async Task<IEnumerable<Category>> GetListAsync(Expression<Func<Category, bool>>? filter, CancellationToken cancellationToken = default)
+        public async Task<Category?> GetCategoryByNameAsync(string name)
+        {
+            return await _dbContext.Categories.Include(c => c.SubCategories).FirstOrDefaultAsync(e => e.Name.Equals(name));
+        }
+
+        public async Task<IEnumerable<Category>> GetListAsync(Expression<Func<Category, bool>>? filter, CancellationToken cancellationToken = default)
         {
             return filter == null
                 ? await _dbContext.Categories

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RookEcomShop.Application.Dto;
 using RookEcomShop.CustomerFrontend.Services.Categories;
 using RookEcomShop.CustomerFrontend.Services.Products;
 using RookEcomShop.ViewModels.Product;
@@ -27,10 +28,10 @@ namespace RookEcomShop.CustomerFrontend.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromQuery] ProductQueryDto queryDto)
         {
             _logger.LogInformation("Get products from API");
-            var products = await _productsApiClient.GetProductsAsync();
+            var products = await _productsApiClient.GetProductsAsync(queryDto);
             return View(products);
         }
 

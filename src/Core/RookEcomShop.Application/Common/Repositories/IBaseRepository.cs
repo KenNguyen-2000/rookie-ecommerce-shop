@@ -1,4 +1,5 @@
-﻿using RookEcomShop.Domain.Common;
+﻿using RookEcomShop.Application.Dto;
+using RookEcomShop.Domain.Common;
 using System.Linq.Expressions;
 
 namespace RookEcomShop.Application.Common.Repositories
@@ -8,7 +9,7 @@ namespace RookEcomShop.Application.Common.Repositories
         void Create(T entity);
         void Update(T entity);
         void Delete(T entity);
-        Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
-        Task<IEnumerable<T>> GetListAsync(Expression<Func<T, bool>>? filter = null, CancellationToken cancellationToken = default);
+        // Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        // Task<IEnumerable<T>> GetListAsync(Expression<Func<T, bool>>? filter = null, QueryDto? queryDto = default, CancellationToken cancellationToken = default);
     }
 }

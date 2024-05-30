@@ -32,7 +32,7 @@ namespace RookEcomShop.Application.Handlers.Products.Update
 
             if (existingProduct == null)
                 throw new NotFoundException($"Product with id {command.Id} not found!");
-            var category = await _categoryRepository.GetCategoryByName(command.CategoryName);
+            var category = await _categoryRepository.GetCategoryByNameAsync(command.CategoryName);
             if (category == null)
                 throw new NotFoundException($"Category with name {command.CategoryName} not found!");
 

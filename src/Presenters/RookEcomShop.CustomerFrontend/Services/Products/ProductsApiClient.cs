@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RookEcomShop.Application.Dto;
+using RookEcomShop.CustomerFrontend.Services.Helpers;
 using RookEcomShop.ViewModels.Dto;
 using RookEcomShop.ViewModels.Product;
 using Serilog;
@@ -34,7 +35,7 @@ namespace RookEcomShop.CustomerFrontend.Services.Products
         public async Task<PaginatedList<ProductVM>> GetProductsAsync(ProductQueryDto queryDto)
         {
             Log.Information("Call api get lists products ");
-            var response = await _httpClient.GetAsync($"products?{ToQueryString<ProductQueryDto>(queryDto)}");
+            var response = await _httpClient.GetAsync($"products?{QueryHelper.ToQueryString<ProductQueryDto>(queryDto)}");
 
             response.EnsureSuccessStatusCode();
 
@@ -48,7 +49,7 @@ namespace RookEcomShop.CustomerFrontend.Services.Products
         public async Task<PaginatedList<ProductVM>> GetProductsByCategoryNameAsync(string categoryName, QueryDto queryDto)
         {
             Log.Information("Call api get lists products by category name {categoryName}", categoryName);
-            var response = await _httpClient.GetAsync($"products/collections/{categoryName}?{ToQueryString<QueryDto>(queryDto)}");
+            var response = await _httpClient.GetAsync($"products/collections/{categoryName}?{QueryHelper.ToQueryString<QueryDto>(queryDto)}");
 
             response.EnsureSuccessStatusCode();
 
@@ -59,18 +60,5 @@ namespace RookEcomShop.CustomerFrontend.Services.Products
             return products;
         }
 
-        public static string ToQueryString<T>(T queryDto)
-        {
-            var queryString = HttpUtility.ParseQueryString(string.Empty);
-            foreach (var property in queryDto!.GetType().GetProperties())
-            {
-                var value = property.GetValue(queryDto)?.ToString();
-                if (!string.IsNullOrEmpty(value))
-                {
-                    queryString[property.Name] = value;
-                }
-            }
-            return queryString?.ToString() ?? String.Empty;
-        }
     }
 }

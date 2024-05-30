@@ -3,10 +3,11 @@
 @model ProductReviewsVM
 
 @{
-    var reviews = @Model.Reviews;
-    ViewData["ProductId"] = @Model.Reviews.FirstOrDefault()?.ProductId;
-    ViewData["ReviewId"] = @Model.Reviews.FirstOrDefault()?.Id;
+    var reviews = @Model.Reviews.Items;
+    ViewData["ProductId"] = @Model.Reviews.Items.FirstOrDefault()?.ProductId;
+    ViewData["ReviewId"] = @Model.Reviews.Items.FirstOrDefault()?.Id;
     ViewData["Product"] = @Model.Product;
+    var totalReviews = @Model.Reviews.Items.Count();
 }
 
 <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
@@ -61,15 +62,15 @@
 
             <div class="mt-6 min-w-0 flex-1 space-y-3 sm:mt-0">
                 <partial name="Partials/_TotalStar.cshtml"
-                    model='new TotalStar { Label = "5", TotalStars = Model.Reviews.Count(), Ammount = Model.TotalFiveStar }' />
+                    model='new TotalStar { Label = "5", TotalStars = totalReviews, Ammount = Model.TotalFiveStar }' />
                 <partial name="Partials/_TotalStar.cshtml"
-                    model='new TotalStar { Label = "4", TotalStars = Model.Reviews.Count(), Ammount = Model.TotalFourStar }' />
+                    model='new TotalStar { Label = "4", TotalStars = totalReviews, Ammount = Model.TotalFourStar }' />
                 <partial name="Partials/_TotalStar.cshtml"
-                    model='new TotalStar { Label = "3", TotalStars = Model.Reviews.Count(), Ammount = Model.TotalThreeStar }' />
+                    model='new TotalStar { Label = "3", TotalStars = totalReviews, Ammount = Model.TotalThreeStar }' />
                 <partial name="Partials/_TotalStar.cshtml"
-                    model='new TotalStar { Label = "2", TotalStars = Model.Reviews.Count(), Ammount = Model.TotalTwoStar }' />
+                    model='new TotalStar { Label = "2", TotalStars = totalReviews, Ammount = Model.TotalTwoStar }' />
                 <partial name="Partials/_TotalStar.cshtml"
-                    model='new TotalStar { Label = "1", TotalStars = Model.Reviews.Count(), Ammount = Model.TotalOneStar }' />
+                    model='new TotalStar { Label = "1", TotalStars = totalReviews, Ammount = Model.TotalOneStar }' />
             </div>
         </div>
 

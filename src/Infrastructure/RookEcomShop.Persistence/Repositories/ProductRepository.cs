@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RookEcomShop.Application.Common.Repositories;
+using RookEcomShop.Application.Dto;
 using RookEcomShop.Domain.Entities;
+using RookEcomShop.ViewModels.Dto;
 using System.Linq.Expressions;
 
 namespace RookEcomShop.Persistence.Repositories
@@ -17,7 +19,7 @@ namespace RookEcomShop.Persistence.Repositories
             _dbContext.Entry(entity).Property("IsDeleted").CurrentValue = true;
         }
 
-        public override async Task<Product?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<Product?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await _dbContext.Products
                 .Include(p => p.Category)
@@ -25,14 +27,72 @@ namespace RookEcomShop.Persistence.Repositories
                 .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
 
-        public override async Task<IEnumerable<Product>> GetListAsync(Expression<Func<Product, bool>>? filter, CancellationToken cancellationToken = default)
+        public async Task<PaginatedList<Product>> GetListAsync(Expression<Func<Product, bool>>? filter, ProductQueryDto productQueryDto, CancellationToken cancellationToken = default)
         {
-            return await _dbContext.Products
+            IQueryable<Product> query = _dbContext.Products
                 .Include(p => p.Category)
-                .Include(p => p.ProductImages)
-                .Where(filter ?? (e => true))
-                .ToListAsync(cancellationToken);
+                .Include(p => p.ProductImages);
+
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+            query = FilterProducts(productQueryDto, query);
+            query = QueryHelper<ProductQueryDto, Product>.SortValues(productQueryDto, query, GetSortProperty(productQueryDto));
+
+            var totalCount = query.Count();
+            var products = await QueryHelper<ProductQueryDto, Product>.PaginateValues(productQueryDto, query).ToListAsync(cancellationToken);
+
+            return PaginatedList<Product>.Create(products, productQueryDto.Page, productQueryDto.PageSize, totalCount);
         }
 
+        private static IQueryable<Product> FilterProducts(ProductQueryDto productQueryDto, IQueryable<Product> query)
+        {
+            query = FilterProductByCategory(productQueryDto, query);
+            query = FilterProductByStatus(productQueryDto, query);
+            query = FilterProductBySearchTerm(productQueryDto, query);
+            return query;
+        }
+
+        private static IQueryable<Product> FilterProductByCategory(ProductQueryDto query, IQueryable<Product> products)
+        {
+            if (!string.IsNullOrWhiteSpace(query.CategoryName))
+            {
+                products = products.Where(p => p.Category.Name == query.CategoryName);
+            }
+
+            return products;
+        }
+
+        private static IQueryable<Product> FilterProductBySearchTerm(ProductQueryDto query, IQueryable<Product> products)
+        {
+            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+            {
+                products = products.Where(p =>
+                    p.Name.Contains(query.SearchTerm) ||
+                    p.Description.Contains(query.SearchTerm));
+            }
+
+            return products;
+        }
+
+        private static IQueryable<Product> FilterProductByStatus(ProductQueryDto query, IQueryable<Product> products)
+        {
+            if (query.Status != null)
+            {
+                products = products.Where(p => p.Status == query.Status);
+            }
+
+            return products;
+        }
+
+        private static Expression<Func<Product, object>> GetSortProperty(ProductQueryDto queryDto) =>
+       queryDto.SortColumn?.ToLower() switch
+       {
+           "name" => product => product.Name,
+           "description" => product => product.Description,
+           _ => product => product.Id
+       };
     }
 }

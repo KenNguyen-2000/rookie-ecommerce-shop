@@ -2,13 +2,15 @@ using FluentResults;
 using MediatR;
 using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Repositories;
+using RookEcomShop.Domain.Entities;
 using RookEcomShop.ViewModels.Category;
+using RookEcomShop.ViewModels.Dto;
 using RookEcomShop.ViewModels.Order;
 using RookEcomShop.ViewModels.Product;
 
 namespace RookEcomShop.Application.Handlers.Orders.GetList
 {
-    public class GetListOrderQueryHandler : IRequestHandler<GetListOrderQuery, Result<IEnumerable<OrderVM>>>
+    public class GetListOrderQueryHandler : IRequestHandler<GetListOrderQuery, Result<PaginatedList<OrderVM>>>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IUserRepository _userRepository;
@@ -19,16 +21,26 @@ namespace RookEcomShop.Application.Handlers.Orders.GetList
             _userRepository = userRepository;
         }
 
-        public async Task<Result<IEnumerable<OrderVM>>> Handle(GetListOrderQuery request, CancellationToken cancellationToken)
+        public async Task<Result<PaginatedList<OrderVM>>> Handle(GetListOrderQuery request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(request.UserId);
             if (user == null)
             {
                 throw new NotFoundException($"User with id {request.UserId} not found!");
             }
-            var orders = await _orderRepository.GetListAsync(o => o.UserId == request.UserId, cancellationToken);
+            var orders = await _orderRepository.GetListAsync(o => o.UserId == request.UserId, request.QueryObject, cancellationToken);
+            var orderVMs = MapOrderVMs(orders.Items);
 
-            return Result.Ok(orders.Select(o => new OrderVM
+            return Result.Ok(PaginatedList<OrderVM>.Create(
+                orderVMs,
+                orders.TotalCount,
+                orders.Page,
+                orders.PageSize));
+        }
+
+        private static IEnumerable<OrderVM> MapOrderVMs(IEnumerable<Order> orders)
+        {
+            return orders.Select(o => new OrderVM
             {
                 Id = o.Id,
                 OrderDate = o.OrderDate,
@@ -55,7 +67,7 @@ namespace RookEcomShop.Application.Handlers.Orders.GetList
                     }
 
                 })
-            }));
+            });
         }
     }
 }

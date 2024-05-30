@@ -17,7 +17,7 @@ namespace RookEcomShop.Application.Handlers.Categories.GetByName
 
         public async Task<Result<CategoryVM>> Handle(GetCategoryByNameQuery request, CancellationToken cancellationToken)
         {
-            var category = await _categoryRepository.GetCategoryByName(request.CategoryName);
+            var category = await _categoryRepository.GetCategoryByNameAsync(request.CategoryName);
 
             if (category == null)
             {

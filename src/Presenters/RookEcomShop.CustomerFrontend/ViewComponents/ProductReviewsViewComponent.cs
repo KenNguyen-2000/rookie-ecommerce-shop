@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.CustomerFrontend.Models.Reviews;
 using RookEcomShop.CustomerFrontend.Services.Reviews;
+using RookEcomShop.ViewModels.Dto;
 using RookEcomShop.ViewModels.Product;
 using RookEcomShop.ViewModels.Reviews;
 
@@ -10,9 +11,9 @@ namespace RookEcomShop.CustomerFrontend.ViewComponents
     {
         public ProductVM Product { get; set; } = null!;
         public ReviewsProductInputModel ReviewsProductInputModel { get; set; } = new ReviewsProductInputModel();
-        public IEnumerable<ReviewVM> Reviews { get; set; } = new List<ReviewVM>();
-        public double AverageRating => Reviews.Any() ? Reviews.Average(x => x.Rating) : 0;
-        public int GetRatingCount(int rating) => Reviews.Count(x => x.Rating == rating);
+        public PaginatedList<ReviewVM> Reviews { get; set; } = new PaginatedList<ReviewVM>();
+        public double AverageRating => Reviews.Items.Any() ? Reviews.Items.Average(x => x.Rating) : 0;
+        public int GetRatingCount(int rating) => Reviews.Items.Count(x => x.Rating == rating);
 
         public int TotalFiveStar => GetRatingCount(5);
         public int TotalFourStar => GetRatingCount(4);
@@ -32,7 +33,7 @@ namespace RookEcomShop.CustomerFrontend.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync(ProductVM product)
         {
-            var reviews = await _reviewsApiClient.GetReviews(product.Id);
+            var reviews = await _reviewsApiClient.GetReviewsAsync(product.Id);
 
             return View(new ProductReviewsVM
             {

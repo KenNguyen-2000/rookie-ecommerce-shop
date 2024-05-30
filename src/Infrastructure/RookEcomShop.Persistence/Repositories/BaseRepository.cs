@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RookEcomShop.Application.Common.Repositories;
+using RookEcomShop.Application.Dto;
 using RookEcomShop.Domain.Common;
 using System.Linq.Expressions;
 
@@ -24,17 +25,27 @@ namespace RookEcomShop.Persistence.Repositories
             _dbContext.Remove(entity);
         }
 
-        public virtual async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        {
-            return await _dbContext.Set<T>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
-        }
+        // public virtual async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        // {
+        //     return await _dbContext.Set<T>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        // }
 
-        public virtual async Task<IEnumerable<T>> GetListAsync(Expression<Func<T, bool>>? filter, CancellationToken cancellationToken = default)
-        {
-            return filter != null
-                ? await _dbContext.Set<T>().Where(filter).ToListAsync(cancellationToken)
-                : await _dbContext.Set<T>().ToListAsync(cancellationToken);
-        }
+        // public virtual async Task<IEnumerable<T>> GetListAsync(Expression<Func<T, bool>>? filter, QueryDto? queryDto, CancellationToken cancellationToken = default)
+        // {
+        //     IQueryable<T> query = _dbContext.Set<T>();
+
+        //     if (filter != null)
+        //     {
+        //         query.Where(filter);
+        //     }
+
+        //     if (queryDto != null)
+        //     {
+        //         query = query.Skip(queryDto.Page).Take(queryDto.PageSize);
+        //     }
+
+        //     return await query.ToListAsync(cancellationToken);
+        // }
 
         public virtual void Update(T entity)
         {
