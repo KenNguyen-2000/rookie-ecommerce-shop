@@ -46,8 +46,6 @@ const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children })
 	const { pathname } = useLocation();
 	const navigate = useNavigate();
 
-	console.log(pathname.split('/'));
-
 	const handleLogout = () => {
 		navigate('/authentication/logout');
 	};

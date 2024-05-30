@@ -1,10 +1,9 @@
 import { TOKEN_STRING } from '@/lib/constants/cookies.constant';
-import { useAppDispatch, useAppSelector } from '@/redux/reduxHooks';
+import { useAppDispatch } from '@/redux/reduxHooks';
 import { getUserAsync, logoutAsync } from '@/redux/thunks/auth.thunk';
 import Cookies from 'js-cookie';
 import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
 import { isValidToken, validateIsAdmin } from '@/lib/helpers/validate-token';
 
 const PrivateRoute = () => {
@@ -13,10 +12,10 @@ const PrivateRoute = () => {
 	const dispatch = useAppDispatch();
 	useEffect(() => {
 		
-			if (!token) {
+			if (!isValidToken(token)) {
 				navigate('/');
 			} else {
-				if (!isValidToken(token) || !validateIsAdmin(token)){
+				if (!validateIsAdmin(token)){
 					dispatch(logoutAsync());
 				} else dispatch(getUserAsync());
 			}
