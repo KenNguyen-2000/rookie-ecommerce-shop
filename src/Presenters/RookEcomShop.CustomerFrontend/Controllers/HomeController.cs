@@ -28,7 +28,7 @@ public class HomeController : Controller
         _categoriesApiClient = categoriesApiClient;
     }
 
-    public async Task<IActionResult> Index([FromQuery] QueryDto queryDto)
+    public async Task<IActionResult> Index([FromQuery] ProductQueryDto queryDto)
     {
         _logger.LogInformation(CategoryName);
         PaginatedList<ProductVM> products;

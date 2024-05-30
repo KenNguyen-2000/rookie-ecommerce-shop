@@ -28,17 +28,17 @@ public class CollectionsController : Controller
     }
 
     [HttpGet("{categoryName}")]
-    public async Task<IActionResult> Details(string categoryName, [FromQuery] QueryDto queryDto)
+    public async Task<IActionResult> Details(string categoryName, [FromQuery] ProductQueryDto queryDto)
     {
         ViewBag.CategoryName = categoryName;
         var category = await _categoriesApiClient.GetCategoryByNameAsync(categoryName);
 
-        if(category == null)
+        if (category == null)
         {
             return View("NotFound");
         }
-
-        PaginatedList<ProductVM> products = await _productsApiClient.GetProductsByCategoryNameAsync(categoryName, queryDto);
+        queryDto.CategoryName = categoryName;
+        PaginatedList<ProductVM> products = await _productsApiClient.GetProductsAsync(queryDto);
 
         return View(new CollectionsVM
         {

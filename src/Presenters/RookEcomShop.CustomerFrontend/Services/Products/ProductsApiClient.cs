@@ -31,10 +31,10 @@ namespace RookEcomShop.CustomerFrontend.Services.Products
             return product;
         }
 
-        public async Task<PaginatedList<ProductVM>> GetProductsAsync(QueryDto queryDto)
+        public async Task<PaginatedList<ProductVM>> GetProductsAsync(ProductQueryDto queryDto)
         {
             Log.Information("Call api get lists products ");
-            var response = await _httpClient.GetAsync($"products?{ToQueryString(queryDto)}");
+            var response = await _httpClient.GetAsync($"products?{ToQueryString<ProductQueryDto>(queryDto)}");
 
             response.EnsureSuccessStatusCode();
 
@@ -48,7 +48,7 @@ namespace RookEcomShop.CustomerFrontend.Services.Products
         public async Task<PaginatedList<ProductVM>> GetProductsByCategoryNameAsync(string categoryName, QueryDto queryDto)
         {
             Log.Information("Call api get lists products by category name {categoryName}", categoryName);
-            var response = await _httpClient.GetAsync($"products/collections/{categoryName}?{ToQueryString(queryDto)}");
+            var response = await _httpClient.GetAsync($"products/collections/{categoryName}?{ToQueryString<QueryDto>(queryDto)}");
 
             response.EnsureSuccessStatusCode();
 
@@ -59,10 +59,10 @@ namespace RookEcomShop.CustomerFrontend.Services.Products
             return products;
         }
 
-        public static string ToQueryString(QueryDto queryDto)
+        public static string ToQueryString<T>(T queryDto)
         {
             var queryString = HttpUtility.ParseQueryString(string.Empty);
-            foreach (var property in queryDto.GetType().GetProperties())
+            foreach (var property in queryDto!.GetType().GetProperties())
             {
                 var value = property.GetValue(queryDto)?.ToString();
                 if (!string.IsNullOrEmpty(value))
