@@ -34,6 +34,7 @@ $('.review-star-btn').on('click', function () {
   });
 });
 
+// ------------- Description and Reviews switch -----------------
 $('.product-info-btn').on('click', function () {
   this.classList.add('selected');
   $('.product-info-btn').not(this).removeClass('selected');

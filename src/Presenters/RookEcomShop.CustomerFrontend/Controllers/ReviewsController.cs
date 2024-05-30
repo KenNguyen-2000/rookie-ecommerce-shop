@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.CustomerFrontend.Models.Reviews;
 using RookEcomShop.CustomerFrontend.Services.Reviews;
+using Serilog;
 
 namespace RookEcomShop.CustomerFrontend.Controllers
 {
@@ -21,7 +22,7 @@ namespace RookEcomShop.CustomerFrontend.Controllers
         {
             try
             {
-                Console.WriteLine("Hello World!" + request.Content);
+                Log.Information("ReviewsController: Add review for product " + productId + " with content " + request.Content + " and rating " + request.Rating);
                 await _reviewsApiClient.ReviewProductAsync(new ReviewsProductInputModel
                 {
                     ProductId = productId,

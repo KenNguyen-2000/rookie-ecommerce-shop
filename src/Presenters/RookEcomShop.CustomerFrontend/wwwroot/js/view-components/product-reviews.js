@@ -6,6 +6,9 @@ $('#write-review-btn').on('click', function () {
 $('#close-review-modal').on('click', function () {
   dialog.close();
 });
+$('#cancel-review-btn').on('click', function () {
+  dialog.close();
+});
 
 // --------------- Delete Review Modal behaviour BEGIN --------------
 var deleteReviewDialog = $('#delete-review-dialog')[0];
