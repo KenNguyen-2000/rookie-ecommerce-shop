@@ -3,6 +3,8 @@ import { Profile } from 'oidc-client';
 import { completedLoginAsync, getUserAsync, renewTokenAsync } from '../thunks/auth.thunk';
 import Cookies from 'js-cookie';
 import { COOKIES_CONFIGS, TOKEN_STRING } from '@/lib/constants/cookies.constant';
+import { isValidToken } from '@/lib/helpers/validate-token';
+import { saveTokenToCookies } from '@/lib/helpers/set-cookies';
 
 type AuthSliceState = {
 	isAuthenticated: boolean;
@@ -32,12 +34,14 @@ const authSlice = createSlice({
 				state.isLoading = true;
 			})
 			.addCase(completedLoginAsync.fulfilled, (state, action) => {
-				console.log(action.payload);
-				state.user = action.payload?.profile ?? null;
-				state.isAuthenticated = true;
-				state.isLoading = false;
-				if (action.payload)
-					Cookies.set(TOKEN_STRING, action.payload?.access_token, COOKIES_CONFIGS);
+				if(action.payload && isValidToken(action.payload.access_token))
+					{
+						state.user = action.payload.profile;
+						state.isAuthenticated = true;
+						state.isLoading = false;
+						saveTokenToCookies(TOKEN_STRING ,action.payload.access_token)
+					}
+				
 			})
 			.addCase(completedLoginAsync.rejected, (state) => {
 				state.isLoading = false;
@@ -48,11 +52,13 @@ const authSlice = createSlice({
 				state.isLoading = true;
 			})
 			.addCase(getUserAsync.fulfilled, (state, action) => {
-				state.user = action.payload?.profile ?? null;
-				state.isAuthenticated = true;
-				state.isLoading = false;
-				if (action.payload)
-					Cookies.set(TOKEN_STRING, action.payload?.access_token, COOKIES_CONFIGS);
+				if(action.payload && isValidToken(action.payload.access_token))
+					{
+						state.user = action.payload.profile;
+						state.isAuthenticated = true;
+						state.isLoading = false;
+						saveTokenToCookies(TOKEN_STRING ,action.payload.access_token)
+					}
 			})
 			.addCase(getUserAsync.rejected, (state) => {
 				state.isLoading = false;

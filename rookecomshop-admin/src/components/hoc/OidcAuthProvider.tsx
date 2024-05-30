@@ -20,7 +20,6 @@ const OidcAuthProvider = ({ children }: { children?: ReactNode }) => {
 				dispatch(loginAsync());
 				break;
 			case 'login-callback':
-				console.log('Dispatch login');
 				dispatch(completedLoginAsync());
 				navigate('/dashboard');
 				break;

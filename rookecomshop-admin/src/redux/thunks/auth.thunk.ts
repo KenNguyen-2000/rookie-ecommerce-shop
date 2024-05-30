@@ -1,5 +1,8 @@
+import { TOKEN_STRING } from '@/lib/constants/cookies.constant';
 import authService from '@/services/auth/auth.service';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode';
 
 export const loginAsync = createAsyncThunk('auth/login', async () => {
 	await authService.loginAsync();
@@ -19,7 +22,8 @@ export const logoutAsync = createAsyncThunk('auth/logout', async () => {
 });
 
 export const completedLogoutAsync = createAsyncThunk('auth/completed-logout', async () => {
-	await authService.logoutAsync();
+	Cookies.remove(TOKEN_STRING);
+	await authService.completeLogoutAsync('/');
 });
 
 export const renewTokenAsync = createAsyncThunk('auth/renew-token', async () => {
