@@ -34,14 +34,12 @@ const authSlice = createSlice({
 				state.isLoading = true;
 			})
 			.addCase(completedLoginAsync.fulfilled, (state, action) => {
-				if(action.payload && isValidToken(action.payload.access_token))
-					{
-						state.user = action.payload.profile;
-						state.isAuthenticated = true;
-						state.isLoading = false;
-						saveTokenToCookies(TOKEN_STRING ,action.payload.access_token)
-					}
-				
+				if (action.payload && isValidToken(action.payload.access_token)) {
+					state.user = action.payload.profile;
+					state.isAuthenticated = true;
+					state.isLoading = false;
+					saveTokenToCookies(TOKEN_STRING, action.payload.access_token);
+				}
 			})
 			.addCase(completedLoginAsync.rejected, (state) => {
 				state.isLoading = false;
@@ -52,13 +50,12 @@ const authSlice = createSlice({
 				state.isLoading = true;
 			})
 			.addCase(getUserAsync.fulfilled, (state, action) => {
-				if(action.payload && isValidToken(action.payload.access_token))
-					{
-						state.user = action.payload.profile;
-						state.isAuthenticated = true;
-						state.isLoading = false;
-						saveTokenToCookies(TOKEN_STRING ,action.payload.access_token)
-					}
+				if (action.payload && isValidToken(action.payload.access_token)) {
+					state.user = action.payload.profile;
+					state.isAuthenticated = true;
+					state.isLoading = false;
+					saveTokenToCookies(TOKEN_STRING, action.payload.access_token);
+				}
 			})
 			.addCase(getUserAsync.rejected, (state) => {
 				state.isLoading = false;

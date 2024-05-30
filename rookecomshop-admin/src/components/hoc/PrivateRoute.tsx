@@ -11,14 +11,13 @@ const PrivateRoute = () => {
 	const token = Cookies.get(TOKEN_STRING);
 	const dispatch = useAppDispatch();
 	useEffect(() => {
-		
-			if (!isValidToken(token)) {
-				navigate('/');
-			} else {
-				if (!validateIsAdmin(token)){
-					dispatch(logoutAsync());
-				} else dispatch(getUserAsync());
-			}
+		if (!isValidToken(token)) {
+			navigate('/');
+		} else {
+			if (!validateIsAdmin(token)) {
+				dispatch(logoutAsync());
+			} else dispatch(getUserAsync());
+		}
 	}, [navigate, dispatch, token]);
 	return token ? <Outlet /> : null;
 };

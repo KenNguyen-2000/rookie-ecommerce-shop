@@ -92,32 +92,31 @@ const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children })
 					</Sheet>
 					<Breadcrumb className="hidden md:flex">
 						<BreadcrumbList>
-						{pathname.split('/').map((path, index) => {
-							const capitalizeName = path.charAt(0).toUpperCase() + path.substring(1);
-							const isLast = index === pathname.split('/').length - 1;
-							const isHome = index === 0;
+							{pathname.split('/').map((path, index) => {
+								const capitalizeName =
+									path.charAt(0).toUpperCase() + path.substring(1);
+								const isLast = index === pathname.split('/').length - 1;
+								const isHome = index === 0;
 
-							if(isLast) 
-								return(
-							<BreadcrumbItem key={index}>
-								<BreadcrumbPage>{capitalizeName}</BreadcrumbPage>
-							</BreadcrumbItem>
-							)
-							return (
-								<React.Fragment key={index}>
-								<BreadcrumbItem>
-									<BreadcrumbLink asChild>
-										<Link to={`/${path}`} >{
-											isHome ? 'Dashboard': capitalizeName
-										}</Link>
-									</BreadcrumbLink>
-								</BreadcrumbItem>
-								<BreadcrumbSeparator />
-								</React.Fragment>
-							)
-						})}
-							
-							
+								if (isLast)
+									return (
+										<BreadcrumbItem key={index}>
+											<BreadcrumbPage>{capitalizeName}</BreadcrumbPage>
+										</BreadcrumbItem>
+									);
+								return (
+									<React.Fragment key={index}>
+										<BreadcrumbItem>
+											<BreadcrumbLink asChild>
+												<Link to={`/${path}`}>
+													{isHome ? 'Dashboard' : capitalizeName}
+												</Link>
+											</BreadcrumbLink>
+										</BreadcrumbItem>
+										<BreadcrumbSeparator />
+									</React.Fragment>
+								);
+							})}
 						</BreadcrumbList>
 					</Breadcrumb>
 					<div className="relative ml-auto flex-1 md:grow-0">

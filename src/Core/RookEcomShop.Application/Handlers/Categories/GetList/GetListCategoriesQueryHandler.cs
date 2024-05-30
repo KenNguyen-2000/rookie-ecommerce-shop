@@ -29,8 +29,12 @@ namespace RookEcomShop.Application.Handlers.Categories.GetList
                     Id = sc.Id,
                     Name = sc.Name,
                     ParentId = sc.CategoryId,
-                    Description = sc.Description
-                })
+                    Description = sc.Description,
+                    CreatedAt = c.CreatedAt,
+                    UpdatedAt = c.UpdatedAt
+                }),
+                CreatedAt = c.CreatedAt,
+                UpdatedAt = c.UpdatedAt
             }));
         }
     }

@@ -12,7 +12,7 @@ namespace RookEcomShop.Application.Handlers.Categories.Create
                 .MaximumLength(50);
 
             RuleFor(x => x.Description)
-                .MaximumLength(500);
+                .MaximumLength(200);
         }
     }
 }

@@ -77,6 +77,35 @@ const RookEcomShopRoutes = () => {
 							}}
 						/>
 					</Route>
+					<Route path="/categories">
+						<Route
+							index
+							lazy={async () => {
+								const { default: ProductPage } = await import(
+									'../pages/categories/page'
+								);
+								return { Component: ProductPage };
+							}}
+						/>
+						<Route
+							path=":id"
+							lazy={async () => {
+								const { default: ProductDetailPage } = await import(
+									'../pages/categories/[id]/page'
+								);
+								return { Component: ProductDetailPage };
+							}}
+						/>
+						{/* <Route
+							path="create"
+							lazy={async () => {
+								const { default: CreateProductPage } = await import(
+									'../pages/categories/create/page'
+								);
+								return { Component: CreateProductPage };
+							}}
+						/> */}
+					</Route>
 				</Route>
 				<Route path="*" element={<NotFoundPage />} />
 			</Route>,

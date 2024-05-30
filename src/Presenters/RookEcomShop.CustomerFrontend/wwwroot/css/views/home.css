@@ -1,7 +1,7 @@
 .collection-banner {
   padding: 200px 0;
   margin-bottom: 30px;
-  background-image: url('/images/banner_collection.webp');
+  background-image: url("/images/banner_collection.webp");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;

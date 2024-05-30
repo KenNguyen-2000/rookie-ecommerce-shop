@@ -23,8 +23,5 @@ namespace RookEcomShop.IdentityServer
 
             return page.RedirectToPage("/Redirect/Index", new { RedirectUri = redirectUri });
         }
-
-
-
     }
 }

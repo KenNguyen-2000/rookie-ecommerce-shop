@@ -94,7 +94,7 @@ const UsersPage = () => {
 											<TableHead className="hidden md:table-cell">
 												Dob
 											</TableHead>
-											
+
 											<TableHead className="hidden md:table-cell">
 												Email
 											</TableHead>

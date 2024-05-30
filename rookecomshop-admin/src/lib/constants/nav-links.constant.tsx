@@ -29,6 +29,6 @@ export const NAV_LINKS = [
 	{
 		name: 'Analytics',
 		icon: <LineChart className="h-5 w-5" />,
-		route: '#',
+		route: 'categories',
 	},
 ];
