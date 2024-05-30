@@ -14,10 +14,10 @@ namespace RookEcomShop.CustomerFrontend.Extensions
                          // add a logging target for warnings and higher severity  logs
                          // structured in JSON format
                          .WriteTo.File(new JsonFormatter(),
-                                       "important.json",
+                                       "Logs/important.json",
                                        restrictedToMinimumLevel: LogEventLevel.Warning)
                          // add a rolling file for all logs
-                         .WriteTo.File("all-.logs",
+                         .WriteTo.File($"Logs/alls/all-.logs",
                                        rollingInterval: RollingInterval.Day)
                          // set default minimum level
                          .MinimumLevel.Debug()

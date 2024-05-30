@@ -20,20 +20,14 @@ namespace RookEcomShop.CustomerFrontend.Controllers
         [HttpPost]
         public async Task<IActionResult> AddReview(Guid productId, ReviewsProductInputModel request)
         {
-            try
+            Log.Information<ReviewsProductInputModel>("ReviewsController: [BEGIN] Add review for product", request);
+            await _reviewsApiClient.ReviewProductAsync(new ReviewsProductInputModel
             {
-                Log.Information("ReviewsController: Add review for product " + productId + " with content " + request.Content + " and rating " + request.Rating);
-                await _reviewsApiClient.ReviewProductAsync(new ReviewsProductInputModel
-                {
-                    ProductId = productId,
-                    Content = request.Content,
-                    Rating = request.Rating
-                });
-            }
-            catch (System.Exception e)
-            {
-                Console.WriteLine(e);
-            }
+                ProductId = productId,
+                Content = request.Content,
+                Rating = request.Rating
+            });
+            Log.Information<ReviewsProductInputModel>("ReviewsController: [END] Add review for product", request);
 
             return Redirect($"/products/{request.ProductId}");
         }
@@ -41,15 +35,8 @@ namespace RookEcomShop.CustomerFrontend.Controllers
         [HttpPost("{reviewId}")]
         public async Task<IActionResult> RemoveReview(Guid productId, Guid reviewId)
         {
-            try
-            {
-                Console.WriteLine("ReviewsController: Remove review " + reviewId + " for product " + productId);
-                await _reviewsApiClient.RemoveReviewAsync(productId, reviewId);
-            }
-            catch (System.Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            Console.WriteLine("ReviewsController: Remove review " + reviewId + " for product " + productId);
+            await _reviewsApiClient.RemoveReviewAsync(productId, reviewId);
 
             return Redirect($"/products/{productId}");
         }
