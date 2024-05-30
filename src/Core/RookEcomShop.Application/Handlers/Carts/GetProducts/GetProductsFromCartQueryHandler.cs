@@ -65,6 +65,7 @@ namespace RookEcomShop.Application.Handlers.Carts.GetProducts
                     {
                         Id = x.Product.Category.Id,
                         Name = x.Product.Category.Name,
+                        ParentId = x.Product.Category.CategoryId,
                         Description = x.Product.Category.Description
                     },
                     ImgUrls = x.Product.ProductImages.Select(pI => pI.Url)

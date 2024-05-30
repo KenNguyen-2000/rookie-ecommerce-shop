@@ -36,7 +36,9 @@ namespace RookEcomShop.Application.Handlers.Products.GetList
                 Category = new CategoryVM
                 {
                     Id = p.Category.Id,
-                    Name = p.Category.Name
+                    Name = p.Category.Name,
+                    Description = p.Category.Description,
+                    ParentId = p.Category.CategoryId
                 },
                 ImgUrls = p.ProductImages.Select(i => i.Url).ToList()
             });

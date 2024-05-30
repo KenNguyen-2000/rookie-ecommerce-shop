@@ -29,11 +29,13 @@ namespace RookEcomShop.Application.Handlers.Categories.GetByName
                 Id = category.Id,
                 Name = category.Name,
                 Description = category.Description,
+                ParentId = category.CategoryId,
                 SubCategories = category.SubCategories.Select(c => new CategoryVM
                 {
                     Id = c.Id,
                     Name = c.Name,
-                    Description = c.Description
+                    Description = c.Description,
+                    ParentId = c.CategoryId
                 }).ToList()
             });
         }
