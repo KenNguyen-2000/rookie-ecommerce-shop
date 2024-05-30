@@ -1,4 +1,4 @@
-import { Home, LineChart, Package, Package2, ShoppingCart, Users2 } from "lucide-react";
+import { Home, LineChart, Package, Package2, ShoppingCart, Users2 } from 'lucide-react';
 
 export const NAV_LINKS = [
 	{

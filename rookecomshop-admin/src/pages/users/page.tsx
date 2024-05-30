@@ -89,11 +89,12 @@ const UsersPage = () => {
 											<TableHead>Name</TableHead>
 											<TableHead>Address</TableHead>
 											<TableHead className="hidden md:table-cell">
-												Dob
-											</TableHead>
-											<TableHead className="hidden md:table-cell">
 												Gender
 											</TableHead>
+											<TableHead className="hidden md:table-cell">
+												Dob
+											</TableHead>
+											
 											<TableHead className="hidden md:table-cell">
 												Email
 											</TableHead>

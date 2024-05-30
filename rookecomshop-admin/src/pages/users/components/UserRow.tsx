@@ -21,7 +21,7 @@ const UserRow: React.FC<UserRowProps> = ({ user }) => {
 		<TableRow>
 			<TableCell className="hidden sm:table-cell">
 				<img
-					alt="Product image"
+					alt="Avatar"
 					className="aspect-square rounded-md object-cover"
 					height="64"
 					src="/placeholder.svg"
@@ -33,10 +33,10 @@ const UserRow: React.FC<UserRowProps> = ({ user }) => {
 			</TableCell>
 
 			<TableCell className="hidden md:table-cell">{user.address ?? 'Not provided'}</TableCell>
-			<TableCell className="hidden md:table-cell">{user.dob ?? 'Not provided'}</TableCell>
 			<TableCell>
 				<Badge variant="outline">{Gender[user.gender]}</Badge>
 			</TableCell>
+			<TableCell className="hidden md:table-cell">{user.dob ?? 'Not provided'}</TableCell>
 			<TableCell className="hidden md:table-cell">Not available</TableCell>
 			<TableCell className="hidden md:table-cell">
 				{user.phoneNumber ?? 'Not available'}
@@ -51,8 +51,8 @@ const UserRow: React.FC<UserRowProps> = ({ user }) => {
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">
 						<DropdownMenuLabel>Actions</DropdownMenuLabel>
-						<DropdownMenuItem>Edit</DropdownMenuItem>
-						<DropdownMenuItem>Delete</DropdownMenuItem>
+						<DropdownMenuItem>Block</DropdownMenuItem>
+						<DropdownMenuItem>Un-block</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			</TableCell>

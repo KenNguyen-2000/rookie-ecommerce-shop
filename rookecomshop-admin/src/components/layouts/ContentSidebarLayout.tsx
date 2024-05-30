@@ -29,19 +29,28 @@ import {
 	DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import { Input } from '../ui/input';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { NAV_LINKS } from '@/lib/constants/nav-links.constant';
 import { cn } from '@/lib/utils';
 
-const ACTIVE_CLASSNAME = "group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
-const INACTIVE_CLASSNAME = "flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+const ACTIVE_CLASSNAME =
+	'group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base';
+const INACTIVE_CLASSNAME =
+	'flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground';
 
 type ContentSidebarLayoutProps = {
 	children: React.ReactNode;
 };
 
 const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children }) => {
-	const {pathname} = useLocation();
+	const { pathname } = useLocation();
+	const navigate = useNavigate();
+
+	console.log(pathname.split('/'));
+
+	const handleLogout = () => {
+		navigate('/authentication/logout');
+	};
 
 	return (
 		<div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -59,19 +68,20 @@ const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children })
 							<nav className="grid gap-6 text-lg font-medium">
 								{NAV_LINKS.map((link) => (
 									<Link
-									key={link.route}
-									to={`/${link.route}`}
-									className={cn({
-										[ACTIVE_CLASSNAME]: pathname.includes(`/${link.route}`),
-										[INACTIVE_CLASSNAME]: !pathname.includes(`/${link.route}`)
-									
-									})}
-								>
-									{link.icon}
-									<span className="sr-only">{link.name}</span>
-								</Link>
+										key={link.route}
+										to={`/${link.route}`}
+										className={cn({
+											[ACTIVE_CLASSNAME]: pathname.includes(`/${link.route}`),
+											[INACTIVE_CLASSNAME]: !pathname.includes(
+												`/${link.route}`,
+											),
+										})}
+									>
+										{link.icon}
+										<span className="sr-only">{link.name}</span>
+									</Link>
 								))}
-								
+
 								<a
 									href="#"
 									className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
@@ -84,21 +94,32 @@ const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children })
 					</Sheet>
 					<Breadcrumb className="hidden md:flex">
 						<BreadcrumbList>
-							<BreadcrumbItem>
-								<BreadcrumbLink asChild>
-									<Link to="/dashboard">Dashboard</Link>
-								</BreadcrumbLink>
+						{pathname.split('/').map((path, index) => {
+							const capitalizeName = path.charAt(0).toUpperCase() + path.substring(1);
+							const isLast = index === pathname.split('/').length - 1;
+							const isHome = index === 0;
+
+							if(isLast) 
+								return(
+							<BreadcrumbItem key={index}>
+								<BreadcrumbPage>{capitalizeName}</BreadcrumbPage>
 							</BreadcrumbItem>
-							<BreadcrumbSeparator />
-							<BreadcrumbItem>
-								<BreadcrumbLink asChild>
-									<Link to="/products">Products</Link>
-								</BreadcrumbLink>
-							</BreadcrumbItem>
-							<BreadcrumbSeparator />
-							<BreadcrumbItem>
-								<BreadcrumbPage>All Products</BreadcrumbPage>
-							</BreadcrumbItem>
+							)
+							return (
+								<React.Fragment key={index}>
+								<BreadcrumbItem>
+									<BreadcrumbLink asChild>
+										<Link to={`/${path}`} >{
+											isHome ? 'Dashboard': capitalizeName
+										}</Link>
+									</BreadcrumbLink>
+								</BreadcrumbItem>
+								<BreadcrumbSeparator />
+								</React.Fragment>
+							)
+						})}
+							
+							
 						</BreadcrumbList>
 					</Breadcrumb>
 					<div className="relative ml-auto flex-1 md:grow-0">
@@ -131,7 +152,7 @@ const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children })
 							<DropdownMenuItem>Settings</DropdownMenuItem>
 							<DropdownMenuItem>Support</DropdownMenuItem>
 							<DropdownMenuSeparator />
-							<DropdownMenuItem>Logout</DropdownMenuItem>
+							<DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</header>
