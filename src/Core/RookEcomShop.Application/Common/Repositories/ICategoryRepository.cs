@@ -1,5 +1,5 @@
-﻿using System.Linq.Expressions;
-using RookEcomShop.Domain.Entities;
+﻿using RookEcomShop.Domain.Entities;
+using System.Linq.Expressions;
 
 namespace RookEcomShop.Application.Common.Repositories
 {

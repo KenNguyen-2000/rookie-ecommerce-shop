@@ -1,6 +1,5 @@
 using RookEcomShop.IdentityServer.Configuration;
 using RookEcomShop.Infrastructure;
-using RookEcomShop.Infrastructure.IdentityServer;
 using RookEcomShop.Persistence;
 using Serilog;
 
@@ -44,7 +43,7 @@ try
     {
         app.UseExceptionHandler("/Home/Error");
     }
-    var seed = args.FirstOrDefault( arg => arg == "/seed") != null;
+    var seed = args.FirstOrDefault(arg => arg == "/seed") != null;
     if (seed)
     {
         args = args.Except(new[] { "/seed" }).ToArray();

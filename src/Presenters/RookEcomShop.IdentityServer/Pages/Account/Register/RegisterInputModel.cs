@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace RookEcomShop.IdentityServer.Views.Account.Register
+namespace RookEcomShop.IdentityServer.Pages.Account.Register
 {
     public class RegisterInputModel
     {
@@ -27,6 +27,7 @@ namespace RookEcomShop.IdentityServer.Views.Account.Register
 
         [Required(ErrorMessage = "Field is required")]
         [MinLength(6, ErrorMessage = "Password must be at least 6 characters long")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$", ErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character")]
         public string Password { get; set; } = null!;
 
         [Required(ErrorMessage = "Field is required")]

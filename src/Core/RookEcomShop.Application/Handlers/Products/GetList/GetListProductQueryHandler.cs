@@ -1,16 +1,11 @@
 ﻿using FluentResults;
 using MediatR;
-using RookEcomShop.Application.Common.Data;
 using RookEcomShop.Application.Common.Repositories;
-using RookEcomShop.Domain.Entities;
-using RookEcomShop.ViewModels.Category;
 using RookEcomShop.ViewModels.Dto;
-using RookEcomShop.ViewModels.Product;
-using System.Linq.Expressions;
 
 namespace RookEcomShop.Application.Handlers.Products.GetList
 {
-    public class GetListProductQueryHandler : IRequestHandler<GetListProductQuery, Result<PaginatedList<ProductVM>>>
+    public class GetListProductQueryHandler : IRequestHandler<GetListProductQuery, Result<PaginatedList<ProductDto>>>
     {
         private readonly IProductRepository _productRepository;
 
@@ -19,11 +14,11 @@ namespace RookEcomShop.Application.Handlers.Products.GetList
             _productRepository = productRepository;
         }
 
-        public async Task<Result<PaginatedList<ProductVM>>> Handle(GetListProductQuery query, CancellationToken cancellationToken)
+        public async Task<Result<PaginatedList<ProductDto>>> Handle(GetListProductQuery query, CancellationToken cancellationToken)
         {
             var products = await _productRepository.GetListAsync(filter: null, query.QueryObject, cancellationToken);
 
-            PaginatedList<ProductVM> productVMs = ProductsMapper.MapToPaginatedProductVM(products);
+            PaginatedList<ProductDto> productVMs = ProductsMapper.MapToPaginatedProductVM(products);
 
             return Result.Ok(productVMs);
         }

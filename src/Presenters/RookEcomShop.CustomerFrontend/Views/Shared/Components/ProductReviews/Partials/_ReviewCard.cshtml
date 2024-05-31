@@ -1,6 +1,6 @@
-@using RookEcomShop.ViewModels.Reviews
-@using System.Security.Claims
-@model ReviewVM;
+@using RookEcomShop.ViewModels.Dto;
+@using System.Security.Claims;
+@model ReviewDto;
 
 @{
     string reviewer = (@Model.User.FirstName + " " + @Model.User.LastName) ?? "Jese Leos";

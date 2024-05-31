@@ -1,6 +1,6 @@
 ﻿using FluentResults;
 using MediatR;
-using RookEcomShop.ViewModels.Product;
+using RookEcomShop.ViewModels.Contracts.Product;
 
 namespace RookEcomShop.Application.Handlers.Products.Update
 {

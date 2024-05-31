@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Core\RookEcomShop.Domain\RookEcomShop.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Collections\" />
+  </ItemGroup>
+
 </Project>

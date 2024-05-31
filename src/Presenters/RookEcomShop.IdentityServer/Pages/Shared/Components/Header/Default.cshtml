@@ -18,9 +18,9 @@
             </div>
 
             <div class="w-2/4 hidden lg:block">
-                <form asp-controller="Home" asp-action="Index">
+                <form id="search-form">
                     <div class="border border-neutral-600 p-2 rounded-xl relative">
-                        <input type="text" placeholder="Search ZeroWasteStore"
+                        <input type="text" name="searchTerm" placeholder="Search ZeroWasteStore"
                             class="placeholder:font-normal focus:outline-none w-full p-2">
 
                         <button value="search"

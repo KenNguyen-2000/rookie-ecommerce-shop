@@ -17,7 +17,7 @@ namespace RookEcomShop.CustomerFrontend.Middlewares
             {
                 await _next(context);
             }
-            catch(UnauthorizedAccessException)
+            catch (UnauthorizedAccessException)
             {
                 context.Response.Redirect("/Account/Login");
             }
@@ -31,7 +31,7 @@ namespace RookEcomShop.CustomerFrontend.Middlewares
 
         private Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            if(context.Response.StatusCode == 404)
+            if (context.Response.StatusCode == 404)
             {
                 context.Response.Redirect("/Error/NotFound");
                 return Task.CompletedTask;

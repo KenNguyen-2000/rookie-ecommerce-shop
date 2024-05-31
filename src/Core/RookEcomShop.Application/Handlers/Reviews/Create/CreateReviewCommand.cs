@@ -1,6 +1,6 @@
 using FluentResults;
 using MediatR;
-using RookEcomShop.ViewModels.Reviews;
+using RookEcomShop.ViewModels.Contracts.Reviews;
 
 namespace RookEcomShop.Application.Handlers.Reviews.Create
 {

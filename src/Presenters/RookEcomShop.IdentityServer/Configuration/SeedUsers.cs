@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using FluentResults;
 using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +12,7 @@ using RookEcomShop.Persistence;
 using Serilog;
 using System.Security.Claims;
 
-namespace RookEcomShop.Infrastructure.IdentityServer
+namespace RookEcomShop.IdentityServer.Configuration
 {
     public class SeedUsers
     {
@@ -47,7 +46,7 @@ namespace RookEcomShop.Infrastructure.IdentityServer
 
                         await CreateAliceUser(appContext, userMgr, roles.Item2);
 
-                        await CreateBobUser(appContext,userMgr, roles.Item1);
+                        await CreateBobUser(appContext, userMgr, roles.Item1);
                     }
                     catch (Exception e)
                     {
@@ -87,7 +86,7 @@ namespace RookEcomShop.Infrastructure.IdentityServer
                 };
 
                 var result = userMgr.CreateAsync(alice, "Pass123$").Result;
-                
+
                 if (!result.Succeeded)
                 {
                     Console.WriteLine(result.Errors.First().Description);
@@ -166,7 +165,7 @@ namespace RookEcomShop.Infrastructure.IdentityServer
                 {
                     bob = new ApplicationUser
                     {
-                        Id= Guid.NewGuid(),
+                        Id = Guid.NewGuid(),
                         FirstName = "Bob",
                         LastName = "Smith",
                         UserName = "bob",

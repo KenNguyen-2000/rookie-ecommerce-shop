@@ -1,13 +1,13 @@
-﻿namespace RookEcomShop.ViewModels.Category
+﻿namespace RookEcomShop.ViewModels.Dto
 {
-    public class CategoryVM
+    public class CategoryDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
 
         public Guid? ParentId { get; set; }
-        public IEnumerable<CategoryVM> SubCategories { get; set; } = new List<CategoryVM>();
+        public IEnumerable<CategoryDto> SubCategories { get; set; } = new List<CategoryDto>();
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }

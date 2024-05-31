@@ -1,24 +1,7 @@
 @await Html.PartialAsync("~/Views/Shared/Sections/_Variables.cshtml")
 @{
-  TempData.Keep(); Layout = "~/Views/Shared/Layouts/_CommonLayout.cshtml";
-
-  ViewData["contentNavbar"] = true;
-
-  ViewData["isNavbar"] = (ViewData["isNavbar"] ??= true);
-
-  ViewData["isMenu"] = (ViewData["isMenu"] ??= true);
-
-  ViewData["isFlex"] = (ViewData["isFlex"] ??= false);
-
-  ViewData["isFooter"] = (ViewData["isFooter"] ??= true);
-
-  ViewData["customizerHidden"] = (ViewData["customizerHidden"] ??= "customizer-hide");
-
-  ViewData["navbarDetached"] = (ViewData["navbarDetached"] ?? "navbar-detached");
-
-  ViewData["container"] = (ViewData["container"] ?? "container-xxl"); ViewData["containerNav"] = (ViewData["containerNav"]
-
-  ?? "container-xxl");
+  TempData.Keep();
+  Layout = "~/Views/Shared/Layouts/_CommonLayout.cshtml";
 }
 
 @section VendorStyles {

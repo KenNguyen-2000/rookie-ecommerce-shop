@@ -6,7 +6,7 @@ using RookEcomShop.Application.Handlers.Carts.AddProduct;
 using RookEcomShop.Application.Handlers.Carts.GetProducts;
 using RookEcomShop.Application.Handlers.Carts.RemoveProduct;
 using RookEcomShop.ViewModels.Api;
-using RookEcomShop.ViewModels.Cart;
+using RookEcomShop.ViewModels.Contracts.Cart;
 
 namespace RookEcomShop.Api.Controllers.v1
 {

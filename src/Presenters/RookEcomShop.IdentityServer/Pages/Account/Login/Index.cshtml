@@ -3,6 +3,7 @@
 @model IndexModel
 @{
     Layout = "~/Pages/Shared/Layouts/_BlankLayout.cshtml";
+    ViewData["Title"] = "Login";
 }
 
 <div class="w-full h-full">
@@ -62,7 +63,7 @@
                         </form>
 
                         <div class="mt-4 text-center text-sm">Don't have an account?
-                            <a class="underline" asp-page="/Account/Register/Index">Sign up</a>
+                            <a class="underline" asp-page="/Account/Register/Index" asp-route-returnurl="@Model.LoginInputModel.ReturnUrl">Sign up</a>
                         </div>
 
                     </div>

@@ -1,7 +1,6 @@
 ﻿using IdentityServer4.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using RookEcomShop.IdentityServer.Models;
 
 namespace RookEcomShop.IdentityServer
 {

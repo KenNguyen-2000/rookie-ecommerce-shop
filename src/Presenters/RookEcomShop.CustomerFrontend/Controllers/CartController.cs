@@ -2,7 +2,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.CustomerFrontend.Services.Cart;
 using RookEcomShop.CustomerFrontend.Services.Products;
-using RookEcomShop.ViewModels.Cart;
+using RookEcomShop.ViewModels.Contracts.Cart;
+using RookEcomShop.ViewModels.Dto;
 
 namespace RookEcomShop.CustomerFrontend.Controllers
 {
@@ -28,7 +29,7 @@ namespace RookEcomShop.CustomerFrontend.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["Title"] = "Cart";
-            IEnumerable<CartDetailVM> productsInCart = await _cartApiClient.GetProductsInCart();
+            IEnumerable<CartDetailDto> productsInCart = await _cartApiClient.GetProductsInCart();
             return View(productsInCart);
         }
 

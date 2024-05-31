@@ -1,7 +1,6 @@
 ﻿using RookEcomShop.Application.Dto;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.ViewModels.Dto;
-using RookEcomShop.ViewModels.User;
 using System.Linq.Expressions;
 
 namespace RookEcomShop.Application.Common.Repositories

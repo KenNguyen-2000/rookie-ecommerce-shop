@@ -1,6 +1,6 @@
 ﻿using FluentResults;
 using MediatR;
-using RookEcomShop.ViewModels.Cart;
+using RookEcomShop.ViewModels.Contracts.Cart;
 
 namespace RookEcomShop.Application.Handlers.Carts.AddProduct
 {

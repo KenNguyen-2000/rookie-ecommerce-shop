@@ -12,8 +12,8 @@ using RookEcomShop.Application.Handlers.Products.GetList;
 using RookEcomShop.Application.Handlers.Products.PatchStatus;
 using RookEcomShop.Application.Handlers.Products.Update;
 using RookEcomShop.Domain.Common.Enums;
+using RookEcomShop.ViewModels.Contracts.Product;
 using RookEcomShop.ViewModels.Dto;
-using RookEcomShop.ViewModels.Product;
 
 namespace RookEcomShop.Api.Controllers.v1
 {
@@ -57,7 +57,7 @@ namespace RookEcomShop.Api.Controllers.v1
         {
             var query = new GetListProductQuery { QueryObject = queryDto ?? new ProductQueryDto() };
 
-            Result<PaginatedList<ProductVM>> result = await _sender.Send(query);
+            Result<PaginatedList<ProductDto>> result = await _sender.Send(query);
 
             return Ok(result.Value);
         }
@@ -74,7 +74,7 @@ namespace RookEcomShop.Api.Controllers.v1
                 QueryObject = queryDto
             };
 
-            Result<PaginatedList<ProductVM>> result = await _sender.Send(query);
+            Result<PaginatedList<ProductDto>> result = await _sender.Send(query);
             return Ok(result.Value);
         }
 
@@ -84,7 +84,7 @@ namespace RookEcomShop.Api.Controllers.v1
         {
             var query = new GetProductByIdQuery { Id = id };
 
-            Result<ProductVM> result = await _sender.Send(query);
+            Result<ProductDto> result = await _sender.Send(query);
 
             return Ok(result.Value);
         }

@@ -1,10 +1,10 @@
-using RookEcomShop.ViewModels.Category;
+using RookEcomShop.ViewModels.Dto;
 
 namespace RookEcomShop.CustomerFrontend.Services.Categories
 {
     public interface ICategoriesApiClient
     {
-        Task<IList<CategoryVM>> GetCategoriesAsync();
-        Task<CategoryVM?> GetCategoryByNameAsync(string categoryName);
+        Task<IList<CategoryDto>> GetCategoriesAsync();
+        Task<CategoryDto?> GetCategoryByNameAsync(string categoryName);
     }
 }

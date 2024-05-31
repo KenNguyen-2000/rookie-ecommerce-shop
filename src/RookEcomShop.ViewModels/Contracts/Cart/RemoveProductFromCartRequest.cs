@@ -1,6 +1,4 @@
-﻿
-
-namespace RookEcomShop.ViewModels.Cart
+﻿namespace RookEcomShop.ViewModels.Contracts.Cart
 {
     public class RemoveProductFromCartRequest
     {

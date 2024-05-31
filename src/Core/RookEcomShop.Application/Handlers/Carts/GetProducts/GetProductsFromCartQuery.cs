@@ -1,10 +1,10 @@
 ﻿using FluentResults;
 using MediatR;
-using RookEcomShop.ViewModels.Cart;
+using RookEcomShop.ViewModels.Dto;
 
 namespace RookEcomShop.Application.Handlers.Carts.GetProducts
 {
-    public class GetProductsFromCartQuery : IRequest<Result<IEnumerable<CartDetailVM>>>
+    public class GetProductsFromCartQuery : IRequest<Result<IEnumerable<CartDetailDto>>>
     {
         public Guid UserId { get; set; }
     }

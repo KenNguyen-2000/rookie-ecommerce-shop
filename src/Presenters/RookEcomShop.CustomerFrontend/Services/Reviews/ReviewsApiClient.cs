@@ -2,8 +2,8 @@ using Newtonsoft.Json;
 using RookEcomShop.Application.Dto;
 using RookEcomShop.CustomerFrontend.Models.Reviews;
 using RookEcomShop.CustomerFrontend.Services.Helpers;
+using RookEcomShop.ViewModels.Contracts.Reviews;
 using RookEcomShop.ViewModels.Dto;
-using RookEcomShop.ViewModels.Reviews;
 using System.Text;
 
 namespace RookEcomShop.CustomerFrontend.Services.Reviews
@@ -17,14 +17,14 @@ namespace RookEcomShop.CustomerFrontend.Services.Reviews
             _httpClient = httpClient;
         }
 
-        public async Task<PaginatedList<ReviewVM>> GetReviewsAsync(Guid productId)
+        public async Task<PaginatedList<ReviewDto>> GetReviewsAsync(Guid productId)
         {
             var response = await _httpClient.GetAsync($"products/{productId}/reviews?{QueryHelper.ToQueryString(new QueryDto() { Page = 1, PageSize = 10 })}");
 
             response.EnsureSuccessStatusCode();
 
             string content = await response.Content.ReadAsStringAsync();
-            var reviews = JsonConvert.DeserializeObject<PaginatedList<ReviewVM>>(content)!;
+            var reviews = JsonConvert.DeserializeObject<PaginatedList<ReviewDto>>(content)!;
             return reviews;
         }
 

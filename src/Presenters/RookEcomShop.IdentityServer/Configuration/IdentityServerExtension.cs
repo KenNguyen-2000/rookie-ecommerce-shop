@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using RookEcomShop.IdentityServer.Domain;
 using RookEcomShop.IdentityServer.Persistence;
 using RookEcomShop.IdentityServer.Services;
-using RookEcomShop.Infrastructure;
 using RookEcomShop.Infrastructure.IdentityServer;
 
 namespace RookEcomShop.IdentityServer.Configuration

@@ -1,8 +1,8 @@
-using RookEcomShop.ViewModels.Cart;
+using RookEcomShop.ViewModels.Dto;
 
 namespace RookEcomShop.CustomerFrontend.Models.Checkout;
 
 public class CheckoutViewModel
 {
-    public IEnumerable<CartDetailVM> Items { get; set; } = new List<CartDetailVM>();
+    public IEnumerable<CartDetailDto> Items { get; set; } = new List<CartDetailDto>();
 }

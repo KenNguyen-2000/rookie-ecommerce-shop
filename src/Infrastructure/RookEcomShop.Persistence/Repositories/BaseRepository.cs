@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RookEcomShop.Application.Common.Repositories;
-using RookEcomShop.Application.Dto;
+﻿using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.Domain.Common;
-using System.Linq.Expressions;
 
 namespace RookEcomShop.Persistence.Repositories
 {

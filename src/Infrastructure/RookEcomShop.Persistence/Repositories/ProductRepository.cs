@@ -70,8 +70,8 @@ namespace RookEcomShop.Persistence.Repositories
             if (!string.IsNullOrWhiteSpace(query.SearchTerm))
             {
                 products = products.Where(p =>
-                    p.Name.Contains(query.SearchTerm) ||
-                    p.Description.Contains(query.SearchTerm));
+                    p.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
+                    p.Description.ToLower().Contains(query.SearchTerm.ToLower()));
             }
 
             return products;
@@ -92,6 +92,9 @@ namespace RookEcomShop.Persistence.Repositories
        {
            "name" => product => product.Name,
            "description" => product => product.Description,
+           "price" => product => product.Price,
+           "stockQuantity" => product => product.StockQuantity,
+           "createdAt" => product => product.CreatedAt,
            _ => product => product.Id
        };
     }

@@ -1,15 +1,13 @@
 using RookEcomShop.Domain.Entities;
-using RookEcomShop.ViewModels.Category;
 using RookEcomShop.ViewModels.Dto;
-using RookEcomShop.ViewModels.Product;
 
 namespace RookEcomShop.Application.Handlers.Products;
 
 public static class ProductsMapper
 {
-    public static ProductVM MapToProductVM(Product product)
+    public static ProductDto MapToProductVM(Product product)
     {
-        return new ProductVM
+        return new ProductDto
         {
             Id = product.Id,
             Name = product.Name,
@@ -17,7 +15,7 @@ public static class ProductsMapper
             Price = product.Price,
             StockQuantity = product.StockQuantity,
             Status = product.Status,
-            Category = new CategoryVM
+            Category = new CategoryDto
             {
                 Id = product.Category.Id,
                 Name = product.Category.Name,
@@ -28,11 +26,11 @@ public static class ProductsMapper
         };
     }
 
-    public static PaginatedList<ProductVM> MapToPaginatedProductVM(PaginatedList<Product> paginatedProducts)
+    public static PaginatedList<ProductDto> MapToPaginatedProductVM(PaginatedList<Product> paginatedProducts)
     {
-        return new PaginatedList<ProductVM>
+        return new PaginatedList<ProductDto>
         {
-            Items = paginatedProducts.Items.Select(p => new ProductVM
+            Items = paginatedProducts.Items.Select(p => new ProductDto
             {
                 Id = p.Id,
                 Name = p.Name,
@@ -40,7 +38,7 @@ public static class ProductsMapper
                 Price = p.Price,
                 StockQuantity = p.StockQuantity,
                 Status = p.Status,
-                Category = new CategoryVM
+                Category = new CategoryDto
                 {
                     Id = p.Category.Id,
                     Name = p.Category.Name,

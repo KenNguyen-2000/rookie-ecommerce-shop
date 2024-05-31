@@ -2,12 +2,11 @@
 using MediatR;
 using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Repositories;
-using RookEcomShop.ViewModels.Category;
-using RookEcomShop.ViewModels.Product;
+using RookEcomShop.ViewModels.Dto;
 
 namespace RookEcomShop.Application.Handlers.Products.GetById
 {
-    public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, Result<ProductVM>>
+    public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, Result<ProductDto>>
     {
         private readonly IProductRepository _productRepository;
 
@@ -16,7 +15,7 @@ namespace RookEcomShop.Application.Handlers.Products.GetById
             _productRepository = productRepository;
         }
 
-        public async Task<Result<ProductVM>> Handle(GetProductByIdQuery query, CancellationToken cancellationToken)
+        public async Task<Result<ProductDto>> Handle(GetProductByIdQuery query, CancellationToken cancellationToken)
         {
             var product = await _productRepository.GetByIdAsync(query.Id);
 

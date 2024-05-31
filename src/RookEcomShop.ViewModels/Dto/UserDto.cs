@@ -1,6 +1,6 @@
 ﻿using RookEcomShop.Domain.Common.Enums;
 
-namespace RookEcomShop.ViewModels.User
+namespace RookEcomShop.ViewModels.Dto
 {
     public class UserDto
     {

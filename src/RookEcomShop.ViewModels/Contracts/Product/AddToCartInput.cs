@@ -1,4 +1,4 @@
-namespace RookEcomShop.ViewModels.Product
+namespace RookEcomShop.ViewModels.Contracts.Product
 {
     public class AddToCartInput
     {

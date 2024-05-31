@@ -2,7 +2,6 @@
 using MediatR;
 using RookEcomShop.Application.Dto;
 using RookEcomShop.ViewModels.Dto;
-using RookEcomShop.ViewModels.User;
 
 namespace RookEcomShop.Application.Handlers.Users.GetList
 {

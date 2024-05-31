@@ -1,5 +1,5 @@
-﻿@using RookEcomShop.ViewModels.Product;
-@model ProductVM;
+﻿@using RookEcomShop.ViewModels.Dto;
+@model ProductDto;
 @{
     var productImgUrl = Model.ImgUrls.FirstOrDefault();
 }
@@ -20,12 +20,12 @@
         }
     </div>
     <div class="mt-4 grid gap-2">
-            <h3 class="text-lg text-gray-700">
-                <div>
-                    <span aria-hidden="true" class="absolute inset-0"></span>
-                    @Model.Name
-                </div>
-            </h3>
+        <h3 class="text-lg text-gray-700">
+            <div>
+                <span aria-hidden="true" class="absolute inset-0"></span>
+                @Model.Name
+            </div>
+        </h3>
         <p class="text-sm text-red-700">From $@Model.Price</p>
     </div>
 </a>

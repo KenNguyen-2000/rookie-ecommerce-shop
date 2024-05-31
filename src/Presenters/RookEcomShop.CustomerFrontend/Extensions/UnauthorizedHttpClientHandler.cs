@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authentication;
 using Serilog;
 using System.Net;
 
@@ -11,7 +10,7 @@ namespace RookEcomShop.CustomerFrontend.Extensions
         {
             HttpResponseMessage response = await base.SendAsync(request, cancellationToken);
 
-            if(response.StatusCode == HttpStatusCode.Unauthorized)
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 Log.Error("Unauthorized request");
                 throw new UnauthorizedAccessException();

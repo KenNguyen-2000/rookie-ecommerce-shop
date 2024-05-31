@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.CustomerFrontend.Services.Cart;
 using RookEcomShop.CustomerFrontend.Services.Categories;
-using RookEcomShop.ViewModels.Category;
+using RookEcomShop.ViewModels.Dto;
 
 namespace RookEcomShop.CustomerFrontend.ViewComponents
 {
@@ -34,7 +34,7 @@ namespace RookEcomShop.CustomerFrontend.ViewComponents
             catch (System.Exception ex)
             {
                 Console.WriteLine(ex);
-                return View(new List<CategoryVM>(categories));
+                return View(new List<CategoryDto>(categories));
             }
         }
     }

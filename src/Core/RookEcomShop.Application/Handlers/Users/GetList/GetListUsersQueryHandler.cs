@@ -1,14 +1,7 @@
 ﻿using FluentResults;
 using MediatR;
-using RookEcomShop.Application.Common.Data;
 using RookEcomShop.Application.Common.Repositories;
-using RookEcomShop.Application.Handlers.Products.GetList;
-using RookEcomShop.Domain.Entities;
-using RookEcomShop.ViewModels.Category;
 using RookEcomShop.ViewModels.Dto;
-using RookEcomShop.ViewModels.Product;
-using RookEcomShop.ViewModels.User;
-using System.Linq.Expressions;
 
 namespace RookEcomShop.Application.Handlers.Users.GetList
 {

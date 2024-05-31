@@ -1,14 +1,13 @@
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.ViewModels.Dto;
-using RookEcomShop.ViewModels.Reviews;
 
 namespace RookEcomShop.Application.Handlers.Reviews
 {
     public static class ReviewsMapper
     {
-        public static ReviewVM MapToReviewVM(Review review, Guid productId)
+        public static ReviewDto MapToReviewVM(Review review, Guid productId)
         {
-            return new ReviewVM
+            return new ReviewDto
             {
                 Id = review.Id,
                 ProductId = productId,
@@ -16,7 +15,7 @@ namespace RookEcomShop.Application.Handlers.Reviews
                 Content = review.Content,
                 CreatedAt = review.CreatedAt,
                 UpdatedAt = review.UpdatedAt,
-                User = new UserVM
+                User = new UserDto
                 {
                     Id = review.UserId,
                     FirstName = review.User.FirstName,
@@ -25,9 +24,9 @@ namespace RookEcomShop.Application.Handlers.Reviews
             };
         }
 
-        public static PaginatedList<ReviewVM> MapToPaginatedReviewVM(PaginatedList<Review> paginatedReviews, Guid productId)
+        public static PaginatedList<ReviewDto> MapToPaginatedReviewVM(PaginatedList<Review> paginatedReviews, Guid productId)
         {
-            return new PaginatedList<ReviewVM>
+            return new PaginatedList<ReviewDto>
             {
                 Items = paginatedReviews.Items.Select(r => MapToReviewVM(r, productId)).ToList(),
                 Page = paginatedReviews.Page,

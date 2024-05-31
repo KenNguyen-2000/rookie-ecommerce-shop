@@ -6,7 +6,7 @@ using RookEcomShop.Application.Handlers.Reviews.Create;
 using RookEcomShop.Application.Handlers.Reviews.Delete;
 using RookEcomShop.Application.Handlers.Reviews.GetList;
 using RookEcomShop.Application.Handlers.Reviews.Update;
-using RookEcomShop.ViewModels.Reviews;
+using RookEcomShop.ViewModels.Contracts.Reviews;
 
 namespace RookEcomShop.Api.Controllers.v1
 {

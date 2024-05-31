@@ -1,7 +1,7 @@
-@using RookEcomShop.ViewModels.Cart
+@using RookEcomShop.ViewModels.Dto
 
 @{
-  var cartDetails = ViewData["CartDetails"] as IEnumerable<CartDetailVM> ?? Enumerable.Empty<CartDetailVM>();
+  var cartDetails = ViewData["CartDetails"] as IEnumerable<CartDetailDto> ?? Enumerable.Empty<CartDetailDto>();
   var totalPrice = cartDetails.Sum(x => x.Product.Price * x.Quantity);
   var orderTotal = totalPrice;
 }

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.Application.Dto;
 using RookEcomShop.CustomerFrontend.Services.Categories;
 using RookEcomShop.CustomerFrontend.Services.Products;
-using RookEcomShop.ViewModels.Product;
+using RookEcomShop.ViewModels.Contracts.Product;
 
 namespace RookEcomShop.CustomerFrontend.Controllers
 {

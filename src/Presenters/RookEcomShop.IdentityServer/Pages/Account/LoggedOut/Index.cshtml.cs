@@ -4,8 +4,8 @@ using IdentityServer4.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using RookEcomShop.IdentityServer.Controllers.Account;
 using RookEcomShop.IdentityServer.Domain;
+using RookEcomShop.IdentityServer.Models.Account;
 using RookEcomShop.IdentityServer.Models.Account.Logout;
 
 namespace RookEcomShop.IdentityServer.Pages.Account.LoggedOut

@@ -2,7 +2,7 @@ using FluentResults;
 using MediatR;
 using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Repositories;
-using RookEcomShop.ViewModels.User;
+using RookEcomShop.ViewModels.Dto;
 
 namespace RookEcomShop.Application.Handlers.Users.GetById
 {

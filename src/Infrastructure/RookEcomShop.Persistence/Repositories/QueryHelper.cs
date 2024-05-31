@@ -1,6 +1,6 @@
-using System.Linq.Expressions;
 using RookEcomShop.Application.Dto;
 using RookEcomShop.Domain.Common;
+using System.Linq.Expressions;
 
 namespace RookEcomShop.Persistence.Repositories;
 

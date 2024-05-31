@@ -1,9 +1,10 @@
 @using RookEcomShop.CustomerFrontend.Models.Reviews;
-@using RookEcomShop.ViewModels.Product
+@using RookEcomShop.ViewModels.Dto
+@using RookEcomShop.ViewModels.ViewModels;
 @model ReviewsProductInputModel;
 
 @{
-    var product = (ViewData["Product"] as ProductVM)!;
+    var product = (ViewData["Product"] as ProductDto)!;
 }
 
 @section PageScripts

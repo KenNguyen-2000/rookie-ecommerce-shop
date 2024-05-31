@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-using RookEcomShop.ViewModels.Order;
+using RookEcomShop.ViewModels.Dto;
 
 namespace RookEcomShop.CustomerFrontend.Services.Orders
 {
@@ -12,13 +12,13 @@ namespace RookEcomShop.CustomerFrontend.Services.Orders
             _httpClient = httpClient;
         }
 
-        public async Task<IList<OrderVM>> GetOrdersAsync()
+        public async Task<IList<OrderDto>> GetOrdersAsync()
         {
             var response = await _httpClient.GetAsync("orders");
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
-            var data = JsonConvert.DeserializeObject<IList<OrderVM>>(content)!;
+            var data = JsonConvert.DeserializeObject<IList<OrderDto>>(content)!;
 
             return data;
         }

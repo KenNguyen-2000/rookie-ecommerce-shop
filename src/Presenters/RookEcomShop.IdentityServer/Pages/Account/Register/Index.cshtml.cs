@@ -3,11 +3,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.IdentityServer.Domain;
-using RookEcomShop.IdentityServer.Views.Account.Register;
 using RookEcomShop.Persistence;
+using Serilog;
 
 namespace RookEcomShop.IdentityServer.Pages.Account.Register;
 
@@ -48,7 +47,10 @@ public class IndexModel : PageModel
             return RedirectToPage("/Account/Login/Index", new { returnUrl = ReturnUrl });
 
         if (!ModelState.IsValid)
+        {
+            Log.Error("Model state is invalid");
             return Page();
+        }
 
         if (RegisterInputModel.Username is null || RegisterInputModel.Password is null || RegisterInputModel.PhoneNumber is null)
             return Page();
@@ -74,9 +76,9 @@ public class IndexModel : PageModel
 
         var result = _userManager.CreateAsync(user, RegisterInputModel.Password).Result;
 
-        if(!result.Succeeded)
+        if (!result.Succeeded)
         {
-            Console.WriteLine("Identity task failed");
+            Log.Error("Identity task failed");
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
@@ -85,7 +87,21 @@ public class IndexModel : PageModel
             return Page();
         }
 
-        appUser = new User
+        appUser = await SyncUserToDomain(user);
+        await _userManager.AddClaimsAsync(user,
+        [
+            new(JwtClaimTypes.PhoneNumber, user.PhoneNumber),
+            new(JwtClaimTypes.Email, user.Email)
+        ]);
+
+        await _userManager.AddToRoleAsync(user, "Buyer");
+
+        return RedirectToPage("/Account/Login/Index", new { returnUrl = ReturnUrl });
+    }
+
+    private async Task<User?> SyncUserToDomain(ApplicationUser user)
+    {
+        User? appUser = new User
         {
             Id = user.Id,
             Username = user.UserName,
@@ -97,15 +113,9 @@ public class IndexModel : PageModel
         };
         var buyerROle = await _rookEcomContext.Roles.FirstOrDefaultAsync(r => r.Name == "Buyer");
         appUser.UserRoles.Add(new UserRole { RoleId = buyerROle.Id, UserId = appUser.Id });
+        _rookEcomContext.Users.Add(appUser);
+
         await _rookEcomContext.SaveChangesAsync();
-        await _userManager.AddClaimsAsync(user,
-        [
-            new(JwtClaimTypes.PhoneNumber, user.PhoneNumber),
-            new(JwtClaimTypes.Email, user.Email)
-        ]);
-
-        await _userManager.AddToRoleAsync(user, "Buyer");
-
-        return RedirectToPage("/Account/Login/Index", new { returnUrl = ReturnUrl });
+        return appUser;
     }
 }

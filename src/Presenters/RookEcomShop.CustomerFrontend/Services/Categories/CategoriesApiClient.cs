@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-using RookEcomShop.ViewModels.Category;
+using RookEcomShop.ViewModels.Dto;
 
 namespace RookEcomShop.CustomerFrontend.Services.Categories
 {
@@ -11,25 +11,25 @@ namespace RookEcomShop.CustomerFrontend.Services.Categories
         {
             _httpClient = httpClient;
         }
-        public async Task<IList<CategoryVM>> GetCategoriesAsync()
+        public async Task<IList<CategoryDto>> GetCategoriesAsync()
         {
             var response = await _httpClient.GetAsync("categories");
 
             response.EnsureSuccessStatusCode();
 
             string content = await response.Content.ReadAsStringAsync();
-            var res = JsonConvert.DeserializeObject<IList<CategoryVM>>(content)!;
+            var res = JsonConvert.DeserializeObject<IList<CategoryDto>>(content)!;
             return (dynamic)res;
         }
 
-        public async Task<CategoryVM?> GetCategoryByNameAsync(string categoryName)
+        public async Task<CategoryDto?> GetCategoryByNameAsync(string categoryName)
         {
             var response = await _httpClient.GetAsync("categories/" + categoryName);
 
             response.EnsureSuccessStatusCode();
 
             string content = await response.Content.ReadAsStringAsync();
-            var res = JsonConvert.DeserializeObject<CategoryVM>(content)!;
+            var res = JsonConvert.DeserializeObject<CategoryDto>(content)!;
             return (dynamic)res;
         }
     }

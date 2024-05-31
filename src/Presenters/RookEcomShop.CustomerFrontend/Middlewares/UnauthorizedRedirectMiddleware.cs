@@ -15,7 +15,7 @@
             {
                 await _next(context);
             }
-            catch(UnauthorizedAccessException)
+            catch (UnauthorizedAccessException)
             {
                 context.Response.Redirect("/Account/Login");
             }

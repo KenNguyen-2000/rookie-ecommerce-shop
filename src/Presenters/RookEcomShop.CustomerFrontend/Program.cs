@@ -1,9 +1,6 @@
-
-using Microsoft.Extensions.FileProviders;
 using RookEcomShop.CustomerFrontend;
 using RookEcomShop.CustomerFrontend.Extensions;
 using RookEcomShop.CustomerFrontend.Middlewares;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 

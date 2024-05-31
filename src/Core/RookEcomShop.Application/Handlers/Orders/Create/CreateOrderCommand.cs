@@ -1,6 +1,6 @@
 ﻿using FluentResults;
 using MediatR;
-using RookEcomShop.ViewModels.Order;
+using RookEcomShop.ViewModels.Contracts.Order;
 
 namespace RookEcomShop.Application.Handlers.Orders.Create
 {

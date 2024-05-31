@@ -4,14 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using RookEcomShop.Application.Common.Data;
 using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.Domain.Entities;
-using RookEcomShop.ViewModels.Category;
 using RookEcomShop.ViewModels.Dto;
-using RookEcomShop.ViewModels.Product;
 using System.Linq.Expressions;
 
 namespace RookEcomShop.Application.Handlers.Products.GetByCategoryName
 {
-    public class GetProductsByCategoryNameQueryHandler : IRequestHandler<GetProductsByCategoryNameQuery, Result<PaginatedList<ProductVM>>>
+    public class GetProductsByCategoryNameQueryHandler : IRequestHandler<GetProductsByCategoryNameQuery, Result<PaginatedList<ProductDto>>>
     {
         private readonly IRookEcomShopDbContext _context;
         private readonly IProductRepository _productRepository;
@@ -22,14 +20,14 @@ namespace RookEcomShop.Application.Handlers.Products.GetByCategoryName
             _productRepository = productRepository;
         }
 
-        public async Task<Result<PaginatedList<ProductVM>>> Handle(GetProductsByCategoryNameQuery query, CancellationToken cancellationToken)
+        public async Task<Result<PaginatedList<ProductDto>>> Handle(GetProductsByCategoryNameQuery query, CancellationToken cancellationToken)
         {
             var paginatedProducts = await _productRepository.GetListAsync(FilterBySearch(query), query.QueryObject, cancellationToken);
             IQueryable<Product> productsQuery = _context.Products
                 .Where(p => p.Category.Name == query.CategoryName)
                 .Include(p => p.Category)
                 .Include(p => p.ProductImages);
-            PaginatedList<ProductVM> productVMs = ProductsMapper.MapToPaginatedProductVM(paginatedProducts);
+            PaginatedList<ProductDto> productVMs = ProductsMapper.MapToPaginatedProductVM(paginatedProducts);
 
             return Result.Ok(productVMs);
         }

@@ -6,7 +6,6 @@ using RookEcomShop.CustomerFrontend.Models.Home;
 using RookEcomShop.CustomerFrontend.Services.Categories;
 using RookEcomShop.CustomerFrontend.Services.Products;
 using RookEcomShop.ViewModels.Dto;
-using RookEcomShop.ViewModels.Product;
 using Serilog;
 using System.Diagnostics;
 
@@ -16,7 +15,6 @@ public class HomeController : Controller
 {
     private readonly IProductsApiClient _productsApiClient;
     private readonly ICategoriesApiClient _categoriesApiClient;
-
 
     public HomeController(
         IProductsApiClient productsApiClient,
@@ -28,20 +26,30 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index([FromQuery] ProductQueryDto? queryDto = null)
     {
-        if (queryDto == null)
-        {
-            queryDto = new ProductQueryDto { PageSize = 5, Page = 1 };
-        }
+
+        queryDto ??= new ProductQueryDto { PageSize = 5, Page = 1 };
 
         Log.Information("[HomeController]: Get products from API " + JsonConvert.SerializeObject(queryDto));
 
-        PaginatedList<ProductVM> products = await _productsApiClient.GetProductsAsync(queryDto);
-        ViewData["Categories"] = await _categoriesApiClient.GetCategoriesAsync();
+        PaginatedList<ProductDto> products = await _productsApiClient.GetProductsAsync(queryDto);
+
+        SetUrlParams(queryDto);
+
         return View(new HomeViewModel
         {
             ProductDatas = products
+
         });
     }
+    private void SetUrlParams(ProductQueryDto queryDto)
+    {
+        ViewBag.SearchTerm = queryDto.SearchTerm;
+        ViewBag.SortColumn = queryDto.SortColumn;
+        ViewBag.SortOrder = queryDto.SortOrder;
+        ViewBag.Page = queryDto.Page;
+        ViewBag.PageSize = queryDto.PageSize;
+    }
+
 
     public IActionResult Privacy()
     {

@@ -1,4 +1,4 @@
-namespace RookEcomShop.ViewModels.Category
+namespace RookEcomShop.ViewModels.Contracts.Category
 {
     public class UpdateCategoryRequest
     {

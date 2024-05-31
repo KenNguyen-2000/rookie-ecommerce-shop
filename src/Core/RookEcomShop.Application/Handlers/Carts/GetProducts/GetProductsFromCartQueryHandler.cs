@@ -4,13 +4,11 @@ using RookEcomShop.Application.Common.Data;
 using RookEcomShop.Application.Common.Helpers;
 using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.Domain.Entities;
-using RookEcomShop.ViewModels.Cart;
-using RookEcomShop.ViewModels.Category;
-using RookEcomShop.ViewModels.Product;
+using RookEcomShop.ViewModels.Dto;
 
 namespace RookEcomShop.Application.Handlers.Carts.GetProducts
 {
-    public class GetProductsFromCartQueryHandler : IRequestHandler<GetProductsFromCartQuery, Result<IEnumerable<CartDetailVM>>>
+    public class GetProductsFromCartQueryHandler : IRequestHandler<GetProductsFromCartQuery, Result<IEnumerable<CartDetailDto>>>
     {
         private readonly ICartRepository _cartRepository;
         private readonly IRookEcomShopDbContext _context;
@@ -29,7 +27,7 @@ namespace RookEcomShop.Application.Handlers.Carts.GetProducts
             _context = context;
         }
 
-        public async Task<Result<IEnumerable<CartDetailVM>>> Handle(GetProductsFromCartQuery query, CancellationToken cancellationToken)
+        public async Task<Result<IEnumerable<CartDetailDto>>> Handle(GetProductsFromCartQuery query, CancellationToken cancellationToken)
         {
             var cart = await _cartRepository.GetCartByUserIdAsync(query.UserId);
             var userId = userContext.UserId;
@@ -48,20 +46,20 @@ namespace RookEcomShop.Application.Handlers.Carts.GetProducts
 
         }
 
-        private static IEnumerable<CartDetailVM> MapCartDetailsVM(Cart cart)
+        private static IEnumerable<CartDetailDto> MapCartDetailsVM(Cart cart)
         {
-            return cart.CartDetails.Select(x => new CartDetailVM
+            return cart.CartDetails.Select(x => new CartDetailDto
             {
                 Id = x.Id,
                 Quantity = x.Quantity,
-                Product = new ProductVM
+                Product = new ProductDto
                 {
                     Id = x.Product.Id,
                     Description = x.Product.Description,
                     Name = x.Product.Name,
                     Price = x.Product.Price,
                     Status = x.Product.Status,
-                    Category = new CategoryVM
+                    Category = new CategoryDto
                     {
                         Id = x.Product.Category.Id,
                         Name = x.Product.Category.Name,

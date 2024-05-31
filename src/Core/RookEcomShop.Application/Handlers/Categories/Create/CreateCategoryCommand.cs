@@ -1,6 +1,6 @@
 ﻿using FluentResults;
 using MediatR;
-using RookEcomShop.ViewModels.Category;
+using RookEcomShop.ViewModels.Contracts.Category;
 
 namespace RookEcomShop.Application.Handlers.Categories.Create
 {

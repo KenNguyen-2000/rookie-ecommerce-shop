@@ -6,7 +6,7 @@ using RookEcomShop.Application.Handlers.Categories.Delete;
 using RookEcomShop.Application.Handlers.Categories.GetByName;
 using RookEcomShop.Application.Handlers.Categories.GetList;
 using RookEcomShop.Application.Handlers.Categories.Update;
-using RookEcomShop.ViewModels.Category;
+using RookEcomShop.ViewModels.Contracts.Category;
 
 namespace RookEcomShop.Api.Controllers.v1
 {

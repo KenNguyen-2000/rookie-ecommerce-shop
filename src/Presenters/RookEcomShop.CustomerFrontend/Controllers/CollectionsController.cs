@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using RookEcomShop.Application.Dto;
 using RookEcomShop.CustomerFrontend.Models;
 using RookEcomShop.CustomerFrontend.Services.Categories;
 using RookEcomShop.CustomerFrontend.Services.Products;
-using RookEcomShop.ViewModels.Collections;
-using RookEcomShop.ViewModels.Dto;
-using RookEcomShop.ViewModels.Product;
+using RookEcomShop.ViewModels.ViewModels;
+using Serilog;
 using System.Diagnostics;
 
 namespace RookEcomShop.CustomerFrontend.Controllers;
@@ -13,16 +13,13 @@ namespace RookEcomShop.CustomerFrontend.Controllers;
 [Route("collections")]
 public class CollectionsController : Controller
 {
-    private readonly ILogger<CollectionsController> _logger;
     private readonly IProductsApiClient _productsApiClient;
     private readonly ICategoriesApiClient _categoriesApiClient;
 
     public CollectionsController(
-        ILogger<CollectionsController> logger,
         IProductsApiClient productsApiClient,
         ICategoriesApiClient categoriesApiClient)
     {
-        _logger = logger;
         _productsApiClient = productsApiClient;
         _categoriesApiClient = categoriesApiClient;
     }
@@ -30,6 +27,8 @@ public class CollectionsController : Controller
     [HttpGet("{categoryName}")]
     public async Task<IActionResult> Details(string categoryName, [FromQuery] ProductQueryDto queryDto)
     {
+
+        Log.Information("[CollectionsController]: Get category from API " + categoryName);
         ViewBag.CategoryName = categoryName;
         var category = await _categoriesApiClient.GetCategoryByNameAsync(categoryName);
 
@@ -37,15 +36,29 @@ public class CollectionsController : Controller
         {
             return View("NotFound");
         }
+
+        queryDto ??= new ProductQueryDto();
         queryDto.CategoryName = categoryName;
-        PaginatedList<ProductVM> products = await _productsApiClient.GetProductsAsync(queryDto);
+
+        Log.Information("[CollectionsController]: Get products from API " + JsonConvert.SerializeObject(queryDto));
+        var products = await _productsApiClient.GetProductsAsync(queryDto);
+
+        SetUrlParams(queryDto);
 
         return View(new CollectionsVM
         {
             Category = category,
             Products = products
-
         });
+    }
+
+    private void SetUrlParams(ProductQueryDto queryDto)
+    {
+        ViewBag.SearchTerm = queryDto.SearchTerm;
+        ViewBag.SortColumn = queryDto.SortColumn;
+        ViewBag.SortOrder = queryDto.SortOrder;
+        ViewBag.Page = queryDto.Page;
+        ViewBag.PageSize = queryDto.PageSize;
     }
 
 
