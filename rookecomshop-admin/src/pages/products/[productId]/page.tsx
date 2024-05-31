@@ -10,15 +10,15 @@ import { toast } from '@/components/ui/use-toast';
 import { ProductStatus } from '@/services/products/products.enum';
 
 const ProductDetailPage = () => {
-	const { id } = useParams();
+	const { productId } = useParams();
 	const dispatch = useAppDispatch();
 	const {
 		data: product,
 		isLoading,
 		isError,
 	} = useQuery({
-		queryKey: ['product', id],
-		queryFn: () => productsService.getByIdAsync(id!),
+		queryKey: ['product', productId],
+		queryFn: () => productsService.getByIdAsync(productId!),
 	});
 
 	const onSubmit = async (data: CreateUpdateProductInputs) => {

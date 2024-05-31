@@ -13,7 +13,7 @@ import { ProductDto } from '@/services/products/products.type';
 import { MoreHorizontal } from 'lucide-react';
 import moment from 'moment';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 type ProductRowProps = {
 	product: ProductDto;
 	onSelectProductToDelete: (id: string) => void;
@@ -32,7 +32,11 @@ const ProductRow: React.FC<ProductRowProps> = ({ product, onSelectProductToDelet
 					width="64"
 				/>
 			</TableCell>
-			<TableCell className="font-medium">{product.name}</TableCell>
+			<TableCell className="font-medium">
+				<Link to={`/products/${product.id}`}>
+				{product.name}
+				</Link>
+			</TableCell>
 			<TableCell>
 				<Badge variant="outline">{ProductStatus[product.status] ?? 'Draft'}</Badge>
 			</TableCell>

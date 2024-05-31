@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FormEvent, useState } from 'react';
 import Sidebar from '../page/Sidebar';
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
 import { Button } from '../ui/button';
@@ -29,7 +29,7 @@ import {
 	DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import { Input } from '../ui/input';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { NAV_LINKS } from '@/lib/constants/nav-links.constant';
 import { cn } from '@/lib/utils';
 
@@ -44,11 +44,21 @@ type ContentSidebarLayoutProps = {
 
 const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children }) => {
 	const { pathname } = useLocation();
+	const {productId, categoryId} = useParams();
 	const navigate = useNavigate();
+	const [searchParams, setSearchParams] = useSearchParams();
+	const [searchTerm, setSearchTerm] = useState('');
 
 	const handleLogout = () => {
 		navigate('/authentication/logout');
 	};
+
+	const handleSearch = (e : FormEvent) => {
+		e.preventDefault();
+		const newParams = new URLSearchParams(searchParams);
+		newParams.set('searchTerm', searchTerm);
+		setSearchParams(newParams);
+	}
 
 	return (
 		<div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -93,10 +103,17 @@ const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children })
 					<Breadcrumb className="hidden md:flex">
 						<BreadcrumbList>
 							{pathname.split('/').map((path, index) => {
-								const capitalizeName =
+								let capitalizeName = 
 									path.charAt(0).toUpperCase() + path.substring(1);
+								
+
 								const isLast = index === pathname.split('/').length - 1;
 								const isHome = index === 0;
+
+								if(isLast && productId)
+									capitalizeName = "Product Detail";
+								if(isLast && categoryId)
+									capitalizeName = "Category Detail";
 
 								if (isLast)
 									return (
@@ -119,14 +136,15 @@ const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children })
 							})}
 						</BreadcrumbList>
 					</Breadcrumb>
-					<div className="relative ml-auto flex-1 md:grow-0">
+					<form onSubmit={handleSearch} className="relative ml-auto flex-1 md:grow-0">
 						<Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
 						<Input
 							type="search"
 							placeholder="Search..."
 							className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
+							onChange={(e) => setSearchTerm(e.target.value)}
 						/>
-					</div>
+					</form>
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<Button

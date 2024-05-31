@@ -17,11 +17,13 @@ import {
 	RouterProvider,
 } from 'react-router-dom';
 import 'quill/dist/quill.snow.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RookEcomShopRoutes = () => {
 	const router = createBrowserRouter(
 		createRoutesFromElements(
-			<Route>
+			<Route errorElement={<ErrorHandleProvider />}>
 				<Route path="/authentication/:action" element={<OidcAuthProvider />} />
 				<Route path="/" element={<HomePage />} />
 				<Route path="/" element={<PrivateRoute />}>
@@ -59,10 +61,10 @@ const RookEcomShopRoutes = () => {
 							}}
 						/>
 						<Route
-							path=":id"
+							path=":productId"
 							lazy={async () => {
 								const { default: ProductDetailPage } = await import(
-									'../pages/products/product-detail/page'
+									'../pages/products/[productId]/page'
 								);
 								return { Component: ProductDetailPage };
 							}}
@@ -88,23 +90,14 @@ const RookEcomShopRoutes = () => {
 							}}
 						/>
 						<Route
-							path=":id"
+							path=":categoryId"
 							lazy={async () => {
 								const { default: ProductDetailPage } = await import(
-									'../pages/categories/[id]/page'
+									'../pages/categories/[categoryId]/page'
 								);
 								return { Component: ProductDetailPage };
 							}}
 						/>
-						{/* <Route
-							path="create"
-							lazy={async () => {
-								const { default: CreateProductPage } = await import(
-									'../pages/categories/create/page'
-								);
-								return { Component: CreateProductPage };
-							}}
-						/> */}
 					</Route>
 				</Route>
 				<Route path="*" element={<NotFoundPage />} />
@@ -112,7 +105,8 @@ const RookEcomShopRoutes = () => {
 		),
 	);
 	return (
-		<ErrorHandleProvider>
+			<>
+			<ToastContainer />
 			<TooltipProvider>
 				<ReduxProvider>
 					<TanstackProvider>
@@ -122,8 +116,7 @@ const RookEcomShopRoutes = () => {
 					</TanstackProvider>
 				</ReduxProvider>
 				<Toaster />
-			</TooltipProvider>
-		</ErrorHandleProvider>
+			</TooltipProvider></>
 	);
 };
 

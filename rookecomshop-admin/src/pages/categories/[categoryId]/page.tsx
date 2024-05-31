@@ -29,15 +29,15 @@ import { useParams } from 'react-router-dom';
 import { AlertPopup } from '@/components/page';
 
 const CategoryDetail = () => {
-	const { id } = useParams();
+	const { categoryId } = useParams();
 	const queryClient = useQueryClient();
 
 	const [showDialog, setShowDialog] = useState(false);
 	const [showAlert, setShowAlert] = useState(false);
 	const [selectedCategory, setSelectedCategory] = useState<CategoryDto | null>();
 	const { data: category } = useQuery({
-		queryKey: ['categories', id],
-		queryFn: () => categoriesService.getByNameAsync(id!),
+		queryKey: ['categories', categoryId],
+		queryFn: () => categoriesService.getByNameAsync(categoryId!),
 	});
 
 	const handleToggleDialog = () => {
@@ -58,7 +58,7 @@ const CategoryDetail = () => {
 		if (selectedCategory) {
 			await handleUpdateCategory(data);
 		} else await handleCreateCategory(data);
-		await queryClient.invalidateQueries({ queryKey: ['categories', id] });
+		await queryClient.invalidateQueries({ queryKey: ['categories', categoryId] });
 		handleToggleDialog();
 	};
 

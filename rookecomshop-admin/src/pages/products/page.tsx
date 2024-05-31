@@ -45,6 +45,7 @@ import ProductRow from './components/ProductRow';
 import ReusePagination from '@/components/page/ReusePagination';
 import categoriesService from '@/services/categories/categories.service';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { CaretSortIcon } from '@radix-ui/react-icons';
 
 const ProductPage = () => {
 	const navigate = useNavigate();
@@ -59,6 +60,7 @@ const ProductPage = () => {
 		pageSize: parseInt(searchParams.get('pageSize') ?? '5'),
 		searchTerm: searchParams.get('searchTerm') ?? '',
 		sortOrder: searchParams.get('sortOrder') ?? 'asc',
+		sortColumn: searchParams.get('sortColumn') ?? '',
 		categoryName: searchParams.get('categoryName') ?? null,
 		status: null,
 	});
@@ -90,21 +92,51 @@ const ProductPage = () => {
 	};
 
 	const handleAddParams = (page: number, pageSize?: number) => {
-		setQueryDto({ ...queryDto, page, pageSize: pageSize ?? queryDto.pageSize });
+		const newParams = new URLSearchParams(searchParams);
+		newParams.set('page', page.toString());
+
+		newParams.set('pageSize', (pageSize ?? 5).toString());
+		setSearchParams(newParams);
 	};
 
-	useEffect(() => {
-		function updateQueryParams(queryDto: ProductQueryDto) {
-			const newParams = new URLSearchParams(searchParams);
-			newParams.set('page', queryDto.page.toString());
-			newParams.set('pageSize', queryDto.pageSize.toString());
-			if (queryDto.categoryName !== null)
-				newParams.set('categoryName', queryDto.categoryName);
-			setSearchParams(newParams);
-		}
+	const handleSortQuery = ( sortColumn: string) => {
+		const newParams = new URLSearchParams(searchParams);
+			newParams.set('sortOrder', queryDto.sortOrder === 'asc' ? 'desc' : 'asc');
+			newParams.set('sortColumn', sortColumn);
+		setSearchParams(newParams);
+	}
 
-		updateQueryParams(queryDto);
-	}, [queryDto]);
+	// useEffect(() => {
+	// 	function updateQueryParams(queryDto: ProductQueryDto) {
+	// 		const newParams = new URLSearchParams(searchParams);
+	// 		newParams.set('page', queryDto.page.toString());
+	// 		newParams.set('pageSize', queryDto.pageSize.toString());
+	// 		if (queryDto.searchTerm)
+	// 			newParams.set('searchTerm', queryDto.searchTerm);
+
+	// 		if (queryDto.sortColumn)
+	// 			newParams.set('sortOrder', queryDto.sortColumn);
+
+	// 		if (queryDto.categoryName !== null)
+	// 			newParams.set('categoryName', queryDto.categoryName);
+	// 		setSearchParams(newParams);
+	// 	}
+
+	// 	updateQueryParams(queryDto);
+	// }, [queryDto]);
+
+	useEffect(() => {
+		console.log(searchParams)
+		setQueryDto({
+			page: parseInt(searchParams.get('page') ?? '1'),
+			pageSize: parseInt(searchParams.get('pageSize') ?? '5'),
+			searchTerm: searchParams.get('searchTerm') ?? '',
+			sortOrder: searchParams.get('sortOrder') ?? 'asc',
+			sortColumn: searchParams.get('sortColumn') ?? '',
+			categoryName: searchParams.get('categoryName') ?? null,
+			status: null,
+		})
+	},[searchParams])
 
 	return (
 		<ContentSidebarLayout>
@@ -198,19 +230,41 @@ const ProductPage = () => {
 										<TableHead className="hidden w-[100px] sm:table-cell">
 											<span className="sr-only">img</span>
 										</TableHead>
-										<TableHead>Name</TableHead>
+										<TableHead>
+											<div className="flex gap-3">
+												Name
+												<button type="button" onClick={handleSortQuery.bind(null, 'name')}>
+													<CaretSortIcon />
+												</button>
+											</div>
+										</TableHead>
 										<TableHead>Status</TableHead>
 										<TableHead className="hidden md:table-cell">
-											Price
+											<div className="flex gap-3">
+												Price
+												<button type="button" onClick={handleSortQuery.bind(null, 'price')}>
+													<CaretSortIcon />
+												</button>
+											</div>
 										</TableHead>
 										<TableHead className="hidden md:table-cell">
-											Stock
+											<div className="flex gap-3" >
+												Stock
+												<button type="button" onClick={handleSortQuery.bind(null, 'stockQuantity')}>
+													<CaretSortIcon />
+												</button>
+											</div>
 										</TableHead>
 										<TableHead className="hidden md:table-cell">
 											Category
 										</TableHead>
 										<TableHead className="hidden md:table-cell">
-											Created at
+											<div className="flex gap-3">
+												Created date
+												<button type="button" onClick={handleSortQuery.bind(null, 'createdAt')}>
+													<CaretSortIcon />
+												</button>
+											</div>
 										</TableHead>
 										<TableHead>
 											<span className="sr-only">Actions</span>

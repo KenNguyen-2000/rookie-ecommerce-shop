@@ -4,6 +4,7 @@ import { renewTokenAsync } from '@/redux/thunks/auth.thunk';
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import Cookies from 'js-cookie';
 import React, { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const UNAUTHORIZED = 401;
 const interceptor = axios.create({
@@ -37,7 +38,7 @@ const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
 
 				return res;
 			},
-			(error: AxiosError) => {
+			(error: AxiosError<any, any>) => {
 				if (error.response?.status === UNAUTHORIZED) {
 					Cookies.remove(TOKEN_STRING);
 					dispatch(renewTokenAsync());
@@ -45,7 +46,18 @@ const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
 				if (error.response?.status === 403) {
 					return Promise.reject(error.response);
 				}
+				console.log(error);
+				
 				if (error.response) {
+					if(error.response.data.errors)
+						{
+							Object.keys(error.response.data.errors).forEach((key) => {
+								toast.error(error.response!.data.errors[key][0]);
+							});
+						}else{
+
+							toast.error(error.response.data.detail ?? 'Something went wrong');
+						}
 					return error.response;
 				} else {
 					return Promise.reject(error);

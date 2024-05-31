@@ -1,22 +1,31 @@
-import { FC, ReactNode } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
+import { FC } from 'react';
+import { isRouteErrorResponse, useRouteError } from 'react-router-dom';
 
 type ErrorHandleProviderProps = {
-	children: ReactNode;
 };
 
-const ErrorHandleProvider: FC<ErrorHandleProviderProps> = ({ children }) => {
-	// function fallbackRender({ error, resetErrorBoundary }) {
-	//     // Call resetErrorBoundary() to reset the error boundary and retry the render.
+const ErrorHandleProvider : FC<ErrorHandleProviderProps> = () => {
+	const error = useRouteError();
 
-	//     return (
-	//       <div role="alert">
-	//         <p>Something went wrong:</p>
-	//         <pre style={{ color: "red" }}>{error.message}</pre>
-	//       </div>
-	//     );
-	//   }
-	return <ErrorBoundary fallback={<div>Something went wrong</div>}>{children}</ErrorBoundary>;
+	if (isRouteErrorResponse(error)) {
+	  if (error.status === 404) {
+		return <div>This page doesn't exist!</div>;
+	  }
+  
+	  if (error.status === 401) {
+		return <div>You aren't authorized to see this</div>;
+	  }
+  
+	  if (error.status === 503) {
+		return <div>Looks like our API is down</div>;
+	  }
+  
+	  if (error.status === 418) {
+		return <div>🫖</div>;
+	  }
+	}
+  
+	return <div>Something went wrong</div>;
 };
 
 export default ErrorHandleProvider;
