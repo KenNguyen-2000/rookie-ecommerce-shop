@@ -11,16 +11,11 @@ public static class QueryHelper<TQuery, TValue>
     public static IQueryable<TValue> SortValues(TQuery queryDto, IQueryable<TValue> products,
                                                  Expression<Func<TValue, object>> sortProperty)
     {
-        if (queryDto.SortOrder?.ToLower() == "desc")
+        return queryDto.SortOrder?.ToLower() switch
         {
-            products = products.OrderByDescending(sortProperty);
-        }
-        else
-        {
-            products = products.OrderBy(sortProperty);
-        }
-
-        return products;
+            "desc" => products.OrderByDescending(sortProperty),
+            _ => products
+        };
     }
 
     public static IQueryable<TValue> PaginateValues(TQuery queryDto, IQueryable<TValue> products)

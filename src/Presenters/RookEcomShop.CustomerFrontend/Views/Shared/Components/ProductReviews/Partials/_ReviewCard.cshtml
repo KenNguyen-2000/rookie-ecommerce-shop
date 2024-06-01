@@ -67,7 +67,8 @@
                         </button>
 
                     </button>
-                    <button type="button" id="delete-review-btn" class="hover:scale-125 transition-all duration-200">
+                    <button type="button" value="@Model.Id" onclick='toggleDeleteModal("@Model.Id")'
+                        class="delete-review-btn hover:scale-125 transition-all duration-200">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="size-6 stroke-red-500">
                             <path stroke-linecap="round" stroke-linejoin="round"

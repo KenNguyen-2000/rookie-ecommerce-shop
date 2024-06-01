@@ -1,4 +1,5 @@
 using RookEcomShop.ViewModels.Contracts.Product;
+using RookEcomShop.ViewModels.Contracts.Reviews;
 using RookEcomShop.ViewModels.Dto;
 
 namespace RookEcomShop.ViewModels.ViewModels
@@ -8,5 +9,6 @@ namespace RookEcomShop.ViewModels.ViewModels
         public ProductDto Product { get; set; } = null!;
         public IEnumerable<OrderDto> Reviews { get; set; } = new List<OrderDto>();
         public AddToCartInput AddToCartInput { get; set; } = new AddToCartInput();
+        public RemoveReviewVM RemoveReviewVM { get; set; } = new RemoveReviewVM();
     }
 }

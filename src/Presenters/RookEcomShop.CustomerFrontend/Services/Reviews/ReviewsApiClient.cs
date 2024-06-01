@@ -1,9 +1,9 @@
 using Newtonsoft.Json;
 using RookEcomShop.Application.Dto;
-using RookEcomShop.CustomerFrontend.Models.Reviews;
 using RookEcomShop.CustomerFrontend.Services.Helpers;
 using RookEcomShop.ViewModels.Contracts.Reviews;
 using RookEcomShop.ViewModels.Dto;
+using RookEcomShop.ViewModels.ViewModels;
 using System.Text;
 
 namespace RookEcomShop.CustomerFrontend.Services.Reviews

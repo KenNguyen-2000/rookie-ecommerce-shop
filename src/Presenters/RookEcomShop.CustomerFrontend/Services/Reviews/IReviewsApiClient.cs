@@ -1,5 +1,5 @@
-using RookEcomShop.CustomerFrontend.Models.Reviews;
 using RookEcomShop.ViewModels.Dto;
+using RookEcomShop.ViewModels.ViewModels;
 
 namespace RookEcomShop.CustomerFrontend.Services.Reviews
 {

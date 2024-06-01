@@ -1,11 +1,10 @@
-@using RookEcomShop.CustomerFrontend.Models.Products
-@using RookEcomShop.CustomerFrontend.ViewComponents
+@using RookEcomShop.ViewModels.ViewModels
 @model ProductReviewsVM
 
 @{
     var reviews = @Model.Reviews.Items;
     ViewData["ProductId"] = @Model.Reviews.Items.FirstOrDefault()?.ProductId;
-    ViewData["ReviewId"] = @Model.Reviews.Items.FirstOrDefault()?.Id;
+    ViewData["SelectedReviewId"] = @Model.Reviews.Items.FirstOrDefault()?.Id;
     ViewData["Product"] = @Model.Product;
     var totalReviews = @Model.Reviews.Items.Count();
 }
@@ -77,7 +76,7 @@
         <div class="mt-6 divide-y divide-gray-200 dark:divide-gray-700">
             @foreach (var review in reviews)
             {
-                <partial name="Partials/_ReviewCard.cshtml" model="review" />
+                <partial name="Partials/_ReviewCard.cshtml" model="review" view-data="ViewData" />
             }
 
         </div>
@@ -90,5 +89,6 @@
     </div>
 </section>
 
+
 <partial name="Partials/_ReviewModal.cshtml" model="@Model.ReviewsProductInputModel" view-data="ViewData" />
-<partial name="Partials/_ConfirmDeleteReviewDialog.cshtml" view-data="ViewData" />
+<partial name="Partials/_ConfirmDeleteReviewDialog.cshtml" model="@Model.RemoveReviewVM" view-data="ViewData" />

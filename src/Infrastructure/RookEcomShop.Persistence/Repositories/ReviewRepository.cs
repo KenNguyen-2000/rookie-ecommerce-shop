@@ -34,7 +34,7 @@ namespace RookEcomShop.Persistence.Repositories
                                                              GetSortProperty(queryDto));
 
             var totalCount = await query.CountAsync(cancellationToken);
-            var reviews = await QueryHelper<QueryDto, Review>.PaginateValues(queryDto, query).ToListAsync();
+            var reviews = await QueryHelper<QueryDto, Review>.PaginateValues(queryDto, query).ToListAsync(cancellationToken);
 
             return PaginatedList<Review>.Create(
                 reviews,

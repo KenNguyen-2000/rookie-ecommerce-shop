@@ -109,7 +109,7 @@ $('#add-one-cart-form').on('submit', function (event) {
 
 function addProductToCart(productId, productQuantity) {
   $.ajax({
-    url: '/cart/add-to-cart',
+    url: '/cart/add-to-cart?productId=' + productId,
     type: 'POST',
     headers: {
       'X-Requested-With': 'XMLHttpRequest',
@@ -151,7 +151,7 @@ function showSuccessToast(message) {
     newWindow: true,
     close: true,
     node: customNode,
-    gravity: 'top', // `top` or `bottom`
+    gravity: 'bottom', // `top` or `bottom`
     position: 'right', // `left`, `center` or `right`
     stopOnFocus: true, // Prevents dismissing of toast on hover
     className: 'success-toast', // The CSS class name of the toast

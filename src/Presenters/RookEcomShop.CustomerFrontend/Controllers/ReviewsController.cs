@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RookEcomShop.CustomerFrontend.Models.Reviews;
 using RookEcomShop.CustomerFrontend.Services.Reviews;
+using RookEcomShop.ViewModels.Contracts.Reviews;
+using RookEcomShop.ViewModels.ViewModels;
 using Serilog;
 
 namespace RookEcomShop.CustomerFrontend.Controllers
@@ -34,7 +35,7 @@ namespace RookEcomShop.CustomerFrontend.Controllers
             return Redirect($"/products/{request.ProductId}");
         }
 
-        [HttpPost("{reviewId}")]
+        [HttpPost("remove")]
         public async Task<IActionResult> RemoveReview(Guid productId, Guid reviewId)
         {
             Console.WriteLine("ReviewsController: Remove review " + reviewId + " for product " + productId);
