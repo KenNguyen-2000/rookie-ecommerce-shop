@@ -101,15 +101,15 @@ namespace RookEcomShop.Persistence.Repositories
         }
 
         private static Expression<Func<Product, object>> GetSortProperty(ProductQueryDto queryDto) =>
-       queryDto.SortColumn?.ToLower() switch
-       {
-           "name" => product => product.Name,
-           "description" => product => product.Description,
-           "price" => product => product.Price,
-           "stockQuantity" => product => product.StockQuantity,
-           "createdAt" => product => product.CreatedAt,
-           _ => product => product.Id
-       };
+            queryDto.SortColumn?.ToLower() switch
+            {
+                "name" => product => product.Name,
+                "description" => product => product.Description,
+                "price" => product => product.Price,
+                "stockquantity" => product => product.StockQuantity,
+                "createdAt" => product => product.CreatedAt,
+                _ => product => product.Id
+            };
 
         public async Task<IEnumerable<Product>> GetListBestReviewsAsync(int count = 10, CancellationToken cancellationToken = default)
         {

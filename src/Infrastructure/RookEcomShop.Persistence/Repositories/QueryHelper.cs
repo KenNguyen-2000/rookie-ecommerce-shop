@@ -14,7 +14,7 @@ public static class QueryHelper<TQuery, TValue>
         return queryDto.SortOrder?.ToLower() switch
         {
             "desc" => products.OrderByDescending(sortProperty),
-            _ => products
+            _ => products.OrderBy(sortProperty)
         };
     }
 

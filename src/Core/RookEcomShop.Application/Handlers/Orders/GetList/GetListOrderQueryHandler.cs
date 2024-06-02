@@ -21,11 +21,7 @@ namespace RookEcomShop.Application.Handlers.Orders.GetList
 
         public async Task<Result<PaginatedList<OrderDto>>> Handle(GetListOrderQuery request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository
-                                .GetByIdAsync(request.UserId)
-                                .ThrowIfNullAsync($"User with id {request.UserId}");
-
-            var orders = await _orderRepository.GetListAsync(o => o.UserId.Equals(request.UserId), request.QueryObject, cancellationToken);
+            var orders = await _orderRepository.GetListAsync(null, request.QueryObject, cancellationToken);
             var orderVMs = orders.Items.Select(OrdersMapper.MapToOrderDto);
 
             return Result.Ok(PaginatedList<OrderDto>.Create(

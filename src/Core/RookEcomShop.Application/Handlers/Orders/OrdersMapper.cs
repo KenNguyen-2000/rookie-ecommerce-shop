@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using RookEcomShop.Application.Handlers.Users;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.ViewModels.Dto;
@@ -14,8 +15,26 @@ public static class OrdersMapper
             Status = order.Status,
             OrderDate = order.OrderDate,
             User = UsersMapper.MapToUserDto(order.User),
-            OrderItems = order.OrderDetails.Select(MapToOrderDetailDto)
+            OrderItems = order.OrderDetails.Select(MapToOrderDetailDto),
+            PaymentTransaction = order.PaymentTransaction != null ? MapToPaymentTransactionDto(order.PaymentTransaction) : null,
         };
+    }
+
+    private static PaymentTransactionDto MapToPaymentTransactionDto(PaymentTransaction paymentTransaction)
+    {
+        var paymentDto = new PaymentTransactionDto
+        {
+            Status = paymentTransaction.Status,
+            TotalAmount = paymentTransaction.TotalAmount,
+            TransactionDate = paymentTransaction.TransactionDate
+        };
+
+        if (!string.IsNullOrWhiteSpace(paymentTransaction.PaymentInfo))
+        {
+            paymentDto.PaymentInfo = JsonConvert.DeserializeObject<PaymentInfoContent>(paymentTransaction.PaymentInfo)!;
+        }
+
+        return paymentDto;
     }
 
     public static OrderDetailDto MapToOrderDetailDto(OrderDetail orderDetail)

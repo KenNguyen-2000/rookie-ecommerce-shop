@@ -1,6 +1,7 @@
 using FluentResults;
 using MediatR;
 using RookEcomShop.Application.Common.Exceptions;
+using RookEcomShop.Application.Common.Helpers;
 using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.Application.Common.Services;
 using RookEcomShop.Domain.Common.Enums;
@@ -11,7 +12,7 @@ namespace RookEcomShop.Application.Handlers.Orders.Cancel
     public class CancelOrderCommandHandler : BaseService, IRequestHandler<CancelOrderCommand, Result>
     {
         private readonly IOrderRepository _orderRepository;
-        public CancelOrderCommandHandler(IOrderRepository orderRepository, IUnitOfWork unitOfWork) : base(unitOfWork)
+        public CancelOrderCommandHandler(IOrderRepository orderRepository, IUnitOfWork unitOfWork, UserContext userContext) : base(unitOfWork, userContext)
         {
             _orderRepository = orderRepository;
         }
@@ -23,7 +24,7 @@ namespace RookEcomShop.Application.Handlers.Orders.Cancel
                                 .ThrowIfNullAsync($"Order with id {request.OrderId}");
 
 
-            if (order.Status != OrderStatus.Pending)
+            if (order.Status != OrderStatus.Pending && _userContext.UserRole == "Buyer")
                 throw new BadRequestException("Order cannot be cancelled");
 
             order.Status = OrderStatus.Cancelled;

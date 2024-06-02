@@ -17,7 +17,10 @@ namespace RookEcomShop.Persistence.Repositories
         {
             return _dbContext.Orders
                 .Include(o => o.OrderDetails)
-                .ThenInclude(oD => oD.Product)
+                    .ThenInclude(oD => oD.Product)
+                    .ThenInclude(p => p.Category)
+                .Include(o => o.User)
+                .Include(o => o.PaymentTransaction)
                 .FirstOrDefaultAsync(e => e.Id.Equals(id), cancellationToken);
         }
 
@@ -33,10 +36,12 @@ namespace RookEcomShop.Persistence.Repositories
 
 
             var orders = await query
-            .Include(o => o.OrderDetails)
-                .ThenInclude(oD => oD.Product)
-                .ThenInclude(p => p.Category)
-            .ToListAsync(cancellationToken);
+                .Include(o => o.User)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(oD => oD.Product)
+                    .ThenInclude(p => p.Category)
+                .Include(o => o.PaymentTransaction)
+                .ToListAsync(cancellationToken);
 
             return PaginatedList<Order>.Create(orders);
         }
