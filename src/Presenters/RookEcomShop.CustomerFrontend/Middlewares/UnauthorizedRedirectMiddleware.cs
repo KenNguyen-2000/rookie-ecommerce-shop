@@ -17,7 +17,7 @@
             }
             catch (UnauthorizedAccessException)
             {
-                context.Response.Redirect("/Account/Login");
+                context.Response.Redirect("/Account/SignIn");
             }
         }
     }

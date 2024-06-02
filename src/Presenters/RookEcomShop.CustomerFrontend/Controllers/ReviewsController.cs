@@ -7,7 +7,7 @@ using Serilog;
 
 namespace RookEcomShop.CustomerFrontend.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("products/{productId}/reviews")]
     public class ReviewsController : Controller
     {
@@ -19,16 +19,30 @@ namespace RookEcomShop.CustomerFrontend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddReview(Guid productId, ReviewsProductInputModel request)
+        public async Task<IActionResult> AddReview(Guid productId, string button, ReviewsProductInputModel request)
         {
             Log.Information<ReviewsProductInputModel>("ReviewsController: [BEGIN] Add review for product", request);
 
-            await _reviewsApiClient.ReviewProductAsync(new ReviewsProductInputModel
+            if(button == "create")
             {
-                ProductId = productId,
-                Content = request.Content,
-                Rating = request.Rating
-            });
+                await _reviewsApiClient.ReviewProductAsync(new ReviewsProductInputModel
+                {
+                    ProductId = productId,
+                    Content = request.Content,
+                    Rating = request.Rating
+                });
+            }else
+            {
+                await _reviewsApiClient.UpdateReviewAsync(new ReviewsProductInputModel
+                {
+                    ProductId = productId,
+                    Content = request.Content,
+                    Rating = request.Rating,
+                    ReviewId = request.ReviewId
+                });
+            }
+
+            
 
             Log.Information<ReviewsProductInputModel>("ReviewsController: [END] Add review for product", request);
 

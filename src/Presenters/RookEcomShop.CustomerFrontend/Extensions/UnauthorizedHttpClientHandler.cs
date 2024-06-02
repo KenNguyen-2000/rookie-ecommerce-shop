@@ -12,8 +12,7 @@ namespace RookEcomShop.CustomerFrontend.Extensions
 
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                Log.Error("Unauthorized request");
-                throw new UnauthorizedAccessException();
+                throw new UnauthorizedAccessException("Unauthorized access");
             }
 
             return response;

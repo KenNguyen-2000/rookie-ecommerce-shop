@@ -89,6 +89,7 @@ namespace RookEcomShop.CustomerFrontend
             RegisterHttpClient<IOrdersApiClient, OrdersApiClient>();
             RegisterHttpClient<IAccountApiClient, AccountApiClient>();
 
+
             return services;
         }
     }

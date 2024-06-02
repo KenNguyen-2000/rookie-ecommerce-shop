@@ -68,6 +68,7 @@ namespace RookEcomShop.Infrastructure.IdentityServer
                     RedirectUris = { $"{clientUrls["Mvc"]}/signin-oidc" },
                     FrontChannelLogoutUri = $"{clientUrls["Mvc"]}/signout-oidc",
                     PostLogoutRedirectUris = { $"{clientUrls["Mvc"]}/signout-callback-oidc" },
+                     AllowedCorsOrigins = { $"{clientUrls["Mvc"]}" },
 
                     AllowOfflineAccess = true,
                     AllowedScopes =

@@ -9,7 +9,15 @@ builder.Services
     .AddAuthenticationConfiguration()
     .AddHttpContextAccessor()
     .AddApiClientConfiguration(builder.Configuration);
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 SerilogConfiguration.ConfigureSerilog();
 
 
@@ -30,13 +38,14 @@ else
 
 app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
-app.UseMiddleware<UnauthorizedRedirectMiddleware>();
 app.UseMiddleware<GlobalExceptionMiddlerware>();
 
 app.UseStaticFiles();
 app.UseHttpsRedirection();
 
 app.UseRouting();
+
+app.UseCors("AllowAllOrigins");
 
 app.UseAuthentication();
 app.UseAuthorization();

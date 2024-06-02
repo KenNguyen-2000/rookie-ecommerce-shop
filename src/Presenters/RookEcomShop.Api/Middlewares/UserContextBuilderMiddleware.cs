@@ -21,13 +21,14 @@ namespace RookEcomShop.Api.Middlewares
                 if (context.User?.Identity?.IsAuthenticated == true)
                 {
                     Guid userId = Guid.Parse(context.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+                    string role = context.User.Claims.First(c => c.Type == ClaimTypes.Role).Value;
                     //var query = new GetUserByIdQuery { Id = userId };
                     //var result = await sender.Send(query);
                     //if (result.IsFailed)
                     //{
                     //    throw new NotFoundException("Cannot find user with the provided id.");
                     //}
-                    userContext.SetContext(userId);
+                    userContext.SetContext(userId, role);
                 }
 
                 await _next(context);

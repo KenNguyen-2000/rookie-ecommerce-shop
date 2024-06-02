@@ -19,7 +19,7 @@ namespace RookEcomShop.CustomerFrontend.Middlewares
             }
             catch (UnauthorizedAccessException)
             {
-                context.Response.Redirect("/Account/Login");
+                context.Response.Redirect("/Account/SignIn");
             }
             catch (Exception ex)
             {

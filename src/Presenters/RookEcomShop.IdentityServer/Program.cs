@@ -16,8 +16,7 @@ try
 
     builder.Services.AddRazorPages();
     builder.Services
-        .AddPersistence(builder.Configuration)
-        .AddInfrastructure(builder.Configuration);
+        .AddPersistence(builder.Configuration);
 
 
     //builder.Services.AddAuthentication()
