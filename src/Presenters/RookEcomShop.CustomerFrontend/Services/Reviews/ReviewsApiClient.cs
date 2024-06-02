@@ -4,6 +4,7 @@ using RookEcomShop.CustomerFrontend.Services.Helpers;
 using RookEcomShop.ViewModels.Contracts.Reviews;
 using RookEcomShop.ViewModels.Dto;
 using RookEcomShop.ViewModels.ViewModels;
+using Serilog;
 using System.Text;
 
 namespace RookEcomShop.CustomerFrontend.Services.Reviews
@@ -35,7 +36,7 @@ namespace RookEcomShop.CustomerFrontend.Services.Reviews
 
             string content = await response.Content.ReadAsStringAsync();
 
-            Console.WriteLine(content);
+            Log.Information(content);
         }
 
         public async Task ReviewProductAsync(ReviewsProductInputModel request)
@@ -53,7 +54,27 @@ namespace RookEcomShop.CustomerFrontend.Services.Reviews
             string responseBody = await response.Content.ReadAsStringAsync();
 
             // Output the response
-            Console.WriteLine(responseBody);
+            Log.Information(responseBody);
+        }
+
+        public async Task UpdateReviewAsync(ReviewsProductInputModel request)
+        {
+
+            var jsonData = JsonConvert.SerializeObject(new UpdateReviewRequest
+            {
+                ProductId = request.ProductId,
+                Content = request.Content,
+                Rating = request.Rating
+            });
+            var bodyContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PutAsync($"products/{request.ProductId}/reviews/{request.ReviewId}", bodyContent);
+
+            response.EnsureSuccessStatusCode();
+            // Read the response content
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            // Output the response
+            Log.Information(responseBody);
         }
     }
 }

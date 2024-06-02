@@ -8,7 +8,8 @@ export type OrderDto = {
 	totalAmount: number;
 	orderDate: string;
 	user: UserDto;
-	items: OrderDetailDto[];
+	orderItems: OrderDetailDto[];
+	paymentTransaction: PaymentTransactionDto;
 };
 
 export type OrderDetailDto = {
@@ -23,3 +24,26 @@ export type UpdateOrderDto = {
 	id: string;
 	action: 'confirm' | 'cancel' | 'deliver';
 };
+
+export type PaymentTransactionDto = {
+	status: PaymentTransactionStatus;
+	totalAmount: number;
+	transactionDate: string;
+	user: UserDto;
+	paymentInfo: PaymentInfoDto;
+};
+export type PaymentInfoDto = {
+	contactInfo: string;
+	firstName: string;
+	lastName: string;
+	shippingAddress: string;
+	city?: string;
+	postalCode?: string;
+	province?: string;
+};
+
+export enum PaymentTransactionStatus {
+	Pending = 0,
+	Success = 1,
+	Failed = 2,
+}

@@ -1,5 +1,5 @@
 import { ContentSidebarLayout } from '@/components/layouts';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import productsService from '@/services/products/products.service';
 import { CreateUpdateProductInputs } from '@/services/products/products.type';
@@ -11,6 +11,7 @@ import { ProductStatus } from '@/services/products/products.enum';
 
 const ProductDetailPage = () => {
 	const { productId } = useParams();
+	const queryClient = useQueryClient();
 	const dispatch = useAppDispatch();
 	const {
 		data: product,
@@ -31,6 +32,7 @@ const ProductDetailPage = () => {
 				status: product.status,
 			}),
 		);
+		await queryClient.invalidateQueries({queryKey: ['product', productId]});
 		toast({
 			title: 'Update Product Succeeded',
 			description: (

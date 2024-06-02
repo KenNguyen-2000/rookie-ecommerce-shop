@@ -45,7 +45,7 @@ type ContentSidebarLayoutProps = {
 
 const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children }) => {
 	const { pathname } = useLocation();
-	const {user} = useAppSelector(state => state.auth);
+	const { user } = useAppSelector((state) => state.auth);
 	const { productId, categoryId } = useParams();
 	const navigate = useNavigate();
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -61,7 +61,6 @@ const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children })
 		newParams.set('searchTerm', searchTerm);
 		setSearchParams(newParams);
 	};
-
 
 	return (
 		<div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -162,7 +161,7 @@ const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children })
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end">
-							<DropdownMenuLabel>{user?.name ?? "My Account"}</DropdownMenuLabel>
+							<DropdownMenuLabel>{user?.name ?? 'My Account'}</DropdownMenuLabel>
 							<DropdownMenuSeparator />
 							<DropdownMenuItem>Settings</DropdownMenuItem>
 							<DropdownMenuItem>Support</DropdownMenuItem>

@@ -224,11 +224,12 @@
   </div>
 </div>
 
-
 @section PageScripts {
   <script src="~/js/product-detail.js" asp-append-version="true"></script>
   <script src="~/js/view-components/product-reviews.js" asp-append-version="true"></script>
   <script src="~/js/view-components/review-modal.js" asp-append-version="true"></script>
+    <partial name="~/Views/Shared/_ValidationScriptsPartial.cshtml" />
+
 }
 
 @section PageStyles {

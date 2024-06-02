@@ -4,10 +4,4 @@ import TanstackProvider from './TanstackProvider';
 import ErrorHandleProvider from './ErrorHandleProvider';
 import { AxiosInterceptor } from './AxiosInterceptor';
 
-export {
-	PrivateRoute,
-	ReduxProvider,
-	TanstackProvider,
-	AxiosInterceptor,
-	ErrorHandleProvider,
-};
+export { PrivateRoute, ReduxProvider, TanstackProvider, AxiosInterceptor, ErrorHandleProvider };

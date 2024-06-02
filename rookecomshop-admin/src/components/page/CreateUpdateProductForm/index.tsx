@@ -196,8 +196,9 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 									</CardDescription>
 								</CardHeader>
 								<CardContent>
-									<div className="grid gap-6">
-										<div className="grid gap-3">
+									<div className="grid  gap-6">
+										<div className="grid lg:grid-cols-3 gap-3">
+											<div className='grid gap-3 lg:col-span-2'>
 											<FormField
 												control={form.control}
 												name="name"
@@ -215,6 +216,50 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 													</FormItem>
 												)}
 											/>
+											</div>
+											<div className="grid gap-3">
+											<FormField
+												control={form.control}
+												name="categoryName"
+												render={({ field }) => (
+													<FormItem>
+														<FormLabel>Category</FormLabel>
+														<Select
+															defaultValue={field.value}
+															onValueChange={(value) => {
+																const getCategory = categories.find(
+																	(category) =>
+																		category.name === value,
+																);
+																dispatch(
+																	setSelectedTopCategory(
+																		getCategory,
+																	),
+																);
+																field.onChange(value);
+															}}
+														>
+															<FormControl>
+																<SelectTrigger>
+																	<SelectValue placeholder="Select category" />
+																</SelectTrigger>
+															</FormControl>
+															<SelectContent>
+																{categories.map((category) => (
+																	<SelectItem
+																		key={category.name}
+																		value={category.name}
+																	>
+																		{category.name}
+																	</SelectItem>
+																))}
+															</SelectContent>
+														</Select>
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
+										</div>
 										</div>
 										<div className="grid grid-cols-3 gap-3">
 											<div className="grid">
@@ -318,180 +363,8 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 									</div>
 								</CardContent>
 							</Card>
-							<Card x-chunk="dashboard-07-chunk-2">
-								<CardHeader>
-									<CardTitle>Product Category</CardTitle>
-								</CardHeader>
-								<CardContent>
-									<div className="grid gap-6 sm:grid-cols-3">
-										<div className="grid gap-3">
-											<FormField
-												control={form.control}
-												name="categoryName"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Category</FormLabel>
-														<Select
-															defaultValue={field.value}
-															onValueChange={(value) => {
-																const getCategory = categories.find(
-																	(category) =>
-																		category.name === value,
-																);
-																dispatch(
-																	setSelectedTopCategory(
-																		getCategory,
-																	),
-																);
-																field.onChange(value);
-															}}
-														>
-															<FormControl>
-																<SelectTrigger>
-																	<SelectValue placeholder="Select category" />
-																</SelectTrigger>
-															</FormControl>
-															<SelectContent>
-																{categories.map((category) => (
-																	<SelectItem
-																		key={category.name}
-																		value={category.name}
-																	>
-																		{category.name}
-																	</SelectItem>
-																))}
-															</SelectContent>
-														</Select>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
-										</div>
-										<div className="grid gap-3">
-											<FormField
-												control={form.control}
-												name="subCategoryName"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Sub Category</FormLabel>
-														<Select
-															defaultValue={selectedTopCategory?.name}
-															onValueChange={(value) => {
-																field.onChange(value);
-															}}
-														>
-															<FormControl>
-																<SelectTrigger>
-																	<SelectValue placeholder="Select sub category" />
-																</SelectTrigger>
-															</FormControl>
-															<SelectContent>
-																{selectedTopCategory?.subCategories.map(
-																	(subCategory) => (
-																		<SelectItem
-																			key={subCategory.id}
-																			value={subCategory.name}
-																		>
-																			{subCategory.name}
-																		</SelectItem>
-																	),
-																)}
-															</SelectContent>
-														</Select>
-													</FormItem>
-												)}
-											/>
-										</div>
-									</div>
-								</CardContent>
-							</Card>
 						</div>
 						<div className="grid auto-rows-max items-start gap-4 lg:gap-8">
-							{/* <Card x-chunk="dashboard-07-chunk-3">
-								<CardHeader>
-									<CardTitle>Product Status</CardTitle>
-								</CardHeader>
-								<CardContent>
-									<div className="grid gap-6">
-										<div className="grid gap-3">
-											<FormField
-												control={form.control}
-												name="status"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Status</FormLabel>
-														<Select
-															defaultValue={defaultValue?.status?.toString()}
-															onValueChange={(value) => {
-																field.onChange(value);
-															}}
-														>
-															<SelectTrigger>
-																<SelectValue placeholder="Select status" />
-															</SelectTrigger>
-															<SelectContent>
-																<SelectItem
-																	value={ProductStatus.Active.toString()}
-																>
-																	Active
-																</SelectItem>
-																<SelectItem
-																	value={ProductStatus.Inactive.toString()}
-																>
-																	Inactive
-																</SelectItem>
-															</SelectContent>
-														</Select>
-													</FormItem>
-												)}
-											/>
-										</div>
-									</div>
-								</CardContent>
-							</Card>
-							<Card className="overflow-hidden" x-chunk="dashboard-07-chunk-4">
-								<CardHeader>
-									<CardTitle>Product Images</CardTitle>
-									<CardDescription>
-										Lipsum dolor sit amet, consectetur adipiscing elit
-									</CardDescription>
-								</CardHeader>
-								<CardContent>
-									<div className="grid gap-2">
-										<img
-											alt="Product image"
-											className="aspect-square w-full rounded-md object-cover"
-											height="300"
-											src="/placeholder.svg"
-											width="300"
-										/>
-										<div className="grid grid-cols-3 gap-2">
-											<button>
-												<img
-													alt="Product image"
-													className="aspect-square w-full rounded-md object-cover"
-													height="84"
-													src="/placeholder.svg"
-													width="84"
-												/>
-											</button>
-											<button>
-												<img
-													alt="Product image"
-													className="aspect-square w-full rounded-md object-cover"
-													height="84"
-													src="/placeholder.svg"
-													width="84"
-												/>
-											</button>
-											<button className="flex aspect-square w-full items-center justify-center rounded-md border border-dashed">
-												<Upload className="h-4 w-4 text-muted-foreground" />
-												<span className="sr-only">Upload</span>
-											</button>
-										</div>
-									</div>
-								</CardContent>
-							</Card> */}
 							<Card x-chunk="dashboard-07-chunk-5">
 								<CardHeader>
 									<CardTitle>Archive Product</CardTitle>

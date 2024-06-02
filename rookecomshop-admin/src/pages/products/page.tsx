@@ -94,7 +94,6 @@ const ProductPage = () => {
 	const handleAddParams = (page: number, pageSize?: number) => {
 		const newParams = new URLSearchParams(searchParams);
 		newParams.set('page', page.toString());
-
 		newParams.set('pageSize', (pageSize ?? 5).toString());
 		setSearchParams(newParams);
 	};
@@ -106,27 +105,14 @@ const ProductPage = () => {
 		setSearchParams(newParams);
 	};
 
-	// useEffect(() => {
-	// 	function updateQueryParams(queryDto: ProductQueryDto) {
-	// 		const newParams = new URLSearchParams(searchParams);
-	// 		newParams.set('page', queryDto.page.toString());
-	// 		newParams.set('pageSize', queryDto.pageSize.toString());
-	// 		if (queryDto.searchTerm)
-	// 			newParams.set('searchTerm', queryDto.searchTerm);
-
-	// 		if (queryDto.sortColumn)
-	// 			newParams.set('sortOrder', queryDto.sortColumn);
-
-	// 		if (queryDto.categoryName !== null)
-	// 			newParams.set('categoryName', queryDto.categoryName);
-	// 		setSearchParams(newParams);
-	// 	}
-
-	// 	updateQueryParams(queryDto);
-	// }, [queryDto]);
+	const handleCategoryQuery = (categoryName: string) => {
+		const newParams = new URLSearchParams(searchParams);
+		newParams.set('categoryName', categoryName);
+		setSearchParams(newParams);
+	
+	}
 
 	useEffect(() => {
-		console.log(searchParams);
 		setQueryDto({
 			page: parseInt(searchParams.get('page') ?? '1'),
 			pageSize: parseInt(searchParams.get('pageSize') ?? '5'),
@@ -172,10 +158,7 @@ const ProductPage = () => {
 									<DropdownMenuCheckboxItem
 										checked={queryDto.categoryName === ''}
 										onClick={() =>
-											setQueryDto({
-												...queryDto,
-												categoryName: '',
-											})
+											handleCategoryQuery("")
 										}
 									>
 										All
@@ -184,10 +167,7 @@ const ProductPage = () => {
 										<DropdownMenuCheckboxItem
 											checked={queryDto.categoryName === category.name}
 											onClick={() =>
-												setQueryDto({
-													...queryDto,
-													categoryName: category.name,
-												})
+												handleCategoryQuery(category.name)
 											}
 											key={category.id}
 										>
@@ -301,50 +281,6 @@ const ProductPage = () => {
 									) : (
 										<ProductsSkeleton count={5} />
 									)}
-
-									<TableRow>
-										<TableCell className="hidden sm:table-cell">
-											<img
-												alt="Product image"
-												className="aspect-square rounded-md object-cover"
-												height="64"
-												src="/placeholder.svg"
-												width="64"
-											/>
-										</TableCell>
-										<TableCell className="font-medium">
-											TechTonic Energy Drink
-										</TableCell>
-										<TableCell>
-											<Badge variant="secondary">Active</Badge>
-										</TableCell>
-										<TableCell className="hidden md:table-cell">
-											$2.99
-										</TableCell>
-										<TableCell className="hidden md:table-cell">0</TableCell>
-										<TableCell className="hidden md:table-cell">
-											2023-12-25 11:59 PM
-										</TableCell>
-										<TableCell>
-											<DropdownMenu>
-												<DropdownMenuTrigger asChild>
-													<Button
-														aria-haspopup="true"
-														size="icon"
-														variant="ghost"
-													>
-														<MoreHorizontal className="h-4 w-4" />
-														<span className="sr-only">Toggle menu</span>
-													</Button>
-												</DropdownMenuTrigger>
-												<DropdownMenuContent align="end">
-													<DropdownMenuLabel>Actions</DropdownMenuLabel>
-													<DropdownMenuItem>Edit</DropdownMenuItem>
-													<DropdownMenuItem>Delete</DropdownMenuItem>
-												</DropdownMenuContent>
-											</DropdownMenu>
-										</TableCell>
-									</TableRow>
 								</TableBody>
 							</Table>
 						</CardContent>

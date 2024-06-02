@@ -7,6 +7,7 @@ namespace RookEcomShop.CustomerFrontend.Services.Reviews
     {
         Task<PaginatedList<ReviewDto>> GetReviewsAsync(Guid productId);
         Task ReviewProductAsync(ReviewsProductInputModel request);
+        Task UpdateReviewAsync(ReviewsProductInputModel request);
         Task RemoveReviewAsync(Guid productId, Guid reviewId);
     }
 }

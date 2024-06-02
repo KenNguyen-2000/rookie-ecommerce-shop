@@ -1,8 +1,9 @@
 import interceptor from '@/components/hoc/AxiosInterceptor';
 import { OrderDto, UpdateOrderDto } from './orders.type';
+import { PagniatedList } from '@/types/pagniated-list.type';
 
-const getListAsync = async (): Promise<OrderDto[]> => {
-	const res = await interceptor.get<OrderDto[]>('/orders');
+const getListAsync = async (): Promise<PagniatedList<OrderDto>> => {
+	const res = await interceptor.get<PagniatedList<OrderDto>>('/orders');
 
 	return res.data;
 };
@@ -16,10 +17,10 @@ const getByIdAsync = async (id: string): Promise<OrderDto> => {
 const updateOrderStatusAsync = async (request: UpdateOrderDto): Promise<void> => {
 	switch (request.action) {
 		case 'confirm':
-			await interceptor.put(`/orders/${request.id}/confirm`);
+			await interceptor.patch(`/orders/${request.id}/confirm`);
 			break;
 		case 'cancel':
-			await interceptor.put(`/orders/${request.id}/cancel`);
+			await interceptor.patch(`/orders/${request.id}/cancel`);
 			break;
 		default:
 			break;

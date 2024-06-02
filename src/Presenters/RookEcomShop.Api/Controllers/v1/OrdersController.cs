@@ -25,6 +25,7 @@ namespace RookEcomShop.Api.Controllers.v1
             _userContext = userContext;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetOrders()
         {

@@ -1,4 +1,5 @@
 using RookEcomShop.Domain.Common.Enums;
+using RookEcomShop.Domain.Entities;
 
 namespace RookEcomShop.ViewModels.Dto
 {
@@ -10,5 +11,6 @@ namespace RookEcomShop.ViewModels.Dto
         public DateTime OrderDate { get; set; }
         public UserDto User { get; set; } = null!;
         public IEnumerable<OrderDetailDto> OrderItems { get; set; } = new List<OrderDetailDto>();
+        public PaymentTransactionDto? PaymentTransaction { get; set; }
     }
 }

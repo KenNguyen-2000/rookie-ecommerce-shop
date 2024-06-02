@@ -1,38 +1,47 @@
-// ------------- Review star rating -----------------
-$(".review-star").on("mouseover", function () {
-  var starValue = $(this).find("input").val();
-  $(".review-star").each(function (index, element) {
-    if (index + 1 <= starValue) {
-      $(element)
+const $reviewStars = $(".review-star");
+
+function updateStars(starValue) {
+  $reviewStars.each(function (index, element) {
+    const $element = $(element);
+    if (index < starValue) {
+      $element
         .addClass("fill-amber-400 stroke-amber-400")
         .removeClass("fill-white stroke-black");
+    } else {
+      $element
+        .addClass("fill-white stroke-black")
+        .removeClass("fill-amber-400 stroke-amber-400");
     }
   });
-});
+}
 
-$(".review-star").on("mouseout", function () {
-  $(".review-star").each(function (index, element) {
-    if ($(element).hasClass("selected")) return;
-
-    $(element)
-      .addClass("fill-white stroke-black")
-      .removeClass("fill-amber-400")
-      .removeClass("stroke-amber-400");
-  });
-});
-
-$(".review-star").on("click", function () {
+$reviewStars.on("mouseover", function () {
   const starValue = $(this).find("input").val();
-  console.log(starValue);
+  updateStars(starValue);
+});
+
+$reviewStars.on("mouseout", function () {
+  const selectedValue = $(".review-star.selected").length;
+  updateStars(selectedValue);
+});
+
+$reviewStars.on("click", function () {
+  const starValue = $(this).find("input").val();
   $("#modal-rating").val(starValue);
+  updateStars(starValue);
 
-  $(".review-star").each(function (index, element) {
-    $(element).removeClass("fill-amber-400 stroke-amber-400 selected");
-
-    if (index + 1 <= starValue) {
-      $(element)
-        .addClass("fill-amber-400 stroke-amber-400 selected")
-        .removeClass("fill-white stroke-black");
+  $reviewStars.each(function (index, element) {
+    const $element = $(element);
+    if (index < starValue) {
+      $element.addClass("selected");
+    } else {
+      $element.removeClass("selected");
     }
   });
+
+  ratingReview(starValue);
 });
+
+function ratingReview(starValue) {
+  updateStars(starValue);
+}

@@ -9,4 +9,5 @@ export type UserDto = {
 	dob?: string;
 	gender: Gender;
 	avatarUrl?: string;
+	email?: string;
 };
