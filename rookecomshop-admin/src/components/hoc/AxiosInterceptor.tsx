@@ -47,17 +47,15 @@ const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
 					return Promise.reject(error.response);
 				}
 				console.log(error);
-				
-				if (error.response) {
-					if(error.response.data.errors)
-						{
-							Object.keys(error.response.data.errors).forEach((key) => {
-								toast.error(error.response!.data.errors[key][0]);
-							});
-						}else{
 
-							toast.error(error.response.data.detail ?? 'Something went wrong');
-						}
+				if (error.response) {
+					if (error.response.data.errors) {
+						Object.keys(error.response.data.errors).forEach((key) => {
+							toast.error(error.response!.data.errors[key][0]);
+						});
+					} else {
+						toast.error(error.response.data.detail ?? 'Something went wrong');
+					}
 					return error.response;
 				} else {
 					return Promise.reject(error);

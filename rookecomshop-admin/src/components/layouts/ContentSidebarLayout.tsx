@@ -44,7 +44,7 @@ type ContentSidebarLayoutProps = {
 
 const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children }) => {
 	const { pathname } = useLocation();
-	const {productId, categoryId} = useParams();
+	const { productId, categoryId } = useParams();
 	const navigate = useNavigate();
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [searchTerm, setSearchTerm] = useState('');
@@ -53,12 +53,12 @@ const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children })
 		navigate('/authentication/logout');
 	};
 
-	const handleSearch = (e : FormEvent) => {
+	const handleSearch = (e: FormEvent) => {
 		e.preventDefault();
 		const newParams = new URLSearchParams(searchParams);
 		newParams.set('searchTerm', searchTerm);
 		setSearchParams(newParams);
-	}
+	};
 
 	return (
 		<div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -103,17 +103,14 @@ const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children })
 					<Breadcrumb className="hidden md:flex">
 						<BreadcrumbList>
 							{pathname.split('/').map((path, index) => {
-								let capitalizeName = 
+								let capitalizeName =
 									path.charAt(0).toUpperCase() + path.substring(1);
-								
 
 								const isLast = index === pathname.split('/').length - 1;
 								const isHome = index === 0;
 
-								if(isLast && productId)
-									capitalizeName = "Product Detail";
-								if(isLast && categoryId)
-									capitalizeName = "Category Detail";
+								if (isLast && productId) capitalizeName = 'Product Detail';
+								if (isLast && categoryId) capitalizeName = 'Category Detail';
 
 								if (isLast)
 									return (

@@ -99,12 +99,12 @@ const ProductPage = () => {
 		setSearchParams(newParams);
 	};
 
-	const handleSortQuery = ( sortColumn: string) => {
+	const handleSortQuery = (sortColumn: string) => {
 		const newParams = new URLSearchParams(searchParams);
-			newParams.set('sortOrder', queryDto.sortOrder === 'asc' ? 'desc' : 'asc');
-			newParams.set('sortColumn', sortColumn);
+		newParams.set('sortOrder', queryDto.sortOrder === 'asc' ? 'desc' : 'asc');
+		newParams.set('sortColumn', sortColumn);
 		setSearchParams(newParams);
-	}
+	};
 
 	// useEffect(() => {
 	// 	function updateQueryParams(queryDto: ProductQueryDto) {
@@ -126,7 +126,7 @@ const ProductPage = () => {
 	// }, [queryDto]);
 
 	useEffect(() => {
-		console.log(searchParams)
+		console.log(searchParams);
 		setQueryDto({
 			page: parseInt(searchParams.get('page') ?? '1'),
 			pageSize: parseInt(searchParams.get('pageSize') ?? '5'),
@@ -135,8 +135,8 @@ const ProductPage = () => {
 			sortColumn: searchParams.get('sortColumn') ?? '',
 			categoryName: searchParams.get('categoryName') ?? null,
 			status: null,
-		})
-	},[searchParams])
+		});
+	}, [searchParams]);
 
 	return (
 		<ContentSidebarLayout>
@@ -233,7 +233,10 @@ const ProductPage = () => {
 										<TableHead>
 											<div className="flex gap-3">
 												Name
-												<button type="button" onClick={handleSortQuery.bind(null, 'name')}>
+												<button
+													type="button"
+													onClick={handleSortQuery.bind(null, 'name')}
+												>
 													<CaretSortIcon />
 												</button>
 											</div>
@@ -242,15 +245,24 @@ const ProductPage = () => {
 										<TableHead className="hidden md:table-cell">
 											<div className="flex gap-3">
 												Price
-												<button type="button" onClick={handleSortQuery.bind(null, 'price')}>
+												<button
+													type="button"
+													onClick={handleSortQuery.bind(null, 'price')}
+												>
 													<CaretSortIcon />
 												</button>
 											</div>
 										</TableHead>
 										<TableHead className="hidden md:table-cell">
-											<div className="flex gap-3" >
+											<div className="flex gap-3">
 												Stock
-												<button type="button" onClick={handleSortQuery.bind(null, 'stockQuantity')}>
+												<button
+													type="button"
+													onClick={handleSortQuery.bind(
+														null,
+														'stockQuantity',
+													)}
+												>
 													<CaretSortIcon />
 												</button>
 											</div>
@@ -261,7 +273,13 @@ const ProductPage = () => {
 										<TableHead className="hidden md:table-cell">
 											<div className="flex gap-3">
 												Created date
-												<button type="button" onClick={handleSortQuery.bind(null, 'createdAt')}>
+												<button
+													type="button"
+													onClick={handleSortQuery.bind(
+														null,
+														'createdAt',
+													)}
+												>
 													<CaretSortIcon />
 												</button>
 											</div>

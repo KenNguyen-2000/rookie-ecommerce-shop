@@ -1,4 +1,11 @@
-import { User, UserManager, UserManagerSettings } from 'oidc-client';
+import {
+	Log,
+	SignoutResponse,
+	User,
+	UserManager,
+	UserManagerSettings,
+	WebStorageStateStore,
+} from 'oidc-client';
 
 const oidcConfig: UserManagerSettings = {
 	authority: import.meta.env.VITE_AUTHORITY,
@@ -10,44 +17,90 @@ const oidcConfig: UserManagerSettings = {
 	automaticSilentRenew: true,
 	includeIdTokenInSilentRenew: true,
 };
-const userManager = new UserManager(oidcConfig);
+export const userManager = new UserManager(oidcConfig);
 
-const getUserAsync = async (): Promise<User | null> => {
-	return await userManager.getUser();
-};
+class AuthService extends UserManager {
+	UserManager;
 
-const loginAsync = async (): Promise<void> => {
-	await userManager.signinRedirect();
-};
+	constructor() {
+		super(oidcConfig);
+		this.UserManager = new UserManager({
+			...oidcConfig,
+			userStore: new WebStorageStateStore({ store: window.sessionStorage }),
+		});
+		// Logger
+		Log.logger = console;
+		Log.level = Log.DEBUG;
+		this.UserManager.events.addUserLoaded((user) => {
+			if (window.location.href.indexOf('signin-oidc') !== -1) {
+				this.navigateToScreen();
+			}
+		});
+		this.UserManager.events.addSilentRenewError((e) => {
+			console.log('silent renew error', e.message);
+		});
 
-const completeLoginAsync = async (url: string): Promise<User> => {
-	try {
-		return await userManager.signinCallback(url);
-	} catch (error) {
-		console.error(error);
-		throw error;
+		this.UserManager.events.addAccessTokenExpired(() => {
+			console.log('token expired');
+			this.renewToken();
+		});
 	}
-};
+	navigateToScreen = () => {
+		window.location.replace('/en/dashboard');
+	};
+	getUser = async (): Promise<User | null> => {
+		const user = await userManager.getUser();
+		if (!user) {
+			return await this.UserManager.signinRedirectCallback();
+		}
 
-const renewTokenAsync = async (): Promise<User> => {
-	return await userManager.signinSilent();
-};
+		if (user.profile && user.profile.role && user.profile.role !== 'Admin') {
+			await this.logout();
+		}
+		return user;
+	};
 
-const logoutAsync = async (): Promise<void> => {
-	await userManager.signoutRedirect();
-};
+	completedLogin(url?: string | undefined): Promise<User> {
+		return this.UserManager.signinRedirectCallback(url);
+	}
 
-const completeLogoutAsync = async (redirectUrl: string): Promise<void> => {
-	await userManager.signoutCallback(redirectUrl);
-};
+	login = () => {
+		// localStorage.setItem("redirectUri", window.location.pathname);
+		this.UserManager.signinRedirect({});
+	};
 
-const authService = {
-	getUserAsync,
-	loginAsync,
-	completeLoginAsync,
-	renewTokenAsync,
-	logoutAsync,
-	completeLogoutAsync,
-};
+	renewToken = async () => {
+		this.UserManager.signinSilent()
+			.then((user) => {
+				console.log('signed in', user);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
+
+	logout = async () => {
+		this.UserManager.signoutRedirect();
+		this.UserManager.clearStaleState();
+	};
+
+	completeLogoutAsync = async (redirectUrl: string): Promise<void> => {
+		this.UserManager.signoutRedirectCallback(redirectUrl);
+
+		this.UserManager.clearStaleState();
+	};
+
+	isAuthenticated = () => {
+		const oidcStorage = JSON.parse(
+			sessionStorage.getItem(
+				`oidc.user:${import.meta.env.VITE_AUTHORITY}:${import.meta.env.VITE_CLIENT_ID}`,
+			)!,
+		);
+
+		return !!oidcStorage && !!oidcStorage.access_token;
+	};
+}
+
+const authService = new AuthService();
 
 export default authService;

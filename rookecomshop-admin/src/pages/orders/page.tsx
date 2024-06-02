@@ -59,8 +59,17 @@ import {
 } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { RookEcomSidebar } from '@/components/page';
+import { useQuery } from '@tanstack/react-query';
+import ordersService from '@/services/orders/orders.services';
 
 const OrdersPage = () => {
+	const { data: orders } = useQuery({
+		queryKey: ['orders'],
+		queryFn: () => ordersService.getListAsync(),
+	});
+
+	console.log(orders);
+
 	return (
 		<div className="flex min-h-screen w-full flex-col bg-muted/40">
 			<RookEcomSidebar />

@@ -33,9 +33,7 @@ const ProductRow: React.FC<ProductRowProps> = ({ product, onSelectProductToDelet
 				/>
 			</TableCell>
 			<TableCell className="font-medium">
-				<Link to={`/products/${product.id}`}>
-				{product.name}
-				</Link>
+				<Link to={`/products/${product.id}`}>{product.name}</Link>
 			</TableCell>
 			<TableCell>
 				<Badge variant="outline">{ProductStatus[product.status] ?? 'Draft'}</Badge>

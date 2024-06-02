@@ -1,25 +1,23 @@
-import { TOKEN_STRING } from '@/lib/constants/cookies.constant';
-import { useAppDispatch } from '@/redux/reduxHooks';
-import { getUserAsync, logoutAsync } from '@/redux/thunks/auth.thunk';
-import Cookies from 'js-cookie';
-import { useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { isValidToken, validateIsAdmin } from '@/lib/helpers/validate-token';
+import React, { useEffect, useRef } from 'react';
+import { useAppSelector } from '@/redux/reduxHooks';
+import { Navigate, Outlet } from 'react-router-dom';
+import authService from '@/services/auth/auth.service';
 
-const PrivateRoute = () => {
-	const navigate = useNavigate();
-	const token = Cookies.get(TOKEN_STRING);
-	const dispatch = useAppDispatch();
+export type PrivateRouteProps = {
+	children: React.ReactNode;
+};
+
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
+	const isAuthenticate = authService.isAuthenticated();
+
 	useEffect(() => {
-		if (!isValidToken(token)) {
-			navigate('/');
-		} else {
-			if (!validateIsAdmin(token)) {
-				dispatch(logoutAsync());
-			} else dispatch(getUserAsync());
-		}
-	}, [navigate, dispatch, token]);
-	return token ? <Outlet /> : null;
+		const getToken = async () => {
+			const user = await authService.getUser();
+		};
+
+		getToken();
+	}, []);
+	return isAuthenticate ? <Outlet /> : <Navigate to="/authentication/login" />;
 };
 
 export default PrivateRoute;

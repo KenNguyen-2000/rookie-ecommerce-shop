@@ -1,15 +1,6 @@
-import {
-	AxiosInterceptor,
-	ErrorHandleProvider,
-	OidcAuthProvider,
-	PrivateRoute,
-	ReduxProvider,
-	TanstackProvider,
-} from '@/components/hoc';
-import { Toaster } from '@/components/ui/toaster';
+import { ErrorHandleProvider, OidcAuthProvider, PrivateRoute } from '@/components/hoc';
 import NotFoundPage from '@/pages/errors/NotFoundPage';
 import HomePage from '@/pages/page';
-import { TooltipProvider } from '@radix-ui/react-tooltip';
 import {
 	createBrowserRouter,
 	createRoutesFromElements,
@@ -17,16 +8,17 @@ import {
 	RouterProvider,
 } from 'react-router-dom';
 import 'quill/dist/quill.snow.css';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import authService, { userManager } from '@/services/auth/auth.service';
+import OidcConnectPage from '@/pages/authentication/[action]/page';
 
 const RookEcomShopRoutes = () => {
 	const router = createBrowserRouter(
 		createRoutesFromElements(
 			<Route errorElement={<ErrorHandleProvider />}>
-				<Route path="/authentication/:action" element={<OidcAuthProvider />} />
+				<Route path="/authentication/:action" element={<OidcConnectPage />} />
 				<Route path="/" element={<HomePage />} />
-				<Route path="/" element={<PrivateRoute />}>
+				<Route path="/" element={<PrivateRoute children />}>
 					<Route
 						path="/dashboard"
 						lazy={async () => {
@@ -104,20 +96,7 @@ const RookEcomShopRoutes = () => {
 			</Route>,
 		),
 	);
-	return (
-			<>
-			<ToastContainer />
-			<TooltipProvider>
-				<ReduxProvider>
-					<TanstackProvider>
-						<AxiosInterceptor>
-							<RouterProvider router={router} />
-						</AxiosInterceptor>
-					</TanstackProvider>
-				</ReduxProvider>
-				<Toaster />
-			</TooltipProvider></>
-	);
+	return <RouterProvider router={router} />;
 };
 
 export default RookEcomShopRoutes;
