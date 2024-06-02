@@ -9,6 +9,12 @@ public class BaseService
     public readonly UserContext _userContext = null!;
     public readonly IDateTimeProvider _dateTimeProvider = null!;
 
+    public BaseService(IUnitOfWork unitOfWork, UserContext userContext, IDateTimeProvider dateTimeProvider)
+    {
+        _unitOfWork = unitOfWork;
+        _userContext = userContext;
+        _dateTimeProvider = dateTimeProvider;
+    }
     public BaseService(IUnitOfWork unitOfWork, IDateTimeProvider dateTimeProvider)
     {
         _unitOfWork = unitOfWork;

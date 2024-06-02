@@ -5,20 +5,20 @@ namespace RookEcomShop.Application.Common.Helpers
     {
         public Guid UserId { get; private set; }
         public string? UserEmail { get; private set; }
-        public Guid UserRoleId { get; private set; }
+        public string UserRole { get; private set; } = null!;
 
 
-        public void SetContext(Guid userId, string userEmail, Guid userRole)
+        public void SetContext(Guid userId, string userEmail, string userRole)
         {
             UserId = userId;
             UserEmail = userEmail;
-            UserRoleId = userRole;
+            UserRole = userRole;
         }
 
-        public void SetContext(Guid userId, Guid userRole)
+        public void SetContext(Guid userId, string userRole)
         {
             UserId = userId;
-            UserRoleId = userRole;
+            UserRole = userRole;
         }
 
         public void SetContext(Guid userId)
