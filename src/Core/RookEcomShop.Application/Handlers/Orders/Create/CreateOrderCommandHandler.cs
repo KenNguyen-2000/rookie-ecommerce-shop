@@ -34,12 +34,28 @@ namespace RookEcomShop.Application.Handlers.Orders.Create
         public async Task<Result> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
         {
             Cart cart = await GetUserCart(command);
-            CreateNewOrder(cart);
-            ClearCart(cart);
+            var order = CreateNewOrder(cart);
+            order.PaymentTransaction = CreatePaymentTransaction(command, order);
+            _orderRepository.Create(order);
 
+            ClearCart(cart);
             await _unitOfWork.SaveAsync(cancellationToken);
 
             return Result.Ok();
+        }
+
+        private PaymentTransaction CreatePaymentTransaction(CreateOrderCommand command, Order order)
+        {
+            return new PaymentTransaction
+            {
+                Id = Guid.NewGuid(),
+                PaymentInfo = command.PaymentInfo,
+                Status = PaymentTransactionStatus.Pending,
+                TotalAmount = order.TotalAmount,
+                TransactionDate = _dateTimeProvider.UtcNow,
+                CreatedAt = _dateTimeProvider.UtcNow,
+                UpdatedAt = _dateTimeProvider.UtcNow
+            };
         }
 
         private async Task<Cart> GetUserCart(CreateOrderCommand command)
@@ -63,7 +79,7 @@ namespace RookEcomShop.Application.Handlers.Orders.Create
             _cartRepository.Update(cart);
         }
 
-        private void CreateNewOrder(Cart cart)
+        private Order CreateNewOrder(Cart cart)
         {
             var newOrder = new Order
             {
@@ -80,7 +96,7 @@ namespace RookEcomShop.Application.Handlers.Orders.Create
                 UpdatedAt = _dateTimeProvider.UtcNow
             };
 
-            _orderRepository.Create(newOrder);
+            return newOrder;
         }
     }
 }

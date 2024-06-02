@@ -2,6 +2,7 @@ using FluentResults;
 using MediatR;
 using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Repositories;
+using RookEcomShop.Application.Handlers.Users;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.ViewModels.Dto;
 
@@ -26,7 +27,7 @@ namespace RookEcomShop.Application.Handlers.Orders.GetList
                 throw new NotFoundException($"User with id {request.UserId} not found!");
             }
             var orders = await _orderRepository.GetListAsync(o => o.UserId == request.UserId, request.QueryObject, cancellationToken);
-            var orderVMs = MapOrderVMs(orders.Items);
+            var orderVMs = orders.Items.Select(OrdersMapper.MapToOrderDto);
 
             return Result.Ok(PaginatedList<OrderDto>.Create(
                 orderVMs,
@@ -35,36 +36,5 @@ namespace RookEcomShop.Application.Handlers.Orders.GetList
                 orders.PageSize));
         }
 
-        private static IEnumerable<OrderDto> MapOrderVMs(IEnumerable<Order> orders)
-        {
-            return orders.Select(o => new OrderDto
-            {
-                Id = o.Id,
-                OrderDate = o.OrderDate,
-                OrderItems = o.OrderDetails.Select(oD => new OrderDetailDto
-                {
-                    Id = oD.Id,
-                    Quantity = oD.Quantity,
-                    UnitPrice = oD.UnitPrice,
-                    TotalPrice = oD.UnitPrice * oD.Quantity,
-                    Product = new ProductDto
-                    {
-                        Id = oD.Product.Id,
-                        Category = new CategoryDto
-                        {
-                            Id = oD.Product.Category.Id,
-                            Name = oD.Product.Category.Name,
-                            Description = oD.Product.Category.Description,
-                            ParentId = oD.Product.Category.CategoryId
-                        },
-                        Description = oD.Product.Description,
-                        ImgUrls = oD.Product.ProductImages.Select(pD => pD.Url),
-                        Name = oD.Product.Name,
-                        Price = oD.Product.Price
-                    }
-
-                })
-            });
-        }
     }
 }

@@ -3,6 +3,7 @@
 
 @{
     Layout = "~/Views/Shared/Layouts/_BlankLayout.cshtml";
+    var Total = Model.Items.Sum(x => x.Product.Price * x.Quantity);
 }
 
 <main class="w-full min-h-screen flex flex-col md:flex-row items-stretch">
@@ -36,7 +37,7 @@
                 </div>
 
                 <div class="w-full max-w-xl">
-                    <partial name="Partials/_CheckoutForm.cshtml" />
+                    <partial name="Partials/_CheckoutForm.cshtml" model="Model.PaymentTransactionInputModel" />
                 </div>
             </div>
         </div>
@@ -47,17 +48,15 @@
                 <h3>Free Shipping - ALL ORDERS $50+ 📦</h3>
                 <h3>$10 Cashback in ZWS Rewards - ALL ORDERS $100+ 👀</h3>
             </div>
-
+            
+            <!-- Order items list-->
             <ul class="space-y-6 w-full !my-10">
-                <li>
-                    <partial name="Partials/_OrderItemCard.cshtml" />
-                </li>
-                <li>
-                    <partial name="Partials/_OrderItemCard.cshtml" />
-                </li>
-                <li>
-                    <partial name="Partials/_OrderItemCard.cshtml" />
-                </li>
+                @foreach (var item in Model.Items)
+                {
+                    <li>
+                        <partial name="Partials/_OrderItemCard.cshtml" model="item" />
+                    </li>
+                }
             </ul>
 
             <div class="bg-slate-200/40 border border-gray-400 p-4 rounded-md text-sm space-y-4 !my-10">
@@ -80,7 +79,7 @@
             <table role="table" class="w-full text-sm">
                 <tr role="row">
                     <td role="rowheader">Subtotal</td>
-                    <td role="cell" class="text-right">$32.93</td>
+                    <td role="cell" class="text-right">$@Total</td>
                 </tr>
                 <tr role="row">
                     <td role="rowheader">Shipping</td>
@@ -89,7 +88,7 @@
                 <tr role="row">
                     <td role="rowheader" class="text-lg">Total</td>
                     <td role="cell" class="text-right">
-                        <span class="text-gray-500">USD</span> <strong class="text-lg">$32.93</strong>
+                        <span class="text-gray-500">USD</span> <strong class="text-lg">$@Total</strong>
                     </td>
                 </tr>
             </table>

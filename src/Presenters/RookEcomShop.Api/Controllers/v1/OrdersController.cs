@@ -7,6 +7,7 @@ using RookEcomShop.Application.Handlers.Orders.Confirm;
 using RookEcomShop.Application.Handlers.Orders.Create;
 using RookEcomShop.Application.Handlers.Orders.GetById;
 using RookEcomShop.Application.Handlers.Orders.GetList;
+using RookEcomShop.ViewModels.Contracts.Order;
 
 namespace RookEcomShop.Api.Controllers.v1
 {
@@ -25,7 +26,7 @@ namespace RookEcomShop.Api.Controllers.v1
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetOrderDetail()
+        public async Task<IActionResult> GetOrders()
         {
             var query = new GetListOrderQuery
             {
@@ -47,11 +48,12 @@ namespace RookEcomShop.Api.Controllers.v1
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrder()
+        public async Task<IActionResult> CreateOrder(CreateOrderRequest createOrderRequest)
         {
             var command = new CreateOrderCommand
             {
                 UserId = _userContext.UserId,
+                PaymentInfo = createOrderRequest.PaymentInfo
             };
 
             await _sender.Send(command);

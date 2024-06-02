@@ -6,7 +6,7 @@ namespace RookEcomShop.ViewModels.Dto
     {
         public Guid Id { get; set; }
         public OrderStatus Status { get; set; }
-        public decimal TotalAmount { get; set; }
+        public decimal TotalAmount => OrderItems.Sum(x => x.TotalPrice);
         public DateTime OrderDate { get; set; }
         public UserDto User { get; set; } = null!;
         public IEnumerable<OrderDetailDto> OrderItems { get; set; } = new List<OrderDetailDto>();

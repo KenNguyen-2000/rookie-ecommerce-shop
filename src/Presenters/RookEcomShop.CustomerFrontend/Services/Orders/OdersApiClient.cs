@@ -1,5 +1,8 @@
 using Newtonsoft.Json;
+using RookEcomShop.ViewModels.Contracts.Order;
 using RookEcomShop.ViewModels.Dto;
+using Serilog;
+using System.Text;
 
 namespace RookEcomShop.CustomerFrontend.Services.Orders
 {
@@ -23,13 +26,15 @@ namespace RookEcomShop.CustomerFrontend.Services.Orders
             return data;
         }
 
-        public async Task CreateOrderAsync()
+        public async Task CreateOrderAsync(CreateOrderRequest request)
         {
-            var response = await _httpClient.PostAsync("orders", null);
+            var jsonData = JsonConvert.SerializeObject(request);
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("orders", content);
             response.EnsureSuccessStatusCode();
 
-            var content = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(content);
+            var responseBody = await response.Content.ReadAsStringAsync();
+            Log.Information(responseBody);
         }
     }
 }
