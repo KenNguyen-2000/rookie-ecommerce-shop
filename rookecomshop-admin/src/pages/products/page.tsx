@@ -109,8 +109,7 @@ const ProductPage = () => {
 		const newParams = new URLSearchParams(searchParams);
 		newParams.set('categoryName', categoryName);
 		setSearchParams(newParams);
-	
-	}
+	};
 
 	useEffect(() => {
 		setQueryDto({
@@ -157,18 +156,14 @@ const ProductPage = () => {
 								<ScrollArea className="max-h-64 h-64">
 									<DropdownMenuCheckboxItem
 										checked={queryDto.categoryName === ''}
-										onClick={() =>
-											handleCategoryQuery("")
-										}
+										onClick={() => handleCategoryQuery('')}
 									>
 										All
 									</DropdownMenuCheckboxItem>
 									{categories?.map((category) => (
 										<DropdownMenuCheckboxItem
 											checked={queryDto.categoryName === category.name}
-											onClick={() =>
-												handleCategoryQuery(category.name)
-											}
+											onClick={() => handleCategoryQuery(category.name)}
 											key={category.id}
 										>
 											{category.name}

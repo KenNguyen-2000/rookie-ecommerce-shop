@@ -32,7 +32,7 @@ const ProductDetailPage = () => {
 				status: product.status,
 			}),
 		);
-		await queryClient.invalidateQueries({queryKey: ['product', productId]});
+		await queryClient.invalidateQueries({ queryKey: ['product', productId] });
 		toast({
 			title: 'Update Product Succeeded',
 			description: (

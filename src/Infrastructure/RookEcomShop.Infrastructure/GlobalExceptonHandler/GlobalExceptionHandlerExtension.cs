@@ -39,7 +39,8 @@ namespace RookEcomShop.Infrastructure.GlobalExceptonHandler
                         Detail = contextFeature.Error.GetBaseException().Message,
                         Extensions =
                         {
-                            ["traceId"] = context.TraceIdentifier
+                            ["traceId"] = context.TraceIdentifier,
+                            ["errors"] = contextFeature.Error is BadRequestException badRequestException ? badRequestException.Errors : new List<string>()
                         },
                         Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1"
                     };

@@ -198,68 +198,70 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 								<CardContent>
 									<div className="grid  gap-6">
 										<div className="grid lg:grid-cols-3 gap-3">
-											<div className='grid gap-3 lg:col-span-2'>
-											<FormField
-												control={form.control}
-												name="name"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Name</FormLabel>
-														<FormControl>
-															<Input
-																className="w-full"
-																placeholder="Gamer Gear Pro Controller"
-																{...field}
-															/>
-														</FormControl>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
+											<div className="grid gap-3 lg:col-span-2">
+												<FormField
+													control={form.control}
+													name="name"
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Name</FormLabel>
+															<FormControl>
+																<Input
+																	className="w-full"
+																	placeholder="Gamer Gear Pro Controller"
+																	{...field}
+																/>
+															</FormControl>
+															<FormMessage />
+														</FormItem>
+													)}
+												/>
 											</div>
 											<div className="grid gap-3">
-											<FormField
-												control={form.control}
-												name="categoryName"
-												render={({ field }) => (
-													<FormItem>
-														<FormLabel>Category</FormLabel>
-														<Select
-															defaultValue={field.value}
-															onValueChange={(value) => {
-																const getCategory = categories.find(
-																	(category) =>
-																		category.name === value,
-																);
-																dispatch(
-																	setSelectedTopCategory(
-																		getCategory,
-																	),
-																);
-																field.onChange(value);
-															}}
-														>
-															<FormControl>
-																<SelectTrigger>
-																	<SelectValue placeholder="Select category" />
-																</SelectTrigger>
-															</FormControl>
-															<SelectContent>
-																{categories.map((category) => (
-																	<SelectItem
-																		key={category.name}
-																		value={category.name}
-																	>
-																		{category.name}
-																	</SelectItem>
-																))}
-															</SelectContent>
-														</Select>
-														<FormMessage />
-													</FormItem>
-												)}
-											/>
-										</div>
+												<FormField
+													control={form.control}
+													name="categoryName"
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Category</FormLabel>
+															<Select
+																defaultValue={field.value}
+																onValueChange={(value) => {
+																	const getCategory =
+																		categories.find(
+																			(category) =>
+																				category.name ===
+																				value,
+																		);
+																	dispatch(
+																		setSelectedTopCategory(
+																			getCategory,
+																		),
+																	);
+																	field.onChange(value);
+																}}
+															>
+																<FormControl>
+																	<SelectTrigger>
+																		<SelectValue placeholder="Select category" />
+																	</SelectTrigger>
+																</FormControl>
+																<SelectContent>
+																	{categories.map((category) => (
+																		<SelectItem
+																			key={category.name}
+																			value={category.name}
+																		>
+																			{category.name}
+																		</SelectItem>
+																	))}
+																</SelectContent>
+															</Select>
+															<FormMessage />
+														</FormItem>
+													)}
+												/>
+											</div>
 										</div>
 										<div className="grid grid-cols-3 gap-3">
 											<div className="grid">

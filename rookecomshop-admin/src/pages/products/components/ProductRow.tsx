@@ -36,7 +36,9 @@ const ProductRow: React.FC<ProductRowProps> = ({ product, onSelectProductToDelet
 				<Link to={`/products/${product.id}`}>{product.name}</Link>
 			</TableCell>
 			<TableCell>
-				<Badge variant={product.status === ProductStatus.Active ? "secondary" : "outline"}>{ProductStatus[product.status] ?? 'Draft'}</Badge>
+				<Badge variant={product.status === ProductStatus.Active ? 'secondary' : 'outline'}>
+					{ProductStatus[product.status] ?? 'Draft'}
+				</Badge>
 			</TableCell>
 			<TableCell className="hidden md:table-cell">${product.price}</TableCell>
 			<TableCell className="hidden md:table-cell">{product.stockQuantity}</TableCell>

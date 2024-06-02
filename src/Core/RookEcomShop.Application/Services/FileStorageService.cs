@@ -35,6 +35,7 @@ namespace RookEcomShop.Application.Services
 
             // Return the relative path to the saved image
             return fileName; // Assuming uploads folder is accessible publicly
+
         }
 
         public async Task DeleteFileAsync(string fileName)

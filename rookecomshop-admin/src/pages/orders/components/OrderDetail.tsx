@@ -116,9 +116,7 @@ const OrderDetail: FC<OrderDetailProps> = ({ order }) => {
 							<span>
 								{paymentInfo.firstName} {paymentInfo.lastName}
 							</span>
-                            <span>
-								{paymentInfo.contactInfo}
-							</span>
+							<span>{paymentInfo.contactInfo}</span>
 							<span>{paymentInfo.shippingAddress}</span>
 							<span>
 								{paymentInfo.city}, {paymentInfo.province} {paymentInfo.postalCode}

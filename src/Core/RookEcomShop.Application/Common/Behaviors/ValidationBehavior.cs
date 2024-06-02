@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using FluentResults;
+using FluentValidation;
 using MediatR;
 using RookEcomShop.Application.Common.Exceptions;
 
@@ -7,7 +8,7 @@ namespace RookEcomShop.Application.Common.Behaviors
     public class ValidationBehavior<TRequest, TResponse> :
         IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
-        where TResponse : notnull
+        where TResponse : class
     {
         private readonly IValidator<TRequest>? _validator;
 
@@ -30,9 +31,8 @@ namespace RookEcomShop.Application.Common.Behaviors
                 return await next();
             }
 
-            var errors = validationResult.Errors;
-
-            throw new BadRequestException("Bad request");
+            var failures = validationResult.Errors.Select(x => x.ErrorMessage);
+            throw new BadRequestException(failures);
         }
     }
 }

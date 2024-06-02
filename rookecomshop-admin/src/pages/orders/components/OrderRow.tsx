@@ -33,10 +33,13 @@ const OrderRow: FC<OrderRowProps> = ({ order, onCancel, onConfirm, onSelectOrder
 				</div>
 			</TableCell>
 			<TableCell className="hidden sm:table-cell">
-                {order.paymentTransaction.paymentInfo.contactInfo}
-            </TableCell>
+				{order.paymentTransaction.paymentInfo.contactInfo}
+			</TableCell>
 			<TableCell className="hidden sm:table-cell">
-				<Badge className="text-xs" variant={order.status === OrderStatus.Cancelled ? "outline" :"secondary"}>
+				<Badge
+					className="text-xs"
+					variant={order.status === OrderStatus.Cancelled ? 'outline' : 'secondary'}
+				>
 					{OrderStatus[order.status]}
 				</Badge>
 			</TableCell>
