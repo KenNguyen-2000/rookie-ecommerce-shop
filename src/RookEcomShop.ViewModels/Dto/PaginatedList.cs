@@ -20,6 +20,7 @@ namespace RookEcomShop.ViewModels.Dto
         public int Page { get; set; } = 1;
         public int PageSize { get; set; } = 10;
         public int TotalCount { get; set; } = 0;
+        public int TotalPages => (int)Math.Ceiling(TotalCount / (double)PageSize);
         public bool HasNextPage => Page * PageSize < TotalCount;
 
         public bool HasPreviousPage => Page > 1;

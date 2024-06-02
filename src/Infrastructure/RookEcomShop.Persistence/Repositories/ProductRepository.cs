@@ -47,6 +47,19 @@ namespace RookEcomShop.Persistence.Repositories
             return PaginatedList<Product>.Create(products, productQueryDto.Page, productQueryDto.PageSize, totalCount);
         }
 
+        public async Task<IEnumerable<Product>> GetListBestSellersAsync(int count = 10, CancellationToken cancellationToken = default)
+        {
+            var products = await _dbContext.Products
+                .Include(p => p.Category)
+                .Include(p => p.ProductImages)
+                .Include(p => p.OrderDetails)
+                .OrderByDescending(p => p.OrderDetails.Count)
+                .Take(count)
+                .ToListAsync(cancellationToken);
+
+            return products;
+        }
+
         private static IQueryable<Product> FilterProducts(ProductQueryDto productQueryDto, IQueryable<Product> query)
         {
             query = FilterProductByCategory(productQueryDto, query);
@@ -97,5 +110,18 @@ namespace RookEcomShop.Persistence.Repositories
            "createdAt" => product => product.CreatedAt,
            _ => product => product.Id
        };
+
+        public async Task<IEnumerable<Product>> GetListBestReviewsAsync(int count = 10, CancellationToken cancellationToken = default)
+        {
+            var products = await _dbContext.Products
+                .Include(p => p.Category)
+                .Include(p => p.ProductImages)
+                .Include(p => p.Reviews)
+                .OrderByDescending(p => p.Reviews.Average(r => r.Rating))
+                .Take(count)
+                .ToListAsync(cancellationToken);
+
+            return products;
+        }
     }
 }

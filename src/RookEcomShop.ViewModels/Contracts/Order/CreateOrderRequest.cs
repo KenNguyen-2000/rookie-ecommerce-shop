@@ -2,5 +2,6 @@
 {
     public class CreateOrderRequest
     {
+        public string PaymentInfo { get; set; } = null!;
     }
 }

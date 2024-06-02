@@ -9,7 +9,6 @@ namespace RookEcomShop.Application.Common.Exceptions
         {
 
         }
-
         public NotFoundException(List<IError> errors) : base("Multiple errors occurred. See error details.")
         {
             Errors = errors;

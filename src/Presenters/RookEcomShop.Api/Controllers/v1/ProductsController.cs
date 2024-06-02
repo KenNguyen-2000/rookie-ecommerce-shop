@@ -6,6 +6,8 @@ using RookEcomShop.Application.Common.Helpers;
 using RookEcomShop.Application.Dto;
 using RookEcomShop.Application.Handlers.Products.Create;
 using RookEcomShop.Application.Handlers.Products.DeleteById;
+using RookEcomShop.Application.Handlers.Products.GetBestReviews;
+using RookEcomShop.Application.Handlers.Products.GetBestSellers;
 using RookEcomShop.Application.Handlers.Products.GetByCategoryName;
 using RookEcomShop.Application.Handlers.Products.GetById;
 using RookEcomShop.Application.Handlers.Products.GetList;
@@ -130,6 +132,26 @@ namespace RookEcomShop.Api.Controllers.v1
             await _sender.Send(command);
 
             return Ok("Update product successfully!");
+        }
+
+        [AllowAnonymous]
+        [HttpGet("best-sellers")]
+        public async Task<IActionResult> GetBestSellers([FromQuery] GetFeatureProductsRequest request)
+        {
+            var query = new GetBestSellersQuery { Count = request.Count };
+            var result = await _sender.Send(query);
+
+            return Ok(result.Value);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("best-reviews")]
+        public async Task<IActionResult> GetBestReviews([FromQuery] GetFeatureProductsRequest request)
+        {
+            var query = new GetBestReviewsQuery { Count = request.Count };
+            var result = await _sender.Send(query);
+
+            return Ok(result.Value);
         }
     }
 }

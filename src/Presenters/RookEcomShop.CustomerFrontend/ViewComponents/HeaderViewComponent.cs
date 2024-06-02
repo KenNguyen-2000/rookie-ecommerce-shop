@@ -29,7 +29,7 @@ namespace RookEcomShop.CustomerFrontend.ViewComponents
                     ViewData["CartCount"] = productsInCart.Count();
                 }
 
-                return View(categories.Where(c => c.SubCategories.Count() > 0).ToList().Slice(0, 6));
+                return View(categories.Where(c => c.SubCategories.Any()).ToList().Slice(1, 6));
             }
             catch (System.Exception ex)
             {

@@ -15,6 +15,32 @@ namespace RookEcomShop.CustomerFrontend.Services.Products
             _httpClient = httpClient;
         }
 
+        public async Task<IEnumerable<ProductDto>> GetBestReviewsAsync(int count)
+        {
+            var response = await _httpClient.GetAsync($"products/best-reviews?count={count}");
+
+            response.EnsureSuccessStatusCode();
+
+            string content = await response.Content.ReadAsStringAsync();
+            var products = JsonConvert.DeserializeObject<IEnumerable<ProductDto>>(content)!;
+            Log.Information("Get lists products success");
+
+            return products;
+        }
+
+        public async Task<IEnumerable<ProductDto>> GetBestSellersAsync(int count)
+        {
+            var response = await _httpClient.GetAsync($"products/best-sellers?count={count}");
+
+            response.EnsureSuccessStatusCode();
+
+            string content = await response.Content.ReadAsStringAsync();
+            var products = JsonConvert.DeserializeObject<IEnumerable<ProductDto>>(content)!;
+            Log.Information("Get lists products success");
+
+            return products;
+        }
+
         public async Task<ProductDto?> GetProductByIdAsync(Guid id)
         {
             Log.Information("Call api get product by id {id}", id);

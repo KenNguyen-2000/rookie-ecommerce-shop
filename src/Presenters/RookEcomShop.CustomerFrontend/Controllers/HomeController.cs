@@ -33,13 +33,12 @@ public class HomeController : Controller
 
         PaginatedList<ProductDto> products = await _productsApiClient.GetProductsAsync(queryDto);
 
+        var bestSellers = await _productsApiClient.GetBestSellersAsync(10);
+        var bestReviews = await _productsApiClient.GetBestReviewsAsync(10);
+
         SetUrlParams(queryDto);
 
-        return View(new HomeViewModel
-        {
-            ProductDatas = products
-
-        });
+        return View(HomeViewModel.Create(products, bestSellers, bestReviews));
     }
     private void SetUrlParams(ProductQueryDto queryDto)
     {

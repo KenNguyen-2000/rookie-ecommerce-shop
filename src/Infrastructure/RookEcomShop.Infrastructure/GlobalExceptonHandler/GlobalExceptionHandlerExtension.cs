@@ -28,6 +28,7 @@ namespace RookEcomShop.Infrastructure.GlobalExceptonHandler
                         BadRequestException => (int)HttpStatusCode.BadRequest,
                         NotFoundException => (int)HttpStatusCode.NotFound,
                         ForbiddenException => (int)HttpStatusCode.Forbidden,
+                        BusinessConflictException => (int)HttpStatusCode.Conflict,
                         _ => (int)HttpStatusCode.InternalServerError
                     };
 

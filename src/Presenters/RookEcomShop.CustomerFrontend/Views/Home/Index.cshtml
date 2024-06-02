@@ -27,28 +27,52 @@
             </div>
         </div>
     </div>
-    <div class="container mx-auto p-4 md:p-6 max-w-2xl px-4 lg:max-w-7xl">
-        <partial name="~/Views/Shared/Partials/_FilterSelection.cshtml" />
+    <div class="container mx-auto p-4 md:p-6 max-w-2xl px-4 lg:max-w-7xl space-y-20">
+        <section>
 
-        <h1 class="text-4xl font-semibold mb-6">Product list</h1>
+            <h1 class="text-4xl font-semibold mb-6">Best Sellers</h1>
 
-        <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-            @if (products.Items.Count() > 0)
-            {
-
-                @foreach (var product in products.Items)
+            <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+                @if (Model.BestSellers.Count() > 0)
                 {
-                    <vc:product-card product="product"></vc:product-card>
+
+                    @foreach (var product in Model.BestSellers)
+                    {
+                        <vc:product-card product="product"></vc:product-card>
+                    }
                 }
-            }
-            else
-            {
-                <p>No products found</p>
+                else
+                {
+                    <p>No products found</p>
 
-            }
+                }
 
-            <!-- More products... -->
-        </div>
+                <!-- More products... -->
+            </div>
+        </section>
+
+        <section>
+
+            <h1 class="text-4xl font-semibold mb-6">Best Reviews</h1>
+
+            <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+                @if (Model.BestReviews.Count() > 0)
+                {
+
+                    @foreach (var product in Model.BestReviews)
+                    {
+                        <vc:product-card product="product"></vc:product-card>
+                    }
+                }
+                else
+                {
+                    <p>No products found</p>
+
+                }
+
+                <!-- More products... -->
+            </div>
+        </section>
     </div>
 
 </div>

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.CustomerFrontend.Services.Orders;
+using RookEcomShop.ViewModels.Contracts.Order;
 
 namespace RookEcomShop.CustomerFrontend.Controllers
 {
@@ -16,8 +17,6 @@ namespace RookEcomShop.CustomerFrontend.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrder()
         {
-            Console.WriteLine("Create order");
-            await _ordersApiClient.CreateOrderAsync();
             return Redirect("/cart");
         }
     }

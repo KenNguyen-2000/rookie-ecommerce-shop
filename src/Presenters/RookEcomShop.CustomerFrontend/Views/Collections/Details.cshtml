@@ -53,6 +53,12 @@
 
             <!-- More products... -->
         </div>
+
+        <div class="mt-12">
+            <partial name="~/Views/Shared/Partials/_Pagination.cshtml"
+                model="@PaginationVM.Create(products.Page, products.PageSize, products.TotalCount)" />
+        </div>
+
     </div>
 
 </div>

@@ -23,14 +23,13 @@ namespace RookEcomShop.Persistence.Repositories
 
         public async Task<IEnumerable<Category>> GetListAsync(Expression<Func<Category, bool>>? filter, CancellationToken cancellationToken = default)
         {
-            return filter == null
-                ? await _dbContext.Categories
-                    .Include(c => c.SubCategories)
-                    .ToListAsync(cancellationToken)
-                : await _dbContext.Categories
-                    .Include(c => c.SubCategories)
-                    .Where(filter)
-                    .ToListAsync(cancellationToken);
+            var query = _dbContext.Categories.Include(c => c.SubCategories).AsQueryable();
+            if(filter != null)
+            {
+                query.Where(filter);
+            }
+            return await query
+                .ToListAsync(cancellationToken);
         }
     }
 }
