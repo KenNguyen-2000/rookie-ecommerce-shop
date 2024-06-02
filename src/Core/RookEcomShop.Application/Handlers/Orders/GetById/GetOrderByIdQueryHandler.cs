@@ -20,7 +20,7 @@ namespace RookEcomShop.Application.Handlers.Orders.GetById
         {
             var order = await _orderRepository
                                 .GetByIdAsync(request.OrderId, cancellationToken)
-                                .ThrowIfNull($"Order with id {request.OrderId}");
+                                .ThrowIfNullAsync($"Order with id {request.OrderId}");
 
             return Result.Ok(OrdersMapper.MapToOrderDto(order));
         }

@@ -42,33 +42,8 @@ namespace RookEcomShop.Application.Handlers.Carts.GetProducts
             }
 
 
-            return Result.Ok(MapCartDetailsVM(cart));
+            return Result.Ok(cart.CartDetails.Select(CartsMapper.MapToCartDetailDto));
 
-        }
-
-        private static IEnumerable<CartDetailDto> MapCartDetailsVM(Cart cart)
-        {
-            return cart.CartDetails.Select(x => new CartDetailDto
-            {
-                Id = x.Id,
-                Quantity = x.Quantity,
-                Product = new ProductDto
-                {
-                    Id = x.Product.Id,
-                    Description = x.Product.Description,
-                    Name = x.Product.Name,
-                    Price = x.Product.Price,
-                    Status = x.Product.Status,
-                    Category = new CategoryDto
-                    {
-                        Id = x.Product.Category.Id,
-                        Name = x.Product.Category.Name,
-                        ParentId = x.Product.Category.CategoryId,
-                        Description = x.Product.Category.Description
-                    },
-                    ImgUrls = x.Product.ProductImages.Select(pI => pI.Url)
-                }
-            });
         }
     }
 }

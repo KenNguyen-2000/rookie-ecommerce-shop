@@ -8,7 +8,7 @@ namespace RookEcomShop.Domain.Entities
     {
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
         [Column(TypeName = "decimal(18, 2)")]
-        public decimal TotalAmount { get; set; }
+        public decimal TotalAmount => OrderDetails.Sum(x => x.Quantity * x.UnitPrice);
         public DateTime OrderDate { get; set; }
         public Guid UserId { get; set; }
 

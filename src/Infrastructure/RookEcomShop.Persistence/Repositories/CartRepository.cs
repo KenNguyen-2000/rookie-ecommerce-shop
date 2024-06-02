@@ -11,7 +11,7 @@ namespace RookEcomShop.Persistence.Repositories
         }
 
 
-        public async Task<Cart?> GetCartByUserIdAsync(Guid userId)
+        public async Task<Cart?> GetCartByUserIdAsync(Guid userId, CancellationToken cancellationToken = default!)
         {
             return await _dbContext.Carts
                     .Include(e => e.CartDetails)
@@ -20,7 +20,7 @@ namespace RookEcomShop.Persistence.Repositories
                     .Include(e => e.CartDetails)
                         .ThenInclude(cd => cd.Product)
                             .ThenInclude(p => p.Category)
-                    .FirstOrDefaultAsync(e => e.UserId.Equals(userId));
+                    .FirstOrDefaultAsync(e => e.UserId.Equals(userId), cancellationToken);
         }
     }
 }

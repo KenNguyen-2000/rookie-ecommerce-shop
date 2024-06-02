@@ -6,12 +6,12 @@ using RookEcomShop.ViewModels.Dto;
 
 namespace RookEcomShop.Application.Handlers.Products.GetBestSellers;
 
-public class GetBestSellersQueryHandler : BaseService, IRequestHandler<GetBestSellersQuery, Result<IEnumerable<ProductDto>>>
+public class GetBestSellersQueryHandler : IRequestHandler<GetBestSellersQuery, Result<IEnumerable<ProductDto>>>
 {
     private readonly IProductRepository _productRepository;
 
     public GetBestSellersQueryHandler(
-        IProductRepository productRepository) : base()
+        IProductRepository productRepository)
     {
         _productRepository = productRepository;
     }

@@ -2,6 +2,7 @@
 using MediatR;
 using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Repositories;
+using RookEcomShop.Persistence.Repositories;
 using RookEcomShop.ViewModels.Dto;
 
 namespace RookEcomShop.Application.Handlers.Products.GetById
@@ -17,10 +18,9 @@ namespace RookEcomShop.Application.Handlers.Products.GetById
 
         public async Task<Result<ProductDto>> Handle(GetProductByIdQuery query, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.GetByIdAsync(query.Id);
-
-            if (product == null)
-                throw new NotFoundException($"Product with id {query.Id} not found");
+            var product = await _productRepository
+                                    .GetByIdAsync(query.Id, cancellationToken)
+                                    .ThrowIfNullAsync($"Product with id {query.Id}");
 
             return Result.Ok(ProductsMapper.MapToProductVM(product));
         }

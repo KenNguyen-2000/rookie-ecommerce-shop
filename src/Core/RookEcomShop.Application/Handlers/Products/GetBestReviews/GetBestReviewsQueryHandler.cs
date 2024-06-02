@@ -16,7 +16,7 @@ namespace RookEcomShop.Application.Handlers.Products.GetBestReviews
 
         public async Task<Result<IEnumerable<ProductDto>>> Handle(GetBestReviewsQuery request, CancellationToken cancellationToken)
         {
-            var products = await _productRepository.GetListBestReviewsAsync(request.Count);
+            var products = await _productRepository.GetListBestReviewsAsync(request.Count, cancellationToken);
 
             return Result.Ok(products.Select(ProductsMapper.MapToProductVM));
         }

@@ -8,5 +8,14 @@ namespace RookEcomShop.Domain.Entities
 
         public virtual Product Product { get; set; } = null!;
         public virtual Cart Cart { get; set; } = null!;
+
+        public static CartDetail Create(Product product, int quantity)
+        {
+            return new CartDetail
+            {
+                Product = product,
+                Quantity = quantity
+            };
+        }
     }
 }

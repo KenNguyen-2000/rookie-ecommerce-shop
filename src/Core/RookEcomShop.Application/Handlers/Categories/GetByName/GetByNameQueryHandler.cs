@@ -2,6 +2,7 @@ using FluentResults;
 using MediatR;
 using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Repositories;
+using RookEcomShop.Persistence.Repositories;
 using RookEcomShop.ViewModels.Dto;
 
 namespace RookEcomShop.Application.Handlers.Categories.GetByName
@@ -17,27 +18,11 @@ namespace RookEcomShop.Application.Handlers.Categories.GetByName
 
         public async Task<Result<CategoryDto>> Handle(GetCategoryByNameQuery request, CancellationToken cancellationToken)
         {
-            var category = await _categoryRepository.GetCategoryByNameAsync(request.CategoryName);
+            var category = await _categoryRepository
+                                    .GetCategoryByNameAsync(request.CategoryName, cancellationToken)
+                                    .ThrowIfNullAsync($"Category with name {request.CategoryName}");
 
-            if (category == null)
-            {
-                throw new NotFoundException($"Category with name {request.CategoryName} not found");
-            }
-
-            return Result.Ok(new CategoryDto
-            {
-                Id = category.Id,
-                Name = category.Name,
-                Description = category.Description,
-                ParentId = category.CategoryId,
-                SubCategories = category.SubCategories.Select(c => new CategoryDto
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    Description = c.Description,
-                    ParentId = c.CategoryId
-                }).ToList()
-            });
+            return Result.Ok(CategoriesMapper.MapToCategoryDto(category));
         }
     }
 }

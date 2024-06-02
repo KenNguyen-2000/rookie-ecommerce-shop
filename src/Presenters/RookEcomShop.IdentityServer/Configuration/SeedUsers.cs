@@ -1,6 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
-
+﻿#nullable enable
 
 using IdentityModel;
 using Microsoft.AspNetCore.Identity;
@@ -20,11 +18,8 @@ namespace RookEcomShop.IdentityServer.Configuration
         {
             var services = new ServiceCollection();
             services.AddLogging();
-            services.AddDbContext<IdentityServerDbContext>(options =>
-               options.UseSqlServer(connectionString));
-
-            services.AddDbContext<RookEcomShopDbContext>(options =>
-                options.UseSqlServer(rookEcomConnection));
+            services.AddDbContext<IdentityServerDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<RookEcomShopDbContext>(options => options.UseSqlServer(rookEcomConnection));
             services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<IdentityServerDbContext>()
                 .AddDefaultTokenProviders();
@@ -35,195 +30,138 @@ namespace RookEcomShop.IdentityServer.Configuration
                 {
                     try
                     {
-                        var context = scope.ServiceProvider.GetService<IdentityServerDbContext>();
+                        var identityContext = scope.ServiceProvider.GetService<IdentityServerDbContext>();
                         var appContext = scope.ServiceProvider.GetService<RookEcomShopDbContext>();
-                        context?.Database.Migrate();
-                        appContext?.Database.Migrate();
+
+                        if (identityContext == null || appContext == null)
+                        {
+                            Log.Error("Database context is null");
+                            throw new Exception("Database context is null");
+                        }
+
+                        await identityContext.Database.MigrateAsync();
+                        await appContext.Database.MigrateAsync();
 
                         var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-                        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-                        var roles = await CreateRoles(appContext, roleManager);
+                        var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
-                        await CreateAliceUser(appContext, userMgr, roles.Item2);
+                        if (userMgr == null || roleMgr == null)
+                        {
+                            Log.Error("UserManager or RoleManager is null");
+                            throw new Exception("UserManager or RoleManager is null");
+                        }
 
-                        await CreateBobUser(appContext, userMgr, roles.Item1);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                        throw;
-                    }
-
-
-
-                }
-            }
-        }
-
-        private static async Task CreateAliceUser(RookEcomShopDbContext appContext, UserManager<ApplicationUser> userMgr, IdentityRole<Guid> buyerRole)
-        {
-            var alice = userMgr.FindByNameAsync("alice").Result;
-            var appAlice = await appContext.Users.FirstOrDefaultAsync(u => u.FirstName == "Alice");
-            if (alice == null && appAlice == null)
-            {
-                alice = new ApplicationUser
-                {
-                    Id = Guid.NewGuid(),
-                    FirstName = "Alice",
-                    LastName = "Smith",
-                    UserName = "alice",
-                    Email = "AliceSmith@email.com",
-                    EmailConfirmed = true,
-                };
-                appAlice = new User
-                {
-                    Id = alice.Id,
-                    FirstName = alice.FirstName,
-                    LastName = alice.LastName,
-                    Email = alice.Email,
-                    Username = alice.UserName,
-                    EmailConfirmed = true,
-                };
-
-                var result = userMgr.CreateAsync(alice, "Pass123$").Result;
-
-                if (!result.Succeeded)
-                {
-                    Console.WriteLine(result.Errors.First().Description);
-                    throw new Exception(result.Errors.First().Description);
-                }
-
-                var appBuyerRole = await appContext.Roles.FirstOrDefaultAsync(r => r.Name == "Buyer");
-                appAlice.UserRoles.Add(new UserRole
-                {
-                    UserId = appAlice.Id,
-                    RoleId = appBuyerRole.Id
-                });
-                appContext.Users.Add(appAlice);
-                await appContext.SaveChangesAsync();
-                await userMgr.AddToRoleAsync(alice, "Buyer");
-
-                result = userMgr.AddClaimsAsync(alice, new Claim[]{
+                        var roles = await CreateRolesAsync(appContext, roleMgr);
+                        await CreateUserAsync(appContext, userMgr, "alice", "Alice", "Smith", "AliceSmith@email.com", "Pass123$", roles.BuyerRole, new Claim[]
+                        {
                             new Claim(JwtClaimTypes.Name, "Alice Smith"),
                             new Claim(JwtClaimTypes.GivenName, "Alice"),
                             new Claim(JwtClaimTypes.FamilyName, "Smith"),
-                            new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
-                        }).Result;
-                if (!result.Succeeded)
-                {
-                    Console.WriteLine(result.Errors.First().Description);
-                    throw new Exception(result.Errors.First().Description);
-                }
-                Log.Debug("alice created");
-            }
-            else
-            {
-                Log.Debug("alice already exists");
-            }
-            if (!userMgr.IsInRoleAsync(alice, buyerRole.Name!).Result)
-                _ = userMgr.AddToRolesAsync(alice, [buyerRole.Name!]).Result;
-        }
+                            new Claim(JwtClaimTypes.WebSite, "http://alice.com")
+                        });
 
-        private static async Task<(IdentityRole<Guid>, IdentityRole<Guid>)> CreateRoles(
-            RookEcomShopDbContext appContext,
-            RoleManager<IdentityRole<Guid>> roleManager)
-        {
-            var adminRole = roleManager.FindByNameAsync("Admin").Result;
-            if (adminRole == null)
-            {
-                adminRole = new IdentityRole<Guid>
-                {
-                    Name = "Admin",
-                };
-                _ = roleManager.CreateAsync(new IdentityRole<Guid>("Admin")).Result;
-                _ = appContext.Roles.Add(new Role { Name = "Admin" });
-            }
-
-            var buyerRole = roleManager.FindByNameAsync("Buyer").Result;
-            if (buyerRole == null)
-            {
-                buyerRole = new IdentityRole<Guid>
-                {
-                    Name = "Buyer",
-                };
-                _ = roleManager.CreateAsync(new IdentityRole<Guid>("Buyer")).Result;
-                _ = appContext.Roles.Add(new Role { Name = "Buyer" });
-            }
-            await appContext.SaveChangesAsync();
-
-            return (adminRole, buyerRole);
-        }
-
-
-        private static async Task CreateBobUser(RookEcomShopDbContext appContext, UserManager<ApplicationUser> userMgr, IdentityRole<Guid> adminRole)
-        {
-            try
-            {
-                var bob = await userMgr.FindByNameAsync("bob");
-                var appBob = await appContext.Users.FirstOrDefaultAsync(u => u.FirstName == "Bob");
-                if (bob == null && appBob == null)
-                {
-                    bob = new ApplicationUser
-                    {
-                        Id = Guid.NewGuid(),
-                        FirstName = "Bob",
-                        LastName = "Smith",
-                        UserName = "bob",
-                        Email = "BobSmith@email.com",
-                        EmailConfirmed = true
-                    };
-                    appBob = new User
-                    {
-                        Id = bob.Id,
-                        FirstName = bob.FirstName,
-                        LastName = bob.LastName,
-                        Email = bob.Email,
-                        Username = bob.UserName,
-                        EmailConfirmed = true,
-                    };
-                    var result = userMgr.CreateAsync(bob, "Pass123$").Result;
-                    if (!result.Succeeded)
-                    {
-                        throw new Exception(result.Errors.First().Description);
-                    }
-                    var appAdminRole = await appContext.Roles.FirstOrDefaultAsync(r => r.Name == "Admin");
-                    appBob.UserRoles.Add(new UserRole
-                    {
-                        UserId = appBob.Id,
-                        RoleId = appAdminRole.Id
-                    });
-                    appContext.Users.Add(appBob);
-                    await appContext.SaveChangesAsync();
-
-                    await userMgr.AddToRoleAsync(bob, "Admin");
-
-                    result = userMgr.AddClaimsAsync(bob, new Claim[]{
+                        await CreateUserAsync(appContext, userMgr, "bob", "Bob", "Smith", "BobSmith@email.com", "Pass123$", roles.AdminRole, new Claim[]
+                        {
                             new Claim(JwtClaimTypes.Name, "Bob Smith"),
                             new Claim(JwtClaimTypes.GivenName, "Bob"),
                             new Claim(JwtClaimTypes.FamilyName, "Smith"),
                             new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
                             new Claim("location", "somewhere"),
                             new Claim(JwtClaimTypes.Role, "Admin")
-                        }).Result;
-
-                    if (!result.Succeeded)
-                    {
-                        throw new Exception(result.Errors.First().Description);
+                        });
                     }
-                    Log.Debug("bob created");
+                    catch (Exception e)
+                    {
+                        Log.Error(e, "An error occurred while seeding the database.");
+                        throw;
+                    }
                 }
-                else
-                {
-
-                    Log.Debug("bob already exists");
-                }
-                if (!userMgr.IsInRoleAsync(bob, adminRole.Name!).Result)
-                    _ = userMgr.AddToRolesAsync(bob, [adminRole.Name!]).Result;
             }
-            catch (Exception e)
+        }
+
+        private static async Task<(IdentityRole<Guid> AdminRole, IdentityRole<Guid> BuyerRole)> CreateRolesAsync(RookEcomShopDbContext appContext, RoleManager<IdentityRole<Guid>> roleMgr)
+        {
+            var adminRole = await EnsureRoleAsync(appContext, roleMgr, "Admin");
+            var buyerRole = await EnsureRoleAsync(appContext, roleMgr, "Buyer");
+            await appContext.SaveChangesAsync();
+            return (adminRole, buyerRole);
+        }
+
+        private static async Task<IdentityRole<Guid>> EnsureRoleAsync(RookEcomShopDbContext appContext, RoleManager<IdentityRole<Guid>> roleMgr, string roleName)
+        {
+            var role = await roleMgr.FindByNameAsync(roleName);
+            if (role == null)
             {
-                Console.WriteLine(e.Message);
-                throw;
+                role = new IdentityRole<Guid> { Id = Guid.NewGuid(), Name = roleName };
+                await roleMgr.CreateAsync(role);
+                appContext.Roles.Add(new Role { Id = role.Id, Name = roleName });
+            }
+            return role;
+        }
+
+        private static async Task CreateUserAsync(
+            RookEcomShopDbContext appContext,
+            UserManager<ApplicationUser> userMgr,
+            string username,
+            string firstName,
+            string lastName,
+            string email,
+            string password,
+            IdentityRole<Guid> role,
+            Claim[] claims)
+        {
+            var user = await userMgr.FindByNameAsync(username);
+            var appUser = await appContext.Users.FirstOrDefaultAsync(u => u.FirstName == firstName);
+
+            if (user == null && appUser == null)
+            {
+                user = new ApplicationUser
+                {
+                    Id = Guid.NewGuid(),
+                    FirstName = firstName,
+                    LastName = lastName,
+                    UserName = username,
+                    Email = email,
+                    EmailConfirmed = true
+                };
+
+                var createResult = await userMgr.CreateAsync(user, password);
+                if (!createResult.Succeeded)
+                {
+                    throw new Exception(createResult.Errors.First().Description);
+                }
+
+                appUser = new User
+                {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    Username = user.UserName,
+                    EmailConfirmed = user.EmailConfirmed,
+                    UserRoles = new List<UserRole> { new UserRole { UserId = user.Id, RoleId = role.Id } }
+                };
+
+                appContext.Users.Add(appUser);
+                await appContext.SaveChangesAsync();
+
+                await userMgr.AddToRoleAsync(user, role.Name!);
+                var claimResult = await userMgr.AddClaimsAsync(user, claims);
+                if (!claimResult.Succeeded)
+                {
+                    throw new Exception(claimResult.Errors.First().Description);
+                }
+
+                Log.Debug($"{username} created");
+            }
+            else
+            {
+                Log.Debug($"{username} already exists");
+            }
+
+            if (user != null && !await userMgr.IsInRoleAsync(user, role.Name!))
+            {
+                await userMgr.AddToRoleAsync(user, role.Name);
             }
         }
     }

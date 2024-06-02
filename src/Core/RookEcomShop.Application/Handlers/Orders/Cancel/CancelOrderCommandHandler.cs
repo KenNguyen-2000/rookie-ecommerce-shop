@@ -2,26 +2,25 @@ using FluentResults;
 using MediatR;
 using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Repositories;
+using RookEcomShop.Application.Common.Services;
 using RookEcomShop.Domain.Common.Enums;
+using RookEcomShop.Persistence.Repositories;
 
 namespace RookEcomShop.Application.Handlers.Orders.Cancel
 {
-    public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, Result>
+    public class CancelOrderCommandHandler : BaseService, IRequestHandler<CancelOrderCommand, Result>
     {
         private readonly IOrderRepository _orderRepository;
-        private readonly IUnitOfWork _unitOfWork;
-        public CancelOrderCommandHandler(IOrderRepository orderRepository, IUnitOfWork unitOfWork)
+        public CancelOrderCommandHandler(IOrderRepository orderRepository, IUnitOfWork unitOfWork) : base(unitOfWork)
         {
             _orderRepository = orderRepository;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<Result> Handle(CancelOrderCommand request, CancellationToken cancellationToken)
         {
-            var order = await _orderRepository.GetByIdAsync(request.OrderId, cancellationToken);
-
-            if (order == null)
-                throw new NotFoundException("Order not found");
+            var order = await _orderRepository
+                                .GetByIdAsync(request.OrderId, cancellationToken)
+                                .ThrowIfNullAsync($"Order with id {request.OrderId}");
 
 
             if (order.Status != OrderStatus.Pending)

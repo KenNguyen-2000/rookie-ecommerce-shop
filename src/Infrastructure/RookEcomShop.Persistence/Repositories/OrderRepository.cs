@@ -13,9 +13,12 @@ namespace RookEcomShop.Persistence.Repositories
         {
         }
 
-        public Task<Order> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public Task<Order?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return _dbContext.Orders
+                .Include(o => o.OrderDetails)
+                .ThenInclude(oD => oD.Product)
+                .FirstOrDefaultAsync(e => e.Id.Equals(id), cancellationToken);
         }
 
         public async Task<PaginatedList<Order>> GetListAsync(Expression<Func<Order, bool>>? filter, QueryDto queryDto = default!, CancellationToken cancellationToken = default)

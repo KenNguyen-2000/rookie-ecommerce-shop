@@ -3,42 +3,39 @@ using MediatR;
 using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Interfaces.Services;
 using RookEcomShop.Application.Common.Repositories;
+using RookEcomShop.Application.Common.Services;
 using RookEcomShop.Domain.Common.Enums;
 using RookEcomShop.Domain.Entities;
+using RookEcomShop.Persistence.Repositories;
 
 
 namespace RookEcomShop.Application.Handlers.Orders.Create
 {
-    public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Result>
+    public class CreateOrderCommandHandler : BaseService, IRequestHandler<CreateOrderCommand, Result>
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IProductRepository _productRepository;
         private readonly IOrderRepository _orderRepository;
         private readonly ICartRepository _cartRepository;
-        private readonly IDateTimeProvider _dateTimeProvider;
 
         public CreateOrderCommandHandler(
             IOrderRepository orderRepository,
             IUnitOfWork unitOfWork,
             IDateTimeProvider dateTimeProvider,
-            IProductRepository productRepository,
-            ICartRepository cartRepository)
+            ICartRepository cartRepository) : base(unitOfWork, dateTimeProvider)
         {
             _orderRepository = orderRepository;
-            _unitOfWork = unitOfWork;
-            _dateTimeProvider = dateTimeProvider;
-            _productRepository = productRepository;
             _cartRepository = cartRepository;
         }
 
         public async Task<Result> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
         {
             Cart cart = await GetUserCart(command);
+
             var order = CreateNewOrder(cart);
             order.PaymentTransaction = CreatePaymentTransaction(command, order);
             _orderRepository.Create(order);
 
             ClearCart(cart);
+
             await _unitOfWork.SaveAsync(cancellationToken);
 
             return Result.Ok();
@@ -53,19 +50,17 @@ namespace RookEcomShop.Application.Handlers.Orders.Create
                 Status = PaymentTransactionStatus.Pending,
                 TotalAmount = order.TotalAmount,
                 TransactionDate = _dateTimeProvider.UtcNow,
-                CreatedAt = _dateTimeProvider.UtcNow,
-                UpdatedAt = _dateTimeProvider.UtcNow
             };
         }
 
         private async Task<Cart> GetUserCart(CreateOrderCommand command)
         {
-            var cart = await _cartRepository.GetCartByUserIdAsync(command.UserId);
-            if (cart == null)
-            {
-                throw new NotFoundException("User's cart not found");
-            }
-            else if (cart.CartDetails.Count == 0)
+            var cart = await _cartRepository
+                                .GetCartByUserIdAsync(command.UserId)
+                                .ThrowIfNullAsync("User's cart");
+
+
+            if (cart.CartDetails.Count == 0)
             {
                 throw new BadRequestException("Cart is empty");
             }
@@ -91,9 +86,7 @@ namespace RookEcomShop.Application.Handlers.Orders.Create
                 }).ToList(),
                 Status = OrderStatus.Pending,
                 UserId = cart.UserId,
-                TotalAmount = cart.CartDetails.Sum(cD => cD.Product.Price * cD.Quantity),
-                OrderDate = _dateTimeProvider.UtcNow,
-                UpdatedAt = _dateTimeProvider.UtcNow
+                OrderDate = _dateTimeProvider.UtcNow
             };
 
             return newOrder;

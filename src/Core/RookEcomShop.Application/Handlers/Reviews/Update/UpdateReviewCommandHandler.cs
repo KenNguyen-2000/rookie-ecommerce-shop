@@ -2,28 +2,25 @@ using FluentResults;
 using MediatR;
 using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Repositories;
+using RookEcomShop.Application.Common.Services;
+using RookEcomShop.Persistence.Repositories;
 
 namespace RookEcomShop.Application.Handlers.Reviews.Update
 {
-    public class UpdateReviewCommandHandler : IRequestHandler<UpdateReviewCommand, Result>
+    public class UpdateReviewCommandHandler : BaseService, IRequestHandler<UpdateReviewCommand, Result>
     {
         private readonly IReviewRepository _reviewRepository;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateReviewCommandHandler(IReviewRepository reviewRepository, IUnitOfWork unitOfWork)
+        public UpdateReviewCommandHandler(IReviewRepository reviewRepository, IUnitOfWork unitOfWork) : base(unitOfWork)
         {
             _reviewRepository = reviewRepository;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<Result> Handle(UpdateReviewCommand request, CancellationToken cancellationToken)
         {
-            var review = await _reviewRepository.GetByIdAsync(request.Id, cancellationToken);
-
-            if (review == null)
-            {
-                throw new NotFoundException("Review not found");
-            }
+            var review = await _reviewRepository
+                                    .GetByIdAsync(request.Id, cancellationToken)
+                                    .ThrowIfNullAsync($"Review with id {request.Id}");
 
             if (review.UserId != request.UserId)
             {
@@ -34,6 +31,7 @@ namespace RookEcomShop.Application.Handlers.Reviews.Update
             review.Content = request.Content;
 
             _reviewRepository.Update(review);
+
             await _unitOfWork.SaveAsync(cancellationToken);
 
             return Result.Ok();

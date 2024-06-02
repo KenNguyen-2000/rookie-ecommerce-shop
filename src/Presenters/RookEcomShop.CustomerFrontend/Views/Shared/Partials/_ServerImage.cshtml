@@ -1,3 +1,10 @@
 @model ServerImageVM;
-<img src="https://localhost:7181/api/v1/upload-image?imageName=@Model.Url" alt="@Model.Alt" class="@Model.ClassName"
+@{
+    var imageUrl = Model.Url != null 
+            ? $"https://localhost:7181/api/v1/upload-image?imageName={@Model.Url}" 
+            : "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg";
+}
+
+
+<img src="@imageUrl" alt="@Model.Alt" class="@Model.ClassName"
     loading="lazy" />

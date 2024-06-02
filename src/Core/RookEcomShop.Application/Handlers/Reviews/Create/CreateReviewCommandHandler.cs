@@ -3,61 +3,52 @@ using MediatR;
 using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Interfaces.Services;
 using RookEcomShop.Application.Common.Repositories;
+using RookEcomShop.Application.Common.Services;
 using RookEcomShop.Domain.Entities;
+using RookEcomShop.Persistence.Repositories;
 
 namespace RookEcomShop.Application.Handlers.Reviews.Create
 {
-    public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, Result>
+    public class CreateReviewCommandHandler : BaseService, IRequestHandler<CreateReviewCommand, Result>
     {
 
         private readonly IReviewRepository _reviewRepository;
         private readonly IProductRepository _productRepository;
-        private readonly IDateTimeProvider _dateTimeProvider;
-        private readonly IUnitOfWork _unitOfWork;
 
         public CreateReviewCommandHandler(
             IReviewRepository reviewRepository,
             IDateTimeProvider dateTimeProvider,
             IUnitOfWork unitOfWork,
-            IProductRepository productRepository)
+            IProductRepository productRepository) : base(unitOfWork)
         {
             _reviewRepository = reviewRepository;
-            _dateTimeProvider = dateTimeProvider;
-            _unitOfWork = unitOfWork;
             _productRepository = productRepository;
         }
 
         public async Task<Result> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
         {
-            Product t = await ValidateRequest(request);
+            var product = await _productRepository
+                                    .GetByIdAsync(request.ProductId, cancellationToken)
+                                    .ThrowIfNullAsync($"Product with id {request.ProductId}");
 
-            var review = new Review
-            {
-                Content = request.Content,
-                Rating = request.Rating,
-                CreatedAt = _dateTimeProvider.UtcNow,
-                UpdatedAt = _dateTimeProvider.UtcNow,
-                UserId = request.UserId,
-                Product = t
-            };
+            CreateReview(request, product);
 
-            _reviewRepository.Create(review);
             await _unitOfWork.SaveAsync(cancellationToken);
 
             return Result.Ok();
         }
 
-        private async Task<Product> ValidateRequest(CreateReviewCommand request)
+        private void CreateReview(CreateReviewCommand request, Product product)
         {
-            //var user = await _userRepository.GetUserByIdAsync(request.UserId);
-            //if (user == null)
-            //    throw new NotFoundException("User not found");
+            var review = new Review
+            {
+                Content = request.Content,
+                Rating = request.Rating,
+                UserId = request.UserId,
+                Product = product
+            };
 
-            var product = await _productRepository.GetByIdAsync(request.ProductId);
-            if (product == null)
-                throw new NotFoundException("Product not found");
-
-            return product;
+            _reviewRepository.Create(review);
         }
     }
 }

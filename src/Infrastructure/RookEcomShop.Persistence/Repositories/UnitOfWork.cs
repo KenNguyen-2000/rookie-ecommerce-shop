@@ -1,4 +1,7 @@
-﻿using RookEcomShop.Application.Common.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using RookEcomShop.Application.Common.Repositories;
+using RookEcomShop.Domain.Common;
 
 namespace RookEcomShop.Persistence.Repositories
 {
@@ -11,25 +14,38 @@ namespace RookEcomShop.Persistence.Repositories
             _dbContext = dbContext;
         }
 
-        //public void Commit()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public void Dispose()
+        {
+            _dbContext.Dispose();
+        }
 
-        //public void Dispose()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public void Commit()
+        {
+            _dbContext.SaveChanges();
+        }
 
-        //public IBaseRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseEntity
-        //{
-        //    throw new NotImplementedException();
-        //}
 
-        //public void Rollback()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public IBaseRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseEntity<Guid>
+        {
+            return new BaseRepository<TEntity>(_dbContext);
+        }
+
+        public void Rollback()
+        {
+            foreach (EntityEntry entry in _dbContext.ChangeTracker.Entries())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.State = EntityState.Detached;
+                        break;
+                    case EntityState.Modified:
+                    case EntityState.Deleted:
+                        entry.Reload();
+                        break;
+                }
+            }
+        }
 
         public async Task SaveAsync(CancellationToken cancellationToken = default)
         {

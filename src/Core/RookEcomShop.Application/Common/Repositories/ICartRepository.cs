@@ -4,7 +4,7 @@ namespace RookEcomShop.Application.Common.Repositories
 {
     public interface ICartRepository : IBaseRepository<Cart>
     {
-        Task<Cart?> GetCartByUserIdAsync(Guid userId);
+        Task<Cart?> GetCartByUserIdAsync(Guid userId, CancellationToken cancellationToken = default!);
 
     }
 }

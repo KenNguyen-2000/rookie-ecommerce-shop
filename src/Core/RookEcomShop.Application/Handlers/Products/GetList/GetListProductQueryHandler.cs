@@ -16,7 +16,8 @@ namespace RookEcomShop.Application.Handlers.Products.GetList
 
         public async Task<Result<PaginatedList<ProductDto>>> Handle(GetListProductQuery query, CancellationToken cancellationToken)
         {
-            var products = await _productRepository.GetListAsync(filter: null, query.QueryObject, cancellationToken);
+            var products = await _productRepository
+                                    .GetListAsync(filter: null, query.QueryObject, cancellationToken);
 
             PaginatedList<ProductDto> productVMs = ProductsMapper.MapToPaginatedProductVM(products);
 

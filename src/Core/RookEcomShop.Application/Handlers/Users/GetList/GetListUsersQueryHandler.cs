@@ -20,7 +20,6 @@ namespace RookEcomShop.Application.Handlers.Users.GetList
             PaginatedList<UserDto> paginatedUsers = await _userRepository.GetListAsync(queryDto: query.QueryObject,
                                                                                        cancellationToken: cancellationToken);
 
-
             return Result.Ok(paginatedUsers);
         }
     }

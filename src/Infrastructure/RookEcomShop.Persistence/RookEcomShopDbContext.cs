@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RookEcomShop.Application.Common.Data;
+using RookEcomShop.Domain.Common;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.Persistence.DataSeeding;
 
@@ -48,4 +49,34 @@ public partial class RookEcomShopDbContext : DbContext, IRookEcomShopDbContext
     .LogTo(Console.WriteLine)
     .EnableSensitiveDataLogging()
     .EnableDetailedErrors();
+
+    public override int SaveChanges()
+    {
+        SetTimestamps();
+        return base.SaveChanges();
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        SetTimestamps();
+        return base.SaveChangesAsync(cancellationToken);
+    }
+
+    private void SetTimestamps()
+    {
+        var entries = ChangeTracker
+            .Entries()
+            .Where(e => e.Entity is BaseEntity<Guid> &&
+                        (e.State == EntityState.Added || e.State == EntityState.Modified));
+
+        foreach (var entry in entries)
+        {
+            var entity = (BaseEntity<Guid>)entry.Entity;
+            if (entry.State == EntityState.Added)
+            {
+                entity.CreatedAt = DateTime.UtcNow;
+            }
+            entity.UpdatedAt = DateTime.UtcNow;
+        }
+    }
 }

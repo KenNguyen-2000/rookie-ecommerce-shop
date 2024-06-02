@@ -2,33 +2,29 @@
 using MediatR;
 using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Repositories;
+using RookEcomShop.Application.Common.Services;
+using RookEcomShop.Persistence.Repositories;
 
 namespace RookEcomShop.Application.Handlers.Carts.RemoveProduct
 {
-    public class RemoveProductCommandHandler : IRequestHandler<RemoveProductCommand, Result>
+    public class RemoveProductCommandHandler : BaseService, IRequestHandler<RemoveProductCommand, Result>
     {
         private readonly ICartRepository _cartRepository;
-        private readonly ISender _sender;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public RemoveProductCommandHandler(ICartRepository cartRepository, ISender sender, IUnitOfWork unitOfWork)
+        public RemoveProductCommandHandler(ICartRepository cartRepository, IUnitOfWork unitOfWork) : base(unitOfWork)
         {
             _cartRepository = cartRepository;
-            _sender = sender;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<Result> Handle(RemoveProductCommand command, CancellationToken cancellationToken)
         {
-            var cart = await _cartRepository.GetCartByUserIdAsync(command.UserId);
+            var cart = await _cartRepository
+                                .GetCartByUserIdAsync(command.UserId)
+                                .ThrowIfNullAsync($"User's cart");
 
-            if (cart is null)
-                throw new NotFoundException($"User does not have any products in cart!");
-
-            var product = cart!.CartDetails.FirstOrDefault(cD => cD.Product.Id == command.ProductId);
-
-            if (product is null)
-                throw new NotFoundException($"Product with id {command.ProductId} not found in cart!");
+            var product = cart.CartDetails
+                                .FirstOrDefault(cD => cD.Product.Id == command.ProductId)
+                                .ThrowIfNull($"Product with id {command.ProductId}");
 
             cart.CartDetails.Remove(product);
             await _unitOfWork.SaveAsync(cancellationToken);

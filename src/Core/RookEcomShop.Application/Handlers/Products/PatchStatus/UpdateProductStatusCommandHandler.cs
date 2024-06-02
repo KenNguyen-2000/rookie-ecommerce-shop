@@ -2,26 +2,25 @@
 using MediatR;
 using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Repositories;
+using RookEcomShop.Application.Common.Services;
+using RookEcomShop.Persistence.Repositories;
 
 namespace RookEcomShop.Application.Handlers.Products.PatchStatus
 {
-    internal class UpdateProductStatusCommandHandler : IRequestHandler<UpdateProductStatusCommand, Result>
+    internal class UpdateProductStatusCommandHandler : BaseService, IRequestHandler<UpdateProductStatusCommand, Result>
     {
         private readonly IProductRepository _productRepository;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateProductStatusCommandHandler(IProductRepository productRepository, IUnitOfWork unitOfWork)
+        public UpdateProductStatusCommandHandler(IProductRepository productRepository, IUnitOfWork unitOfWork) : base(unitOfWork)
         {
             _productRepository = productRepository;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<Result> Handle(UpdateProductStatusCommand command, CancellationToken cancellationToken)
         {
-            var existingProduct = await _productRepository.GetByIdAsync(command.Id);
-
-            if (existingProduct == null)
-                throw new NotFoundException($"Product with id {command.Id} not found!");
+            var existingProduct = await _productRepository
+                                            .GetByIdAsync(command.Id, cancellationToken)
+                                            .ThrowIfNullAsync($"Product with id {command.Id}");
 
             existingProduct.Status = command.Status;
 

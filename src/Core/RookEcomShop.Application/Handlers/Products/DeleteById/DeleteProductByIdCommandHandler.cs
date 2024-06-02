@@ -2,28 +2,28 @@
 using MediatR;
 using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Repositories;
+using RookEcomShop.Application.Common.Services;
+using RookEcomShop.Persistence.Repositories;
 
 namespace RookEcomShop.Application.Handlers.Products.DeleteById
 {
-    public class DeleteProductByIdCommandHandler : IRequestHandler<DeleteProductByIdCommand, Result>
+    public class DeleteProductByIdCommandHandler : BaseService, IRequestHandler<DeleteProductByIdCommand, Result>
     {
         private readonly IProductRepository _productRepository;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteProductByIdCommandHandler(IProductRepository productRepository, IUnitOfWork unitOfWork)
+        public DeleteProductByIdCommandHandler(IProductRepository productRepository, IUnitOfWork unitOfWork) : base(unitOfWork)
         {
             _productRepository = productRepository;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<Result> Handle(DeleteProductByIdCommand command, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.GetByIdAsync(command.Id);
-            if (product == null)
-                throw new NotFoundException($"Product with id {command.Id} not found");
+            var product = await _productRepository
+                                    .GetByIdAsync(command.Id)
+                                    .ThrowIfNullAsync($"Product with id {command.Id}");
 
             _productRepository.Delete(product);
-            await _unitOfWork.SaveAsync();
+            await _unitOfWork.SaveAsync(cancellationToken);
 
             return Result.Ok();
         }

@@ -3,17 +3,18 @@ using MediatR;
 using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Helpers;
 using RookEcomShop.Application.Common.Repositories;
+using RookEcomShop.Application.Common.Services;
 using RookEcomShop.Application.Handlers.Carts.Create;
 using RookEcomShop.Domain.Entities;
+using RookEcomShop.Persistence.Repositories;
 
 namespace RookEcomShop.Application.Handlers.Carts.AddProduct
 {
-    public class AddProductToCartCommandHandler : IRequestHandler<AddProductToCartCommand, Result>
+    public class AddProductToCartCommandHandler : BaseService, IRequestHandler<AddProductToCartCommand, Result>
     {
         private readonly ICartRepository _cartRepository;
         private readonly IProductRepository _productRepository;
         private readonly UserContext userContext;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly ISender _sender;
 
         public AddProductToCartCommandHandler(
@@ -21,29 +22,25 @@ namespace RookEcomShop.Application.Handlers.Carts.AddProduct
             ICartRepository cartCategory,
             IUnitOfWork unitOfWork,
             ISender sender,
-            UserContext userContext)
+            UserContext userContext) : base(unitOfWork)
         {
             _productRepository = productRepository;
             _cartRepository = cartCategory;
-            _unitOfWork = unitOfWork;
             _sender = sender;
             this.userContext = userContext;
         }
 
         public async Task<Result> Handle(AddProductToCartCommand command, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.GetByIdAsync(command.ProductId);
-            if (product == null)
-            {
-                throw new NotFoundException($"Product with id {command.ProductId} not found!");
-            }
+            var product = await _productRepository
+                                    .GetByIdAsync(command.ProductId, cancellationToken)
+                                    .ThrowIfNull($"Product with id {command.ProductId}");
 
-
-            var cart = await _cartRepository.GetCartByUserIdAsync(userContext.UserId);
+            var cart = await _cartRepository.GetCartByUserIdAsync(userContext.UserId, cancellationToken);
             if (cart is null)
                 cart = await CreateCartIfNotExists(userContext.UserId, cancellationToken);
 
-            AddProductToCart(cart, product, command.Quantity);
+            AddProductToCart(cart, product!, command.Quantity);
 
             await _unitOfWork.SaveAsync(cancellationToken);
 
@@ -53,7 +50,7 @@ namespace RookEcomShop.Application.Handlers.Carts.AddProduct
         private async Task<Cart> CreateCartIfNotExists(Guid userId, CancellationToken cancellationToken)
         {
             await _sender.Send(new CreateCartCommand { UserId = userId }, cancellationToken);
-            return (await _cartRepository.GetCartByUserIdAsync(userId))!;
+            return await _cartRepository.GetCartByUserIdAsync(userId, cancellationToken).ThrowIfNullAsync("Cart");
         }
 
         private static void AddProductToCart(Cart cart, Product product, int quantity)
@@ -65,11 +62,7 @@ namespace RookEcomShop.Application.Handlers.Carts.AddProduct
             }
             else
             {
-                cart.CartDetails.Add(new CartDetail
-                {
-                    Product = product,
-                    Quantity = quantity
-                });
+                cart.CartDetails.Add(CartDetail.Create(product, quantity));
             }
         }
     }
