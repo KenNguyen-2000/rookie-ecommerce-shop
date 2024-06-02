@@ -32,6 +32,7 @@ import { Input } from '../ui/input';
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { NAV_LINKS } from '@/lib/constants/nav-links.constant';
 import { cn } from '@/lib/utils';
+import { useAppSelector } from '@/redux/reduxHooks';
 
 const ACTIVE_CLASSNAME =
 	'group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base';
@@ -44,6 +45,7 @@ type ContentSidebarLayoutProps = {
 
 const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children }) => {
 	const { pathname } = useLocation();
+	const {user} = useAppSelector(state => state.auth);
 	const { productId, categoryId } = useParams();
 	const navigate = useNavigate();
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -59,6 +61,7 @@ const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children })
 		newParams.set('searchTerm', searchTerm);
 		setSearchParams(newParams);
 	};
+
 
 	return (
 		<div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -159,7 +162,7 @@ const ContentSidebarLayout: React.FC<ContentSidebarLayoutProps> = ({ children })
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end">
-							<DropdownMenuLabel>My Account</DropdownMenuLabel>
+							<DropdownMenuLabel>{user?.name ?? "My Account"}</DropdownMenuLabel>
 							<DropdownMenuSeparator />
 							<DropdownMenuItem>Settings</DropdownMenuItem>
 							<DropdownMenuItem>Support</DropdownMenuItem>

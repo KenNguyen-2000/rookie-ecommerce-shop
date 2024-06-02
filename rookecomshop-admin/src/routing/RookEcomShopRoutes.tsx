@@ -1,4 +1,4 @@
-import { ErrorHandleProvider, OidcAuthProvider, PrivateRoute } from '@/components/hoc';
+import { ErrorHandleProvider, PrivateRoute } from '@/components/hoc';
 import NotFoundPage from '@/pages/errors/NotFoundPage';
 import HomePage from '@/pages/page';
 import {
@@ -9,7 +9,6 @@ import {
 } from 'react-router-dom';
 import 'quill/dist/quill.snow.css';
 import 'react-toastify/dist/ReactToastify.css';
-import authService, { userManager } from '@/services/auth/auth.service';
 import OidcConnectPage from '@/pages/authentication/[action]/page';
 
 const RookEcomShopRoutes = () => {

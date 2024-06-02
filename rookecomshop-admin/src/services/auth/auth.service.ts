@@ -1,3 +1,5 @@
+import { useAppDispatch } from '@/redux/reduxHooks';
+import { storeUser } from '@/redux/slices/auth.slice';
 import {
 	Log,
 	SignoutResponse,
@@ -48,6 +50,7 @@ class AuthService extends UserManager {
 	navigateToScreen = () => {
 		window.location.replace('/en/dashboard');
 	};
+
 	getUser = async (): Promise<User | null> => {
 		const user = await userManager.getUser();
 		if (!user) {
@@ -70,13 +73,7 @@ class AuthService extends UserManager {
 	};
 
 	renewToken = async () => {
-		this.UserManager.signinSilent()
-			.then((user) => {
-				console.log('signed in', user);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+		return this.UserManager.signinSilent();
 	};
 
 	logout = async () => {
