@@ -6,7 +6,7 @@ using RookEcomShop.Application.Common.Exceptions;
 using System.Net;
 using System.Text.Json;
 
-namespace RookEcomShop.Infrastructure.GlobalExceptonHandler
+namespace RookEcomShop.Api.Middlewares
 {
     public static class GlobalExceptionHandlerExtension
     {

@@ -111,8 +111,8 @@ public class IndexModel : PageModel
             LastName = user.LastName,
             EmailConfirmed = user.EmailConfirmed
         };
-        var buyerROle = await _rookEcomContext.Roles.FirstOrDefaultAsync(r => r.Name == "Buyer");
-        appUser.UserRoles.Add(new UserRole { RoleId = buyerROle.Id, UserId = appUser.Id });
+        var buyerRole = await _rookEcomContext.Roles.FirstOrDefaultAsync(r => r.Name == "Buyer");
+        appUser.UserRoles.Add(new UserRole { RoleId = buyerRole.Id, UserId = appUser.Id });
         _rookEcomContext.Users.Add(appUser);
 
         await _rookEcomContext.SaveChangesAsync();

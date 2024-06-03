@@ -4,7 +4,6 @@ using RookEcomShop.Api;
 using RookEcomShop.Api.Middlewares;
 using RookEcomShop.Application;
 using RookEcomShop.Infrastructure;
-using RookEcomShop.Infrastructure.GlobalExceptonHandler;
 using RookEcomShop.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);

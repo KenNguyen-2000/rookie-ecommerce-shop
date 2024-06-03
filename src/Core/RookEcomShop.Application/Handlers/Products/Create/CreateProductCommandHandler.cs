@@ -1,5 +1,6 @@
 ﻿using FluentResults;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.Application.Common.Services;
@@ -36,7 +37,7 @@ namespace RookEcomShop.Application.Handlers.Products.Create
             if (command.Images != null && command.Images.Count > 0)
             {
 
-                productImages = await SaveProductImages(command);
+                productImages = await SaveProductImages(command.Images);
             }
 
             CreateNewProduct(command, category, productImages);
@@ -61,18 +62,16 @@ namespace RookEcomShop.Application.Handlers.Products.Create
             _productRepository.Create(newProduct);
         }
 
-        private async Task<List<ProductImage>> SaveProductImages(CreateProductCommand command)
+        private async Task<List<ProductImage>> SaveProductImages(IFormFileCollection images)
         {
             List<ProductImage> productImages = [];
             List<Task<string>> imgSaveTasks = [];
 
-            if (command.Images != null)
+
+            foreach (var image in images)
             {
-                foreach (var image in command.Images)
-                {
-                    // Save image to storage and get the path
-                    imgSaveTasks.Add(_fileStorageService.SaveFileAsync(image));
-                }
+                // Save image to storage and get the path
+                imgSaveTasks.Add(_fileStorageService.SaveFileAsync(image));
             }
 
             await Task.WhenAll(imgSaveTasks);

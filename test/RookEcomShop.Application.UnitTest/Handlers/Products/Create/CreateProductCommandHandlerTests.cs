@@ -14,7 +14,7 @@ using RookEcomShop.Domain.Entities;
 
 namespace RookEcomShop.Application.UnitTest.Handlers.Products.Create;
 
-public class CreateProductCommandHandlerTest
+public class CreateProductCommandHandlerTests
 {
     private readonly Mock<IProductRepository> _mockProductRepository;
     private readonly Mock<ICategoryRepository> _mockCategoryRepository;
@@ -23,7 +23,7 @@ public class CreateProductCommandHandlerTest
     private readonly CreateProductCommandHandler _handler;
     private readonly IValidator<CreateProductCommand> _validator;
 
-    public CreateProductCommandHandlerTest()
+    public CreateProductCommandHandlerTests()
     {
         _mockProductRepository = new Mock<IProductRepository>();
         _mockCategoryRepository = new Mock<ICategoryRepository>();
@@ -68,7 +68,7 @@ public class CreateProductCommandHandlerTest
     }
 
     [Fact]
-    public async Task Handle_ShouldReturnFailResult_WhenCategoryNotFound()
+    public async Task Handle_ShouldThrowNotFoundException_WhenCategoryNotFound()
     {
         // Arrange
         var command = new CreateProductCommand
@@ -84,7 +84,7 @@ public class CreateProductCommandHandlerTest
 
         _mockCategoryRepository
             .Setup(repo => repo.GetCategoryByNameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((Category)null);
+            .ReturnsAsync((Category?)null);
 
         // Act
         Func<Task> act = async () => await _handler.Handle(command, CancellationToken.None);
@@ -111,7 +111,7 @@ public class CreateProductCommandHandlerTest
             StockQuantity = 100,
             CategoryName = "Test Category",
             UserId = Guid.NewGuid(),
-            Images = images // Add mock images here
+            Images = images
         };
 
         var category = new Category { Name = "Test Category" };
@@ -128,7 +128,7 @@ public class CreateProductCommandHandlerTest
         var result = await _handler.Handle(command, CancellationToken.None);
 
         // Assert
-        result.IsSuccess.Should().BeTrue();
+        Assert.True(result.IsSuccess);
         _mockFileStorageService.Verify(service => service.SaveFileAsync(It.IsAny<IFormFile>()), Times.AtLeastOnce);
     }
 
