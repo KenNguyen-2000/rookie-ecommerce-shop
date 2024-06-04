@@ -21,7 +21,6 @@ namespace RookEcomShop.CustomerFrontend.ViewComponents
             var categories = await _categoriesApiClient.GetCategoriesAsync();
             try
             {
-
                 if (User.Identity?.IsAuthenticated == true)
                 {
                     var productsInCart = await _cartApiClient.GetProductsInCart();
@@ -29,7 +28,7 @@ namespace RookEcomShop.CustomerFrontend.ViewComponents
                     ViewData["CartCount"] = productsInCart.Count();
                 }
 
-                return View(categories.Where(c => c.SubCategories.Any()).ToList().Slice(1, 6));
+                return View(categories.Where(c => c.ParentId == null).ToList().Slice(1, 6));
             }
             catch (System.Exception ex)
             {

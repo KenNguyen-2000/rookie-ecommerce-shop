@@ -1,6 +1,6 @@
 ﻿using FluentResults;
 using MediatR;
-using RookEcomShop.Application.Common.Exceptions;
+using Microsoft.AspNetCore.Http;
 using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.Application.Common.Services;
 using RookEcomShop.Application.Services;
@@ -47,11 +47,11 @@ namespace RookEcomShop.Application.Handlers.Products.Update
 
         private async Task<List<ProductImage>> UpdateProductImages(UpdateProductCommand command, Product existingProduct)
         {
-            List<ProductImage> productImages = existingProduct.ProductImages.ToList();
+            List<ProductImage> productImages = [.. existingProduct.ProductImages];
             if (command.Images != null && command.Images.Count > 0)
             {
                 await RemoveProductImages(existingProduct);
-                productImages = await SaveProductImages(command);
+                productImages = await SaveProductImages(command.Images);
             }
 
             return productImages;
@@ -60,10 +60,7 @@ namespace RookEcomShop.Application.Handlers.Products.Update
         private async Task RemoveProductImages(Product existingProduct)
         {
             List<Task> imgDeleteTasks = [];
-            foreach (var image in existingProduct.ProductImages)
-            {
-                imgDeleteTasks.Add(_fileStorageService.DeleteFileAsync(image.Url));
-            }
+            imgDeleteTasks.AddRange(existingProduct.ProductImages.Select(image => _fileStorageService.DeleteFileAsync(image.Url)));
 
             await Task.WhenAll(imgDeleteTasks);
             existingProduct.ProductImages.Clear();
@@ -78,18 +75,12 @@ namespace RookEcomShop.Application.Handlers.Products.Update
             existingProduct.StockQuantity = command.StockQuantity;
         }
 
-        private async Task<List<ProductImage>> SaveProductImages(UpdateProductCommand command)
+        private async Task<List<ProductImage>> SaveProductImages(IFormFileCollection images)
         {
             List<ProductImage> productImages = [];
             List<Task<string>> imgSaveTasks = [];
-            if (command.Images != null)
-            {
-                foreach (var image in command.Images)
-                {
-                    // Save image to storage and get the path
-                    imgSaveTasks.Add(_fileStorageService.SaveFileAsync(image));
-                }
-            }
+
+            imgSaveTasks.AddRange(images.Select(_fileStorageService.SaveFileAsync));
 
             await Task.WhenAll(imgSaveTasks);
 
