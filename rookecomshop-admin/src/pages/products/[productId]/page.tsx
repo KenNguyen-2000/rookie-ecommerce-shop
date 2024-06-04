@@ -6,8 +6,7 @@ import { CreateUpdateProductInputs } from '@/services/products/products.type';
 import { useAppDispatch } from '@/redux/reduxHooks';
 import CreateUpdateProductForm from '@/components/page/CreateUpdateProductForm';
 import { updateProductAsync } from '@/redux/thunks/products.thunk';
-import { toast } from '@/components/ui/use-toast';
-import { ProductStatus } from '@/services/products/products.enum';
+import { toast } from 'react-toastify';
 
 const ProductDetailPage = () => {
 	const { productId } = useParams();
@@ -33,14 +32,15 @@ const ProductDetailPage = () => {
 			}),
 		);
 		await queryClient.invalidateQueries({ queryKey: ['product', productId] });
-		toast({
-			title: 'Update Product Succeeded',
-			description: (
-				<pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-					<code className="text-white">{JSON.stringify(data, null, 2)}</code>
-				</pre>
-			),
-		});
+		toast.success("Product updated!");
+		// toast.success({
+		// 	title: 'Update Product Succeeded',
+		// 	description: (
+		// 		<pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+		// 			<code className="text-white">{JSON.stringify(data, null, 2)}</code>
+		// 		</pre>
+		// 	),
+		// });
 	};
 
 	if (isLoading) return <div>Loading...</div>;
