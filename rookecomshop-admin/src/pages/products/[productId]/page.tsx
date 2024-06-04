@@ -32,7 +32,7 @@ const ProductDetailPage = () => {
 			}),
 		);
 		await queryClient.invalidateQueries({ queryKey: ['product', productId] });
-		toast.success("Product updated!");
+		toast.success('Product updated!');
 		// toast.success({
 		// 	title: 'Update Product Succeeded',
 		// 	description: (

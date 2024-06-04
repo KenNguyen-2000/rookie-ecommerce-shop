@@ -3,7 +3,7 @@ import { CreateUpdateProductInputs } from '@/services/products/products.type';
 import CreateUpdateProductForm from '@/components/page/CreateUpdateProductForm';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import productsService from '@/services/products/products.service';
-import {toast} from "react-toastify"
+import { toast } from 'react-toastify';
 
 const CreateProductPage = () => {
 	const queryClient = useQueryClient();
@@ -18,7 +18,7 @@ const CreateProductPage = () => {
 	const onSubmit = async (data: CreateUpdateProductInputs) => {
 		console.log(data);
 		await createProductMutation.mutateAsync(data);
-		toast.success("Product created!")
+		toast.success('Product created!');
 	};
 
 	return (
