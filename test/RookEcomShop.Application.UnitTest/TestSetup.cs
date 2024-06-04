@@ -1,5 +1,6 @@
 using AutoFixture;
 using AutoFixture.AutoMoq;
+using Microsoft.AspNetCore.Http;
 using Moq;
 using RookEcomShop.Application.Common.Repositories;
 
@@ -8,13 +9,13 @@ namespace RookEcomShop.Application.UnitTest
     public class TestSetup
     {
         protected readonly Mock<IUnitOfWork> _mockUnitOfWork;
-        protected readonly Fixture _fixture;
+        protected readonly IFixture _fixture;
 
         public TestSetup()
         {
-            _fixture = new Fixture();
+            _fixture = new Fixture().Customize(new AutoMoqCustomization());
+
             _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
-            _fixture.Customize(new AutoMoqCustomization { ConfigureMembers = true });
             _mockUnitOfWork = new Mock<IUnitOfWork>();
         }
 

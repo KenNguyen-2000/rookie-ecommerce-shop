@@ -111,8 +111,13 @@ public class UpdateProductCommandHandlerTests : TestSetup
     public async Task Handle_ShouldUpdateProductImages_WhenNewImagesAreProvided()
     {
         // Arrange
+        var files = _fixture.CreateMany<IFormFile>(3);
+        var fileCollection = _fixture.Create<FormFileCollection>();
+        fileCollection.AddRange([.. files]);
         var command = _fixture.Build<UpdateProductCommand>()
-                                .With(p => p.Images, _fixture.Create<IFormFileCollection>()).Create();
+                                .With(p => p.Images, fileCollection)
+                                .Create();
+
         var existingProduct = _fixture.Build<Product>().With(p => p.Id, command.Id).Create();
         var category = _fixture.Build<Category>().With(p => p.Name, command.CategoryName).Create();
 

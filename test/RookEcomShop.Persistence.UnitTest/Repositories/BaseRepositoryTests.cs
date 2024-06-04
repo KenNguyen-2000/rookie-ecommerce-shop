@@ -1,10 +1,7 @@
 using Moq;
-using RookEcomShop.Domain.Common;
 using RookEcomShop.Persistence.Repositories;
 using AutoFixture.Xunit2;
-using AutoFixture;
 using RookEcomShop.Persistence.UnitTest.TestUtils;
-using FluentAssertions;
 
 namespace RookEcomShop.Persistence.UnitTest.Repositories;
 
@@ -54,7 +51,7 @@ public class BaseRepositoryTests : TestSetup
         var repository = new BaseRepository<ConcreteBaseEntity>(_dbContextMock);
 
         // Act
-        entity.UpdatedAt = DateTime.UtcNow; // Make some change to update
+        entity.UpdatedAt = DateTime.UtcNow;
         repository.Update(entity);
         _dbContextMock.SaveChanges();
 

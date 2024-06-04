@@ -8,13 +8,15 @@ namespace RookEcomShop.Persistence.UnitTest;
 
 public class TestSetup
 {
-    protected readonly Fixture _fixture;
+    protected readonly IFixture _fixture;
     protected readonly RookEcomShopDbContextMock _dbContextMock;
     public TestSetup()
     {
-        _fixture = new Fixture();
-        // _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
-        // _fixture.Customize(new AutoMoqCustomization { ConfigureMembers = true });
+        _fixture = new Fixture().Customize(new AutoMoqCustomization());
+
+        _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
+                            .ForEach(b => _fixture.Behaviors.Remove(b));
+        _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
         var options = new DbContextOptionsBuilder<RookEcomShopDbContext>()
             .UseInMemoryDatabase(databaseName: "TestDb")
