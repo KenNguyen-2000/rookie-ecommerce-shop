@@ -117,11 +117,14 @@ namespace RookEcomShop.Persistence.Repositories
                 .Include(p => p.Category)
                 .Include(p => p.ProductImages)
                 .Include(p => p.Reviews);
-
             if (query.Count() > 0)
             {
                 query = query
-                .OrderByDescending(p => p.Reviews.Count);
+                    .OrderByDescending(p => p.Reviews.Count)
+                    .ThenBy(p => p.Reviews
+                                        .Select(r => r.Rating)
+                                        .DefaultIfEmpty()
+                                        .Average());
             }
             var products = await query.Take(count)
                 .ToListAsync(cancellationToken);
