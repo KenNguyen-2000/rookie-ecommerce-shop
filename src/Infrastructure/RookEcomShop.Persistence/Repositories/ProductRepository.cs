@@ -113,12 +113,17 @@ namespace RookEcomShop.Persistence.Repositories
 
         public async Task<IEnumerable<Product>> GetListBestReviewsAsync(int count = 10, CancellationToken cancellationToken = default)
         {
-            var products = await _dbContext.Products
+            IQueryable<Product> query = _dbContext.Products
                 .Include(p => p.Category)
                 .Include(p => p.ProductImages)
-                .Include(p => p.Reviews)
-                .OrderByDescending(p => p.Reviews.Average(r => r.Rating))
-                .Take(count)
+                .Include(p => p.Reviews);
+
+            if (query.Count() > 0)
+            {
+                query = query
+                .OrderByDescending(p => p.Reviews.Count);
+            }
+            var products = await query.Take(count)
                 .ToListAsync(cancellationToken);
 
             return products;
