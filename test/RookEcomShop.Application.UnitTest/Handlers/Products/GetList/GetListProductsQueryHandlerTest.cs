@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using AutoFixture;
+using FluentAssertions;
+using FluentResults;
 using Moq;
 using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.Application.Dto;
@@ -15,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace RookEcomShop.Application.UnitTest.Handlers.Products.GetList
 {
-    public class CreateProductCommandTest
+    public class CreateProductCommandTest : TestSetup
     {
         private readonly GetListProductQueryHandler _handler;
         private readonly Mock<IProductRepository> _productsRepositoryMock;
@@ -30,34 +32,11 @@ namespace RookEcomShop.Application.UnitTest.Handlers.Products.GetList
         public async Task Handle_ShouldReturnPaginatedListOfProductDto_WhenProductsExist()
         {
             // Arrange
-            var query = new GetListProductQuery
-            {
-                QueryObject = new ProductQueryDto
-                {
-                    Page = 1,
-                    PageSize = 10
-                }
-            };
+            var query = _fixture.Build<GetListProductQuery>().Create();
 
-            var products = new List<Product>
-            {
-                new Product
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Test Product",
-                    Description = "Test Description",
-                    Price = 9.99m,
-                    StockQuantity = 100,
-                    Status = ProductStatus.Active,
-                    Category = new Category
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "Test Category"
-                    }
-                }
-            };
+            var products = _fixture.CreateMany<Product>();
 
-            var expectedPaginatedList = PaginatedList<Product>.Create(products, query.QueryObject.Page, query.QueryObject.PageSize, products.Count);
+            var expectedPaginatedList = PaginatedList<Product>.Create(products, query.QueryObject.Page, query.QueryObject.PageSize, products.Count());
 
             _productsRepositoryMock.Setup(repo => repo.GetListAsync(It.IsAny<Expression<Func<Product, bool>>>(), query.QueryObject, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(expectedPaginatedList);
@@ -68,36 +47,25 @@ namespace RookEcomShop.Application.UnitTest.Handlers.Products.GetList
             // Assert
             result.Should().NotBeNull();
             result.IsSuccess.Should().BeTrue();
+
             result.Value.Should().NotBeNull();
-            result.Value.Items.Should().HaveCount(products.Count);
-            result.Value.Items.First().Name.Should().Be("Test Product");
+
+            // Verify ProductQuery criteria
+            result.Value.Page.Should().Be(query.QueryObject.Page);
+            result.Value.PageSize.Should().Be(query.QueryObject.PageSize);
+
+            result.Value.Items.Should().HaveCount(products.Count());
 
             // Verify Mapping to Dto
-            var firstProductDto = result.Value.Items.First();
-            var firstProduct = products.First();
-
-            firstProductDto.Id.Should().Be(firstProduct.Id);
-            firstProductDto.Name.Should().Be(firstProduct.Name);
-            firstProductDto.Description.Should().Be(firstProduct.Description);
-            firstProductDto.Price.Should().Be(firstProduct.Price);
-            firstProductDto.StockQuantity.Should().Be(firstProduct.StockQuantity);
-            firstProductDto.Status.Should().Be(firstProduct.Status);
-            firstProductDto.Category.Id.Should().Be(firstProduct.Category.Id);
-            firstProductDto.Category.Name.Should().Be(firstProduct.Category.Name);
+            VerifyMappedDto(products, result);
         }
+
 
         [Fact]
         public async Task Handle_ShouldReturnEmptyPaginatedList_WhenNoProductsExist()
         {
             // Arrange
-            var query = new GetListProductQuery
-            {
-                QueryObject = new ProductQueryDto
-                {
-                    Page = 1,
-                    PageSize = 10
-                }
-            };
+            var query = _fixture.Create<GetListProductQuery>();
 
             var paginatedList = PaginatedList<Product>.Create(new List<Product>(), query.QueryObject.Page, query.QueryObject.PageSize, 0);
 
@@ -112,6 +80,25 @@ namespace RookEcomShop.Application.UnitTest.Handlers.Products.GetList
             result.IsSuccess.Should().BeTrue();
             result.Value.Should().NotBeNull();
             result.Value.Items.Should().BeEmpty();
+
+            _productsRepositoryMock.Verify(repo => repo.GetListAsync(It.IsAny<Expression<Func<Product, bool>>>(), It.IsAny<ProductQueryDto>(), It.IsAny<CancellationToken>()));
+
         }
+
+        private static void VerifyMappedDto(IEnumerable<Product> products, Result<PaginatedList<ProductDto>> result)
+        {
+            var firstProductDto = result.Value.Items.First();
+            var firstProduct = products.First();
+
+            firstProductDto.Id.Should().Be(firstProduct.Id);
+            firstProductDto.Name.Should().Be(firstProduct.Name);
+            firstProductDto.Description.Should().Be(firstProduct.Description);
+            firstProductDto.Price.Should().Be(firstProduct.Price);
+            firstProductDto.StockQuantity.Should().Be(firstProduct.StockQuantity);
+            firstProductDto.Status.Should().Be(firstProduct.Status);
+            firstProductDto.Category.Id.Should().Be(firstProduct.Category.Id);
+            firstProductDto.Category.Name.Should().Be(firstProduct.Category.Name);
+        }
+
     }
 }
