@@ -22,7 +22,9 @@ public static class ProductsMapper
                 Description = product.Category.Description,
                 ParentId = product.Category.CategoryId
             },
-            ImgUrls = product.ProductImages.Select(i => i.Url).ToList()
+            ImgUrls = product.ProductImages.Select(i => i.Url).ToList(),
+            CreatedAt = product.CreatedAt,
+            UpdatedAt = product.UpdatedAt
         };
     }
 
@@ -30,23 +32,7 @@ public static class ProductsMapper
     {
         return new PaginatedList<ProductDto>
         {
-            Items = paginatedProducts.Items.Select(p => new ProductDto
-            {
-                Id = p.Id,
-                Name = p.Name,
-                Description = p.Description,
-                Price = p.Price,
-                StockQuantity = p.StockQuantity,
-                Status = p.Status,
-                Category = new CategoryDto
-                {
-                    Id = p.Category.Id,
-                    Name = p.Category.Name,
-                    Description = p.Category.Description,
-                    ParentId = p.Category.CategoryId
-                },
-                ImgUrls = p.ProductImages.Select(i => i.Url).ToList()
-            }).ToList(),
+            Items = paginatedProducts.Items.Select(MapToProductVM).ToList(),
             Page = paginatedProducts.Page,
             PageSize = paginatedProducts.PageSize,
             TotalCount = paginatedProducts.TotalCount

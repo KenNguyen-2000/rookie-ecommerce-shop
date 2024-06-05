@@ -12,5 +12,7 @@ namespace RookEcomShop.ViewModels.Dto
         public int StockQuantity { get; set; }
         public CategoryDto Category { get; set; } = null!;
         public IEnumerable<string> ImgUrls { get; set; } = new List<string>();
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }
