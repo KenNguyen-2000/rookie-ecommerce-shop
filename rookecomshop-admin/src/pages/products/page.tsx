@@ -198,6 +198,20 @@ const ProductPage = () => {
 												</button>
 											</div>
 										</TableHead>
+										<TableHead className="hidden md:table-cell">
+											<div className="flex gap-3">
+												Updated date
+												{/* <button
+													type="button"
+													onClick={handleSortQuery.bind(
+														null,
+														'createdAt',
+													)}
+												>
+													<CaretSortIcon />
+												</button> */}
+											</div>
+										</TableHead>
 										<TableHead>
 											<span className="sr-only">Actions</span>
 										</TableHead>

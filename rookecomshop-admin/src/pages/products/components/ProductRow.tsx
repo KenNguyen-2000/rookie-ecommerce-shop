@@ -50,6 +50,9 @@ const ProductRow: React.FC<ProductRowProps> = ({ product, onSelectProductToDelet
 			<TableCell className="hidden md:table-cell">
 				{moment(product.createdAt).format('DD/MM/yyyy')}
 			</TableCell>
+			<TableCell className="hidden md:table-cell">
+				{moment(product.updatedAt).format('DD/MM/yyyy')}
+			</TableCell>
 			<TableCell>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
