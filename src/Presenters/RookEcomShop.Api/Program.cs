@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using RookEcomShop.Api;
 using RookEcomShop.Api.Middlewares;
 using RookEcomShop.Application;
 using RookEcomShop.Infrastructure;
+using RookEcomShop.Infrastructure.ConfigurationOptions;
 using RookEcomShop.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,11 +18,15 @@ builder.Configuration
             .AddUserSecrets<Program>()
             .AddEnvironmentVariables();
 
+var appSettings = new AppSettings();
+builder.Configuration.Bind(appSettings);
+builder.Services.Configure<AppSettings>(builder.Configuration);
+
 builder.Services
     .AddPresentation()
     .AddApplication()
-    .AddPersistence(builder.Configuration)
-    .AddInfrastructure(builder.Configuration);
+    .AddPersistence(appSettings.ConnectionStrings.DefaultConnection)
+    .AddInfrastructure(builder.Configuration, appSettings);
 
 
 builder.Services

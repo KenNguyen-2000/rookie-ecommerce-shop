@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.IdentityModel.Tokens.Jwt;
+using RookEcomShop.Infrastructure.ConfigurationOptions;
 
 namespace RookEcomShop.Infrastructure.Authentication
 {
     public static class AuthenticationExtension
     {
-        public static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration, AppSettings appSettings)
         {
             var JwtSettings = new JwtSettings();
             configuration.Bind(JwtSettings.SectionName, JwtSettings);
@@ -16,8 +17,8 @@ namespace RookEcomShop.Infrastructure.Authentication
             services.AddAuthentication("Bearer")
                     .AddJwtBearer("Bearer", options =>
                     {
-                        options.Audience = "rookEcomShop.api"; //api resource name
-                        options.Authority = configuration["IdentityServer:Authority"];
+                        options.Audience = appSettings.IdentityServerSettings.Audience; //api resource name
+                        options.Authority = appSettings.IdentityServerSettings.Authority;
                         options.RequireHttpsMetadata = false;
 
                     });

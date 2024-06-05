@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using RookEcomShop.IdentityServer.ConfigurationOptions;
 using RookEcomShop.IdentityServer.Domain;
 using RookEcomShop.IdentityServer.Persistence;
 using RookEcomShop.IdentityServer.Services;
@@ -9,17 +10,12 @@ namespace RookEcomShop.IdentityServer.Configuration
 {
     public static class IdentityServerExtension
     {
-        public static void ConfigureIdentityServices(this WebApplicationBuilder builder)
+        public static void ConfigureIdentityServices(this WebApplicationBuilder builder, AppSettings appSettings)
         {
             builder.Services.AddControllersWithViews();
-            var clientUrls = new Dictionary<string, string>
-            {
-                ["Mvc"] = builder.Configuration["ClientUrl:Mvc"]!,
-                ["Swagger"] = builder.Configuration["ClientUrl:Swagger"]!,
-                ["React"] = builder.Configuration["ClientUrl:React"]!
-            };
+            var clientUrls = appSettings.IdentityServerSettings.ClientUrls;
 
-            string connectionString = builder.Configuration.GetConnectionString("IdentityConnection")!;
+            string connectionString = appSettings.ConnectionStrings.IdentityConnection!;
 
             builder.Services.AddDbContext<IdentityServerDbContext>(opt =>
                       opt.UseSqlServer(connectionString,

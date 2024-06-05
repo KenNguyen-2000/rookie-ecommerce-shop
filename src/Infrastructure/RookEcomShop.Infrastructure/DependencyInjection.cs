@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using RookEcomShop.Application.Common.Interfaces.Services;
 using RookEcomShop.Infrastructure.Authentication;
+using RookEcomShop.Infrastructure.ConfigurationOptions;
 using RookEcomShop.Infrastructure.Cors;
 using RookEcomShop.Infrastructure.Services;
 using RookEcomShop.Infrastructure.Swagger;
@@ -12,23 +13,17 @@ namespace RookEcomShop.Infrastructure
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services,
+            IConfiguration configuration, AppSettings appSettings)
         {
-            var JwtSettings = new JwtSettings();
-            configuration.Bind(JwtSettings.SectionName, JwtSettings);
 
-            services.ConfigureAuthentication(configuration);
+            services.ConfigureAuthentication(configuration, appSettings);
             services.AddSwaggerConfig();
-            services.ConfigureCors();
+            services.ConfigureCors(appSettings);
 
-            services.AddSingleton(Options.Create(JwtSettings));
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
             return services;
-        }
-
-        public static void AddIdentityServicesConfiguration(this WebApplicationBuilder builder)
-        {
         }
 
     }

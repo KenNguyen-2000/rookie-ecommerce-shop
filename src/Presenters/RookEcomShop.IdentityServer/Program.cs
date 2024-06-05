@@ -1,4 +1,5 @@
 using RookEcomShop.IdentityServer.Configuration;
+using RookEcomShop.IdentityServer.ConfigurationOptions;
 using RookEcomShop.Persistence;
 using Serilog;
 
@@ -11,11 +12,16 @@ try
                 .AddJsonFile("appsettings.json", true, true)
                 .AddUserSecrets<Program>()
                 .AddEnvironmentVariables();
-    builder.ConfigureIdentityServices();
+
+    var appSettings = new AppSettings();
+    builder.Configuration.Bind(appSettings);
+    builder.Services.Configure<AppSettings>(builder.Configuration);
+
+    builder.ConfigureIdentityServices(appSettings);
 
     builder.Services.AddRazorPages();
     builder.Services
-        .AddPersistence(builder.Configuration);
+        .AddPersistence(appSettings.ConnectionStrings.DefaultConnection);
 
 
     //builder.Services.AddAuthentication()
@@ -51,10 +57,8 @@ try
     {
         Log.Information("Seeding database...");
         var config = builder.Configuration;
-        var defaultString = config.GetConnectionString("IdentityConnection");
-        var rookEcomStr = config.GetConnectionString("DefaultConnection");
 
-        SeedUsers.EnsureSeedData(defaultString, rookEcomStr).Wait();
+        SeedUsers.EnsureSeedData(appSettings.ConnectionStrings.IdentityConnection, appSettings.ConnectionStrings.DefaultConnection).Wait();
         Log.Information("Done seeding database.");
         return;
     }

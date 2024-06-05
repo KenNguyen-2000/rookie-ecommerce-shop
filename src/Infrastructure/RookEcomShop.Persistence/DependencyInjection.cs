@@ -9,9 +9,8 @@ namespace RookEcomShop.Persistence
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddPersistence(this IServiceCollection services,  string connectionString)
         {
-            string? connectionString = configuration.GetConnectionString("DefaultConnection");
             if (string.IsNullOrEmpty(connectionString))
             {
                 Console.WriteLine("Connection string not found");
