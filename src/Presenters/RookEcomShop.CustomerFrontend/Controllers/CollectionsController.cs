@@ -25,7 +25,7 @@ public class CollectionsController : Controller
     }
 
     [HttpGet("{categoryName}")]
-    public async Task<IActionResult> Details(string categoryName, [FromQuery] ProductQueryDto queryDto)
+    public async Task<ViewResult> Details(string categoryName, [FromQuery] ProductQueryDto queryDto)
     {
 
         Log.Information("[CollectionsController]: Get category from API " + categoryName);
