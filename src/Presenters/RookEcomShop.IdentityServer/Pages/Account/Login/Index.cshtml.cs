@@ -27,8 +27,6 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Login
         private readonly IClientStore _clientStore;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IEventService _events;
-        private readonly IUserSession _userSession;
-        private readonly IUserStore<ApplicationUser> _userStore;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
@@ -36,9 +34,7 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Login
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
             IAuthenticationSchemeProvider schemeProvider,
-            IEventService events,
-            IUserSession userSession,
-            IUserStore<ApplicationUser> userStore)
+            IEventService events)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -46,8 +42,6 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Login
             _clientStore = clientStore;
             _schemeProvider = schemeProvider;
             _events = events;
-            _userSession = userSession;
-            _userStore = userStore;
         }
 
         public async Task<IActionResult> OnGet(string returnUrl)
@@ -71,7 +65,7 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Login
         {
             // check if we are in the context of an authorization request
             var context = await _interaction.GetAuthorizationContextAsync(LoginInputModel.ReturnUrl);
-            Console.WriteLine("Model Vlaid: " + JsonConvert.SerializeObject(LoginInputModel).ToString() + button);
+            Console.WriteLine("Model Valid: " + JsonConvert.SerializeObject(LoginInputModel).ToString() + button);
 
             // the user clicked the "cancel" button
             if (button != "login")
@@ -128,7 +122,7 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Login
                     }
                     else if (string.IsNullOrEmpty(LoginInputModel.ReturnUrl))
                     {
-                        return Redirect("~/");
+                        return Redirect("https://localhost:7019/account/signin");
                     }
                     else
                     {
@@ -138,6 +132,7 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Login
                 }
 
                 await _events.RaiseAsync(new UserLoginFailureEvent(LoginInputModel.Username, "invalid credentials", clientId: context?.Client.ClientId));
+                ViewData["ErrorMessage"] = "Username or password is incorrect!";
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
             }
 
