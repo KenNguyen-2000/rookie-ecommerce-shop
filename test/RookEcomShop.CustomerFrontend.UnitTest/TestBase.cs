@@ -6,12 +6,13 @@ using RookEcomShop.CustomerFrontend.UnitTest.Behaviors;
 
 namespace RookEcomShop.CustomerFrontend.UnitTest
 {
-    public class TestBase : IClassFixture<WebApplicationFactory<Program>>
+    public class TestBase
     {
         // protected readonly HttpClient _client;
         protected readonly IFixture _fixture;
+        protected const string fakeBaseAddress = "https://www.example.com";
 
-        public TestBase(WebApplicationFactory<Program> factory)
+        public TestBase()
         {
             _fixture = new Fixture().Customize(new AutoMoqCustomization());
             _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()

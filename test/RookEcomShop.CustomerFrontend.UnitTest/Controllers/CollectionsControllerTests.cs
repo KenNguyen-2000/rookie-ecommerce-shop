@@ -1,9 +1,6 @@
 using AutoFixture;
 using AutoFixture.Xunit2;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Moq;
 using RookEcomShop.Application.Dto;
 using RookEcomShop.CustomerFrontend.Controllers;
@@ -19,7 +16,7 @@ public class CollectionsControllerTests : TestBase
     private readonly Mock<IProductsApiClient> _productsApiClientMock;
     private readonly Mock<ICategoriesApiClient> _categoriesApiClientMock;
     private readonly CollectionsController _controller;
-    public CollectionsControllerTests(WebApplicationFactory<Program> factory) : base(factory)
+    public CollectionsControllerTests()
     {
         _productsApiClientMock = new Mock<IProductsApiClient>();
         _categoriesApiClientMock = new Mock<ICategoriesApiClient>();
