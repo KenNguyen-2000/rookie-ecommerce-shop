@@ -20,11 +20,12 @@ namespace RookEcomShop.Persistence.Repositories
                 Id = u.Id,
                 FirstName = u.FirstName,
                 LastName = u.LastName,
-                PhoneNumber = u.PhoneNumber,
                 Address = u.Address,
                 Dob = u.Dob,
-                Gender = u.Gender,
-                AvartarUrl = u.AvartarUrl
+                AvartarUrl = u.AvartarUrl,
+                PhoneNumber = u.PhoneNumber,
+                Email = u.Email,
+                Gender = u.Gender
             }).FirstOrDefaultAsync(u => u.Id == userId);
         }
 
@@ -47,11 +48,12 @@ namespace RookEcomShop.Persistence.Repositories
                 Id = u.Id,
                 FirstName = u.FirstName,
                 LastName = u.LastName,
-                PhoneNumber = u.PhoneNumber,
                 Address = u.Address,
                 Dob = u.Dob,
-                Gender = u.Gender,
-                AvartarUrl = u.AvartarUrl
+                AvartarUrl = u.AvartarUrl,
+                PhoneNumber = u.PhoneNumber,
+                Email = u.Email,
+                Gender = u.Gender
             }).ToListAsync(cancellationToken);
             return PaginatedList<UserDto>.Create(userDtos, queryDto.Page, queryDto.PageSize, totalCount);
         }
@@ -68,11 +70,12 @@ namespace RookEcomShop.Persistence.Repositories
                 Id = u.Id,
                 FirstName = u.FirstName,
                 LastName = u.LastName,
-                PhoneNumber = u.PhoneNumber,
                 Address = u.Address,
                 Dob = u.Dob,
-                Gender = u.Gender,
-                AvartarUrl = u.AvartarUrl
+                AvartarUrl = u.AvartarUrl,
+                PhoneNumber = u.PhoneNumber,
+                Email = u.Email,
+                Gender = u.Gender
             }).ToListAsync();
         }
 
@@ -83,9 +86,13 @@ namespace RookEcomShop.Persistence.Repositories
                 Id = u.Id,
                 FirstName = u.FirstName,
                 LastName = u.LastName,
-                PhoneNumber = u.PhoneNumber,
                 Address = u.Address,
                 Dob = u.Dob,
+                AvartarUrl = u.AvartarUrl,
+                PhoneNumber = u.PhoneNumber,
+                Email = u.Email,
+                Gender = u.Gender
+
             }).ToListAsync();
         }
 

@@ -24,13 +24,13 @@ import CreateCategoryDialog from './components/CreateCategoryDialog';
 import { useState } from 'react';
 import { CategoryDto, CreateCategoryDto } from '@/services/categories/categories.type';
 import { AlertPopup } from '@/components/page';
-import useCategories from './useCategories';
+import useCategories, { useFetchListCategory } from './useCategories';
 
 const CategoriesPage = () => {
 	const [showDialog, setShowDialog] = useState(false);
 	const [showAlert, setShowAlert] = useState(false);
 	const [selectedCategory, setSelectedCategory] = useState<CategoryDto | null>();
-	const {useFetchListCategory, createCategory, deleteMutate, updateCategory} = useCategories();
+	const { createCategory, deleteMutate, updateCategory} = useCategories();
 	const { data: categories } = useFetchListCategory();
 
 	const handleToggleDialog = () => {

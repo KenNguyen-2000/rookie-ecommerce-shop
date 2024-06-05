@@ -7,7 +7,7 @@ import RookEcomShopRoutes from './routing/RookEcomShopRoutes';
 const App = () => {
 	return (
 		<>
-			<ToastContainer />
+			<ToastContainer position='bottom-right' />
 			<TooltipProvider>
 				<ReduxProvider>
 					<TanstackProvider>

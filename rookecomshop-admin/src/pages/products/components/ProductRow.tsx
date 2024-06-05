@@ -28,7 +28,7 @@ const ProductRow: React.FC<ProductRowProps> = ({ product, onSelectProductToDelet
 					alt="Product image"
 					className="aspect-square rounded-md object-cover"
 					height="64"
-					src={`${import.meta.env.VITE_IMG_URL}${product.imgUrls.length > 0 ? product.imgUrls[0] : ''}`}
+					src={product.imgUrls.length > 0 ? `${import.meta.env.VITE_IMG_URL}${product.imgUrls[0] }` : "/placeholder.svg"}
 					width="64"
 				/>
 			</TableCell>

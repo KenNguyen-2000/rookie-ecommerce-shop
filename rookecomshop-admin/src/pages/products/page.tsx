@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { File, ListFilter, MoreHorizontal, PlusCircle } from 'lucide-react';
+import { File, ListFilter, PlusCircle } from 'lucide-react';
 
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
 	Card,
@@ -15,7 +13,6 @@ import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
 	DropdownMenuContent,
-	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
@@ -23,65 +20,45 @@ import {
 import {
 	Table,
 	TableBody,
-	TableCell,
 	TableHead,
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import { useAppDispatch } from '@/redux/reduxHooks';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { deleteProductAsync } from '@/redux/thunks/products.thunk';
 import { ContentSidebarLayout } from '@/components/layouts';
 import { AlertPopup } from '@/components/page';
-import { ProductQueryDto, QueryDto } from '@/types/query-dto';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import productsService from '@/services/products/products.service';
-import { Skeleton } from '@/components/ui/skeleton';
-import { toast } from '@/components/ui/use-toast';
+import {  useQueryClient } from '@tanstack/react-query';
 import { ProductDto } from '@/services/products/products.type';
 import ProductRow from './components/ProductRow';
 import ReusePagination from '@/components/page/ReusePagination';
-import categoriesService from '@/services/categories/categories.service';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { CaretSortIcon } from '@radix-ui/react-icons';
+import useQueryProducts, { useFetchProducts } from './useQueryProducts';
+import  { useFetchListCategory } from '../categories/useCategories';
+import { toast } from 'react-toastify';
+import ProductsSkeleton from './components/ProductsSkeleton';
 
 const ProductPage = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const queryClient = useQueryClient();
+	const  { queryDto, handleCategoryQuery, handlePaginate, handleSortQuery} = useQueryProducts();
 
-	const [searchParams, setSearchParams] = useSearchParams();
 	const [isOpen, setIsOpen] = useState(false);
 	const [productId, setProductId] = useState<string | null>(null);
-	const [queryDto, setQueryDto] = useState<ProductQueryDto>({
-		page: parseInt(searchParams.get('page') ?? '1'),
-		pageSize: parseInt(searchParams.get('pageSize') ?? '5'),
-		searchTerm: searchParams.get('searchTerm') ?? '',
-		sortOrder: searchParams.get('sortOrder') ?? 'asc',
-		sortColumn: searchParams.get('sortColumn') ?? '',
-		categoryName: searchParams.get('categoryName') ?? null,
-		status: null,
-	});
-	const { data: products, isLoading } = useQuery({
-		queryKey: ['products', queryDto],
-		queryFn: () => productsService.getProductsAsync(queryDto),
-	});
-	const { data: categories } = useQuery({
-		queryKey: ['categories'],
-		queryFn: () => categoriesService.getCategoriesAsync(),
-	});
+	const { data: products, isLoading } = useFetchProducts(queryDto);
+	const { data: categories } = useFetchListCategory();
+	
 	const handleDeleteProduct = async () => {
 		if (productId) {
 			//Delete product
-			console.log('Delete product');
 			await dispatch(deleteProductAsync(productId));
 			queryClient.invalidateQueries({ queryKey: ['products', queryDto] });
-			toast({
-				title: 'Product Deleted',
-				description: 'Product has been deleted successfully',
-			});
+			toast.success('Product has been deleted successfully');
 		}
 		setIsOpen(false);
 	};
@@ -91,37 +68,6 @@ const ProductPage = () => {
 		setProductId(productId);
 	};
 
-	const handleAddParams = (page: number, pageSize?: number) => {
-		const newParams = new URLSearchParams(searchParams);
-		newParams.set('page', page.toString());
-		newParams.set('pageSize', (pageSize ?? 5).toString());
-		setSearchParams(newParams);
-	};
-
-	const handleSortQuery = (sortColumn: string) => {
-		const newParams = new URLSearchParams(searchParams);
-		newParams.set('sortOrder', queryDto.sortOrder === 'asc' ? 'desc' : 'asc');
-		newParams.set('sortColumn', sortColumn);
-		setSearchParams(newParams);
-	};
-
-	const handleCategoryQuery = (categoryName: string) => {
-		const newParams = new URLSearchParams(searchParams);
-		newParams.set('categoryName', categoryName);
-		setSearchParams(newParams);
-	};
-
-	useEffect(() => {
-		setQueryDto({
-			page: parseInt(searchParams.get('page') ?? '1'),
-			pageSize: parseInt(searchParams.get('pageSize') ?? '5'),
-			searchTerm: searchParams.get('searchTerm') ?? '',
-			sortOrder: searchParams.get('sortOrder') ?? 'asc',
-			sortColumn: searchParams.get('sortColumn') ?? '',
-			categoryName: searchParams.get('categoryName') ?? null,
-			status: null,
-		});
-	}, [searchParams]);
 
 	return (
 		<ContentSidebarLayout>
@@ -289,7 +235,7 @@ const ProductPage = () => {
 										<ReusePagination<ProductDto>
 											data={products}
 											queryDto={queryDto}
-											handleChangePage={handleAddParams}
+											handleChangePage={handlePaginate}
 										/>
 									)}
 								</div>
@@ -303,50 +249,4 @@ const ProductPage = () => {
 };
 export default ProductPage;
 
-const ProductsSkeleton = ({ count }: { count: number }) => {
-	return (
-		<>
-			{Array.from({ length: count }).map((_, index) => (
-				<TableRow key={index}>
-					<TableCell className="hidden sm:table-cell">
-						<Skeleton className="bg-slate-300 h-16 w-16 rounded-full" />
-					</TableCell>
-					<TableCell className="font-medium">
-						<Skeleton className="bg-slate-300 h-6 w-32 rounded-full" />
-					</TableCell>
-					<TableCell>
-						<Skeleton className="bg-slate-300 h-6 w-10 rounded-full" />
-					</TableCell>
-					<TableCell className="hidden md:table-cell">
-						<Skeleton className="bg-slate-300 h-6 w-32 rounded-full" />
-					</TableCell>
-					<TableCell className="hidden md:table-cell">
-						<Skeleton className="bg-slate-300 h-6 w-32 rounded-full" />
-					</TableCell>
-					<TableCell className="hidden md:table-cell">
-						<Skeleton className="bg-slate-300 h-6 w-32 rounded-full" />
-					</TableCell>
-					<TableCell className="hidden md:table-cell">
-						<Skeleton className="bg-slate-300 h-6 w-32 rounded-full" />
-					</TableCell>
-					<TableCell>
-						<DropdownMenu>
-							<DropdownMenuTrigger asChild>
-								<Button aria-haspopup="true" size="icon" variant="ghost">
-									<MoreHorizontal className="h-4 w-4" />
-									<span className="sr-only">Toggle menu</span>
-								</Button>
-							</DropdownMenuTrigger>
-							<DropdownMenuContent align="end">
-								<DropdownMenuLabel>Actions</DropdownMenuLabel>
-								<DropdownMenuItem>Edit</DropdownMenuItem>
 
-								<DropdownMenuItem>Delete</DropdownMenuItem>
-							</DropdownMenuContent>
-						</DropdownMenu>
-					</TableCell>
-				</TableRow>
-			))}
-		</>
-	);
-};

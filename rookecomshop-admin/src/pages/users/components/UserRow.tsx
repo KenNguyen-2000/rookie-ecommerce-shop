@@ -37,7 +37,7 @@ const UserRow: React.FC<UserRowProps> = ({ user }) => {
 				<Badge variant="outline">{Gender[user.gender]}</Badge>
 			</TableCell>
 			<TableCell className="hidden md:table-cell">{user.dob ?? 'Not provided'}</TableCell>
-			<TableCell className="hidden md:table-cell">Not provided</TableCell>
+			<TableCell className="hidden md:table-cell">{user.email ?? "Not provided"}</TableCell>
 			<TableCell className="hidden md:table-cell">
 				{user.phoneNumber ?? 'Not provided'}
 			</TableCell>

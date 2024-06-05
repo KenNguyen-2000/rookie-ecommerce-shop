@@ -1,24 +1,24 @@
 import categoriesService from '@/services/categories/categories.service';
 import { CreateCategoryDto } from '@/services/categories/categories.type';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import React from 'react'
+import {  useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
+
+export const useFetchListCategory = () => useQuery({
+    queryKey: ['categories'],
+    queryFn: () => categoriesService.getCategoriesAsync(),
+    select(data) {
+        return data.filter((category) => !category.parentId);
+    },
+});
+
+export const useFetchCategoryById = (categoryId: string) =>  useQuery({
+    queryKey: ['categories', categoryId],
+    queryFn: () => categoriesService.getByNameAsync(categoryId!),
+});
 
 const useCategories = () => {
     const queryClient = useQueryClient();
-    const useFetchListCategory = ()=> useQuery({
-		queryKey: ['categories'],
-		queryFn: () => categoriesService.getCategoriesAsync(),
-		select(data) {
-			return data.filter((category) => !category.parentId);
-		},
-	});
-    const useFetchById = (categoryId: string) =>  useQuery({
-		queryKey: ['categories', categoryId],
-		queryFn: () => categoriesService.getByNameAsync(categoryId!),
-	});
-
-
+    
     const deleteMutate = async (categoryId: string) =>
     {
         await categoriesService.deleteCategoryAsync(categoryId);
@@ -44,7 +44,7 @@ const useCategories = () => {
     }
 
 
-  return {useFetchListCategory, useFetchById, deleteMutate,updateCategory, createCategory }
+  return {  deleteMutate,updateCategory, createCategory }
 }
 
 export default useCategories

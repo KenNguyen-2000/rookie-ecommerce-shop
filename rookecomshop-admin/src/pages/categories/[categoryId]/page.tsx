@@ -25,7 +25,7 @@ import { useState } from 'react';
 import { CategoryDto, CreateCategoryDto } from '@/services/categories/categories.type';
 import { useParams } from 'react-router-dom';
 import { AlertPopup } from '@/components/page';
-import useCategories from '../useCategories';
+import useCategories, { useFetchCategoryById } from '../useCategories';
 
 const CategoryDetail = () => {
 	const { categoryId } = useParams();
@@ -34,8 +34,8 @@ const CategoryDetail = () => {
 	const [showAlert, setShowAlert] = useState(false);
 	const [selectedCategory, setSelectedCategory] = useState<CategoryDto | null>();
 
-	const {useFetchById, updateCategory, createCategory, deleteMutate} = useCategories();
-	const { data: category } = useFetchById(categoryId!);
+	const {updateCategory, createCategory, deleteMutate} = useCategories();
+	const { data: category } = useFetchCategoryById(categoryId!);
 
 	const handleToggleDialog = () => {
 		if (selectedCategory) setSelectedCategory(null);

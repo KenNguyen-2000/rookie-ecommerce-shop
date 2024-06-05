@@ -10,6 +10,7 @@ import {
 import { TableCell, TableRow } from '@/components/ui/table';
 import { CategoryDto } from '@/services/categories/categories.type';
 import { MoreHorizontal } from 'lucide-react';
+import moment from 'moment';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -25,8 +26,8 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, onSelected }) => 
 				<Link to={`/categories/${category.name}`}>{category.name}</Link>
 			</TableCell>
 			<TableCell>{category.description}</TableCell>
-			<TableCell className="hidden md:table-cell">{category.createdAt}</TableCell>
-			<TableCell className="hidden md:table-cell">{category.updatedAt}</TableCell>
+			<TableCell className="hidden md:table-cell">{moment(category.createdAt).format("DD/MM/yyyy")}</TableCell>
+			<TableCell className="hidden md:table-cell">{moment(category.updatedAt).format("DD/MM/yyyy")}</TableCell>
 			<TableCell>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
