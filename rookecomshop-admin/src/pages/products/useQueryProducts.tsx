@@ -1,16 +1,17 @@
 import productsService from '@/services/products/products.service';
 import { ProductQueryDto } from '@/types/query-dto';
 import { useQuery } from '@tanstack/react-query';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-export const useFetchProducts =(queryDto: ProductQueryDto) => useQuery({
-    queryKey: ['products', queryDto],
-    queryFn: () => productsService.getProductsAsync(queryDto),
-});
+export const useFetchProducts = (queryDto: ProductQueryDto) =>
+	useQuery({
+		queryKey: ['products', queryDto],
+		queryFn: () => productsService.getProductsAsync(queryDto),
+	});
 const useQueryProducts = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
-    const [queryDto, setQueryDto] = useState<ProductQueryDto>({
+	const [searchParams, setSearchParams] = useSearchParams();
+	const [queryDto, setQueryDto] = useState<ProductQueryDto>({
 		page: parseInt(searchParams.get('page') ?? '1'),
 		pageSize: parseInt(searchParams.get('pageSize') ?? '5'),
 		searchTerm: searchParams.get('searchTerm') ?? '',
@@ -19,9 +20,8 @@ const useQueryProducts = () => {
 		categoryName: searchParams.get('categoryName') ?? null,
 		status: null,
 	});
-    
 
-    const handlePaginate = (page: number, pageSize?: number) => {
+	const handlePaginate = (page: number, pageSize?: number) => {
 		const newParams = new URLSearchParams(searchParams);
 		newParams.set('page', page.toString());
 		newParams.set('pageSize', (pageSize ?? 5).toString());
@@ -41,7 +41,7 @@ const useQueryProducts = () => {
 		setSearchParams(newParams);
 	};
 
-    useEffect(() => {
+	useEffect(() => {
 		setQueryDto({
 			page: parseInt(searchParams.get('page') ?? '1'),
 			pageSize: parseInt(searchParams.get('pageSize') ?? '5'),
@@ -53,7 +53,7 @@ const useQueryProducts = () => {
 		});
 	}, [searchParams]);
 
-  return {queryDto, handleCategoryQuery, handlePaginate, handleSortQuery}
-}
+	return { queryDto, handleCategoryQuery, handlePaginate, handleSortQuery };
+};
 
-export default useQueryProducts
+export default useQueryProducts;

@@ -49,15 +49,13 @@ const CreateCategoryDialog: FC<CreateCategoryDialogProps> = ({
 	};
 
 	const onInvalid: SubmitErrorHandler<CreateCategoryDto> = (args) => {
-		console.log(args)
-	}
+		console.log(args);
+	};
 
 	useEffect(() => {
-		if(!defaultValues)
-			{
-				form.reset()
-			}else
-		form.reset(defaultValues);
+		if (!defaultValues) {
+			form.reset();
+		} else form.reset(defaultValues);
 	}, [defaultValues]);
 
 	return (

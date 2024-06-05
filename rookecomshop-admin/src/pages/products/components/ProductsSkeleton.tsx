@@ -1,5 +1,5 @@
-import { Skeleton } from "@/components/ui/skeleton";
-import { TableCell, TableRow } from "@/components/ui/table";
+import { Skeleton } from '@/components/ui/skeleton';
+import { TableCell, TableRow } from '@/components/ui/table';
 
 const ProductsSkeleton = ({ count }: { count: number }) => {
 	return (
@@ -27,9 +27,7 @@ const ProductsSkeleton = ({ count }: { count: number }) => {
 					<TableCell className="hidden md:table-cell">
 						<Skeleton className="bg-slate-300 h-6 w-32 rounded-full" />
 					</TableCell>
-					<TableCell>
-						
-					</TableCell>
+					<TableCell></TableCell>
 				</TableRow>
 			))}
 		</>

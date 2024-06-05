@@ -30,7 +30,7 @@ const CategoriesPage = () => {
 	const [showDialog, setShowDialog] = useState(false);
 	const [showAlert, setShowAlert] = useState(false);
 	const [selectedCategory, setSelectedCategory] = useState<CategoryDto | null>();
-	const { createCategory, deleteMutate, updateCategory} = useCategories();
+	const { createCategory, deleteMutate, updateCategory } = useCategories();
 	const { data: categories } = useFetchListCategory();
 
 	const handleToggleDialog = () => {
@@ -49,13 +49,13 @@ const CategoriesPage = () => {
 
 	const handleConfirm = async (data: CreateCategoryDto) => {
 		if (selectedCategory) {
-			await updateCategory(selectedCategory.id,data);
+			await updateCategory(selectedCategory.id, data);
 		} else await createCategory(data);
 		handleToggleDialog();
 	};
 
 	const handleDeleteCategory = async () => {
-		if(!selectedCategory) return;
+		if (!selectedCategory) return;
 		await deleteMutate(selectedCategory.id);
 		setShowAlert(false);
 		setSelectedCategory(null);
@@ -78,8 +78,8 @@ const CategoriesPage = () => {
 					categories={categories}
 					onConfirm={handleConfirm}
 					defaultValues={{
-						name: selectedCategory?.name ?? "",
-						description: selectedCategory?.description ?? "",
+						name: selectedCategory?.name ?? '',
+						description: selectedCategory?.description ?? '',
 						parentId: selectedCategory?.parentId,
 					}}
 				/>

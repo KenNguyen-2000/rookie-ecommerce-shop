@@ -17,28 +17,22 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-	Table,
-	TableBody,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from '@/components/ui/table';
+import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {  useState } from 'react';
+import { useState } from 'react';
 import { useAppDispatch } from '@/redux/reduxHooks';
 import { useNavigate } from 'react-router-dom';
 import { deleteProductAsync } from '@/redux/thunks/products.thunk';
 import { ContentSidebarLayout } from '@/components/layouts';
 import { AlertPopup } from '@/components/page';
-import {  useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { ProductDto } from '@/services/products/products.type';
 import ProductRow from './components/ProductRow';
 import ReusePagination from '@/components/page/ReusePagination';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import useQueryProducts, { useFetchProducts } from './useQueryProducts';
-import  { useFetchListCategory } from '../categories/useCategories';
+import { useFetchListCategory } from '../categories/useCategories';
 import { toast } from 'react-toastify';
 import ProductsSkeleton from './components/ProductsSkeleton';
 
@@ -46,13 +40,13 @@ const ProductPage = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const queryClient = useQueryClient();
-	const  { queryDto, handleCategoryQuery, handlePaginate, handleSortQuery} = useQueryProducts();
+	const { queryDto, handleCategoryQuery, handlePaginate, handleSortQuery } = useQueryProducts();
 
 	const [isOpen, setIsOpen] = useState(false);
 	const [productId, setProductId] = useState<string | null>(null);
 	const { data: products, isLoading } = useFetchProducts(queryDto);
 	const { data: categories } = useFetchListCategory();
-	
+
 	const handleDeleteProduct = async () => {
 		if (productId) {
 			//Delete product
@@ -67,7 +61,6 @@ const ProductPage = () => {
 		setIsOpen(true);
 		setProductId(productId);
 	};
-
 
 	return (
 		<ContentSidebarLayout>
@@ -248,5 +241,3 @@ const ProductPage = () => {
 	);
 };
 export default ProductPage;
-
-

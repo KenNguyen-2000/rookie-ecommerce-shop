@@ -34,7 +34,7 @@ const CategoryDetail = () => {
 	const [showAlert, setShowAlert] = useState(false);
 	const [selectedCategory, setSelectedCategory] = useState<CategoryDto | null>();
 
-	const {updateCategory, createCategory, deleteMutate} = useCategories();
+	const { updateCategory, createCategory, deleteMutate } = useCategories();
 	const { data: category } = useFetchCategoryById(categoryId!);
 
 	const handleToggleDialog = () => {
@@ -53,9 +53,9 @@ const CategoryDetail = () => {
 
 	const handleConfirm = async (data: CreateCategoryDto) => {
 		if (selectedCategory) {
-			await updateCategory(selectedCategory.id,data);
+			await updateCategory(selectedCategory.id, data);
 		} else await createCategory(data);
-		
+
 		handleToggleDialog();
 	};
 
@@ -83,10 +83,10 @@ const CategoryDetail = () => {
 					categories={category.subCategories}
 					onConfirm={handleConfirm}
 					defaultValues={{
-									name: selectedCategory?.name ?? "",
-									description: selectedCategory?.description ?? "",
-									parentId: category.id,
-								}}
+						name: selectedCategory?.name ?? '',
+						description: selectedCategory?.description ?? '',
+						parentId: category.id,
+					}}
 				/>
 			)}
 			<main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">

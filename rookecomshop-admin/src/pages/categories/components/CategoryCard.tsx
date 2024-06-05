@@ -26,8 +26,12 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, onSelected }) => 
 				<Link to={`/categories/${category.name}`}>{category.name}</Link>
 			</TableCell>
 			<TableCell>{category.description}</TableCell>
-			<TableCell className="hidden md:table-cell">{moment(category.createdAt).format("DD/MM/yyyy")}</TableCell>
-			<TableCell className="hidden md:table-cell">{moment(category.updatedAt).format("DD/MM/yyyy")}</TableCell>
+			<TableCell className="hidden md:table-cell">
+				{moment(category.createdAt).format('DD/MM/yyyy')}
+			</TableCell>
+			<TableCell className="hidden md:table-cell">
+				{moment(category.updatedAt).format('DD/MM/yyyy')}
+			</TableCell>
 			<TableCell>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>

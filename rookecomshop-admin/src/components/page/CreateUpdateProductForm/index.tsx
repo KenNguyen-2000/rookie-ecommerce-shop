@@ -314,7 +314,7 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 															<Select
 																defaultValue={defaultValue?.status?.toString()}
 																onValueChange={(value) => {
-																	console.log(value)
+																	console.log(value);
 																	field.onChange(parseInt(value));
 																}}
 															>
