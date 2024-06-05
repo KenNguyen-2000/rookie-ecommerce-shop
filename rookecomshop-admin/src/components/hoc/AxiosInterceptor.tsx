@@ -47,9 +47,13 @@ const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
 					return Promise.reject(error.response);
 				}
 				console.log(error);
-
 				if (error.response) {
-					if (error.response.data.errors) {
+					if (error.response?.data.detail){
+						toast.error(error.response?.data.detail)
+
+					}
+					
+					else if(error.response.data.errors) {
 						Object.keys(error.response.data.errors).forEach((key) => {
 							toast.error(error.response!.data.errors[key][0]);
 						});

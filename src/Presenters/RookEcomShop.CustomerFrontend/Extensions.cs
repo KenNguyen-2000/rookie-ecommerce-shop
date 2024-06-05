@@ -13,9 +13,8 @@ namespace RookEcomShop.CustomerFrontend
 {
     public static class RookEcomShopMvcExtensions
     {
-        public static IServiceCollection AddAuthenticationConfiguration(this IServiceCollection services)
+        public static IServiceCollection AddAuthenticationConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-
 
             services.AddControllersWithViews();
 
@@ -32,8 +31,8 @@ namespace RookEcomShop.CustomerFrontend
                         {
                             options.Authority = "https://localhost:7280"; // IdentityServer Url
 
-                            options.ClientId = "rookEcomShop.mvc";
-                            options.ClientSecret = "49C1A7E1-0C79-4A89-A3D6-A37998FB86B0";
+                            options.ClientId = configuration["IdentityConnectionSettings:ClientId"];
+                            options.ClientSecret = configuration["IdentityConnectionSettings:ClientSecret"];
                             options.ResponseType = "code";
                             options.SaveTokens = true;
 

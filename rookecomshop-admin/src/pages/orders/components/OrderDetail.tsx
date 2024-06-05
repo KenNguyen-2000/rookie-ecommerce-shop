@@ -37,12 +37,18 @@ const OrderDetail: FC<OrderDetailProps> = ({ order }) => {
 		<Card className="overflow-hidden" x-chunk="dashboard-05-chunk-4">
 			<CardHeader className="flex flex-row items-start bg-muted/50">
 				<div className="grid gap-0.5">
-					<CardTitle className="group flex items-center gap-2 text-lg">
-						Order {order.id.substring(0, 8)}
+					<CardTitle className="group flex items-center gap-2">
+						<span className='inline-block text-lg text-ellipsis whitespace-nowrap overflow-hidden max-w-44'>
+							
+						Order {order.id}
+						</span>
 						<Button
 							size="icon"
 							variant="outline"
 							className="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
+							onClick={() => {
+								navigator.clipboard.writeText(order.id)
+							}}
 						>
 							<Copy className="h-3 w-3" />
 							<span className="sr-only">Copy Order ID</span>

@@ -70,7 +70,7 @@ public class IndexModel : PageModel
         {
             Id = Guid.NewGuid(),
             UserName = RegisterInputModel.Username,
-            Email = RegisterInputModel.Username,
+            Email = RegisterInputModel.Email,
             PhoneNumber = RegisterInputModel.PhoneNumber,
             FirstName = RegisterInputModel.Firstname,
             LastName = RegisterInputModel.Lastname,

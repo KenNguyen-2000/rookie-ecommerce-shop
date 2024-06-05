@@ -16,6 +16,7 @@ public static class UsersMapper
             Dob = user.Dob,
             AvartarUrl = user.AvartarUrl,
             PhoneNumber = user.PhoneNumber,
+            Email = user.Email,
             Gender = user.Gender
         };
     }
