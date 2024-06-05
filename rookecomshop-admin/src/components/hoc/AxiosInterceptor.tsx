@@ -48,15 +48,13 @@ const AxiosInterceptor: React.FC<AxiosInterceptorProps> = ({ children }) => {
 				}
 				console.log(error);
 				if (error.response) {
-					if (error.response?.data.detail){
-						toast.error(error.response?.data.detail)
-
-					}
-					
-					else if(error.response.data.errors) {
+					 if(error.response.data.errors) {
 						Object.keys(error.response.data.errors).forEach((key) => {
 							toast.error(error.response!.data.errors[key][0]);
 						});
+					}else if (error.response?.data.detail){
+						toast.error(error.response?.data.detail)
+
 					} else {
 						toast.error(error.response.data.detail ?? 'Something went wrong');
 					}

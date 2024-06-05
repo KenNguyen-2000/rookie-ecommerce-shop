@@ -17,5 +17,5 @@ export const CreateCategoryScheme = z.object({
 			message: 'Description must be at most 200 characters long',
 		})
 		.optional(),
-	parentId: z.string().optional(),
+	parentId: z.string().nullable().optional(),
 });

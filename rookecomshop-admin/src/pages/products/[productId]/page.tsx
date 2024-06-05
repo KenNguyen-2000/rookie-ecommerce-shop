@@ -28,7 +28,6 @@ const ProductDetailPage = () => {
 			updateProductAsync({
 				...data,
 				id: product.id,
-				status: product.status,
 			}),
 		);
 		await queryClient.invalidateQueries({ queryKey: ['product', productId] });

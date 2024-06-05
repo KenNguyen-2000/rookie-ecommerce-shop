@@ -24,7 +24,7 @@ import { CreateCategoryScheme } from '@/services/categories/categories.scheme';
 import { CategoryDto, CreateCategoryDto } from '@/services/categories/categories.type';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FC, useEffect } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
 
 type CreateCategoryDialogProps = {
 	open: boolean;
@@ -45,24 +45,32 @@ const CreateCategoryDialog: FC<CreateCategoryDialogProps> = ({
 	});
 
 	const onSubmit: SubmitHandler<CreateCategoryDto> = (data) => {
-		console.log(data);
 		onConfirm(data);
 	};
 
+	const onInvalid: SubmitErrorHandler<CreateCategoryDto> = (args) => {
+		console.log(args)
+	}
+
 	useEffect(() => {
+		if(!defaultValues)
+			{
+				form.reset()
+			}else
 		form.reset(defaultValues);
 	}, [defaultValues]);
+
 	return (
 		<Dialog open={open}>
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
-					<DialogTitle>Create Category</DialogTitle>
+					<DialogTitle>Save Category</DialogTitle>
 					{/* <DialogDescription>
 						Make changes to your profile here. Click save when you're done.
 					</DialogDescription> */}
 				</DialogHeader>
 				<Form {...form}>
-					<form onSubmit={form.handleSubmit(onSubmit)}>
+					<form onSubmit={form.handleSubmit(onSubmit, onInvalid)}>
 						<div className="grid gap-4 py-4">
 							<div className="grid items-center gap-4">
 								<FormField

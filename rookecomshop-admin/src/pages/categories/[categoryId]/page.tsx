@@ -18,8 +18,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
-import categoriesService from '@/services/categories/categories.service';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { File, ListFilter, PlusCircle } from 'lucide-react';
 import CategoryCard from '../components/CategoryCard';
 import CreateCategoryDialog from '../components/CreateCategoryDialog';
@@ -27,21 +25,20 @@ import { useState } from 'react';
 import { CategoryDto, CreateCategoryDto } from '@/services/categories/categories.type';
 import { useParams } from 'react-router-dom';
 import { AlertPopup } from '@/components/page';
+import useCategories from '../useCategories';
 
 const CategoryDetail = () => {
 	const { categoryId } = useParams();
-	const queryClient = useQueryClient();
 
 	const [showDialog, setShowDialog] = useState(false);
 	const [showAlert, setShowAlert] = useState(false);
 	const [selectedCategory, setSelectedCategory] = useState<CategoryDto | null>();
-	const { data: category } = useQuery({
-		queryKey: ['categories', categoryId],
-		queryFn: () => categoriesService.getByNameAsync(categoryId!),
-	});
+
+	const {useFetchById, updateCategory, createCategory, deleteMutate} = useCategories();
+	const { data: category } = useFetchById(categoryId!);
 
 	const handleToggleDialog = () => {
-		if (showDialog) setSelectedCategory(null);
+		if (selectedCategory) setSelectedCategory(null);
 		setShowDialog(!showDialog);
 	};
 
@@ -56,28 +53,16 @@ const CategoryDetail = () => {
 
 	const handleConfirm = async (data: CreateCategoryDto) => {
 		if (selectedCategory) {
-			await handleUpdateCategory(data);
-		} else await handleCreateCategory(data);
-		await queryClient.invalidateQueries({ queryKey: ['categories', categoryId] });
+			await updateCategory(selectedCategory.id,data);
+		} else await createCategory(data);
+		
 		handleToggleDialog();
 	};
 
-	const handleCreateCategory = async (data: CreateCategoryDto) => {
-		await categoriesService.createCategoryAsync(data);
-	};
-
-	const handleUpdateCategory = async (data: CreateCategoryDto) => {
-		await categoriesService.updateCategoryAsync({
-			...data,
-			id: selectedCategory!.id,
-		});
-	};
-
 	const handleDeleteCategory = async () => {
-		await categoriesService.deleteCategoryAsync(selectedCategory!.id);
+		await deleteMutate(selectedCategory!.id);
 		setShowAlert(false);
 		setSelectedCategory(null);
-		await queryClient.invalidateQueries({ queryKey: ['categories'] });
 	};
 
 	return (
@@ -94,35 +79,19 @@ const CategoryDetail = () => {
 			{category && (
 				<CreateCategoryDialog
 					open={showDialog}
-					closeDialog={() => setShowDialog(false)}
+					closeDialog={handleToggleDialog}
 					categories={category.subCategories}
 					onConfirm={handleConfirm}
-					defaultValues={
-						selectedCategory != null
-							? {
-									name: selectedCategory.name,
-									description: selectedCategory.description,
+					defaultValues={{
+									name: selectedCategory?.name ?? "",
+									description: selectedCategory?.description ?? "",
 									parentId: category.id,
-								}
-							: {
-									name: '',
-									description: '',
-									parentId: category.id,
-								}
-					}
+								}}
 				/>
 			)}
 			<main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
 				<Tabs defaultValue="all">
 					<div className="flex items-center">
-						{/* <TabsList>
-							<TabsTrigger value="all">All</TabsTrigger>
-							<TabsTrigger value="active">Active</TabsTrigger>
-							<TabsTrigger value="draft">Draft</TabsTrigger>
-							<TabsTrigger value="archived" className="hidden sm:flex">
-								Archived
-							</TabsTrigger>
-						</TabsList> */}
 						<div className="ml-auto flex items-center gap-2">
 							<DropdownMenu>
 								<DropdownMenuTrigger asChild>

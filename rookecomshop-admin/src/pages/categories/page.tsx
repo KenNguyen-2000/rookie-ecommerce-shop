@@ -18,31 +18,23 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
-import categoriesService from '@/services/categories/categories.service';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { File, ListFilter, PlusCircle } from 'lucide-react';
 import CategoryCard from './components/CategoryCard';
 import CreateCategoryDialog from './components/CreateCategoryDialog';
 import { useState } from 'react';
 import { CategoryDto, CreateCategoryDto } from '@/services/categories/categories.type';
 import { AlertPopup } from '@/components/page';
+import useCategories from './useCategories';
 
 const CategoriesPage = () => {
-	const queryClient = useQueryClient();
-
 	const [showDialog, setShowDialog] = useState(false);
 	const [showAlert, setShowAlert] = useState(false);
 	const [selectedCategory, setSelectedCategory] = useState<CategoryDto | null>();
-	const { data: categories } = useQuery({
-		queryKey: ['categories'],
-		queryFn: () => categoriesService.getCategoriesAsync(),
-		select(data) {
-			return data.filter((category) => !category.parentId);
-		},
-	});
+	const {useFetchListCategory, createCategory, deleteMutate, updateCategory} = useCategories();
+	const { data: categories } = useFetchListCategory();
 
 	const handleToggleDialog = () => {
-		if (showDialog) setSelectedCategory(null);
+		if (selectedCategory) setSelectedCategory(null);
 		setShowDialog(!showDialog);
 	};
 
@@ -57,28 +49,16 @@ const CategoriesPage = () => {
 
 	const handleConfirm = async (data: CreateCategoryDto) => {
 		if (selectedCategory) {
-			await handleUpdateCategory(data);
-		} else await handleCreateCategory(data);
-		await queryClient.invalidateQueries({ queryKey: ['categories'] });
+			await updateCategory(selectedCategory.id,data);
+		} else await createCategory(data);
 		handleToggleDialog();
 	};
 
-	const handleCreateCategory = async (data: CreateCategoryDto) => {
-		await categoriesService.createCategoryAsync(data);
-	};
-
-	const handleUpdateCategory = async (data: CreateCategoryDto) => {
-		await categoriesService.updateCategoryAsync({
-			...data,
-			id: selectedCategory!.id,
-		});
-	};
-
 	const handleDeleteCategory = async () => {
-		await categoriesService.deleteCategoryAsync(selectedCategory!.id);
+		if(!selectedCategory) return;
+		await deleteMutate(selectedCategory.id);
 		setShowAlert(false);
 		setSelectedCategory(null);
-		await queryClient.invalidateQueries({ queryKey: ['categories'] });
 	};
 
 	return (
@@ -97,18 +77,11 @@ const CategoriesPage = () => {
 					closeDialog={() => setShowDialog(false)}
 					categories={categories}
 					onConfirm={handleConfirm}
-					defaultValues={
-						selectedCategory != null
-							? {
-									name: selectedCategory.name,
-									description: selectedCategory.description,
-									parentId: selectedCategory.parentId,
-								}
-							: {
-									name: '',
-									description: '',
-								}
-					}
+					defaultValues={{
+						name: selectedCategory?.name ?? "",
+						description: selectedCategory?.description ?? "",
+						parentId: selectedCategory?.parentId,
+					}}
 				/>
 			)}
 			<main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
