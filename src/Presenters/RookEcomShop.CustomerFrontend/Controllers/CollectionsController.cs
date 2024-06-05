@@ -37,8 +37,8 @@ public class CollectionsController : Controller
             return View("NotFound");
         }
 
-        queryDto ??= new ProductQueryDto();
         queryDto.CategoryName = categoryName;
+        queryDto.PageSize = 8;
 
         Log.Information("[CollectionsController]: Get products from API " + JsonConvert.SerializeObject(queryDto));
         var products = await _productsApiClient.GetProductsAsync(queryDto);

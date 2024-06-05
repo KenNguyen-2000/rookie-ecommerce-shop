@@ -4,6 +4,7 @@ using RookEcomShop.Application.Dto;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.ViewModels.Dto;
 using System.Linq.Expressions;
+using RookEcomShop.Domain.Common.Enums;
 
 namespace RookEcomShop.Persistence.Repositories
 {
@@ -53,6 +54,7 @@ namespace RookEcomShop.Persistence.Repositories
                 .Include(p => p.Category)
                 .Include(p => p.ProductImages)
                 .Include(p => p.OrderDetails)
+                .Where(p => p.Status == ProductStatus.Active)
                 .OrderByDescending(p => p.OrderDetails.Count)
                 .Take(count)
                 .ToListAsync(cancellationToken);
@@ -117,6 +119,7 @@ namespace RookEcomShop.Persistence.Repositories
                 .Include(p => p.Category)
                 .Include(p => p.ProductImages)
                 .Include(p => p.Reviews)
+                .Where(p => p.Status == ProductStatus.Active)
                 .OrderByDescending(p => p.Reviews.Count)
                     .ThenBy(p => p.Reviews
                                         .Select(r => r.Rating)

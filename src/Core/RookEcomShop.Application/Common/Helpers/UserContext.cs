@@ -25,5 +25,10 @@ namespace RookEcomShop.Application.Common.Helpers
         {
             UserId = userId;
         }
+
+        public bool IsAdmin()
+        {
+            return UserId != null && UserRole == "Admin";
+        }
     }
 }
