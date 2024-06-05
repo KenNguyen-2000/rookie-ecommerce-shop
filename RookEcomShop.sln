@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RookEcomShop.Domain.UnitTes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RookEcomShop.Persistence.UnitTest", "test\RookEcomShop.Persistence.UnitTest\RookEcomShop.Persistence.UnitTest.csproj", "{E2CC2E7A-B6EC-4C9C-A04B-86633739BC67}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RookEcomShop.Api.UnitTest", "test\RookEcomShop.Api.UnitTest\RookEcomShop.Api.UnitTest.csproj", "{8D01C7C7-5C4B-41A8-A756-4D9E23AF7EBB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,10 @@ Global
 		{E2CC2E7A-B6EC-4C9C-A04B-86633739BC67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2CC2E7A-B6EC-4C9C-A04B-86633739BC67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2CC2E7A-B6EC-4C9C-A04B-86633739BC67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D01C7C7-5C4B-41A8-A756-4D9E23AF7EBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D01C7C7-5C4B-41A8-A756-4D9E23AF7EBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D01C7C7-5C4B-41A8-A756-4D9E23AF7EBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D01C7C7-5C4B-41A8-A756-4D9E23AF7EBB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,6 +124,7 @@ Global
 		{6BF6DE7F-38B1-47C6-9D47-344C840564E5} = {9334A3EF-D59C-4A34-8ADD-3BFDECDE34F1}
 		{C42BEC62-6526-4DC4-B4FF-C3988620E18F} = {F3093C19-667B-4686-85D8-AF8D8BA511E6}
 		{E2CC2E7A-B6EC-4C9C-A04B-86633739BC67} = {F3093C19-667B-4686-85D8-AF8D8BA511E6}
+		{8D01C7C7-5C4B-41A8-A756-4D9E23AF7EBB} = {F3093C19-667B-4686-85D8-AF8D8BA511E6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3D3F06F8-7E5B-4DE9-A52D-CCAE023CD0F4}

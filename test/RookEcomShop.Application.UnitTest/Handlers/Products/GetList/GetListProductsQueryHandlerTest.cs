@@ -56,6 +56,7 @@ namespace RookEcomShop.Application.UnitTest.Handlers.Products.GetList
 
             result.Value.Items.Should().HaveCount(products.Count());
 
+            _productsRepositoryMock.Verify(repo => repo.GetListAsync(It.IsAny<Expression<Func<Product, bool>>>(), It.IsAny<ProductQueryDto>(), It.IsAny<CancellationToken>()), Times.Once);
             // Verify Mapping to Dto
             VerifyMappedDto(products, result);
         }
