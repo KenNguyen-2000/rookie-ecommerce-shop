@@ -59,6 +59,9 @@ public class IndexModel : PageModel
         var appUser = await _rookEcomContext.Users.FirstOrDefaultAsync(u => u.Username == RegisterInputModel.Username);
         if (user is not null || appUser is not null)
         {
+            List<string> errorMessages = new List<string>();
+            errorMessages.Add("Username is already taken");
+            ViewData["ErrorMessages"] = errorMessages;
             ModelState.AddModelError("Username", "Username is already taken");
             return Page();
         }
@@ -79,11 +82,13 @@ public class IndexModel : PageModel
         if (!result.Succeeded)
         {
             Log.Error("Identity task failed");
+            List<string> errorMessages = new List<string>();
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
-
+            errorMessages.AddRange(result.Errors.Select(e => e.Description));
+            ViewData["ErrorMessages"] = errorMessages;
             return Page();
         }
 

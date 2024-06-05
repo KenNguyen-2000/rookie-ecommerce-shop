@@ -4,6 +4,7 @@
 @{
     Layout = "~/Pages/Shared/Layouts/_BlankLayout.cshtml";
     ViewData["Title"] = "Register";
+    List<string> errorMessages = ViewData["ErrorMessages"] as List<string> ?? [];
 }
 
 
@@ -24,8 +25,22 @@
 
                     <div class="grid gap-2 text-center">
                         <h1 class="text-3xl font-bold">Register</h1>
-                        <p class="text-muted text-balance">Enter your email below to login to your account</p>
+                        <p class="text-muted text-balance">Start your journey at ZeroWaste with a few steps</p>
                     </div>
+                    
+                    @if (errorMessages is {Count: > 0})
+                    {
+                        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                            <div class="w-fit mx-auto">
+                                <span class="font-medium">Oops! Something went wrong!</span>
+                                @foreach (var message in errorMessages)
+                                {
+                                    <p>@message</p>
+
+                                }
+                            </div>
+                        </div>
+                    }
 
                     <form method="post" class="grid gap-4">
                         <input type="hidden" asp-for="ReturnUrl" />
