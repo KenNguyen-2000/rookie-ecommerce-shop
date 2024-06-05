@@ -51,7 +51,7 @@ const ProductPage = () => {
 		if (productId) {
 			//Delete product
 			await dispatch(deleteProductAsync(productId));
-			queryClient.invalidateQueries({ queryKey: ['products', queryDto] });
+			await queryClient.invalidateQueries({ queryKey: ['products', queryDto] });
 			toast.success('Product has been deleted successfully');
 		}
 		setIsOpen(false);
