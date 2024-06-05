@@ -13,7 +13,8 @@ namespace RookEcomShop.IdentityServer.Pages.Account.Register;
 public class IndexModel : PageModel
 {
     public RegisterViewModel RegisterViewModel { get; set; } = new();
-    public string ReturnUrl { get; set; } = "~/";
+    [FromQuery]
+    public string? ReturnUrl { get; set; }
 
     [BindProperty]
     public RegisterInputModel RegisterInputModel { get; set; } = new();

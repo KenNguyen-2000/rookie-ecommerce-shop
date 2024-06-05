@@ -56,7 +56,8 @@ namespace RookEcomShop.Application.Handlers.Products.Create
                 StockQuantity = command.StockQuantity,
                 UserId = command.UserId,
                 Category = category,
-                ProductImages = productImages
+                ProductImages = productImages,
+                Status = command.Status
             };
             _productRepository.Create(newProduct);
         }

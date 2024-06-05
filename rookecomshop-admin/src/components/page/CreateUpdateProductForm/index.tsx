@@ -57,8 +57,12 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 
 	const onSubmit: SubmitHandler<CreateUpdateProductInputs> = (data) => {
 		handleSubmitForm(data);
-		form.reset();
+		// form.reset();
 	};
+
+	useEffect(() => {
+		form.reset(defaultValue)
+	},[defaultValue])
 
 	useEffect(() => {
 		dispatch(getCategoriesAsync());
