@@ -8,6 +8,7 @@ using RookEcomShop.Application.Handlers.Products.GetList;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.ViewModels.Dto;
 using System.Linq.Expressions;
+using RookEcomShop.Application.Common.Helpers;
 
 namespace RookEcomShop.Application.UnitTest.Handlers.Products.GetList
 {
@@ -19,7 +20,8 @@ namespace RookEcomShop.Application.UnitTest.Handlers.Products.GetList
         public CreateProductCommandTest()
         {
             _productsRepositoryMock = new Mock<IProductRepository>();
-            _handler = new GetListProductQueryHandler(_productsRepositoryMock.Object);
+            var userContext = new UserContext();
+            _handler = new GetListProductQueryHandler(_productsRepositoryMock.Object, userContext);
         }
 
         [Fact]
