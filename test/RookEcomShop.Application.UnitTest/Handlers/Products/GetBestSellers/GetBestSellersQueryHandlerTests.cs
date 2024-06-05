@@ -2,7 +2,6 @@ using AutoFixture;
 using FluentAssertions;
 using Moq;
 using RookEcomShop.Application.Common.Repositories;
-using RookEcomShop.Application.Handlers.Products.GetBestReviews;
 using RookEcomShop.Application.Handlers.Products.GetBestSellers;
 using RookEcomShop.Domain.Entities;
 

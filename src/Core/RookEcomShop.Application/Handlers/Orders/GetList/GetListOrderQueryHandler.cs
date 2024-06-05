@@ -3,7 +3,6 @@ using MediatR;
 using RookEcomShop.Application.Common.Helpers;
 using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.Application.Common.Services;
-using RookEcomShop.Persistence.Repositories;
 using RookEcomShop.ViewModels.Dto;
 
 namespace RookEcomShop.Application.Handlers.Orders.GetList

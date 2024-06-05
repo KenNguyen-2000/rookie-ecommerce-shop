@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using AutoFixture;
 using AutoFixture.Xunit2;
 using FluentAssertions;
@@ -6,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using RookEcomShop.Application.Dto;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.Persistence.Repositories;
-using RookEcomShop.Persistence.UnitTest.TestUtils;
+using System.Linq.Expressions;
 
 namespace RookEcomShop.Persistence.UnitTest.Repositories;
 

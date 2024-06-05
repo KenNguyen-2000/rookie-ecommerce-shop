@@ -1,6 +1,5 @@
 using AutoFixture;
 using AutoFixture.AutoMoq;
-using Microsoft.AspNetCore.Http;
 using Moq;
 using RookEcomShop.Application.Common.Repositories;
 

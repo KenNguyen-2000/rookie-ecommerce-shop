@@ -1,6 +1,3 @@
-using FluentAssertions;
-using Microsoft.AspNetCore.Http.Internal;
-using RookEcomShop.Application.Handlers.Products.Update;
 using RookEcomShop.Domain.Common.Enums;
 using RookEcomShop.Domain.Entities;
 

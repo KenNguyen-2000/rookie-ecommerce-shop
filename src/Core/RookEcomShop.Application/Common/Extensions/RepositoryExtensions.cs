@@ -1,5 +1,4 @@
 using RookEcomShop.Application.Common.Exceptions;
-using RookEcomShop.Application.Common.Interfaces.Services;
 
 namespace RookEcomShop.Persistence.Repositories;
 

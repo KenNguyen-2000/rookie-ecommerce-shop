@@ -1,6 +1,5 @@
 ﻿using FluentResults;
 using MediatR;
-using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.Persistence.Repositories;
 using RookEcomShop.ViewModels.Dto;

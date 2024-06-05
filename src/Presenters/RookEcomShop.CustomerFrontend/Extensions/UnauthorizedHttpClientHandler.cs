@@ -1,4 +1,3 @@
-using Serilog;
 using System.Net;
 
 namespace RookEcomShop.CustomerFrontend.Extensions

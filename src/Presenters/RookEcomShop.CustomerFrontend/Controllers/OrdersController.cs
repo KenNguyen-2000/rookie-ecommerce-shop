@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.CustomerFrontend.Services.Orders;
-using RookEcomShop.ViewModels.Contracts.Order;
 
 namespace RookEcomShop.CustomerFrontend.Controllers
 {

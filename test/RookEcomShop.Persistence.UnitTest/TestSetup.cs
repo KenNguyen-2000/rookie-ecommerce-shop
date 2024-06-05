@@ -1,7 +1,6 @@
 using AutoFixture;
 using AutoFixture.AutoMoq;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using RookEcomShop.Persistence.UnitTest.TestUtils;
 
 namespace RookEcomShop.Persistence.UnitTest;

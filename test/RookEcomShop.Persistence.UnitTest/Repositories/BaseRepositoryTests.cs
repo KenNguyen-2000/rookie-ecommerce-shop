@@ -1,6 +1,5 @@
-using Moq;
-using RookEcomShop.Persistence.Repositories;
 using AutoFixture.Xunit2;
+using RookEcomShop.Persistence.Repositories;
 using RookEcomShop.Persistence.UnitTest.TestUtils;
 
 namespace RookEcomShop.Persistence.UnitTest.Repositories;

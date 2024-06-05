@@ -1,15 +1,12 @@
-using System.Net;
 using AutoFixture;
 using FluentAssertions;
 using Moq;
-using Moq.Protected;
-using Newtonsoft.Json;
 using RookEcomShop.Application.Dto;
 using RookEcomShop.CustomerFrontend.Services.Helpers;
 using RookEcomShop.CustomerFrontend.Services.Products;
 using RookEcomShop.CustomerFrontend.UnitTest.Extensions;
-using RookEcomShop.Domain.Entities;
 using RookEcomShop.ViewModels.Dto;
+using System.Net;
 
 namespace RookEcomShop.CustomerFrontend.UnitTest.Services;
 

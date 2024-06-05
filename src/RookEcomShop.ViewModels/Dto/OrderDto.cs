@@ -1,5 +1,4 @@
 using RookEcomShop.Domain.Common.Enums;
-using RookEcomShop.Domain.Entities;
 
 namespace RookEcomShop.ViewModels.Dto
 {

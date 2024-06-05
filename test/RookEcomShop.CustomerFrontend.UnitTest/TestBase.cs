@@ -1,8 +1,5 @@
 using AutoFixture;
 using AutoFixture.AutoMoq;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
-using RookEcomShop.CustomerFrontend.UnitTest.Behaviors;
 
 namespace RookEcomShop.CustomerFrontend.UnitTest
 {

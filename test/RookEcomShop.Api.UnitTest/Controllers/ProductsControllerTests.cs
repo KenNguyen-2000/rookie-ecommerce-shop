@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using RookEcomShop.Api.Controllers.v1;
-using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Dto;
 using RookEcomShop.Application.Handlers.Products.DeleteById;
 using RookEcomShop.Application.Handlers.Products.GetBestReviews;

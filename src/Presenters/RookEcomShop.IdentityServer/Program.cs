@@ -1,5 +1,4 @@
 using RookEcomShop.IdentityServer.Configuration;
-using RookEcomShop.Infrastructure;
 using RookEcomShop.Persistence;
 using Serilog;
 

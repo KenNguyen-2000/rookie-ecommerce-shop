@@ -5,15 +5,9 @@ using Moq;
 using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.Application.Dto;
 using RookEcomShop.Application.Handlers.Products.GetList;
-using RookEcomShop.Domain.Common.Enums;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.ViewModels.Dto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RookEcomShop.Application.UnitTest.Handlers.Products.GetList
 {

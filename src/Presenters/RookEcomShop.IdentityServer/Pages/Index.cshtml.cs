@@ -9,7 +9,7 @@ namespace RookEcomShop.IdentityServer.Pages
     {
         public IActionResult OnGet()
         {
-           return  Redirect("https://localhost:7019/");
+            return Redirect("https://localhost:7019/");
         }
     }
 }

@@ -1,5 +1,3 @@
-using RookEcomShop.Application.Common.Helpers;
-
 namespace RookEcomShop.Api.UnitTest.TestUtils;
 
 public class ConcreteUserContext

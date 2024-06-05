@@ -7,8 +7,6 @@ using RookEcomShop.Application.Common.Exceptions;
 using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.Application.Handlers.Products.Update;
 using RookEcomShop.Application.Services;
-using RookEcomShop.Application.UnitTest.Handlers.Products.TestUtils;
-using RookEcomShop.Domain.Common.Enums;
 using RookEcomShop.Domain.Entities;
 
 namespace RookEcomShop.Application.UnitTest.Handlers.Products.Update;

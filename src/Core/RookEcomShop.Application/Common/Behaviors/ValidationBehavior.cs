@@ -1,5 +1,4 @@
-﻿using FluentResults;
-using FluentValidation;
+﻿using FluentValidation;
 using MediatR;
 using RookEcomShop.Application.Common.Exceptions;
 

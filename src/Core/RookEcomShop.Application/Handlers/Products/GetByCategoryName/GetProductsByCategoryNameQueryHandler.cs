@@ -1,7 +1,5 @@
 ﻿using FluentResults;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using RookEcomShop.Application.Common.Data;
 using RookEcomShop.Application.Common.Repositories;
 using RookEcomShop.Domain.Entities;
 using RookEcomShop.ViewModels.Dto;

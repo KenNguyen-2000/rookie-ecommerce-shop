@@ -1,11 +1,5 @@
 ﻿using RookEcomShop.Domain.Common.Enums;
-using RookEcomShop.Domain.Entities;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RookEcomShop.ViewModels.Dto
 {

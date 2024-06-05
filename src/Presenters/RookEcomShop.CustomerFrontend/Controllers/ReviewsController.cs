@@ -1,7 +1,5 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RookEcomShop.CustomerFrontend.Services.Reviews;
-using RookEcomShop.ViewModels.Contracts.Reviews;
 using RookEcomShop.ViewModels.ViewModels;
 using Serilog;
 
@@ -23,7 +21,7 @@ namespace RookEcomShop.CustomerFrontend.Controllers
         {
             Log.Information<ReviewsProductInputModel>("ReviewsController: [BEGIN] Add review for product", request);
 
-            if(button == "create")
+            if (button == "create")
             {
                 await _reviewsApiClient.ReviewProductAsync(new ReviewsProductInputModel
                 {
@@ -31,7 +29,8 @@ namespace RookEcomShop.CustomerFrontend.Controllers
                     Content = request.Content,
                     Rating = request.Rating
                 });
-            }else
+            }
+            else
             {
                 await _reviewsApiClient.UpdateReviewAsync(new ReviewsProductInputModel
                 {
@@ -42,7 +41,7 @@ namespace RookEcomShop.CustomerFrontend.Controllers
                 });
             }
 
-            
+
 
             Log.Information<ReviewsProductInputModel>("ReviewsController: [END] Add review for product", request);
 

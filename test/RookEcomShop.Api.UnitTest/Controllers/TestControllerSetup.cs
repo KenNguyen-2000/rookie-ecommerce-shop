@@ -1,7 +1,6 @@
 using AutoFixture;
 using MediatR;
 using Moq;
-using RookEcomShop.Api.UnitTest.TestUtils;
 using RookEcomShop.Application.Common.Helpers;
 
 namespace RookEcomShop.Api.UnitTest.Controllers;

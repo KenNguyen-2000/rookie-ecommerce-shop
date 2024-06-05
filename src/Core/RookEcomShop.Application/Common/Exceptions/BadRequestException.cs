@@ -1,6 +1,4 @@
-﻿using FluentResults;
-
-namespace RookEcomShop.Application.Common.Exceptions
+﻿namespace RookEcomShop.Application.Common.Exceptions
 {
     public class BadRequestException : Exception
     {

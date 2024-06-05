@@ -1,7 +1,6 @@
 using FluentResults;
 using MediatR;
 using RookEcomShop.Application.Common.Repositories;
-using RookEcomShop.Application.Common.Services;
 using RookEcomShop.ViewModels.Dto;
 
 namespace RookEcomShop.Application.Handlers.Products.GetBestSellers;

@@ -1,7 +1,6 @@
 using FluentResults;
 using MediatR;
 using RookEcomShop.Application.Common.Repositories;
-using RookEcomShop.Domain.Entities;
 using RookEcomShop.ViewModels.Dto;
 
 namespace RookEcomShop.Application.Handlers.Reviews.GetList
