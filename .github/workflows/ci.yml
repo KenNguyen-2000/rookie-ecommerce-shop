@@ -32,6 +32,10 @@ jobs:
         run: npm install
         working-directory: ./rookecomshop-admin
 
+      - name: Format file
+        run: npx prettier . --write
+        working-directory: ./rookecomshop-admin
+
       - name: Build React app
         run: npm run build
         working-directory: ./rookecomshop-admin
