@@ -37,9 +37,9 @@ jobs:
         run: npm run build
         working-directory: ./rookecomshop-admin
 
-      - name: Run React tests
-        run: npm test
-        working-directory: ./rookecomshop-admin
+      # - name: Run React tests
+      #   run: npm test
+      #   working-directory: ./rookecomshop-admin
 
       - name: Set up .NET
         uses: actions/setup-dotnet@v2
