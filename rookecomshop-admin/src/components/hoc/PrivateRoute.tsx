@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/reduxHooks';
 import { Navigate, Outlet } from 'react-router-dom';
 import authService from '@/services/auth/auth.service';
@@ -8,7 +8,7 @@ export type PrivateRouteProps = {
 	children: React.ReactNode;
 };
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
+const PrivateRoute: React.FC<PrivateRouteProps> = ({  }) => {
 	const isAuthenticate = authService.isAuthenticated();
 	const dispatch = useAppDispatch();
 	const { user } = useAppSelector((state) => state.auth);

@@ -20,7 +20,7 @@ export default {
 
 	rules: {
 		'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-		'no-unused-vars': 'warn',
+		'no-unused-vars': 'off',
 		'no-undef': 'warn',
 	},
 };

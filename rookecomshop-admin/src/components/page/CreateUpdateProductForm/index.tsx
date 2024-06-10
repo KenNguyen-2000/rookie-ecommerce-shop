@@ -12,7 +12,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { CreateUpdateProductInputs } from '@/services/products/products.type';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -47,8 +46,6 @@ const CreateUpdateProductForm: FC<CreateUpdateProductFormProps> = ({
 
 	const {
 		categories,
-		isLoading: categoryLoading,
-		selectedTopCategory,
 	} = useAppSelector((state) => state.categories);
 	const form = useForm<CreateUpdateProductInputs>({
 		resolver: zodResolver(CreateUpdateProductScheme),

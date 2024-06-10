@@ -3,14 +3,9 @@ import Sidebar from '../page/Sidebar';
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
 import { Button } from '../ui/button';
 import {
-	Home,
 	LineChart,
-	Package,
-	Package2,
 	PanelLeft,
 	Search,
-	ShoppingCart,
-	Users2,
 } from 'lucide-react';
 import {
 	Breadcrumb,

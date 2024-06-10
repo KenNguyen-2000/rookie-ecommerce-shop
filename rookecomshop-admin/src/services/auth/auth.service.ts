@@ -1,8 +1,5 @@
-import { useAppDispatch } from '@/redux/reduxHooks';
-import { storeUser } from '@/redux/slices/auth.slice';
 import {
 	Log,
-	SignoutResponse,
 	User,
 	UserManager,
 	UserManagerSettings,
@@ -33,7 +30,7 @@ class AuthService extends UserManager {
 		// Logger
 		Log.logger = console;
 		Log.level = Log.DEBUG;
-		this.UserManager.events.addUserLoaded((user) => {
+		this.UserManager.events.addUserLoaded(() => {
 			if (window.location.href.indexOf('signin-oidc') !== -1) {
 				this.navigateToScreen();
 			}

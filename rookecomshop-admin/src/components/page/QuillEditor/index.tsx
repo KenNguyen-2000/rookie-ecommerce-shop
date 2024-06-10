@@ -22,20 +22,13 @@ interface IQuillEditor {
 
 const QuillEditor = ({
 	id,
-	theme = 'snow',
 	value = '',
 	placeholder,
 	onChange,
 	className = '',
 	readOnly = false,
-	required = false,
-	label,
 	errorText,
-	config = {
-		toolbar: {
-			visibile: true,
-		},
-	},
+
 }: IQuillEditor) => {
 	const wrapperRef = useRef<HTMLDivElement>(null);
 	const editorRef = React.useRef<HTMLDivElement>(null);
@@ -43,7 +36,7 @@ const QuillEditor = ({
 	const toolbarRef = React.useRef<HTMLDivElement>(null);
 
 	const handleTextChange = React.useCallback(
-		function (delta: any, oldDelta: any, source: any) {
+		function (_delta: any, _oldDelta: any, source: any) {
 			if (source == 'api') {
 				if (quillInstance.current) {
 					if (onChange) {

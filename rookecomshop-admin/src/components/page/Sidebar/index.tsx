@@ -1,4 +1,4 @@
-import { Package2, Settings } from 'lucide-react';
+import { Settings } from 'lucide-react';
 
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Link, useLocation } from 'react-router-dom';

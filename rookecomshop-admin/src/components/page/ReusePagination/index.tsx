@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/pagination';
 import { PagniatedList } from '@/types/pagniated-list.type';
 import { QueryDto } from '@/types/query-dto';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 type ReusePagination<T> = {
 	data: PagniatedList<T>;
