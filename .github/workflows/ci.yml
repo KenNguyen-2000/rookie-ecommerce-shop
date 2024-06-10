@@ -12,13 +12,12 @@ on:
       - dev
 
 jobs:
-  build-and-test:
+  react-build:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [20.x]
-        dotnet-version: [8.0.x]
 
     steps:
       - name: Checkout repository
@@ -36,10 +35,20 @@ jobs:
       - name: Build React app
         run: npm run build
         working-directory: ./rookecomshop-admin
-
       # - name: Run React tests
       #   run: npm test
       #   working-directory: ./rookecomshop-admin
+
+  dotnet-build-and-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        dotnet-version: [8.0.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
       - name: Set up .NET
         uses: actions/setup-dotnet@v2
@@ -47,10 +56,10 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Restore dependencies (.NET)
-        run: dotnet restore ./
+        run: dotnet restore
 
       - name: Build .NET API
-        run: dotnet build --configuration Release ./
+        run: dotnet build --configuration Release
 
       - name: Run .NET tests
-        run: dotnet test ./
+        run: dotnet test
